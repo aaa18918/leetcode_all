@@ -1,0 +1,95 @@
+69%
+class Solution(object):
+    def intToRoman(self, num):
+        """
+        :type num: int
+        :rtype: str
+        """
+        
+        number = [1000, 500, 100, 50, 10, 5, 1]
+        char = "MDCLXVI"
+        
+        index, res = 0, ""
+        
+        while index < 6:
+            while num >= number[index]:
+                res += char[index]
+                num -= number[index]
+            
+            if num >= number[index]-number[index+2-index%2]:
+                res += char[index+2-index%2]+char[index]
+                num -= number[index]-number[index+2-index%2]
+            
+            index += 1
+        
+        return res+"IV" if num == 4 else res+"".join([char[6] for _ in range(num)])
+
+class Solution(object):
+    def intToRoman(self, num):
+        """
+        :type num: int
+        :rtype: str
+        """
+        
+        number = [1000, 500, 100, 50, 10, 5, 1]
+        char = "MDCLXVI"
+        
+        index, res = 0, ""
+        
+        for index in range(6):
+            while num >= number[index]:
+                res += char[index]
+                num -= number[index]
+            
+            if num >= number[index]-number[index+2-index%2]:
+                res += char[index+2-index%2]+char[index]
+                num -= number[index]-number[index+2-index%2]
+        
+        return res+"IV" if num == 4 else res+"".join([char[6] for _ in range(num)])
+ 
+ class Solution(object):
+    def intToRoman(self, num):
+        """
+        :type num: int
+        :rtype: str
+        """
+        
+        number = [1000, 500, 100, 50, 10, 5, 1]
+        char = "MDCLXVI"
+        
+        index, res, len_num = 0, "", len(number)
+        
+        for index in range(len_num):
+            while num >= number[index]:
+                res += char[index]
+                num -= number[index]
+            
+            if index < len_num-1 and num >= number[index]-number[index+2-index%2]:
+                res += char[index+2-index%2]+char[index]
+                num -= number[index]-number[index+2-index%2]
+        
+        return res
+
+78%
+class Solution(object):
+    def intToRoman(self, num):
+        """
+        :type num: int
+        :rtype: str
+        """
+        
+        res = ""
+        
+        roman_numeral = ['I', 'V', 'X', 'L', 'C', 'D', 'M']
+        num_lookup_table = [1, 5, 10, 50, 100, 500, 1000]
+        
+        for index in xrange(len(roman_numeral)-1, -1, -1):
+            temp = ""
+            while num >= num_lookup_table[index]:
+                temp += roman_numeral[index]
+                num -= num_lookup_table[index]
+            if index > 0 and num >= num_lookup_table[index]-num_lookup_table[index-2+index%2]:
+                temp += roman_numeral[index-2+index%2]+roman_numeral[index]
+                num -= num_lookup_table[index]-num_lookup_table[index-2+index%2]
+            res += temp
+        return res
