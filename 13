@@ -1,0 +1,60 @@
+class Solution(object):
+    def romanToInt(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        
+        char_table = {'M': 1000, 'D': 500, 'C': 100, 'L': 50, 'X': 10, 'V': 5, 'I': 1}
+        stack = []
+        res = 0
+        
+        for c in s:
+            #print res, stack
+            if not stack:
+                stack.append(c)
+            else:
+                if c == stack[-1]:
+                    stack.append(c)
+                elif char_table[c] > char_table[stack[-1]]:
+                    res += char_table[c]-len(stack)*char_table[stack[-1]]
+                    stack = []
+                else:
+                    res += len(stack)*char_table[stack[-1]]
+                    stack = [c]
+        
+        if stack: res += len(stack)*char_table[stack[-1]]
+        return res
+
+https://leetcode.com/problems/roman-to-integer/
+class Solution(object):
+    def romanToInt(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        
+        hash_table = {}
+        hash_table['I'], hash_table['V'], hash_table['X'], hash_table['L'], hash_table['C'], hash_table['D'], hash_table['M'] = 1, 5, 10, 50, 100, 500, 1000
+        
+        if s == '':
+            return 0
+        
+        len_s = len(s)
+        
+        if len_s == 1:
+            return hash_table[s[0]]
+        
+        result, index = 0, 1
+        while index < len_s:
+            if hash_table[s[index]] > hash_table[s[index-1]]:
+                result -= hash_table[s[index-1]]
+            else:
+                result += hash_table[s[index-1]]
+            
+            index += 1
+        
+        result += hash_table[s[index-1]]
+        
+        return result
+        
