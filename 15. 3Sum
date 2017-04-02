@@ -1,0 +1,165 @@
+class Solution(object):
+    def threeSum(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        
+        sorted_num = sorted(nums)
+        res = []
+        
+        for index, num in enumerate(sorted_num):
+            if num > 0: return res
+            if index > 0 and num == sorted_num[index-1]: continue
+            left, right = index+1, len(sorted_num)-1
+            while left < right:
+                cur_sum = num+sorted_num[left]+sorted_num[right]
+                if cur_sum == 0:
+                    res.append([num, sorted_num[left], sorted_num[right]])
+                    left, right = left+1, right-1
+                    while sorted_num[left-1] == sorted_num[left] and left < right: left += 1
+                    while sorted_num[right+1] == sorted_num[right] and left < right: right -= 1
+                elif cur_sum < 0:
+                    left += 1
+                    while sorted_num[left-1] == sorted_num[left] and left < right: left += 1
+                else:
+                    right -= 1
+                    while sorted_num[right+1] == sorted_num[right] and left < right: right -= 1
+        return res
+
+https://leetcode.com/problems/3sum/
+class Solution(object):
+    def threeSum(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        
+        nums.sort()
+        len_nums, result, i = len(nums), [], 0
+        
+        while i < len_nums:
+            while i < len_nums and i > 0 and nums[i] == nums[i-1]:
+                i += 1
+            if i == len_nums: break
+            if nums[i] > 0: return result
+            start, end = i+1, len_nums-1
+            while start < end:
+                current_sum = nums[i]+nums[start]+nums[end]
+                
+                if current_sum == 0:
+                    result.append([nums[i], nums[start], nums[end]])
+                    start, end = start+1, end-1
+                    while start < end and nums[start] == nums[start-1]:
+                        start += 1
+                    while start < end and nums[end] == nums[end+1]:
+                        end -= 1
+                elif current_sum < 0:
+                    start += 1
+                    while start < end and nums[start] == nums[start-1]:
+                        start += 1
+                else:
+                    end -= 1
+                    while start < end and nums[end] == nums[end+1]:
+                        end -= 1
+            
+            i += 1
+        
+        return result
+
+class Solution(object):
+    def threeSum(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        
+        sorted_num = sorted(nums)
+        res = []
+        
+        for index, num in enumerate(sorted_num[:-2]):
+            if num > 0: return res
+            if index > 0 and num == sorted_num[index-1]: continue
+            left, right = index+1, len(sorted_num)-1
+            while left < right:
+                cur_sum = num+sorted_num[left]+sorted_num[right]
+                if cur_sum == 0:
+                    res.append([num, sorted_num[left], sorted_num[right]])
+                    left, right = left+1, right-1
+                    while sorted_num[left-1] == sorted_num[left] and left < right: left += 1
+                    while sorted_num[right+1] == sorted_num[right] and left < right: right -= 1
+                elif cur_sum < 0:
+                    left += 1
+                    while sorted_num[left-1] == sorted_num[left] and left < right: left += 1
+                else:
+                    right -= 1
+                    while sorted_num[right+1] == sorted_num[right] and left < right: right -= 1
+        return res
+
+https://leetcode.com/problems/3sum/
+
+Sort the list first, then using the two pointers technology: O(n^2), 92%
+class Solution(object):
+    def threeSum(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        
+        nums.sort()
+        if nums == []:
+            return []
+        
+        result = []
+        
+        for index in xrange(0, len(nums)-2):
+            if index > 0 and nums[index] == nums[index-1]: continue
+            left, right = index+1, len(nums)-1
+            while left < right:
+                total = nums[index]+nums[left]+nums[right]
+                if total == 0:
+                    result.append([nums[index], nums[left], nums[right]])
+                    left, right = left+1, right-1
+                    while left < right and nums[left] == nums[left-1]: left += 1
+                    while left < right and nums[right] == nums[right+1]: right -= 1
+                elif total < 0:
+                    left += 1
+                    while left < right and nums[left] == nums[left-1]: left += 1
+                else:
+                    right -= 1
+                    while left < right and nums[right] == nums[right+1]: right -= 1
+        return result
+                    
+                    
+Add the pruning: O(n^2), 98%
+class Solution(object):
+    def threeSum(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        
+        nums.sort()
+        if nums == []:
+            return []
+        
+        result = []
+        
+        for index in xrange(0, len(nums)-2):
+            if nums[index] > 0: return result
+            if index > 0 and nums[index] == nums[index-1]: continue
+            left, right = index+1, len(nums)-1
+            while left < right:
+                total = nums[index]+nums[left]+nums[right]
+                if total == 0:
+                    result.append([nums[index], nums[left], nums[right]])
+                    left, right = left+1, right-1
+                    while left < right and nums[left] == nums[left-1]: left += 1
+                    while left < right and nums[right] == nums[right+1]: right -= 1
+                elif total < 0:
+                    left += 1
+                    while left < right and nums[left] == nums[left-1]: left += 1
+                else:
+                    right -= 1
+                    while left < right and nums[right] == nums[right+1]: right -= 1
+        return result
