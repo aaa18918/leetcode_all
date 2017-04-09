@@ -1,0 +1,39 @@
+class Solution(object):
+    def simplifyPath(self, path):
+        """
+        :type path: str
+        :rtype: str
+        """
+        
+        path_list = path.split('/')
+        my_stack = []
+        
+        for str in path_list:
+            if str == '.' or str == '': continue
+            if str == "..":
+                if my_stack:
+                    my_stack.pop()
+            else:
+                my_stack.append(str)
+        
+        return '/' if not my_stack else '/'+'/'.join(my_stack)
+
+class Solution(object):
+    def simplifyPath(self, path):
+        """
+        :type path: str
+        :rtype: str
+        """
+        
+        path_list = path.split('/')
+        my_stack = []
+        
+        for str in path_list:
+            if str == '.' or str == '': continue
+            if str == "..":
+                if my_stack:
+                    my_stack.pop()
+            else:
+                my_stack.append(str)
+        
+        return '/'+'/'.join(my_stack)
