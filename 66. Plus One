@@ -1,0 +1,81 @@
+class Solution(object):
+    def plusOne(self, digits):
+        """
+        :type digits: List[int]
+        :rtype: List[int]
+        """
+        
+        len_digits = len(digits)
+        
+        carry = 1
+        for index in range(len_digits-1, -1, -1):
+            cur_sum = carry+digits[index]
+            digits[index], carry = cur_sum%10, cur_sum/10
+        
+        if carry:
+            digits = [1]+digits
+        
+        return digits
+
+class Solution(object):
+    def plusOne(self, digits):
+        """
+        :type digits: List[int]
+        :rtype: List[int]
+        """
+        
+        len_digits = len(digits)
+        
+        carry = 1
+        for index in range(len_digits-1, -1, -1):
+            cur_sum = carry+digits[index]
+            digits[index], carry = cur_sum%10, cur_sum/10
+            if not carry:
+                return digits
+        
+        if carry:
+            digits = [1]+digits
+        
+        return digits
+
+https://leetcode.com/problems/plus-one/
+
+class Solution(object):
+    def plusOne(self, digits):
+        """
+        :type digits: List[int]
+        :rtype: List[int]
+        """
+        
+        index = len(digits)-1
+        
+        if digits[index] == 9:
+            digits[index] = 0
+            carry = 1
+            index -= 1
+        else:
+            digits[index] += 1
+            return digits
+        
+        while index >= 0 and digits[index]+carry > 9:
+            digits[index] = 0
+            index -= 1
+        
+        if index < 0:
+            return [1] + digits
+        else:
+            digits[index] += carry
+        
+        return digits
+
+https://leetcode.com/problems/plus-one/
+class Solution(object):
+    def plusOne(self, digits):
+        """
+        :type digits: List[int]
+        :rtype: List[int]
+        """
+        
+        int_digits = int(''.join(map(str, digits)))+1
+        
+        return map(int,list(str(int_digits)))
