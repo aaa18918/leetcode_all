@@ -1,0 +1,54 @@
+import math
+
+class Solution(object):
+    def mySqrt(self, x):
+        """
+        :type x: int
+        :rtype: int
+        """
+        
+        x1 = 2
+        step = (x1*x1-x)/2/x1
+        
+        while abs(step) >= 1:
+            x1 = x1-step
+            step = (x1*x1-x)/2/x1
+        
+        possible_result = [math.ceil(x1+1), math.ceil(x1), math.floor(x1), math.floor(x1-1)]
+        
+        for num in possible_result:
+            if num*num <= x:
+                return int(num)
+
+https://leetcode.com/problems/sqrtx/
+
+newton's method: 20%
+class Solution(object):
+    def mySqrt(self, x):
+        """
+        :type x: int
+        :rtype: int
+        """
+        
+        res = x/2
+        while True:
+            slope = (x-res**2)/2.0/res if res else 0
+            if -1 < slope < 1:
+                res = int(math.floor(res))
+                if (res+1)**2 <= x: return res+1
+                elif res**2 <= x: return res
+                else: return res-1
+            res = res+slope
+
+86%:
+class Solution(object):
+    def mySqrt(self, x):
+        """
+        :type x: int
+        :rtype: int
+        """
+        
+        res = x
+        while res**2 > x:
+            res = (x/res+res)/2
+        return res
