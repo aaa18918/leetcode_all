@@ -1,0 +1,105 @@
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def deleteDuplicates(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        
+        if not head or not head.next: return head
+        
+        p = head
+        while p.next:
+            if p.val == p.next.val:
+                p.next = p.next.next
+            else:
+                p = p.next
+        
+        return head
+
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def deleteDuplicates(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        
+        if not head: return head
+        
+        p = head
+        while p.next:
+            if p.val == p.next.val:
+                p.next = p.next.next
+            else:
+                p = p.next
+        
+        return head
+
+https://leetcode.com/problems/remove-duplicates-from-sorted-list/
+
+O(n), 81%
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def deleteDuplicates(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        
+        p, q = head, head
+        
+        while q != None:
+            if q.val != p.val:
+                p.next = q
+                p = p.next
+            q = q.next
+        if p: p.next = None
+        return head
+ 
+https://leetcode.com/problems/remove-duplicates-from-sorted-list/
+
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def deleteDuplicates(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        
+        if head == None:
+            return head
+        
+        former = head
+        rear = head.next
+        
+        while rear != None:
+            if rear.val != former.val:
+                former.next = rear
+                former = rear
+                rear = rear.next
+            else:
+                rear = rear.next
+            
+        former.next = None
+        return head
