@@ -1,0 +1,74 @@
+class Solution(object):
+    def divide(self, dividend, divisor):
+        """
+        :type dividend: int
+        :type divisor: int
+        :rtype: int
+        """
+        
+        if divisor == 0: return MAX_INT
+        sign = 1 if (dividend > 0 and divisor > 0) or (dividend < 0 and divisor < 0) else -1
+        dividend, divisor = abs(dividend), abs(divisor)
+        
+        res = 0
+        while dividend >= divisor:
+            cur_divisor = divisor
+            cur_coefficient = 1
+            while dividend >= cur_divisor<<1:
+                cur_divisor <<= 1
+                cur_coefficient <<= 1
+                
+            dividend -= cur_divisor
+            res += cur_coefficient
+        
+        return max(min(2147483647, sign*res), -2147483648)
+
+class Solution(object):
+    def divide(self, dividend, divisor):
+        """
+        :type dividend: int
+        :type divisor: int
+        :rtype: int
+        """
+        
+        if divisor == 0: return MAX_INT
+        is_result_positive = (dividend > 0) is (divisor > 0)
+        dividend, divisor = abs(dividend), abs(divisor)
+        
+        res = 0
+        while dividend >= divisor:
+            cur_divisor = divisor
+            cur_coefficient = 1
+            while dividend >= cur_divisor<<1:
+                cur_divisor <<= 1
+                cur_coefficient <<= 1
+                
+            dividend -= cur_divisor
+            res += cur_coefficient
+        
+        if not is_result_positive: res = -res
+        return max(min(2147483647, res), -2147483648)
+        
+https://leetcode.com/problems/divide-two-integers/
+class Solution(object):
+    def divide(self, dividend, divisor):
+        """
+        :type dividend: int
+        :type divisor: int
+        :rtype: int
+        """
+        
+        res = 0
+        is_positive = (dividend > 0) is (divisor > 0)
+        dividend, divisor = abs(dividend), abs(divisor)
+        
+        while dividend >= divisor:
+            temp, cur = divisor, 1
+            while dividend >= temp:
+                temp <<= 1
+                cur <<= 1
+            dividend -= (temp >> 1)
+            res += (cur >> 1)
+            
+        if not is_positive: res = -res
+        return min(max(res, -2147483648), 2147483647)
