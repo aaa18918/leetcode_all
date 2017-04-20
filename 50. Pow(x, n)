@@ -1,0 +1,130 @@
+class Solution(object):
+    def myPow(self, x, n):
+        """
+        :type x: float
+        :type n: int
+        :rtype: float
+        """
+        
+        return x**n
+
+class Solution(object):
+    def myPow(self, x, n):
+        """
+        :type x: float
+        :type n: int
+        :rtype: float
+        """
+        
+        if n == 0: return 1
+        
+        m = abs(n)
+        res = 1
+        cur = x
+        
+        while m:
+            if m&1:
+                res *= cur
+            m >>= 1
+            cur *= cur
+        
+        return 1/res if n < 0 else res
+
+class Solution(object):
+    def myPow(self, x, n):
+        """
+        :type x: float
+        :type n: int
+        :rtype: float
+        """
+        
+        if x == 0: return 0
+        if n == 0: return 1
+        
+        m = abs(n)
+        res = 1
+        cur = x
+        
+        while m:
+            if m&1:
+                res *= cur
+            m >>= 1
+            cur *= cur
+        
+        return 1/res if n < 0 else res
+
+class Solution(object):
+    def myPow(self, x, n):
+        """
+        :type x: float
+        :type n: int
+        :rtype: float
+        """
+        
+        if n < 0:
+            x = 1/x
+            n *= -1
+        
+        res = 1
+        
+        while n > 0:
+            if n&1 == 1:
+                res *= x
+            
+            x *= x
+            n = n>>1
+        
+        return res
+ 
+ https://leetcode.com/problems/powx-n/
+
+class Solution(object):
+    def myPow(self, x, n):
+        """
+        :type x: float
+        :type n: int
+        :rtype: float
+        """
+        
+        if x == 0:
+            return 0
+        
+        if n == 0:
+            return 1
+        elif n < 0:
+            x, n = 1/x, -n
+        
+        addition = 1
+        
+        while n > 1:
+            if n%2 == 0:
+                x *= x
+                n /= 2
+            else:
+                addition *= x
+                n -= 1
+        
+        return addition*x
+
+class Solution(object):
+    def myPow(self, x, n):
+        """
+        :type x: float
+        :type n: int
+        :rtype: float
+        """
+        
+        if x == 0: return 0
+        if n == 0: return 1
+        
+        if n < 0:
+            x, n = 1/x, -n
+        
+        res = 1
+        while n:
+            if n&1:
+                res *= x
+            n >>= 1
+            x *= x
+        
+        return res
