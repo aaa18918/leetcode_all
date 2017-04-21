@@ -1,0 +1,93 @@
+class Solution(object):
+    def maxSubArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        
+        left, right, largest_sum = 0, 0, nums[0]
+        len_nums = len(nums)
+        
+        cur_sum = 0
+        while right < len_nums:
+            cur_sum += nums[right]
+            if cur_sum > largest_sum:
+                largest_sum = cur_sum
+            
+            while cur_sum < 0 and left <= right:
+                cur_sum -= nums[left]
+                left += 1
+            
+            right += 1
+        
+        while left < right:
+            cur_sum -= nums[left]
+            if cur_sum > largest_sum:
+                largest_sum = cur_sum
+            left += 1
+        
+        return largest_sum
+
+class Solution(object):
+    def maxSubArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        
+        max_sum, cur_sum = nums[0], 0
+        
+        for num in nums:
+            cur_sum += num
+            max_sum = max(max_sum, cur_sum)
+            
+            if cur_sum < 0:
+                cur_sum = 0
+        
+        return max_sum
+
+class Solution(object):
+    def maxSubArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        
+        for index in range(1, len(nums)):
+            nums[index] = max(nums[index-1]+nums[index], nums[index])
+        return max(nums)
+
+from sys import maxint
+
+class Solution(object):
+    def maxSubArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        
+        def helper(left, right):
+            if left > right:
+                return -maxint-1
+            elif left == right:
+                return nums[left]
+            
+            mid = (left+right)/2
+            
+            max_right_from_mid, cur_sum = 0, 0
+            for num in nums[mid+1:right+1]:
+                cur_sum += num
+                max_right_from_mid = max(max_right_from_mid, cur_sum)
+            
+            max_left_from_mid, cur_sum = 0, 0
+            for index in range(mid-1, left-1, -1):
+                cur_sum += nums[index]
+                max_left_from_mid = max(max_left_from_mid, cur_sum)
+                
+            max_cross = max_left_from_mid+nums[mid]+max_right_from_mid
+            max_left = helper(left, mid-1)
+            max_right = helper(mid+1, right)
+            
+            return max(max_cross, max_left, max_right)
+        
+        return helper(0, len(nums)-1)
