@@ -1,0 +1,108 @@
+# Definition for an interval.
+# class Interval(object):
+#     def __init__(self, s=0, e=0):
+#         self.start = s
+#         self.end = e
+
+class Solution(object):
+    def merge(self, intervals):
+        """
+        :type intervals: List[Interval]
+        :rtype: List[Interval]
+        """
+        
+        def compare(left, right):
+            if left.start < right.start:
+                return -1
+            elif left.start == right.start:
+                return 0
+            else:
+                return 1
+        
+        if not intervals: return []
+        sorted_intervals = sorted(intervals, cmp = compare)
+        
+        res = []
+        cur_start, cur_end = sorted_intervals[0].start, sorted_intervals[0].end
+        for interval in sorted_intervals:
+            if interval.start <= cur_end:
+                cur_end = max(cur_end, interval.end)
+            else:
+                res.append(Interval(cur_start, cur_end))
+                cur_start, cur_end = interval.start, interval.end
+        
+        res.append(Interval(cur_start, cur_end))
+        return res
+        
+https://leetcode.com/problems/merge-intervals/
+# Definition for an interval.
+# class Interval(object):
+#     def __init__(self, s=0, e=0):
+#         self.start = s
+#         self.end = e
+
+class Solution(object):
+    def merge(self, intervals):
+        """
+        :type intervals: List[Interval]
+        :rtype: List[Interval]
+        """
+        
+        intervals = sorted(intervals, cmp = self.less)
+        len_int = len(intervals)
+        
+        #for i in intervals:
+        #    print i.start, i.end
+        
+        if len_int <= 1:
+            return intervals
+        
+        left, right = 0, 1
+        
+        while right < len_int:
+            if self.isOverloop(intervals[left], intervals[right]):
+                #print 1
+                intervals[left].start, intervals[left].end = min(intervals[left].start, intervals[right].start), max(intervals[left].end, intervals[right].end)
+            else:
+                #print 2
+                left += 1
+                intervals[left], intervals[right] = intervals[right], intervals[left]
+            right += 1
+        
+        return intervals[:left+1]
+    
+    def less(self, x, y):
+        if x.start < y.start or x.start == y.start and x.end < y.end: return -1
+        elif x.start == y.start and x.end == y.end: return 0
+        return 1
+    
+    def isOverloop(self, x, y):
+        """
+        return True if there exists overlop
+        """
+        
+        if (x.start-y.start)*(x.end-y.end) <= 0 or ((x.start-y.start)*(x.start-y.end) > 0 and x.end >= y.start and x.end <= y.end) or ((x.end-y.start)*(x.end-y.end) > 0 and x.start <= y.end and x.start >= y.start):return True 
+        return False
+
+# Definition for an interval.
+# class Interval(object):
+#     def __init__(self, s=0, e=0):
+#         self.start = s
+#         self.end = e
+
+class Solution(object):
+    def merge(self, intervals):
+        """
+        :type intervals: List[Interval]
+        :rtype: List[Interval]
+        """
+        
+        res = []
+        for interval in sorted(intervals, key=lambda interval: interval.start):
+            if res and interval.start <= res[-1].end:
+                res[-1].end = max(res[-1].end, interval.end)
+            else:
+                res.append(interval)
+                
+        return res
+        
