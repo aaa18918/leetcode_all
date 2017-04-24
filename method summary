@@ -4,3 +4,6 @@ Linked Lists:
 
 List or String:
 - Divide and Conquer
+
+List[List] or List:
+- Search from end to start
