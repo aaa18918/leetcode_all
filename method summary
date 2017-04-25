@@ -7,3 +7,6 @@ List or String:
 
 List[List] or List:
 - Search from end to start
+
+backtracking:
+- Remove record(visited) when False or True, so that only one visited matrix required.
