@@ -1,0 +1,103 @@
+class Solution(object):
+    def exist(self, board, word):
+        """
+        :type board: List[List[str]]
+        :type word: str
+        :rtype: bool
+        """
+        
+        size = [len(board), len(board[0])]
+        
+        def helper(x, y, word, visited):
+            if not word:
+                return True
+            
+            if x < 0 or x >= size[0] or y < 0 or y >= size[1] or visited[x][y] or board[x][y] != word[0]:
+                return False
+            
+            visited[x][y] = 1
+            
+            return_val = helper(x-1, y, word[1:], visited) or helper(x+1, y, word[1:], visited) or helper(x, y-1, word[1:], visited) or helper(x, y+1, word[1:], visited)
+            
+            if not return_val:
+                visited[x][y] = 0
+                
+            return return_val
+        
+        if not word: return True
+        for x in range(size[0]):
+            for y in range(size[1]):
+                if board[x][y] == word[0]:
+                    visited = [[0 for _ in range(size[1])] for _ in range(size[0])]
+                    if helper(x, y, word, visited):
+                        return True
+        
+        return False
+
+https://leetcode.com/problems/word-search/
+
+class Solution(object):
+    def exist(self, board, word):
+        """
+        :type board: List[List[str]]
+        :type word: str
+        :rtype: bool
+        """
+        
+        if word == '': return True
+        row, col = len(board), len(board[0])
+        is_searched = [[False for j in xrange(0, col)] for i in xrange(0, row)]
+        
+        def search_with_position(i, j, word):
+            if word == '':
+                return True
+            if i < 0 or i >= row or j < 0 or j >= col or is_searched[i][j] or board[i][j] != word[0]:
+                return False
+            
+            is_searched[i][j] = True
+            search_result = search_with_position(i-1, j, word[1:]) or search_with_position(i+1, j, word[1:]) or search_with_position(i, j-1, word[1:]) or search_with_position(i, j+1, word[1:])
+            if search_result:
+                return True
+            else:
+                is_searched[i][j] = False
+                return False
+        
+        for i in xrange(0, row):
+            for j in xrange(0, col):
+                if search_with_position(i, j, word):
+                    return True
+        return False
+
+class Solution(object):
+    def exist(self, board, word):
+        """
+        :type board: List[List[str]]
+        :type word: str
+        :rtype: bool
+        """
+        
+        if not word: return True
+        row, col = len(board), len(board[0])
+        visited = [[0 for _ in range(col)] for _ in range(row)]
+        
+        def helper(x, y, word):
+            if not word:
+                return True
+            
+            if x < 0 or x >= row or y < 0 or y >= col or visited[x][y] or board[x][y] != word[0]:
+                return False
+            
+            visited[x][y] = 1
+            
+            search_result = helper(x-1, y, word[1:]) or helper(x+1, y, word[1:]) or helper(x, y-1, word[1:]) or helper(x, y+1, word[1:])
+            
+            if not search_result:
+                visited[x][y] = 0
+            return search_result
+        
+        for x in range(row):
+            for y in range(col):
+                if board[x][y] == word[0] and helper(x, y, word):
+                    return True
+        
+        return False
