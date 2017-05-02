@@ -10,3 +10,6 @@ List[List] or List:
 
 backtracking:
 - Remove record(visited) when False or True, so that only one visited matrix required.
+
+Comparation:
+- Less than, Greater than. (Not Equal)
