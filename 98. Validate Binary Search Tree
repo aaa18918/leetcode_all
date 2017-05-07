@@ -1,0 +1,85 @@
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def isValidBST(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        
+        stack, cur = [], root
+        pre = None
+        
+        while stack or cur:
+            if cur:
+                stack.append(cur)
+                cur = cur.left
+            else:
+                p = stack.pop()
+                if pre and pre.val >= p.val:
+                    return False
+                
+                pre = p
+                cur = p.right
+            
+        return True
+
+import sys
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def isValidBST(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        
+        def helper(root, range):
+            if not root:
+                return True
+            
+            if root.val <= range[0] or root.val >= range[1]:
+                return False
+            
+            return helper(root.left, [range[0], min(root.val, range[1])]) and helper(root.right, [max(range[0], root.val), range[1]])
+        
+        return helper(root, [-sys.maxint-1, sys.maxint])
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def isValidBST(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        
+        convertedList = self.convertBTToList(root)
+        for index in range(1, len(convertedList)):
+            if convertedList[index] <= convertedList[index-1]:
+                return False
+        
+        return True
+    
+    def convertBTToList(self, root):
+        if not root:
+            return []
+        
+        return self.convertBTToList(root.left)+[root.val]+self.convertBTToList(root.right)
+
