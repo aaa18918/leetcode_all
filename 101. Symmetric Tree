@@ -1,0 +1,57 @@
+https://leetcode.com/problems/symmetric-tree/
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def isSymmetric(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        
+        return root == None or self.myHelp(root.left, root.right)
+        
+    def myHelp(self, root_left, root_right):
+        
+        if root_left == None and root_right == None:
+            return True
+        elif root_left == None or root_right == None:
+            return False
+        
+        if root_left.val != root_right.val:
+            return False
+        
+        return self.myHelp(root_left.left, root_right.right) and self.myHelp(root_left.right, root_right.left)
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def isSymmetric(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        
+        return root == None or self.myHelper(root.left, root.right)
+    
+    def myHelper(self, left_node, right_node):
+        if not left_node and not right_node:
+            return True
+        elif not left_node or not right_node:
+            return False
+        
+        if left_node.val == right_node.val:
+            return self.myHelper(left_node.left, right_node.right) and self.myHelper(left_node.right, right_node.left)
+        else:
+            return False
+        
