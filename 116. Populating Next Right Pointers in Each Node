@@ -1,0 +1,105 @@
+# Definition for binary tree with next pointer.
+# class TreeLinkNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+#         self.next = None
+
+class Solution:
+    # @param root, a tree link node
+    # @return nothing
+    def connect(self, root):
+        if not root: return
+        
+        parent_layer = [root]
+        while parent_layer:
+            cur_layer = []
+            len_parent = len(parent_layer)
+            for index in range(len_parent):
+                node = parent_layer[index]
+                node.next = parent_layer[index+1] if index < len_parent-1 else None
+                if node.left:
+                    cur_layer.append(node.left)
+                if node.right:
+                    cur_layer.append(node.right)
+            parent_layer = cur_layer
+        
+https://leetcode.com/problems/populating-next-right-pointers-in-each-node/
+# Definition for binary tree with next pointer.
+# class TreeLinkNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+#         self.next = None
+
+class Solution(object):
+    def connect(self, root):
+        """
+        :type root: TreeLinkNode
+        :rtype: nothing
+        """
+        
+        if root == None:
+            return
+        
+        if root.left:
+            root.left.next = root.right
+        else:
+            return
+        
+        if root.next and root.next.left:
+            root.right.next = root.next.left
+        
+        self.connect(root.left)
+
+# Definition for binary tree with next pointer.
+# class TreeLinkNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+#         self.next = None
+
+class Solution:
+    # @param root, a tree link node
+    # @return nothing
+    def connect(self, root):
+        if not root: return
+        
+        pre = root
+        while pre.left:
+            cur = pre
+            while cur.next:
+                cur.left.next = cur.right
+                cur.right.next = cur.next.left
+                cur = cur.next
+            
+            cur.left.next = cur.right
+            pre = pre.left
+
+# Definition for binary tree with next pointer.
+# class TreeLinkNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+#         self.next = None
+
+class Solution:
+    # @param root, a tree link node
+    # @return nothing
+    def connect(self, root):
+        if not root: return
+        
+        pre = root
+        while pre.left:
+            cur = pre
+            while cur:
+                cur.left.next = cur.right
+                if cur.next:
+                    cur.right.next = cur.next.left
+                cur = cur.next
+                
+            pre = pre.left
