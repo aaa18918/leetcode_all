@@ -1,0 +1,157 @@
+https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def zigzagLevelOrder(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[List[int]]
+        """
+        
+        if root is None:
+            return []
+        
+        cur_layer = [root]
+        result = [[root.val]]
+        count = 1
+        
+        while cur_layer:
+            next_layer = []
+            for node in cur_layer:
+                if node.left:
+                    next_layer.append(node.left)
+                if node.right:
+                    next_layer.append(node.right)
+            if next_layer:
+                if count%2 == 1:
+                    result.append([node.val for node in next_layer[::-1]])
+                else:
+                    result.append([node.val for node in next_layer])
+            count += 1
+            cur_layer = next_layer
+        return result
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def zigzagLevelOrder(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[List[int]]
+        """
+        
+        if not root: return []
+        
+        cur_layer, level, res = [root], 0, []
+        while cur_layer:
+            next_layer, cur_val = [], []
+            if level%2 == 0:
+                for node in cur_layer:
+                    cur_val.append(node.val)
+                    if node.left:
+                        next_layer.append(node.left)
+                    if node.right:
+                        next_layer.append(node.right)
+                    cur_layer = next_layer
+            else:
+                for node in cur_layer[::-1]:
+                    cur_val.append(node.val)
+                    if node.right:
+                        next_layer.append(node.right)
+                    if node.left:
+                        next_layer.append(node.left)
+                    cur_layer = next_layer[::-1]
+            
+            level = level+1
+            res.append(cur_val)
+            
+        return res
+                
+https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def zigzagLevelOrder(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[List[int]]
+        """
+        if not root:
+            return [] 
+        
+        result, queue, is_odd_level = [[root.val]], [root], True
+        
+        while queue:
+            len_queue, temp_val = len(queue), []
+            
+            for counter in xrange(0, len_queue):
+                node = queue.pop(0)
+                if node.left:
+                    queue.append(node.left)
+                    temp_val.append(node.left.val)
+                if node.right:
+                    queue.append(node.right)
+                    temp_val.append(node.right.val)
+                
+            if temp_val:
+                if is_odd_level:
+                    result.append(temp_val[::-1])
+                else:
+                    result.append(temp_val)
+            
+            is_odd_level = not is_odd_level
+        
+        return result
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def zigzagLevelOrder(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[List[int]]
+        """
+        
+        if not root: return []
+        
+        cur_layer, level, res = [root], 0, []
+        while cur_layer:
+            next_layer, cur_val = [], []
+            for node in cur_layer:
+                cur_val.append(node.val)
+                if node.left:
+                    next_layer.append(node.left)
+                if node.right:
+                    next_layer.append(node.right)
+            
+            if level%2 == 0:
+                res.append(cur_val)
+            else:
+                res.append(cur_val[::-1])
+            
+            cur_layer = next_layer
+            level += 1
+            
+        return res
