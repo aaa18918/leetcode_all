@@ -1,4 +1,5 @@
-Read and understand the question carefully!(Under what conditions)
+1.Read and understand the question carefully!(Under what conditions)
+2.Always consider the corner cases, especially the "", None cases.
 
 Linked Lists:
 - Two points
