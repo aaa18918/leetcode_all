@@ -1,0 +1,67 @@
+https://leetcode.com/problems/valid-palindrome/
+
+class Solution(object):
+    def isPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        
+        former, latter = 0, len(s)-1
+        
+        while former < latter:
+            while former < latter and (not self.isAlphanumeric(s[former])):
+                former += 1
+
+            while former < latter and (not self.isAlphanumeric(s[latter])):
+                latter -= 1
+            
+            if former < latter:
+                if self.lowerCase(s[former]) != self.lowerCase(s[latter]):
+                    return False
+                else:
+                    former, latter = former+1, latter-1
+        
+        return True
+    
+    def isAlphanumeric(self, char):
+        """
+        return true if the char is an alphanumeric character
+        """
+        
+        if (ord(char) >= ord('a') and ord(char) <= ord('z')) or (ord(char) >= ord('A') and ord(char) <= ord('Z')) or (ord(char) >= ord('0') and ord(char) <= ord('9')):
+            return True
+        else:
+            return False
+    
+    def lowerCase(self, char):
+        """
+        return the lower case of the character
+        """
+        
+        if ord(char) >= ord('A') and ord(char) <= ord('Z'):
+            return chr(ord(char)-ord('A')+ord('a'))
+        else:
+            return char
+
+class Solution(object):
+    def isPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        
+        s = s.lower()
+        left, right = 0, len(s)-1
+        
+        while left < right:
+            while left < right and (not s[left].isalnum()): left += 1
+            while left < right and (not s[right].isalnum()): right -= 1
+            
+            if s[left] != s[right]:
+                return False
+            
+            left, right = left+1, right-1
+            
+        return True
+
