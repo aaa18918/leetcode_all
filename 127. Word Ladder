@@ -1,0 +1,30 @@
+import string
+
+class Solution(object):
+    def ladderLength(self, beginWord, endWord, wordList):
+        """
+        :type beginWord: str
+        :type endWord: str
+        :type wordList: List[str]
+        :rtype: int
+        """
+        
+        wordSet = set(wordList)
+        queue = [(beginWord, 1)]
+        
+        while queue:
+            curWord, curDistance = queue.pop(0)
+            if curWord == endWord:
+                return curDistance
+            
+            charList = string.ascii_lowercase
+            for index in range(len(curWord)):
+                for char in charList:
+                    if char != curWord[index]:
+                        newWord = curWord[:index]+char+curWord[index+1:]
+                        if newWord in wordSet:
+                            queue.append((newWord, curDistance+1))
+                            wordSet.remove(newWord)
+        
+        return 0
+
