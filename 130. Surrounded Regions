@@ -1,0 +1,41 @@
+class Solution(object):
+    def solve(self, board):
+        """
+        :type board: List[List[str]]
+        :rtype: void Do not return anything, modify board in-place instead.
+        """
+        
+        if not board: return
+        m, n = len(board), len(board[0])
+        queue = []
+        
+        def bfs():
+            while queue:
+                x, y = queue.pop(0)
+                
+                if x < 0 or x >= m or y < 0 or y >= n or board[x][y] != 'O':
+                    continue
+                
+                board[x][y] = 'D'
+                queue.append((x-1, y))
+                queue.append((x+1, y))
+                queue.append((x, y-1))
+                queue.append((x, y+1))
+        
+        for i in range(m):
+            queue.append((i, 0))
+            queue.append((i, n-1))
+        
+        for j in range(n):
+            queue.append((0, j))
+            queue.append((m-1, j))
+        
+        bfs()
+        
+        for i in range(m):
+            for j in range(n):
+                if board[i][j] == 'O':
+                    board[i][j] = 'X'
+                elif board[i][j] == 'D':
+                    board[i][j] = 'O'
+
