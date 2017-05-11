@@ -1,0 +1,78 @@
+class Solution(object):
+    def partition(self, s):
+        """
+        :type s: str
+        :rtype: List[List[str]]
+        """
+        
+        if not s: return []
+        
+        res = []
+        
+        def isPalindrome(s):
+            left, right = 0, len(s)-1
+            while left < right:
+                if s[left] != s[right]:
+                    return False
+                
+                left, right = left+1, right-1
+            
+            return True
+        
+        def dfs(s, palindromeList):
+            if len(s) == 0:
+                res.append(palindromeList)
+                return
+            if len(s) == 1:
+                res.append(palindromeList+[s])
+                return
+            
+            for index in range(1, len(s)+1):
+                if isPalindrome(s[:index]):
+                    dfs(s[index:], palindromeList+[s[:index]])
+        
+        dfs(s, [])
+        return res
+
+class Solution(object):
+    def partition(self, s):
+        """
+        :type s: str
+        :rtype: List[List[str]]
+        """
+        
+        if not s: return []
+        
+        res = []
+        
+        def isPalindrome(s):
+            left, right = 0, len(s)-1
+            while left < right:
+                if s[left] != s[right]:
+                    return False
+                
+                left, right = left+1, right-1
+            
+            return True
+        
+        def dfs(s, palindromeList):
+            if len(s) == 0:
+                res.append(palindromeList)
+            
+            for index in range(1, len(s)+1):
+                if isPalindrome(s[:index]):
+                    dfs(s[index:], palindromeList+[s[:index]])
+        
+        dfs(s, [])
+        return res
+
+class Solution(object):
+    def partition(self, s):
+        """
+        :type s: str
+        :rtype: List[List[str]]
+        """
+        
+        return [[s[:index]]+rest for index in range(1, len(s)+1) if s[:index] == s[:index][::-1] for rest in self.partition(s[index:])] or [[]]
+
+There is a dp soliution which I cannot understand at this time.
