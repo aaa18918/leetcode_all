@@ -1,0 +1,61 @@
+https://leetcode.com/problems/evaluate-reverse-polish-notation/
+
+class Solution(object):
+    def evalRPN(self, tokens):
+        """
+        :type tokens: List[str]
+        :rtype: int
+        """
+        
+        my_stack = []
+        for cur_string in tokens:
+            if cur_string == '+':
+                right = my_stack.pop()
+                left = my_stack.pop()
+                my_stack.append(left+right)
+            elif cur_string == '-':
+                right = my_stack.pop()
+                left = my_stack.pop()
+                my_stack.append(left-right)
+            elif cur_string == '*':
+                right = my_stack.pop()
+                left = my_stack.pop()
+                my_stack.append(left*right)
+            elif cur_string == '/':
+                right = my_stack.pop()
+                left = my_stack.pop()
+                if left*right < 0 and left%right != 0:
+                    my_stack.append(left/right+1)
+                else:
+                    my_stack.append(left/right)
+            else:
+                my_stack.append(int(cur_string))
+        return my_stack[0]
+
+class Solution(object):
+    def evalRPN(self, tokens):
+        """
+        :type tokens: List[str]
+        :rtype: int
+        """
+        
+        stack = []
+        
+        for item in tokens:
+            if item in "+-*/":
+                right = stack.pop()
+                left = stack.pop()
+                
+                if item == '+':
+                    stack.append(left+right)
+                elif item == '-':
+                    stack.append(left-right)
+                elif item == '*':
+                    stack.append(left*right)
+                else:
+                    sign = -1 if left/right < 0 else 1
+                    stack.append(sign*(abs(left)/abs(right)))
+            else:
+                stack.append(int(item))
+        
+        return stack.pop()
