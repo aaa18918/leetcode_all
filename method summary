@@ -16,3 +16,6 @@ backtracking:
 
 Comparation:
 - Less than, Greater than. (Not Equal)
+
+Maybe right:
+- Write all the branches first, clear and concise. Then clearify the code.
