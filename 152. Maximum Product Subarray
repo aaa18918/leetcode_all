@@ -1,0 +1,22 @@
+class Solution(object):
+    def maxProduct(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        
+        if not nums: return 0
+        if len(nums) == 1: return nums[0]
+        
+        positive, negative = [0 for _ in range(len(nums)+1)], [0 for _ in range(len(nums)+1)]
+        
+        for index in range(len(nums)):
+            if nums[index] > 0:
+                positive[index+1] = max(nums[index], nums[index]*positive[index])
+                negative[index+1] = negative[index]*nums[index]
+            elif nums[index] < 0:
+                positive[index+1] = negative[index]*nums[index]
+                negative[index+1] = min(positive[index]*nums[index], nums[index])
+                
+        return max(positive)
+
