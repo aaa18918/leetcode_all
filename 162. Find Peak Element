@@ -1,0 +1,78 @@
+class Solution(object):
+    def findPeakElement(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        
+        stack = [(0, nums[0])]
+        
+        for index, num in enumerate(nums[1:]):
+            if num > stack[-1][1]:
+                stack.append((index+1, num))
+            else:
+                break
+        
+        return stack[-1][0]
+
+class Solution(object):
+    def canCompleteCircuit(self, gas, cost):
+        """
+        :type gas: List[int]
+        :type cost: List[int]
+        :rtype: int
+        """
+        
+        len_circular = len(gas)
+        gas, cost = gas+gas, cost+cost
+        
+        for i in range(len_circular):
+            cur_sum = 0
+            for j in range(i, i+len_circular):
+                cur_sum += gas[j]-cost[j]
+                if cur_sum < 0:
+                    break
+            
+            if cur_sum >= 0:
+                return i
+        
+        return -1
+
+class Solution(object):
+    def canCompleteCircuit(self, gas, cost):
+        """
+        :type gas: List[int]
+        :type cost: List[int]
+        :rtype: int
+        """
+        
+        cur_sum = 0
+        res = 0
+        
+        for i in range(len(gas)):
+            cur_sum += gas[i]-cost[i]
+            if cur_sum < 0:
+                res = i+1
+                cur_sum = 0
+            
+        return res if sum(gas) >= sum(cost) else -1
+
+class Solution(object):
+    def findPeakElement(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        
+        len_nums = len(nums)
+        
+        if len_nums == 1 or nums[0] > nums[1]:
+            return 0
+        
+        if nums[-1] > nums[-2]:
+            return len_nums-1
+        
+        for index in range(1, len_nums-1):
+            if nums[index] > nums[index+1]:
+                return index
+        
