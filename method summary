@@ -19,3 +19,7 @@ Comparation:
 
 Maybe right:
 - Write all the branches first, clear and concise. Then clearify the code.
+
+Sort Algorithms:
+- Quick Sort: nlogn
+- Merge Sort: nlogn
