@@ -1,0 +1,36 @@
+class Solution(object):
+    def fractionToDecimal(self, numerator, denominator):
+        """
+        :type numerator: int
+        :type denominator: int
+        :rtype: str
+        """
+        
+        if not numerator or not denominator:
+            return "0"
+        
+        if numerator%denominator == 0:
+            return str(numerator/denominator)
+        
+        res = ''
+        if numerator/denominator < 0:
+            res += '-'
+        
+        numerator, denominator = abs(numerator), abs(denominator)
+        res += str(numerator/denominator)
+        res += '.'
+        numerator = numerator%denominator
+        index = len(res)
+        hash_table = {numerator: index}
+        
+        while numerator:
+            res += str(numerator*10/denominator)
+            numerator = numerator*10%denominator
+            if numerator in hash_table:
+                return res[:hash_table[numerator]]+'('+res[hash_table[numerator]:]+')'
+            
+            index += 1
+            hash_table[numerator] = index
+        
+        return res
+
