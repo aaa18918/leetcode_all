@@ -1,5 +1,6 @@
 1.Read and understand the question carefully!(Under what conditions)
 2.Always consider the corner cases, especially the "", None cases.
+3.If something has different length, plus them together can get same length.
 
 Linked Lists:
 - Two points
