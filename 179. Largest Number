@@ -1,0 +1,21 @@
+class Solution:
+    # @param {integer[]} nums
+    # @return {string}
+    def largestNumber(self, nums):
+        def cmp(x, y):
+            if x+y > y+x:
+                return 1
+            elif x+y == y+x:
+                return 0
+            else:
+                return -1
+        
+        res =  "".join(sorted([str(n) for n in nums], cmp = cmp, reverse = True)).lstrip('0')
+        return '0' if not res else res
+
+class Solution:
+    # @param {integer[]} nums
+    # @return {string}
+    def largestNumber(self, nums):
+        res =  "".join(sorted([str(n) for n in nums], cmp = lambda x, y: cmp(y+x, x+y))).lstrip('0')
+        return res or '0'
