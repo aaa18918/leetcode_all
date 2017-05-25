@@ -1,0 +1,59 @@
+https://leetcode.com/problems/happy-number/
+
+class Solution(object):
+    def isHappy(self, n):
+        """
+        :type n: int
+        :rtype: bool
+        """
+        
+        string_n, hash_table = str(n), {}
+        hash_table[n] = 1
+        
+        while string_n != "1":
+            mySum = 0
+            for number in string_n:
+                mySum += pow(int(number),2)
+                
+            if mySum in hash_table:
+                return False
+            else:
+                hash_table[mySum] = 1
+            
+            string_n = str(mySum)
+        
+        return True
+
+class Solution(object):
+    def isHappy(self, n):
+        """
+        :type n: int
+        :rtype: bool
+        """
+        
+        visited = set()
+        
+        while n != 1:
+            n = sum(map(lambda x: int(x)**2, str(n)))
+            if n in visited:
+                return False
+            visited.add(n)
+        
+        return True
+
+class Solution(object):
+    def isHappy(self, n):
+        """
+        :type n: int
+        :rtype: bool
+        """
+        
+        visited = set()
+        
+        while n != 1:
+            n = sum([int(x)**2 for x in str(n)])
+            if n in visited:
+                return False
+            visited.add(n)
+        
+        return True
