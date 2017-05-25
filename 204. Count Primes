@@ -1,0 +1,43 @@
+https://leetcode.com/problems/count-primes/
+
+class Solution(object):
+    def countPrimes(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        
+        if n <= 2:
+            return 0
+        
+        prime = [1 for i in range(2,n)]
+        
+        for index in range(2,n):
+            if prime[index-2] == 1:
+                multiply = index*index
+                
+                while multiply < n:
+                    prime[multiply-2] = 0
+                    multiply += index
+                    
+        return sum(prime)
+
+class Solution(object):
+    def countPrimes(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        
+        record = [True for _ in range(n)]
+        
+        count = 0
+        for index in range(2, n):
+            if record[index]:
+                count += 1
+                composite = index*2
+                while composite < n:
+                    record[composite] = False
+                    composite += index
+        
+        return count
