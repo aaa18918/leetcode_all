@@ -6,6 +6,7 @@
 Linked Lists:
 - Two points
 - Dummy head
+- Reverse Linked List needs to set the head.next equals to None
 
 List or String:
 - Divide and Conquer
