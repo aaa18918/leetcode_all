@@ -1,0 +1,76 @@
+https://leetcode.com/problems/course-schedule/
+
+DFS: 85%
+class Solution(object):
+    def canFinish(self, numCourses, prerequisites):
+        """
+        :type numCourses: int
+        :type prerequisites: List[List[int]]
+        :rtype: bool
+        """
+        
+        adjacent_matrix = {}
+        visited_courses = [0 for i in xrange(numCourses)]
+        for edge in prerequisites:
+            course, pre_course = edge[0], edge[1]
+            if course not in adjacent_matrix:
+                adjacent_matrix[course] = []
+            adjacent_matrix[course].append(pre_course)
+        
+        def myDFS(course, pre_course_list):
+            visited_courses[course] = -1
+            for pre_course in pre_course_list:
+                if pre_course not in adjacent_matrix or visited_courses[pre_course] == 1: continue
+                if visited_courses[pre_course] == -1: return False
+                if not myDFS(pre_course, adjacent_matrix[pre_course]): return False
+            visited_courses[course] = 1
+            return True
+        
+        for key_course in adjacent_matrix.keys():
+            if not myDFS(key_course, adjacent_matrix[key_course]): return False
+        return True
+
+class Solution(object):
+    def canFinish(self, numCourses, prerequisites):
+        """
+        :type numCourses: int
+        :type prerequisites: List[List[int]]
+        :rtype: bool
+        """
+        
+        visited = set()
+        possible_courses = set()
+        
+        pre_table = {}
+        for prerequisite in prerequisites:
+            pre_course, course = prerequisite
+            if course not in pre_table:
+                pre_table[course] = set()
+            pre_table[course].add(pre_course)
+        
+        def dfs(course):
+            if course in possible_courses:
+                return True
+                
+            if course in visited:
+                return False
+            
+            if course not in pre_table:
+                return True
+            
+            pre_courses = pre_table[course]
+            visited.add(course)
+            for pre_course in pre_courses:
+                if not dfs(pre_course):
+                    return False
+            visited.remove(course)
+            
+            possible_courses.add(course)
+            return True
+        
+        for course in pre_table:
+            if not dfs(course):
+                return False
+        
+        return True
+
