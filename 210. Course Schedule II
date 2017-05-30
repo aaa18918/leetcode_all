@@ -1,0 +1,57 @@
+class Solution(object):
+    def findOrder(self, numCourses, prerequisites):
+        """
+        :type numCourses: int
+        :type prerequisites: List[List[int]]
+        :rtype: List[int]
+        """
+        
+        if not prerequisites: return [num for num in range(numCourses)]
+        
+        preTable = {}
+        for prerequisite in prerequisites:
+            course, preCourse = prerequisite
+            if course not in preTable:
+                preTable[course] = set()
+            preTable[course].add(preCourse)
+        
+        visited = set()
+        canBeFinishedCourses = set()
+        res = []
+        
+        def dfs(course):
+            if course in visited:
+                return False
+            
+            if course not in preTable:
+                if course not in canBeFinishedCourses:
+                    res.append(course)
+                canBeFinishedCourses.add(course)
+                return True
+            
+            if course in canBeFinishedCourses:
+                return True
+            
+            visited.add(course)
+            for preCourse in preTable[course]:
+                if not dfs(preCourse):
+                    return False
+            
+            visited.remove(course)
+            canBeFinishedCourses.add(course)
+            res.append(course)
+            return True
+        
+        for course in preTable:
+            if not dfs(course):
+                return []
+        
+        setRes = set(res)
+        numCourseNotInRes = []
+        for num in range(numCourses):
+            if num not in setRes:
+                numCourseNotInRes.append(num)
+        res = numCourseNotInRes+res
+
+        return res
+
