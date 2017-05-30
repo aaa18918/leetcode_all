@@ -1,0 +1,47 @@
+class Solution(object):
+    def findKthLargest(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+        
+        pivot = nums[0]
+        left = [l for l in nums if l > pivot]
+        right = [r for r in nums if r < pivot]
+        
+        if k <= len(left):
+            return self.findKthLargest(left, k)
+        elif k > len(nums)-len(right):
+            return self.findKthLargest(right, k-len(nums)+len(right))
+        return pivot
+
+import heapq
+
+class Solution(object):
+    def findKthLargest(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+        
+        minHeap = nums[:k]
+        heapq.heapify(minHeap)
+        
+        for num in nums[k:]:
+            if num > minHeap[0]:
+                heapq.heappushpop(minHeap, num)
+        
+        return minHeap[0]
+
+class Solution(object):
+    def findKthLargest(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+        
+        nums = sorted(nums, reverse = True)
+        return nums[k-1]
