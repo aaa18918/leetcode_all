@@ -1,0 +1,68 @@
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def lowestCommonAncestor(self, root, p, q):
+        """
+        :type root: TreeNode
+        :type p: TreeNode
+        :type q: TreeNode
+        :rtype: TreeNode
+        """
+        
+        if not root: return None
+        
+        if root is p or root is q: return root
+        
+        left = self.lowestCommonAncestor(root.left, p, q)
+        right = self.lowestCommonAncestor(root.right, p, q)
+        
+        if left and right:
+            return root
+        elif left:
+            return left
+        elif right:
+            return right
+        return None
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def lowestCommonAncestor(self, root, p, q):
+        """
+        :type root: TreeNode
+        :type p: TreeNode
+        :type q: TreeNode
+        :rtype: TreeNode
+        """
+        
+        myStack = [root]
+        parents = {root:None}
+        
+        while p not in parents or q not in parents:
+            curNode = myStack.pop()
+            if curNode.left:
+                parents[curNode.left] = curNode
+                myStack.append(curNode.left)
+            if curNode.right:
+                parents[curNode.right] = curNode
+                myStack.append(curNode.right)
+
+        pParents = set()
+        while p:
+            pParents.add(p)
+            p = parents[p]
+        
+        while q not in pParents:
+            q = parents[q]
+        
+        return q
