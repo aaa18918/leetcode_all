@@ -1,0 +1,61 @@
+class Solution(object):
+    def productExceptSelf(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        
+        len_nums = len(nums)
+        
+        left_product = [1 for _ in range(len_nums)]
+        right_product = [1 for _ in range(len_nums)]
+        
+        for i in range(len_nums-1):
+            left_product[i+1] = left_product[i]*nums[i]
+            right_product[len_nums-2-i] = right_product[len_nums-1-i]*nums[len_nums-1-i]
+        
+        return [i*j for i, j in zip(left_product, right_product)]
+
+https://leetcode.com/problems/product-of-array-except-self/
+
+class Solution(object):
+    def productExceptSelf(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        
+        result = [1]
+        
+        for index in range(1, len(nums)):
+            result.append(result[index-1]*nums[index-1])
+        
+        right, index = 1, len(nums)-1
+        
+        while index >= 0:
+            result[index] *= right
+            right *= nums[index]
+            index -= 1
+        
+        return result
+
+class Solution(object):
+    def productExceptSelf(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        
+        len_nums = len(nums)
+        
+        product = [1]
+        
+        for i in range(len_nums-1):
+            product.append(nums[i]*product[i])
+        
+        right = 1
+        for i in range(len_nums-1, 0, -1):
+            right *= nums[i]
+            product[i-1] *= right
+        
+        return product
