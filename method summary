@@ -4,6 +4,7 @@
 4.str([1]) = "[1]"
 5.a = [1, 2, 3], str(a) = '[1, 2, 3]'
 6.Notice whether it is find the Kth largest number or the Kth smallest number.
+7.Check whether a string only contains lower case letters.
 
 Linked Lists:
 - Two points
