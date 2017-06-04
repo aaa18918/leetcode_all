@@ -1,0 +1,26 @@
+class Solution(object):
+    def fourSumCount(self, A, B, C, D):
+        """
+        :type A: List[int]
+        :type B: List[int]
+        :type C: List[int]
+        :type D: List[int]
+        :rtype: int
+        """
+        
+        AB_sum_count = {}
+        
+        for num_a in A:
+            for num_b in B:
+                if num_a+num_b not in AB_sum_count:
+                    AB_sum_count[num_a+num_b] = 0
+                AB_sum_count[num_a+num_b] += 1
+        
+        count = 0
+        for num_c in C:
+            for num_d in D:
+                if -(num_c+num_d) in AB_sum_count:
+                    count += AB_sum_count[-(num_c+num_d)]
+        
+        return count
+
