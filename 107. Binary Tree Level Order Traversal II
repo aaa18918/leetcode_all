@@ -1,0 +1,73 @@
+https://leetcode.com/problems/binary-tree-level-order-traversal-ii/
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def levelOrderBottom(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[List[int]]
+        """
+        
+        if root == None:
+            return []
+        
+        record = [[root.val]]
+        my_queue = [root.left, root.right]
+        
+        while my_queue != []:
+            value = []
+            next_level = []
+            
+            for node in my_queue:
+                if node != None:
+                    value.append(node.val)
+                    next_level.append(node.left)
+                    next_level.append(node.right)
+            
+            if value != []:
+                record.append(value)
+                
+            my_queue = next_level
+        
+        return record[::-1]
+
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def levelOrderBottom(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[List[int]]
+        """
+        
+        if not root: return []
+        
+        result, parent_level = [[root.val]], [root]
+        
+        while parent_level:
+            temp, cur_val = [], []
+            for node in parent_level:
+                if node.left:
+                    temp.append(node.left)
+                    cur_val.append(node.left.val)
+                if node.right:
+                    temp.append(node.right)
+                    cur_val.append(node.right.val)
+
+            if cur_val:
+                result.append(cur_val)
+            parent_level = temp
+        
+        return result[::-1]
