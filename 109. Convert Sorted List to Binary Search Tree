@@ -1,0 +1,112 @@
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def sortedListToBST(self, head):
+        """
+        :type head: ListNode
+        :rtype: TreeNode
+        """
+        
+        if not head: return None
+        if not head.next: return TreeNode(head.val)
+        
+        slow, fast = head, head.next
+        while fast.next and fast.next.next:
+            slow = slow.next
+            fast = fast.next.next
+        
+        cur_root = TreeNode(slow.next.val)
+        right_starting_node = slow.next.next
+        slow.next = None
+        cur_root.left = self.sortedListToBST(head)
+        cur_root.right = self.sortedListToBST(right_starting_node)
+        
+        return cur_root
+
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def sortedListToBST(self, head):
+        """
+        :type head: ListNode
+        :rtype: TreeNode
+        """
+        
+        list_values, p = [], head
+        while p:
+            list_values.append(p.val)
+            p = p.next
+        
+        def constructTree(list_values):
+            if not list_values:
+                return None
+            
+            left, right = 0, len(list_values)-1
+            mid = (left+right)/2
+            root = TreeNode(list_values[mid])
+            root.left = constructTree(list_values[:mid])
+            root.right = constructTree(list_values[mid+1:])
+            
+            return root
+        
+        return constructTree(list_values)
+
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def sortedListToBST(self, head):
+        """
+        :type head: ListNode
+        :rtype: TreeNode
+        """
+
+        list_values, p = [], head
+        while p:
+            list_values.append(p.val)
+            p = p.next
+
+        def constructTree(left, right):
+            if left > right:
+                return None
+
+            mid = (left+right)/2
+            root = TreeNode(list_values[mid])
+            root.left = constructTree(left, mid-1)
+            root.right = constructTree(mid+1, right)
+
+            return root
+
+        return constructTree(0, len(list_values)-1)
