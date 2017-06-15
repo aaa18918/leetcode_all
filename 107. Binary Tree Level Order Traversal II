@@ -37,7 +37,6 @@ class Solution(object):
         
         return record[::-1]
 
-
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -69,5 +68,99 @@ class Solution(object):
             if cur_val:
                 result.append(cur_val)
             parent_level = temp
+        
+        return result[::-1]
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def levelOrderBottom(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[List[int]]
+        """
+        
+        if not root: return []
+        
+        result = []
+        self.preorder(root, 0, result)
+        return result[::-1]
+    
+    def preorder(self, node, level, result):
+        if level >= len(result):
+            result.append([])
+        
+        result[level].append(node.val)
+        if node.left:
+            self.preorder(node.left, level+1, result)
+        if node.right:
+            self.preorder(node.right, level+1, result)
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def levelOrderBottom(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[List[int]]
+        """
+        
+        if not root: return []
+        
+        result = []
+        
+        def preorder(node, level):
+            if level >= len(result):
+                result.append([])
+        
+            result[level].append(node.val)
+            if node.left:
+                preorder(node.left, level+1)
+            if node.right:
+                preorder(node.right, level+1)
+        
+        preorder(root, 0)
+        return result[::-1]
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def levelOrderBottom(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[List[int]]
+        """
+        
+        if not root: return []
+        
+        result, my_stack = [], [(root, 0)]
+        
+        while my_stack:
+            cur_node, level = my_stack.pop()
+            
+            if level >= len(result):
+                result.append([])
+            
+            result[level].append(cur_node.val)
+            
+            if cur_node.right:
+                my_stack.append((cur_node.right, level+1))
+            if cur_node.left:
+                my_stack.append((cur_node.left, level+1))
         
         return result[::-1]
