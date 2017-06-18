@@ -1,0 +1,65 @@
+class Solution(object):
+    def reverseString(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        
+        return s[::-1]
+
+https://leetcode.com/problems/reverse-string/
+
+system function: O(n) 73%
+
+class Solution(object):
+    def reverseString(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        
+        return s[::-1]
+
+recursive: O(n) 12%
+class Solution(object):
+    def reverseString(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        
+        len_s = len(s)
+        if len_s <= 1:
+            return s
+        
+        mid = len_s/2
+        return self.reverseString(s[mid+1:])+s[mid]+self.reverseString(s[:mid])
+
+list, while loop: O(n) 25%
+class Solution(object):
+    def reverseString(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        
+        list_s = list(s)
+        start, end = 0, len(s)-1
+        
+        while start < end:
+            list_s[start], list_s[end] = list_s[end], list_s[start]
+            start, end = start+1, end-1
+        return ''.join(list_s)
+
+list xrange loop: O(n) 35%
+class Solution(object):
+    def reverseString(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        
+        list_s, len_s = list(s), len(s)
+        for index in xrange(0, len_s/2):
+            list_s[index], list_s[len_s-1-index] = list_s[len_s-1-index], list_s[index]
+        return ''.join(list_s)
