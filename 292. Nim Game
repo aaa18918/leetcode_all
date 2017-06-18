@@ -1,0 +1,28 @@
+class Solution(object):
+    def canWinNim(self, n):
+        """
+        :type n: int
+        :rtype: bool
+        """
+        
+        return n%4 != 0
+
+https://leetcode.com/problems/nim-game/
+Math: 0(1) 60%
+class Solution(object):
+    def canWinNim(self, n):
+        """
+        :type n: int
+        :rtype: bool
+        """
+        
+        return n%4 != 0
+
+class Solution(object):
+    def canWinNim(self, n):
+        """
+        :type n: int
+        :rtype: bool
+        """
+        
+        return n%4 != 0
