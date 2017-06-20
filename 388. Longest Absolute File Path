@@ -1,0 +1,46 @@
+class Solution(object):
+    def lengthLongestPath(self, input):
+        """
+        :type input: str
+        :rtype: int
+        """
+        
+        input_list = input.split('\n')
+        result, cur_level, file_path_stack = 0, -1, []
+        
+        for item in input_list:
+            item_list = item.split('\t')
+            level = len(item_list)-1
+            string = item_list[-1]
+            
+            while level <= cur_level:
+                file_path_stack.pop()
+                cur_level -= 1
+            
+            if '.' in string:
+                result = max(len(''.join(file_path_stack+[string]))+len(file_path_stack), result)
+            else:
+                file_path_stack.append(string)
+                cur_level += 1
+        
+        return result
+
+class Solution(object):
+    def lengthLongestPath(self, input):
+        """
+        :type input: str
+        :rtype: int
+        """
+        
+        result, dir_length_table = 0, {-1: 0}
+        
+        for line in input.splitlines():
+            string = line.lstrip('\t')
+            level = len(line)-len(string)
+            
+            if '.' in string:
+                result = max(dir_length_table[level-1]+len(string), result)
+            else:
+                dir_length_table[level] = dir_length_table[level-1]+len(string)+1
+        
+        return result
