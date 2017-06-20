@@ -1,0 +1,47 @@
+class Solution(object):
+    def findMinDifference(self, timePoints):
+        """
+        :type timePoints: List[str]
+        :rtype: int
+        """
+        
+        timePoints = sorted([self.convertTimeToInt(timePoint) for timePoint in timePoints])
+        res = 24*60
+        for i in range(len(timePoints)-1):
+            res = min(res, timePoints[i+1]-timePoints[i])
+        
+        return min(res, 24*60-timePoints[-1]+timePoints[0])
+    
+    def convertTimeToInt(self, timePoint):
+        hour, minute = map(int, timePoint.split(':'))
+        return hour*60+minute
+
+class Solution(object):
+    def findMinDifference(self, timePoints):
+        """
+        :type timePoints: List[str]
+        :rtype: int
+        """
+        
+        timePoints = sorted([map(int, timePoint.split(':')) for timePoint in timePoints])
+        timePoints.append([timePoints[0][0]+24, timePoints[0][1]])
+        
+        return min([(timePoints[index+1][0]-timePoints[index][0])*60+timePoints[index+1][1]-timePoints[index][1] for index in range(len(timePoints)-1)])
+
+class Solution(object):
+    def findMinDifference(self, timePoints):
+        """
+        :type timePoints: List[str]
+        :rtype: int
+        """
+        
+        bucket = [0 for i in range(24*60)]
+        for timePoint in timePoints:
+            intTimePoint = map(int, timePoint.split(':'))
+            if bucket[intTimePoint[0]*60+intTimePoint[1]] == 1:
+                return 0
+            bucket[intTimePoint[0]*60+intTimePoint[1]] = 1
+        
+        bucket = [i for i in range(len(bucket)) if bucket[i] == 1]
+        bucket += [(bucket[0]/60+24)*60+bucket[0]%60]
+        return min([bucket[index+1]-bucket[index] for index in range(len(bucket)-1)])
