@@ -1,0 +1,33 @@
+https://leetcode.com/problems/reverse-words-in-a-string/
+class Solution(object):
+    def reverseWords(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        result = []
+        end, len_s = 0, len(s)
+        while end < len_s and s[end] == ' ': end += 1
+        start = end
+        
+        while end < len_s:
+            if s[end] == ' ':
+                result.append(s[start: end])
+                while end < len_s and s[end] == ' ': end += 1
+                start = end
+            else:
+                end += 1
+                if end >= len_s: result.append(s[start: end])
+        
+        return ' '.join(result[::-1]) if result != [] else ''
+
+class Solution(object):
+    def reverseWords(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        
+        reversed_s_list = s.split(' ')[::-1]
+        reversed_s_list = [word for word in reversed_s_list if word != '']
+        return " ".join(reversed_s_list)
