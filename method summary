@@ -1,12 +1,13 @@
 1.Read and understand the question carefully!(Under what conditions)
 2.Always consider the corner cases, especially the "", None cases.
 3.If something has different length, plus them together can get same length.
-4.str([1]) = "[1]"
-5.a = [1, 2, 3], str(a) = '[1, 2, 3]'
+4.str([1]) = "[1]".
+5.a = [1, 2, 3], str(a) = '[1, 2, 3]'.
 6.Notice whether it is find the Kth largest number or the Kth smallest number.
 7.Check whether a string only contains lower case letters.
-8. " ".split("  "): ['', '', '']
-9. " ".join([]): ""
+8. " ".split("  "): ['', '', ''].
+9. " ".join([]): "".
+10. List is unhashable in set.
 
 Linked Lists:
 - Two points
