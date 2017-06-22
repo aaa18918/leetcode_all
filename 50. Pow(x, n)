@@ -128,3 +128,22 @@ class Solution(object):
             x *= x
         
         return res
+
+class Solution(object):
+    def myPow(self, x, n):
+        """
+        :type x: float
+        :type n: int
+        :rtype: float
+        """
+        
+        res, m = 1, abs(n)
+        
+        while m:
+            if m&1:
+                res *= x
+            
+            m >>= 1
+            x *= x
+        
+        return res if n > 0 else 1.0/res
