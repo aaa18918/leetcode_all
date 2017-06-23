@@ -73,3 +73,42 @@ class Solution(object):
                 heapq.heappushpop(min_heap, frequent_num_pair)
 
         return [frequent_num_pair[1] for frequent_num_pair in min_heap]
+
+class Solution(object):
+    def topKFrequent(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: List[int]
+        """
+
+        counter_of_num_occurrence = {}
+        for num in nums:
+            if num not in counter_of_num_occurrence:
+                counter_of_num_occurrence[num] = 0
+            counter_of_num_occurrence[num] += 1
+
+        num_and_frequent = zip(counter_of_num_occurrence.values(), counter_of_num_occurrence.keys())
+
+        def topKFrequentNumber(items, k):
+            pivot = items[0][0]
+            index, left, right = 0, 0, len(items)-1
+            
+            while left <= index <= right:
+                if items[index][0] > pivot:
+                    items[left], items[index] = items[index], items[left]
+                    left += 1
+                elif items[index][0] < pivot:
+                    items[right], items[index] = items[index], items[right]
+                    right -= 1
+                else:
+                    index += 1
+
+            if k > right+1:
+                return [item[1] for item in items[:right+1]] + topKFrequentNumber(items[right+1:], k-right-1)
+            elif k < left:
+                return topKFrequentNumber(items[:left], k)
+            else:
+                return [item[1] for item in items[:k]]
+
+        return topKFrequentNumber(num_and_frequent, k)
