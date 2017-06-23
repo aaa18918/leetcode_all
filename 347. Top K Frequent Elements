@@ -1,0 +1,75 @@
+https://leetcode.com/problems/top-k-frequent-elements/import heapq
+
+class Solution(object):
+    def topKFrequent(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: List[int]
+        """
+        
+        hash_table = {}
+        
+        for number in nums:
+            if number not in hash_table:
+                hash_table[number] = 1
+            else:
+                hash_table[number] += 1
+        
+        keys, values = hash_table.keys(), hash_table.values()
+        
+        #min heap
+        min_heap = []
+        
+        for index in range(0, k):
+            heapq.heappush(min_heap, (values[index], keys[index]))
+        
+        for index in range(k, len(values)):
+            if values[index] > min_heap[0][0]:
+                heapq.heappop(min_heap)
+                heapq.heappush(min_heap, (values[index], keys[index]))
+            
+        result = []
+        for item in min_heap:
+            result.append(item[1])
+        
+        return result
+
+from collections import Counter
+
+class Solution(object):
+    def topKFrequent(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: List[int]
+        """
+        
+        counter = Counter(nums)
+        return [num_and_frequent[0] for num_and_frequent in counter.most_common(k)]
+
+class Solution(object):
+    def topKFrequent(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: List[int]
+        """
+        
+        num_and_frequent_table = {}
+        
+        for num in nums:
+            if num not in num_and_frequent_table:
+                num_and_frequent_table[num] = 0
+            num_and_frequent_table[num] += 1
+        
+        frequent_num_pairs = zip(num_and_frequent_table.values(), num_and_frequent_table.keys())
+        
+        min_heap = frequent_num_pairs[:k]
+        heapq.heapify(min_heap)
+        for frequent_num_pair in frequent_num_pairs[k:]:
+            frequent, num = frequent_num_pair
+            if frequent > min_heap[0][0]:
+                heapq.heappushpop(min_heap, frequent_num_pair)
+
+        return [frequent_num_pair[1] for frequent_num_pair in min_heap]
