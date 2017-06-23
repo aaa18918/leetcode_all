@@ -8,6 +8,8 @@
 8. " ".split("  "): ['', '', ''].
 9. " ".join([]): "".
 10. List is unhashable in set.
+11. Binary Search or any formula similar to the left < right format,
+    take care of the increaing the left pointer and the decreasing of the right pointer.
 
 Linked Lists:
 - Two points
