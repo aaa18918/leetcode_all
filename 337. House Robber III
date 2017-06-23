@@ -1,0 +1,99 @@
+https://leetcode.com/problems/house-robber-iii/
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def rob(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        
+        result = self.dfs_rob(root)
+        return result[0]
+            
+    def dfs_rob(self, root):
+        if root == None:
+            return 0, 0
+        
+        root_l, not_root_l = self.dfs_rob(root.left)
+        root_r, not_root_r = self.dfs_rob(root.right)
+        
+        return max(root_l+root_r, not_root_l+not_root_r+root.val), root_l+root_r
+
+https://leetcode.com/problems/house-robber-iii/
+
+DFS: O(n), 97%
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def rob(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        
+        def myHelp(root):
+            if root == None: return 0, 0
+            left_rob, left_not_rob = myHelp(root.left)
+            right_rob, right_not_rob = myHelp(root.right)
+            return root.val+right_not_rob+left_not_rob, max(left_rob+right_rob, left_not_rob+right_not_rob, left_rob+right_not_rob, left_not_rob+right_rob)
+        
+        return max(myHelp(root))
+
+make the code concise: 91%
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def rob(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        
+        def myHelp(root):
+            if root == None: return 0, 0
+            left_rob, left_not_rob = myHelp(root.left)
+            right_rob, right_not_rob = myHelp(root.right)
+            return root.val+right_not_rob+left_not_rob, max(left_rob, left_not_rob)+max(right_rob, right_not_rob)
+        
+        return max(myHelp(root))
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def rob(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        
+        def myDFS(root):
+            if not root: return 0, 0
+        
+            left_max, left_without_root = myDFS(root.left)
+            right_max, right_without_root = myDFS(root.right)
+            
+            return max(left_max+right_max, left_without_root+right_without_root+root.val), left_max+right_max
+        
+        return myDFS(root)[0]
