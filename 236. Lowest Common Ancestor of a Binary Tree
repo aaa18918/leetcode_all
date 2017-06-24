@@ -66,3 +66,95 @@ class Solution(object):
             q = parents[q]
         
         return q
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def lowestCommonAncestor(self, root, p, q):
+        """
+        :type root: TreeNode
+        :type p: TreeNode
+        :type q: TreeNode
+        :rtype: TreeNode
+        """
+
+        if not root: return None
+        if root is p or root is q: return root
+
+        left = self.lowestCommonAncestor(root.left, p, q)
+        right = self.lowestCommonAncestor(root.right, p, q)
+
+        if left and right: return root
+        if left:
+            return left
+        if right:
+            return right
+
+        return None
+
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def lowestCommonAncestor(self, root, p, q):
+        """
+        :type root: TreeNode
+        :type p: TreeNode
+        :type q: TreeNode
+        :rtype: TreeNode
+        """
+
+        if root in (None, p, q): return root
+        left, right = (self.lowestCommonAncestor(child, p, q) for child in (root.left, root.right))
+        return root if left and right else left or right
+
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def lowestCommonAncestor(self, root, p, q):
+        """
+        :type root: TreeNode
+        :type p: TreeNode
+        :type q: TreeNode
+        :rtype: TreeNode
+        """
+
+        if not root: return None
+
+        dfs_stack = [root]
+        parents = {root: None}
+
+        while dfs_stack:
+            cur_node = dfs_stack.pop()
+            if cur_node.left:
+                parents[cur_node.left] = cur_node
+                dfs_stack.append(cur_node.left)
+            if cur_node.right:
+                parents[cur_node.right] = cur_node
+                dfs_stack.append(cur_node.right)
+
+        p_parents = {p}
+        while p:
+            p_parents.add(parents[p])
+            p = parents[p]
+        
+        while q not in p_parents:
+            q = parents[q]
+
+        return q
