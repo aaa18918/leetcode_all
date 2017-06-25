@@ -1,0 +1,92 @@
+https://leetcode.com/problems/n-queens/
+
+Legacy code for n-queen validation:
+iterative N-Queen, using stack:
+class Solution(object):
+    def solveNQueens(self, n):
+        """
+        :type n: int
+        :rtype: List[List[str]]
+        """
+        
+        if n <= 0: return []
+        if n == 1: return [["Q"]]
+        
+        result = []
+        
+        for i in xrange(n):
+            x = [-1 for j in xrange(n)]
+            y = [0 for k in xrange(n)]
+            #print i
+            x[0] = i
+            y[i] = 1
+            stack = [(0, x, y)]
+            while stack:
+                pre_row, cur_x, cur_y = stack.pop()
+                for j in xrange(n-1, -1, -1):
+                    #print  pre_row+1, j, cur_x, cur_y, self.is_conflict(pre_row+1, j, cur_x, cur_y)
+                    if self.is_conflict(pre_row+1, j, cur_x, cur_y): continue
+                    if pre_row == n-2:
+                        cur_record = []
+                        for col in cur_x:
+                            temp = ["." for k in xrange(n)]
+                            if col == -1:
+                                temp[j] = "Q"
+                            else:
+                                temp[col] = "Q"
+                            cur_record.append("".join(temp))
+                        result.append(cur_record)
+                        continue
+                    else:
+                        new_x = [num for num in cur_x]
+                        new_y = [label for label in cur_y]
+                        new_x[pre_row+1] = j
+                        new_y[j] = 1
+                        stack.append((pre_row+1, new_x, new_y))
+                #print i, result
+        return result
+    
+    def is_conflict(self, row, col, x, y):
+        if y[col] == 1: return True
+        for i in xrange(row-1, -1, -1):
+            if x[i] == col-(row-i) or x[i] == col+(row-i):
+                return True
+        return False
+ 
+ Easy to understand and O(1) validation time:
+ class Solution(object):
+    def solveNQueens(self, n):
+        """
+        :type n: int
+        :rtype: List[List[str]]
+        """
+        
+        set_addition, set_minus = set(), set()
+        col_record = [False for _ in range(n)]
+        
+        result = []
+        
+        def generateBoard(locations):
+            board = [['.']*n for _ in range(n)]
+            for x, y in locations:
+                board[x][y] = 'Q'
+            return ["".join(row) for row in board]
+        
+        def myDFS(x, prev_locations, n):
+            for y in range(n):
+                if not col_record[y] and x+1+y not in set_addition and x+1-y not in set_minus:
+                    if x+1 == n-1:
+                        result.append(generateBoard(prev_locations+[(x+1, y)]))
+                    else:
+                        col_record[y] = True
+                        set_addition.add(x+1+y)
+                        set_minus.add(x+1-y)
+                    
+                        myDFS(x+1, prev_locations+[(x+1, y)], n)
+                    
+                        col_record[y] = False
+                        set_addition.remove(x+1+y)
+                        set_minus.remove(x+1-y)
+        
+        myDFS(-1, [], n)
+        return result
