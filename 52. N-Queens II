@@ -1,0 +1,31 @@
+class Solution(object):
+    def totalNQueens(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        
+        set_addition, set_minus = set(), set()
+        col_record = [False for _ in range(n)]
+        
+        def myDFS(x, n):
+            count = 0
+            for y in range(n):
+                if not col_record[y] and x+1+y not in set_addition and x+1-y not in set_minus:
+                    if x+1 == n-1:
+                        count += 1
+                    else:
+                        col_record[y] = True
+                        set_addition.add(x+1+y)
+                        set_minus.add(x+1-y)
+                        
+                        count += myDFS(x+1, n)
+                        
+                        col_record[y] = False
+                        set_addition.remove(x+1+y)
+                        set_minus.remove(x+1-y)
+                        
+            return count
+        
+        return myDFS(-1, n)
+        
