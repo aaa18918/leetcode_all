@@ -1,0 +1,30 @@
+class Solution(object):
+    def addBinary(self, a, b):
+        """
+        :type a: str
+        :type b: str
+        :rtype: str
+        """
+        
+        result = ""
+        index_a, index_b, carry = len(a)-1, len(b)-1, 0
+        while index_a >= 0 and index_b >= 0:
+            total = int(a[index_a])+int(b[index_b])+carry
+            result = str(total%2)+result
+            carry = total/2
+            index_a, index_b = index_a-1, index_b-1
+        
+        while index_a >= 0:
+            total = int(a[index_a])+carry
+            result = str(total%2)+result
+            carry = total/2
+            index_a -= 1
+        
+        while index_b >= 0:
+            total = int(b[index_b])+carry
+            result = str(total%2)+result
+            carry = total/2
+            index_b -= 1
+        
+        return result if not carry else str(carry)+result
+
