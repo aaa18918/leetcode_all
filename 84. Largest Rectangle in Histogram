@@ -1,0 +1,17 @@
+class Solution(object):
+    def largestRectangleArea(self, heights):
+        """
+        :type heights: List[int]
+        :rtype: int
+        """
+        
+        heights.append(0)
+        result, index_stack = 0, [-1]
+        for i in range(len(heights)):
+            while heights[i] < heights[index_stack[-1]]:
+                h = heights[index_stack.pop()]
+                w = i-index_stack[-1]-1
+                result = max(result, h*w)
+            index_stack.append(i)
+        
+        return result
