@@ -1,0 +1,17 @@
+class Solution(object):
+    def containsNearbyDuplicate(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: bool
+        """
+        
+        hash_table = {}
+        for index in range(len(nums)):
+            if nums[index] in hash_table:
+                if index-hash_table[nums[index]] <= k:
+                    return True
+            hash_table[nums[index]] = index
+        
+        return False
+    
