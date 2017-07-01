@@ -1,0 +1,20 @@
+class Solution(object):
+    def computeArea(self, A, B, C, D, E, F, G, H):
+        """
+        :type A: int
+        :type B: int
+        :type C: int
+        :type D: int
+        :type E: int
+        :type F: int
+        :type G: int
+        :type H: int
+        :rtype: int
+        """
+        
+        if A >= G or E >= C or F >= D or B >= H:
+            return (D-B)*(C-A) + (G-E)*(H-F)
+        
+        width = min(H, D) - max(B, F)
+        height = min(C, G) - max(E, A)
+        return (D-B)*(C-A) + (G-E)*(H-F) - width*height
