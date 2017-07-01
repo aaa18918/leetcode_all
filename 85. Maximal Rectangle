@@ -1,0 +1,34 @@
+class Solution(object):
+    def maximalRectangle(self, matrix):
+        """
+        :type matrix: List[List[str]]
+        :rtype: int
+        """
+        
+        if not matrix or not matrix[0]: return 0
+        
+        result, heights = 0, [0 for _ in range((len(matrix[0])))]
+        for row in range(len(matrix)):
+            for col in range(len(matrix[0])):
+                if matrix[row][col] == '1':
+                    heights[col] += 1
+                else:
+                    heights[col] = 0
+            result = max(result, self.findLargestHistogram(heights))
+        
+        return result
+    
+    def findLargestHistogram(self, heights):
+        heights.append(0)
+        result, my_stack = 0, [-1]
+        
+        for index, height in enumerate(heights):
+            while height < heights[my_stack[-1]]:
+                i = my_stack.pop()
+                h = heights[i]
+                w = index-my_stack[-1]-1
+                result = max(result, w*h)
+            my_stack.append(index)
+        
+        heights.pop()
+        return result
