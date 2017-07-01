@@ -1,0 +1,34 @@
+class Solution(object):
+    def longestConsecutive(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        
+        hash_table = {}
+        for num in nums:
+            hash_table[num] = True
+        
+        result = 0
+        
+        for num in nums:
+            if hash_table[num]:
+                hash_table[num] = False
+                
+                left_count, left_num = 0, num-1
+                right_count, right_num = 0, num+1
+                
+                while left_num in hash_table:
+                    hash_table[left_num] = False
+                    left_count += 1
+                    left_num -= 1
+                
+                while right_num in hash_table:
+                    hash_table[right_num] = False
+                    right_count += 1
+                    right_num += 1
+                
+                result = max(result, 1+left_count+right_count)
+        
+        return result
+                
