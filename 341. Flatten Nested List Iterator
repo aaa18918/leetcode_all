@@ -1,0 +1,132 @@
+# """
+# This is the interface that allows for creating nested lists.
+# You should not implement it, or speculate about its implementation
+# """
+#class NestedInteger(object):
+#    def isInteger(self):
+#        """
+#        @return True if this NestedInteger holds a single integer, rather than a nested list.
+#        :rtype bool
+#        """
+#
+#    def getInteger(self):
+#        """
+#        @return the single integer that this NestedInteger holds, if it holds a single integer
+#        Return None if this NestedInteger holds a nested list
+#        :rtype int
+#        """
+#
+#    def getList(self):
+#        """
+#        @return the nested list that this NestedInteger holds, if it holds a nested list
+#        Return None if this NestedInteger holds a single integer
+#        :rtype List[NestedInteger]
+#        """
+
+class NestedIterator(object):
+
+    def __init__(self, nestedList):
+        """
+        Initialize your data structure here.
+        :type nestedList: List[NestedInteger]
+        """
+        
+        self.record = []
+        self.index = 0
+        
+        def dfs(nestedList):
+            if not nestedList:
+                return
+            
+            for element in nestedList:
+                if element.isInteger():
+                    self.record.append(element.getInteger())
+                else:
+                    dfs(element.getList())
+        
+        dfs(nestedList)
+        self.len = len(self.record)
+
+    def next(self):
+        """
+        :rtype: int
+        """
+
+        val = self.record[self.index]
+        self.index += 1
+        return val
+
+    def hasNext(self):
+        """
+        :rtype: bool
+        """
+        
+        return self.index < self.len
+        
+# Your NestedIterator object will be instantiated and called as such:
+# i, v = NestedIterator(nestedList), []
+# while i.hasNext(): v.append(i.next())
+
+
+# """
+# This is the interface that allows for creating nested lists.
+# You should not implement it, or speculate about its implementation
+# """
+#class NestedInteger(object):
+#    def isInteger(self):
+#        """
+#        @return True if this NestedInteger holds a single integer, rather than a nested list.
+#        :rtype bool
+#        """
+#
+#    def getInteger(self):
+#        """
+#        @return the single integer that this NestedInteger holds, if it holds a single integer
+#        Return None if this NestedInteger holds a nested list
+#        :rtype int
+#        """
+#
+#    def getList(self):
+#        """
+#        @return the nested list that this NestedInteger holds, if it holds a nested list
+#        Return None if this NestedInteger holds a single integer
+#        :rtype List[NestedInteger]
+#        """
+
+class NestedIterator(object):
+
+    def __init__(self, nestedList):
+        """
+        Initialize your data structure here.
+        :type nestedList: List[NestedInteger]
+        """
+        
+        self.my_stack = []
+        self.my_list = nestedList
+
+    def next(self):
+        """
+        :rtype: int
+        """
+        
+        return self.my_stack.pop().getInteger()
+
+    def hasNext(self):
+        """
+        :rtype: bool
+        """
+        
+        while self.my_list or self.my_stack:
+            if not self.my_stack:
+                self.my_stack.append(self.my_list.pop(0))
+            
+            while self.my_stack and not self.my_stack[-1].isInteger():
+                self.my_stack += self.my_stack.pop().getList()[::-1]
+            
+            if self.my_stack: return True
+        
+        return False
+        
+# Your NestedIterator object will be instantiated and called as such:
+# i, v = NestedIterator(nestedList), []
+# while i.hasNext(): v.append(i.next())
