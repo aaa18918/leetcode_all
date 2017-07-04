@@ -10,6 +10,7 @@
 10. List is unhashable in set.
 11. Binary Search or any formula similar to the left < right format,
     take care of the increaing the left pointer and the decreasing of the right pointer.
+12. every time try to access the element of a list, make sure the list is not empty. For instance: a[0].
 
 Linked Lists:
 - Two points
