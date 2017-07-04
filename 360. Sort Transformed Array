@@ -1,0 +1,31 @@
+class Solution(object):
+    def sortTransformedArray(self, nums, a, b, c):
+        """
+        :type nums: List[int]
+        :type a: int
+        :type b: int
+        :type c: int
+        :rtype: List[int]
+        """
+        
+        if a == 0:
+            if b == 0:
+                return [c]*len(nums)
+            elif b > 0:
+                return [b*num+c for num in nums]
+            else:
+                return [b*num+c for num in nums[::-1]]
+        else:
+            mid = -b*1.0/2/a
+            left, right = 0, len(nums)-1
+            result = []
+            while left < right:
+                if abs(nums[left]-mid) > abs(nums[right]-mid):
+                    result.append(a*nums[left]**2+b*nums[left]+c)
+                    left += 1
+                else:
+                    result.append(a*nums[right]**2+b*nums[right]+c)
+                    right -= 1
+            
+            result.append(a*nums[left]**2+b*nums[left]+c)
+            return result[::-1] if a > 0 else result
