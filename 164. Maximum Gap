@@ -1,0 +1,29 @@
+class Solution(object):
+    def maximumGap(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        
+        len_nums = len(nums)
+        if len_nums < 2: return 0
+        
+        max_value, min_value = nums[0], nums[0]
+        for num in nums[1:]:
+            max_value, min_value = max(num, max_value), min(num, min_value)
+        
+        bucket_size = int(math.ceil((max_value-min_value)*1.0/(len_nums-1)))
+        if bucket_size == 0: return 0
+        bucket = [[] for _ in range(len_nums)]
+        
+        for num in nums:
+            bucket[(num-min_value)/bucket_size].append(num)
+        
+        result, prev_max, index = 0, min_value, 0
+        while index < len_nums:
+            if bucket[index]:
+                result = max(result, min(bucket[index])-prev_max)
+                prev_max = max(bucket[index])
+            index += 1
+        
+        return result
