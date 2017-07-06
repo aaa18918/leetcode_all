@@ -56,3 +56,4 @@ class Solution(object):
         
         return result
 
+"""解法不满足follow up"""
