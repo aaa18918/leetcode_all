@@ -1,0 +1,39 @@
+class Solution(object):
+    def numberToWords(self, num):
+        """
+        :type num: int
+        :rtype: str
+        """
+        
+        if not num: return "Zero"
+        
+        thousands = ["Thousand", "Million", "Billion"]
+        res, thousands_index = [], 0
+        while num:
+            res = self.convertNumberLessThanAThousand(num%1000)+res
+            if num >= 1000 and not num/1000%1000 == 0:
+                res = [thousands[thousands_index]]+res
+            num /= 1000
+            thousands_index += 1
+        
+        return " ".join(res)
+    
+    def convertNumberLessThanAThousand(self, num):
+        res = []
+        ones = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
+                "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"]
+        tens = ["Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"]
+        if num >= 100:
+            res += [ones[num/100], "Hundred"]
+            num %= 100
+        
+        if num >= 20:
+            if num%10:
+                return res+[tens[num/10-2], ones[num%10]]
+            else:
+                return res+[tens[num/10-2]]
+        elif num > 0:
+            return res+[ones[num]]
+        
+        return res
+
