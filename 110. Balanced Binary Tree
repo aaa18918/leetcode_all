@@ -1,0 +1,24 @@
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def isBalanced(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        
+        def myDFS(root):
+            if not root: return 0
+            
+            left_subtree_depth, right_subtree_depth = myDFS(root.left), myDFS(root.right)
+            if left_subtree_depth == -1 or right_subtree_depth == -1: return -1
+            if abs(left_subtree_depth-right_subtree_depth) > 1: return -1
+            
+            return max(left_subtree_depth, right_subtree_depth)+1
+        
+        return True if myDFS(root) >= 0 else False
