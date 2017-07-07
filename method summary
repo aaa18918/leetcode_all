@@ -12,6 +12,7 @@
     take care of the increaing the left pointer and the decreasing of the right pointer.
 12. every time try to access the element of a list, make sure the list is not empty. For instance: a[0].
 13. Notice the end of the for loop, check whether needs '+1' in the end. For instance: https://leetcode.com/problems/edit-distance/#/description
+14. Never pass the element of the result list into the myDFS function. For instance: myDFS(record[0], record)
 
 Linked Lists:
 - Two points
