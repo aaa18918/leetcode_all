@@ -26,3 +26,82 @@ class Solution(object):
         
         return hash_table[head]
 
+
+# Definition for singly-linked list with a random pointer.
+# class RandomListNode(object):
+#     def __init__(self, x):
+#         self.label = x
+#         self.next = None
+#         self.random = None
+
+class Solution(object):
+    def copyRandomList(self, head):
+        """
+        :type head: RandomListNode
+        :rtype: RandomListNode
+        """
+        
+        fake_head = RandomListNode(0)
+        copy_map = {}
+        
+        p, q = head, fake_head
+        while p:
+            if p in copy_map:
+                q.next = copy_map[p]
+            else:
+                q.next = RandomListNode(p.label)
+                copy_map[p] = q.next
+            
+            if p.random:
+                if p.random in copy_map:
+                    q.next.random = copy_map[p.random]
+                else:
+                    q.next.random = RandomListNode(p.random.label)
+                    copy_map[p.random] = q.next.random
+            
+            p, q = p.next, q.next
+        
+        return fake_head.next
+
+
+# Definition for singly-linked list with a random pointer.
+# class RandomListNode(object):
+#     def __init__(self, x):
+#         self.label = x
+#         self.next = None
+#         self.random = None
+
+class Solution(object):
+    def copyRandomList(self, head):
+        """
+        :type head: RandomListNode
+        :rtype: RandomListNode
+        """
+        
+        if not head: return head
+        
+        p = head
+        while p:
+            new_p = RandomListNode(p.label)
+            new_p.next = p.next
+            p.next = new_p
+            p = p.next.next
+        
+        p = head
+        while p:
+            if p.random:
+                p.next.random = p.random.next
+            p = p.next.next
+        
+        new_head = head.next
+        
+        p, q = head, new_head
+        while q.next:
+            p.next = q.next
+            q.next = q.next.next
+            p, q = p.next, q.next
+        
+        p.next = None
+        return new_head
+
+
