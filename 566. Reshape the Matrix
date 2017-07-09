@@ -1,0 +1,53 @@
+class Solution(object):
+    def matrixReshape(self, nums, r, c):
+        """
+        :type nums: List[List[int]]
+        :type r: int
+        :type c: int
+        :rtype: List[List[int]]
+        """
+        
+        if not nums: return nums
+        row, col = len(nums), len(nums[0])
+        
+        if row*col != r*c or row == r and col == c: return nums
+        
+        temp = []
+        for row_nums in nums:
+            temp.extend(row_nums)
+        
+        return [temp[index:index+c] for index in range(0, len(temp), c)]
+
+class Solution(object):
+    def matrixReshape(self, nums, r, c):
+        """
+        :type nums: List[List[int]]
+        :type r: int
+        :type c: int
+        :rtype: List[List[int]]
+        """
+        
+        if not nums: return nums
+        row, col = len(nums), len(nums[0])
+        
+        if row*col != r*c or row == r and col == c: return nums
+        
+        temp = [val for row in nums for val in row]
+        return [temp[index:index+c] for index in range(0, len(temp), c)]
+
+class Solution(object):
+    def matrixReshape(self, nums, r, c):
+        """
+        :type nums: List[List[int]]
+        :type r: int
+        :type c: int
+        :rtype: List[List[int]]
+        """
+        
+        if not nums: return nums
+        row, col = len(nums), len(nums[0])
+        
+        if row*col != r*c or row == r and col == c: return nums
+        
+        temp = sum(nums, [])
+        return [temp[index:index+c] for index in range(0, len(temp), c)]
