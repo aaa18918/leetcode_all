@@ -1,0 +1,94 @@
+class TwoSum(object):
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        
+        self.addition_record = set()
+        self.visited = {}
+        self.first_num = 0
+        self.total_added = 0
+
+    def add(self, number):
+        """
+        Add the number to an internal data structure..
+        :type number: int
+        :rtype: void
+        """
+        
+        if not self.total_added:
+            self.first_num = number
+            self.visited[number] = 1
+        elif self.total_added == 1:
+            self.addition_record.add(self.first_num+number)
+            if number in self.visited:
+                self.visited[number] += 1
+            else:
+                self.visited[number] = 1
+        else:
+            if number in self.visited and self.visited[number] > 1: return
+            
+            for num in self.visited.iterkeys():
+                self.addition_record.add(num+number)
+            
+            if number not in self.visited:
+                self.visited[number] = 0
+            self.visited[number] += 1
+        
+        self.total_added += 1
+
+    def find(self, value):
+        """
+        Find if there exists any pair of numbers which sum is equal to the value.
+        :type value: int
+        :rtype: bool
+        """
+        
+        return True if value in self.addition_record else False
+
+# Your TwoSum object will be instantiated and called as such:
+# obj = TwoSum()
+# obj.add(number)
+# param_2 = obj.find(value)
+
+
+class TwoSum(object):
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        
+        self.nums = []
+
+    def add(self, number):
+        """
+        Add the number to an internal data structure..
+        :type number: int
+        :rtype: void
+        """
+        
+        self.nums.append(number)
+
+    def find(self, value):
+        """
+        Find if there exists any pair of numbers which sum is equal to the value.
+        :type value: int
+        :rtype: bool
+        """
+        
+        hash_table = {}
+        for num in self.nums:
+            if num in hash_table:
+                return True
+            else:
+                hash_table[value-num] = 1
+        
+        return False
+
+# Your TwoSum object will be instantiated and called as such:
+# obj = TwoSum()
+# obj.add(number)
+# param_2 = obj.find(value)
+
