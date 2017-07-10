@@ -1,0 +1,66 @@
+# Definition for binary tree with next pointer.
+# class TreeLinkNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+#         self.next = None
+
+class Solution:
+    # @param root, a tree link node
+    # @return nothing
+    def connect(self, root):
+        if not root: return
+        
+        cur_level = [root]
+        while cur_level:
+            next_level = []
+            for i in range(len(cur_level)-1):
+                cur_level[i].next = cur_level[i+1]
+                if cur_level[i].left:
+                    next_level.append(cur_level[i].left)
+                if cur_level[i].right:
+                    next_level.append(cur_level[i].right)
+            
+            if cur_level[-1].left:
+                next_level.append(cur_level[-1].left)
+            if cur_level[-1].right:
+                next_level.append(cur_level[-1].right)
+            cur_level = next_level
+
+
+# Definition for binary tree with next pointer.
+# class TreeLinkNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+#         self.next = None
+
+class Solution:
+    # @param root, a tree link node
+    # @return nothing
+    def connect(self, root):
+        if not root: return
+        
+        p, q, next_head = root, None, None
+        while p or next_head:
+            if not p:
+                p = next_head
+                q, next_head = None, None
+                
+            if p.left:
+                if q:
+                    q.next = p.left
+                    q = q.next
+                else:
+                    q, next_head = p.left, p.left
+            
+            if p.right:
+                if q:
+                    q.next = p.right
+                    q = q.next
+                else:
+                    q, next_head = p.right, p.right
+            
+            p = p.next
