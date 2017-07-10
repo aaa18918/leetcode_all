@@ -1,0 +1,52 @@
+class Solution(object):
+    def wordsTyping(self, sentence, rows, cols):
+        """
+        :type sentence: List[str]
+        :type rows: int
+        :type cols: int
+        :rtype: int
+        """
+        
+        res, index, s_index, rest, len_sentence, first_word_record, span, num_s_in_span, remain_cols = 0, 0, 0, cols, len(sentence), {cols: (0, 0)}, -1, 0, 0
+        while index < rows:
+            if rest < len(sentence[s_index]):
+                rest = cols
+                index += 1
+            else:
+                if s_index == 0 and not (index == 0 and rest == cols):
+                    if rest in first_word_record:
+                        span = index-first_word_record[rest][0]
+                        num_s_in_span = res-first_word_record[rest][1]
+                        remain_cols = rest
+                        break
+                    else:
+                        first_word_record[rest] = (index, res)
+                
+                rest -= len(sentence[s_index])+1
+                if s_index == len_sentence-1:
+                    res += 1
+                    s_index = 0
+                else:
+                    s_index += 1
+        
+        if span == -1:
+            return res
+        else:
+            res += (rows-1-index)/span*num_s_in_span
+            remain_rows = (rows-1-index)%span+1
+            index, s_index, rest = 0, 0, remain_cols
+            while index < remain_rows:
+                if rest < len(sentence[s_index]):
+                    rest = cols
+                    index += 1
+                else:
+                    rest -= len(sentence[s_index])+1
+                    if s_index == len_sentence-1:
+                        res += 1
+                        s_index = 0
+                    else:
+                        s_index += 1
+            
+            return res
+
+It has some other methods maybe faster than this method, needs to see the discuss board and the solutions tag.
