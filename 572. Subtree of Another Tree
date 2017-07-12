@@ -1,0 +1,35 @@
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def isSubtree(self, s, t):
+        """
+        :type s: TreeNode
+        :type t: TreeNode
+        :rtype: bool
+        """
+        
+        if not s: return True if not t else False
+        
+        def compareTwoTrees(cur_node, t):
+            if not cur_node and not t: return True
+            if not cur_node or not t or cur_node.val != t.val: return False
+            
+            return compareTwoTrees(cur_node.left, t.left) and compareTwoTrees(cur_node.right, t.right)
+        
+        my_stack = [s]
+        while my_stack:
+            cur_node = my_stack.pop()
+            if cur_node.val == t.val:
+                if compareTwoTrees(cur_node, t): return True
+            
+            if cur_node.left:
+                my_stack.append(cur_node.left)
+            if cur_node.right:
+                my_stack.append(cur_node.right)
+        
+        return False
