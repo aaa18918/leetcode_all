@@ -1,0 +1,19 @@
+class Solution(object):
+    def minDistance(self, height, width, tree, squirrel, nuts):
+        """
+        :type height: int
+        :type width: int
+        :type tree: List[int]
+        :type squirrel: List[int]
+        :type nuts: List[List[int]]
+        :rtype: int
+        """
+        
+        max_difference, total_d = -sys.maxint-1, 0
+        for nut in nuts:
+            d_to_t = abs(tree[0]-nut[0])+abs(tree[1]-nut[1])
+            d_to_s = abs(squirrel[0]-nut[0])+abs(squirrel[1]-nut[1])
+            total_d += d_to_t*2
+            max_difference = max(max_difference, d_to_t-d_to_s)
+        
+        return total_d-max_difference
