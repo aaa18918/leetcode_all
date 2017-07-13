@@ -1,0 +1,69 @@
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Codec:
+
+    def serialize(self, root):
+        """Encodes a tree to a single string.
+        
+        :type root: TreeNode
+        :rtype: str
+        """
+        
+        if not root: return "None"
+        
+        cur_level, is_all_none, res = [root], False, ''
+        
+        while not is_all_none:
+            is_all_none, next_level = True, []
+            for node in cur_level:
+                if node:
+                    res += ','+str(node.val)
+                    next_level.append(node.left)
+                    next_level.append(node.right)
+                    if node.left or node.right: is_all_none = False
+                else:
+                    res += ",None"
+            cur_level = next_level
+
+        return res[1:]
+
+    def deserialize(self, data):
+        """Decodes your encoded data to tree.
+        
+        :type data: str
+        :rtype: TreeNode
+        """
+        
+        data_list = data.split(',')
+        if len(data_list) == 1 and data_list[0] == "None": return None
+        
+        next_node_num, total_num = 2, 1
+        root = TreeNode(int(data_list[0]))
+        cur_level, next_level = [root], data_list[total_num: total_num+next_node_num]
+
+        while next_level:
+            new_next = []
+            for i in range(len(cur_level)):
+                next_left = None if next_level[2*i] == "None" else TreeNode(next_level[2*i])
+                next_right = None if next_level[2*i+1] == "None" else TreeNode(next_level[2*i+1])
+                cur_level[i].left, cur_level[i].right = next_left, next_right
+                if next_left: new_next.append(next_left)
+                if next_right: new_next.append(next_right)
+            
+            total_num += next_node_num
+            next_node_num = len(new_next*2)
+            cur_level, next_level = new_next, data_list[total_num: total_num+next_node_num]
+        
+        return root
+
+
+# Your Codec object will be instantiated and called as such:
+# codec = Codec()
+# codec.deserialize(codec.serialize(root))
+
+
