@@ -1,0 +1,16 @@
+class Solution(object):
+    def numWays(self, n, k):
+        """
+        :type n: int
+        :type k: int
+        :rtype: int
+        """
+        
+        if n == 0 or k == 0: return 0
+        
+        diff, same, total = k, 0, k
+        for i in range(n-1):
+            diff, same = total*(k-1), diff
+            total = diff+same
+        
+        return total
