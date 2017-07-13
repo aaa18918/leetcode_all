@@ -1,0 +1,40 @@
+class Solution(object):
+    def findMinHeightTrees(self, n, edges):
+        """
+        :type n: int
+        :type edges: List[List[int]]
+        :rtype: List[int]
+        """
+        
+        if n <= 2: return [_ for _ in range(n)]
+        
+        hash_table = {}
+        for edge in edges:
+            if edge[0] not in hash_table:
+                hash_table[edge[0]] = set()
+            hash_table[edge[0]].add(edge[1])
+            
+            if edge[1] not in hash_table:
+                hash_table[edge[1]] = set()
+            hash_table[edge[1]].add(edge[0])
+        
+        cur_leave = set()
+        for node, adjacent_nodes in hash_table.iteritems():
+            if len(adjacent_nodes) == 1:
+                cur_leave.add(node)
+        
+        while n > 2:
+            next_leave = set()
+            for node in cur_leave:
+                adjacent_node = hash_table[node].pop()
+                hash_table[adjacent_node].remove(node)
+                del hash_table[node]
+                n -= 1
+                
+                if len(hash_table[adjacent_node]) <= 1:
+                    next_leave.add(adjacent_node)
+            cur_leave = next_leave
+        
+        return hash_table.keys()
+
+还有一个DP的解法。
