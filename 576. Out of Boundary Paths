@@ -1,0 +1,29 @@
+class Solution(object):
+    def findPaths(self, m, n, N, i, j):
+        """
+        :type m: int
+        :type n: int
+        :type N: int
+        :type i: int
+        :type j: int
+        :rtype: int
+        """
+
+        count, dp = 0, [[0]*n for _ in range(m)]
+        dp[i][j] = 1
+        offsets = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        
+        for i in range(N):
+            temp = [[0]*n for _ in range(m)]
+
+            for j in range(m):
+                for k in range(n):
+                    for dx, dy in offsets:
+                        if 0 <= j+dx < m and 0 <= k+dy < n:
+                            temp[j+dx][k+dy] += dp[j][k]
+                        else:
+                            count += dp[j][k]
+            
+            dp = temp
+
+        return count%(10**9+7)
