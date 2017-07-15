@@ -1,0 +1,29 @@
+class Solution(object):
+    def shoppingOffers(self, price, special, needs):
+        """
+        :type price: List[int]
+        :type special: List[List[int]]
+        :type needs: List[int]
+        :rtype: int
+        """
+        
+        hash_table = {}
+        
+        def myDFS(needs):
+            if needs in hash_table: return hash_table[needs]
+
+            p = sum([price[i]*needs[i] for i in range(len(price))])
+
+            for s in special:
+                list_needs = list(needs)
+                new_needs = tuple([list_needs[i]-s[i] for i in range(len(s[:-1]))])
+                if min(new_needs) < 0: continue
+                if new_needs in hash_table:
+                    p = min(p, hash_table[new_needs]+s[-1])
+                else:
+                    p = min(p, myDFS(new_needs)+s[-1])
+
+            hash_table[needs] = p
+            return p
+
+        return myDFS(tuple(needs))
