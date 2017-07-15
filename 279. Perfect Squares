@@ -1,0 +1,37 @@
+class Solution(object):
+    def numSquares(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        
+        dp = [i for i in range(n+1)]
+        
+        for num in range(2, int(math.sqrt(n))+1):
+            square = num**2
+            for i in range(n+1):
+                if i+square <= n:
+                    dp[i+square] = min(dp[i+square], dp[i]+1)
+                else:
+                    break
+        
+        return dp[n]
+
+
+class Solution(object):
+    def numSquares(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        
+        ub = int(math.sqrt(n))+1
+        
+        for a in range(ub):
+            for b in range(a, ub):
+                if a*a+b*b > n: break
+                c = int(math.sqrt(n-a*a-b*b))
+                if a*a+b*b+c*c == n:
+                    return len(filter(lambda x: x > 0, [a, b, c]))
+        
+        return 4
