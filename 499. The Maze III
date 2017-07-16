@@ -1,0 +1,59 @@
+class Solution(object):
+    def findShortestWay(self, maze, ball, hole):
+        """
+        :type maze: List[List[int]]
+        :type ball: List[int]
+        :type hole: List[int]
+        :rtype: str
+        """
+        
+        if not maze: return "impossible"
+        
+        m, n = len(maze), len(maze[0])
+        my_queue = [tuple(ball+[""])]
+        visited = set()
+        
+        def canChooseDirection(x, y, path):
+            if x == ball[0] and y == ball[1]: return True
+            direction = path[-1]
+            if direction == 'd' and (x+1 >= m or maze[x+1][y] == 1): return True
+            if direction == 'l' and (y-1 < 0 or maze[x][y-1] == 1): return True
+            if direction == 'r' and (y+1 >= n or maze[x][y+1] == 1): return True
+            if direction == 'u' and (x-1 < 0 or maze[x-1][y] == 1): return True
+            
+            return False
+        
+        while my_queue:
+            x, y, path = my_queue.pop(0)
+            if x < 0 or x >= m or y < 0 or y >= n or maze[x][y] == 1: continue
+            if path and (x, y, path[-1]) in visited: continue
+            if x == hole[0] and y == hole[1]: return path
+            
+            if path: visited.add((x, y, path[-1]))
+            
+            if canChooseDirection(x, y, path):
+                if path:
+                    direction = path[-1]
+                    if direction in "du":
+                        my_queue.append((x, y-1, path+'l'))
+                        my_queue.append((x, y+1, path+'r'))
+                    else:
+                        my_queue.append((x+1, y, path+'d'))
+                        my_queue.append((x-1, y, path+'u')) 
+                else:
+                    my_queue.append((x+1, y, path+'d'))
+                    my_queue.append((x, y-1, path+'l'))
+                    my_queue.append((x, y+1, path+'r'))
+                    my_queue.append((x-1, y, path+'u'))        
+            else:
+                direction = path[-1]
+                if direction == 'd':
+                    my_queue.append((x+1, y, path))
+                elif direction == 'l':
+                    my_queue.append((x, y-1, path))
+                elif direction == 'r':
+                    my_queue.append((x, y+1, path))
+                else:
+                    my_queue.append((x-1, y, path))
+            
+        return "impossible"
