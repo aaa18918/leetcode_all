@@ -35,3 +35,5 @@ class Solution(object):
                     return len(filter(lambda x: x > 0, [a, b, c]))
         
         return 4
+
+有一个更简单的公式，没看懂。
