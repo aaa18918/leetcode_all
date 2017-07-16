@@ -1,0 +1,17 @@
+class Solution(object):
+    def licenseKeyFormatting(self, S, K):
+        """
+        :type S: str
+        :type K: int
+        :rtype: str
+        """
+        
+        res = ""
+        str_S = ''.join(S.split('-'))
+        
+        for i in range(len(str_S)-1, -1, -K):
+            res = str_S[max(0, i+1-K):i+1].upper()+res
+            res = '-'+res
+        
+        return res[1:]
+
