@@ -1,0 +1,86 @@
+class Solution(object):
+    def originalDigits(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        
+        if not s: return ""
+        hash_table = {}
+        
+        for char in s:
+            if char not in hash_table:
+                hash_table[char] = 0
+            hash_table[char] += 1
+        
+        res = [0 for _ in range(10)]
+        
+        if 'z' in hash_table and hash_table['z'] > 0:
+            res[0] += hash_table['z']
+            hash_table['e'] -= hash_table['z']
+            hash_table['r'] -= hash_table['z']
+            hash_table['o'] -= hash_table['z']
+            del hash_table['z']
+        
+        if 'u' in hash_table and hash_table['u'] > 0:
+            res[4] += hash_table['u']
+            hash_table['f'] -= hash_table['u']
+            hash_table['o'] -= hash_table['u']
+            hash_table['r'] -= hash_table['u']
+            del hash_table['u']
+        
+        if 'f' in hash_table and hash_table['f'] > 0:
+            res[5] += hash_table['f']
+            hash_table['i'] -= hash_table['f']
+            hash_table['v'] -= hash_table['f']
+            hash_table['e'] -= hash_table['f']
+            del hash_table['f']
+
+        if 'x' in hash_table and hash_table['x'] > 0:
+            res[6] += hash_table['x']
+            hash_table['s'] -= hash_table['x']
+            hash_table['i'] -= hash_table['x']
+            del hash_table['x']
+        
+        if 's' in hash_table and hash_table['s'] > 0:
+            res[7] += hash_table['s']
+            hash_table['s'] -= hash_table['s']
+            hash_table['e'] -= hash_table['s']
+            hash_table['v'] -= hash_table['s']
+            hash_table['n'] -= hash_table['s']
+            del hash_table['s']
+        
+        if 'g' in hash_table and hash_table['g'] > 0:
+            res[8] += hash_table['g']
+            hash_table['e'] -= hash_table['g']
+            hash_table['i'] -= hash_table['g']
+            hash_table['h'] -= hash_table['g']
+            hash_table['t'] -= hash_table['g']
+            del hash_table['g']
+        
+        if 'i' in hash_table and hash_table['i'] > 0:
+            res[9] += hash_table['i']
+            hash_table['n'] -= hash_table['i']
+            hash_table['e'] -= hash_table['i']
+            del hash_table['i']
+        
+        if 'h' in hash_table and hash_table['h'] > 0:
+            res[3] += hash_table['h']
+            hash_table['t'] -= hash_table['h']
+            hash_table['r'] -= hash_table['h']
+            hash_table['e'] -= hash_table['h']
+            del hash_table['h']
+        
+        if 'w' in hash_table and hash_table['w'] > 0:
+            res[2] += hash_table['w']
+            hash_table['t'] -= hash_table['w']
+            hash_table['o'] -= hash_table['w']
+            del hash_table['w']
+        
+        if 'o' in hash_table and hash_table['o'] > 0:
+            res[1] += hash_table['o']
+            hash_table['n'] -= hash_table['o']
+            hash_table['e'] -= hash_table['o']
+            del hash_table['o']
+        
+        return ''.join([str(i)*res[i] for i in range(10)])
