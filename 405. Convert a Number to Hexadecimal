@@ -17,3 +17,23 @@ class Solution(object):
             num >>= 4
         
         return res.lstrip('0')
+
+
+class Solution(object):
+    def toHex(self, num):
+        """
+        :type num: int
+        :rtype: str
+        """
+        
+        if num == 0: return "0"
+        
+        hash_table = "0123456789abcdef"
+        
+        res = ""
+        for i in range(8):
+            digits = num & 15
+            res = hash_table[digits]+res
+            num >>= 4
+        
+        return res.lstrip('0')
