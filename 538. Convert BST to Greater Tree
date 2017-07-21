@@ -1,0 +1,58 @@
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def __init__(self):
+        self.cur_sum = 0
+
+    def convertBST(self, root):
+        """
+        :type root: TreeNode
+        :rtype: TreeNode
+        """
+
+        def myDFS(root):
+            if not root: return
+            if root.right: myDFS(root.right)
+
+            self.cur_sum += root.val
+            root.val = self.cur_sum
+
+            if root.left: myDFS(root.left)
+
+        myDFS(root)
+        return root
+
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def convertBST(self, root):
+        """
+        :type root: TreeNode
+        :rtype: TreeNode
+        """
+
+        cur_sum, my_stack, cur_node = 0, [], root
+        while cur_node or my_stack:
+            while cur_node and cur_node.right:
+                my_stack.append(cur_node)
+                cur_node = cur_node.right
+            
+            if not cur_node: cur_node = my_stack.pop()
+            
+            cur_sum += cur_node.val
+            cur_node.val = cur_sum
+            cur_node = cur_node.left
+        
+        return root
+
