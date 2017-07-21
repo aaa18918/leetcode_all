@@ -1,0 +1,28 @@
+class Solution(object):
+    def distributeCandies(self, candies):
+        """
+        :type candies: List[int]
+        :rtype: int
+        """
+        
+        candies_num = len(candies)
+        half = candies_num/2
+        candy_kinds = set()
+        
+        for candy in candies:
+            if candy not in candy_kinds:
+                half -= 1
+                candy_kinds.add(candy)
+        
+        return candies_num/2 if half <= 0 else candies_num/2-half
+
+
+class Solution(object):
+    def distributeCandies(self, candies):
+        """
+        :type candies: List[int]
+        :rtype: int
+        """
+        
+        return min(len(candies)/2, len(set(candies)))
+
