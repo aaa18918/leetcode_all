@@ -1,0 +1,20 @@
+class Solution(object):
+    def canPermutePalindrome(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        
+        hash_table = {}
+        for char in s:
+            if char not in hash_table:
+                hash_table[char] = 0
+            hash_table[char] += 1
+        
+        count = 0
+        for value in hash_table.itervalues():
+            if value%2 == 1:
+                count += 1
+        
+        return False if count > 1 else True
+
