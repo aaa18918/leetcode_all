@@ -1,0 +1,56 @@
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def findTilt(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        
+        def myDFS(node):
+            if not node: return 0, 0
+            left_tilt_sum, left_value_sum, right_tilt_sum, right_value_sum = 0, 0, 0, 0
+            if node.left:
+                left_tilt_sum, left_value_sum = myDFS(node.left)
+            if node.right:
+                right_tilt_sum, right_value_sum = myDFS(node.right)
+            
+            return abs(left_value_sum-right_value_sum)+left_tilt_sum+right_tilt_sum, node.val+left_value_sum+right_value_sum
+        
+        return myDFS(root)[0]
+
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def __init__(self):
+        self.tilt_sum = 0
+        
+    def findTilt(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        
+        def myDFS(node):
+            if not node: return 0
+            
+            left_sum, right_sum = 0, 0
+            if node.left: left_sum = myDFS(node.left)
+            if node.right: right_sum = myDFS(node.right)
+            
+            self.tilt_sum += abs(left_sum-right_sum)
+            return node.val+left_sum+right_sum
+        
+        myDFS(root)
+        return self.tilt_sum
