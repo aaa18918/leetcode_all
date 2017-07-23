@@ -1,0 +1,33 @@
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def tree2str(self, t):
+        """
+        :type t: TreeNode
+        :rtype: str
+        """
+        
+        if not t: return ""
+        
+        left, right = "", ""
+        if t.left:
+            left = self.tree2str(t.left)
+        
+        if t.right:
+            right = self.tree2str(t.right)
+        
+        res = str(t.val)
+        if left and right:
+            res += "({})({})".format(left, right)
+        elif left:
+            res += "({})".format(left)
+        elif right:
+            res += "()({})".format(right)
+
+        return res
+
