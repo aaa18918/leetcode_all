@@ -1,0 +1,44 @@
+# Definition for an interval.
+# class Interval(object):
+#     def __init__(self, s=0, e=0):
+#         self.start = s
+#         self.end = e
+
+class Solution(object):
+    def canAttendMeetings(self, intervals):
+        """
+        :type intervals: List[Interval]
+        :rtype: bool
+        """
+        
+        intervals = sorted(intervals, key=lambda x: x.end)
+        ends = -1
+        for interval in intervals:
+            if interval.start < ends:
+                return False
+            else:
+                ends = interval.end
+        
+        return True
+
+
+# Definition for an interval.
+# class Interval(object):
+#     def __init__(self, s=0, e=0):
+#         self.start = s
+#         self.end = e
+
+class Solution(object):
+    def canAttendMeetings(self, intervals):
+        """
+        :type intervals: List[Interval]
+        :rtype: bool
+        """
+        
+        intervals = sorted(intervals, key=lambda x: x.start)
+        for index in range(len(intervals)-1):
+            if intervals[index].end > intervals[index+1].start:
+                return False
+        
+        return True
+
