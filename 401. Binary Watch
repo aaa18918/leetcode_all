@@ -39,3 +39,14 @@ class Solution(object):
             if hour >= 12 or minute >= 60 or bin(hour).count('1')+bin(minute).count('1') != num: continue
             res.append("{}:{}".format(hour, minute) if minute >= 10 else "{}:0{}".format(hour, minute))
         return res
+
+
+class Solution(object):
+    def readBinaryWatch(self, num):
+        """
+        :type num: int
+        :rtype: List[str]
+        """
+        
+        return ["{}:{:0>2}".format(hour, minute) for hour in range(12) for minute in range(60)
+                if bin(hour).count('1')+bin(minute).count('1') == num]
