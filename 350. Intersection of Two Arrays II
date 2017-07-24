@@ -1,0 +1,47 @@
+如果已经排好序的话，用两个指针分别走起来。
+class Solution(object):
+    def intersect(self, nums1, nums2):
+        """
+        :type nums1: List[int]
+        :type nums2: List[int]
+        :rtype: List[int]
+        """
+        
+        nums1, nums2 = sorted(nums1), sorted(nums2)
+        i, j, len_nums1, len_nums2 = 0, 0, len(nums1), len(nums2)
+        
+        res = []
+        while i < len_nums1 and j < len_nums2:
+            if nums1[i] == nums2[j]:
+                res.append(nums1[i])
+                i, j = i+1, j+1
+            elif nums1[i] < nums2[j]:
+                i += 1
+            else:
+                j += 1
+        
+        return res
+
+
+class Solution(object):
+    def intersect(self, nums1, nums2):
+        """
+        :type nums1: List[int]
+        :type nums2: List[int]
+        :rtype: List[int]
+        """
+        
+        if len(nums2) < len(nums1): nums1, nums2 = nums2, nums1
+        hash_table = {}
+        for num in nums1:
+            if num not in hash_table:
+                hash_table[num] = 0
+            hash_table[num] += 1
+        
+        res = []
+        for num in nums2:
+            if num in hash_table and hash_table[num] > 0:
+                res.append(num)
+                hash_table[num] -= 1
+        
+        return res
