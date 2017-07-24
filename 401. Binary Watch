@@ -1,0 +1,41 @@
+class Solution(object):
+    def readBinaryWatch(self, num):
+        """
+        :type num: int
+        :rtype: List[str]
+        """
+        
+        res = []
+        for i in range(min(3, num)+1):
+            if num-i > 5: continue
+            res += [hour+':'+minute for hour in self.possibleHours(i) for minute in self.possibleMinutes(num-i)]
+        return res
+    
+    def possibleHours(self, num):
+        if num == 0: return ["0"]
+        if num == 1: return ["1", "2", "4", "8"]
+        if num == 2: return ["3", "5", "6", "9", "10"]
+        if num == 3: return ["7", "11"]
+    
+    def possibleMinutes(self, num):
+        if num == 0: return ["00"]
+        if num == 1: return ["01", "02", "04", "08", "16", "32"]
+        if num == 2: return ["03", "05", "06", "09", "10", "12", "17", "18", "20", "24", "33", "34", "36", "40", "48"]
+        if num == 3: return ["07", "11", "13", "14", "19", "21", "22", "25", "26", "28", "35", "37", "38", "41", "42", "44", "49", "50", "52", "56"]
+        if num == 4: return ["15", "23", "27", "29", "30", "39", "43", "45", "46", "51", "53", "54", "57", "58"]
+        if num == 5: return ["31", "47", "55", "59"]
+
+
+class Solution(object):
+    def readBinaryWatch(self, num):
+        """
+        :type num: int
+        :rtype: List[str]
+        """
+        
+        res = []
+        for i in range(1024):
+            hour, minute = (i&int('1111000000', 2))>>6, i&int('0000111111', 2)
+            if hour >= 12 or minute >= 60 or bin(hour).count('1')+bin(minute).count('1') != num: continue
+            res.append("{}:{}".format(hour, minute) if minute >= 10 else "{}:0{}".format(hour, minute))
+        return res
