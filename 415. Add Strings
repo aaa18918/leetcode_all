@@ -1,0 +1,32 @@
+class Solution(object):
+    def addStrings(self, num1, num2):
+        """
+        :type num1: str
+        :type num2: str
+        :rtype: str
+        """
+        
+        len_num1, len_num2 = len(num1), len(num2)
+        i1, i2, carry, res = len_num1-1, len_num2-1, 0, ""
+        while i1 >= 0 and i2 >= 0:
+            cur_sum = int(num1[i1])+int(num2[i2])+carry
+            res = str(cur_sum%10)+res
+            carry = cur_sum/10
+            i1, i2 = i1-1, i2-1
+        
+        while i1 >= 0:
+            cur_sum = int(num1[i1])+carry
+            res = str(cur_sum%10)+res
+            carry = cur_sum/10
+            i1 = i1-1
+        
+        while i2 >= 0:
+            cur_sum = int(num2[i2])+carry
+            res = str(cur_sum%10)+res
+            carry = cur_sum/10
+            i2 = i2-1
+        
+        if carry: res = str(carry)+res
+        return res
+
+
