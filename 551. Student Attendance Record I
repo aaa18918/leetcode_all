@@ -1,0 +1,20 @@
+class Solution(object):
+    def checkRecord(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        
+        count_a, count_l = 0, 0
+        for char in s:
+            if char == 'A':
+                count_a += 1
+                if count_a > 1: return False
+            if char == 'L':
+                count_l += 1
+                if count_l > 2: return False
+            else:
+                count_l = 0
+        return True
+
+
