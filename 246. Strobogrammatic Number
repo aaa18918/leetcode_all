@@ -1,0 +1,16 @@
+class Solution(object):
+    def isStrobogrammatic(self, num):
+        """
+        :type num: str
+        :rtype: bool
+        """
+        
+        num_map = {'6':'9', '9':'6', '1':'1', '8':'8', '0':'0'}
+        left, right = 0, len(num)-1
+        while left <= right:
+            if num[left] in num_map and num_map[num[left]] == num[right]:
+                left, right = left+1, right-1
+            else:
+                return False
+        return True
+
