@@ -1,0 +1,29 @@
+class Solution(object):
+    def repeatedSubstringPattern(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        
+        assert s
+        
+        for i, c in enumerate(s[1:]):
+            if c == s[0]:
+                repeated_s_len, is_repeated_s = i+1, True
+                for j in range(i+1, len(s), repeated_s_len):
+                    if s[:i+1] != s[j:j+repeated_s_len]:
+                        is_repeated_s = False
+                        break
+                if is_repeated_s: return True
+        return False
+
+
+class Solution(object):
+    def repeatedSubstringPattern(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        
+        assert s
+        return (s+s)[1:-1].find(s) != -1
