@@ -1,0 +1,32 @@
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def findMode(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[int]
+        """
+        
+        if not root: return []
+        
+        hash_table = {}
+        def myDFS(node):
+            if node.val not in hash_table:
+                hash_table[node.val] = 0
+            hash_table[node.val] += 1
+            
+            if node.left: myDFS(node.left)
+            if node.right: myDFS(node.right)
+        
+        myDFS(root)
+        max_frequent, res = max(hash_table.itervalues()), []
+        for val, frequent in hash_table.iteritems():
+            if frequent == max_frequent:
+                res.append(val)
+        
+        return res
