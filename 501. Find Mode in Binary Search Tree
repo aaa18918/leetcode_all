@@ -30,3 +30,5 @@ class Solution(object):
                 res.append(val)
         
         return res
+
+有一个O(1)的算法还没看懂。
