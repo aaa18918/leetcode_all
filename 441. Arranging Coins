@@ -1,0 +1,49 @@
+class Solution(object):
+    def arrangeCoins(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        
+        x = n
+        while True:
+            slope = (x**2+x-2*n)/(2*x+1)
+            if abs(slope) < 1:
+                break
+            x = x-slope
+        
+        x = int(x)
+        if (x+2)*(x+1)/2 <= n: return x+1
+        if (x+1)*x/2 <= n: return x
+        return x-1
+
+
+class Solution(object):
+    def arrangeCoins(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        
+        return int(math.sqrt(2*n+1.0/4)-1.0/2)
+
+
+class Solution(object):
+    def arrangeCoins(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        
+        left, right = 1, n
+        while left <= right:
+            mid = (left+right)/2
+            cur_sum = (mid+1)*mid/2
+            if cur_sum == n: return mid
+            elif cur_sum < n:
+                left = mid
+                if left+1 > n or (left+2)*(left+1)/2 > n: return left
+                if (left+3)*(left+2)/2 > n: return left+1
+            else:
+                right = mid-1
+        return 0
