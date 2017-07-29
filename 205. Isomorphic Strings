@@ -1,0 +1,26 @@
+class Solution(object):
+    def isIsomorphic(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: bool
+        """
+        
+        hash_table = {}
+        for i in range(len(s)):
+            if s[i] not in hash_table:
+                hash_table[s[i]] = t[i]
+            else:
+                if hash_table[s[i]] != t[i]:
+                    return False
+        
+        hash_table = {}
+        for i in range(len(t)):
+            if t[i] not in hash_table:
+                hash_table[t[i]] = s[i]
+            else:
+                if hash_table[t[i]] != s[i]:
+                    return False
+
+        return True
+
