@@ -24,3 +24,22 @@ class Solution(object):
 
         return True
 
+
+class Solution(object):
+    def isIsomorphic(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: bool
+        """
+        
+        hash_table_s, hash_table_t = {}, {}
+        for i in range(len(s)):
+            s_char, t_char = hash_table_t.get(t[i]), hash_table_s.get(s[i])
+            if not s_char and not t_char:
+                hash_table_s[s[i]], hash_table_t[t[i]] = t[i], s[i]
+            elif not s_char or not t_char:
+                return False
+            elif s_char != s[i] or t_char != t[i]:
+                return False
+        return True
