@@ -1,0 +1,25 @@
+class Solution(object):
+    def validWordSquare(self, words):
+        """
+        :type words: List[str]
+        :rtype: bool
+        """
+        
+        if not words: return True
+        row = len(words)
+        
+        for i in range(row):
+            for j in range(len(words[i])):
+                if j >= row or i >= len(words[j]) or words[i][j] != words[j][i]:
+                    return False
+        return True
+
+
+class Solution(object):
+    def validWordSquare(self, words):
+        """
+        :type words: List[str]
+        :rtype: bool
+        """
+        
+        return map(None, *words) == map(None, *map(None, *words))
