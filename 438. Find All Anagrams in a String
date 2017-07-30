@@ -1,0 +1,49 @@
+class Solution(object):
+    def findAnagrams(self, s, p):
+        """
+        :type s: str
+        :type p: str
+        :rtype: List[int]
+        """
+        
+        counter_p, len_p = collections.Counter(p), len(p)
+        count_p = len_p
+        res = []
+        for i in range(len(s)):
+            if i >= len_p:
+                if s[i-len_p] in counter_p:
+                    counter_p[s[i-len_p]] += 1
+                    if counter_p[s[i-len_p]] > 0: count_p += 1
+
+            if s[i] in counter_p:
+                counter_p[s[i]] -= 1
+                if counter_p[s[i]] >= 0: count_p -= 1
+                if count_p == 0:
+                    res.append(i-len_p+1)
+        return res
+
+
+class Solution(object):
+    def findAnagrams(self, s, p):
+        """
+        :type s: str
+        :type p: str
+        :rtype: List[int]
+        """
+        
+        counter_p, len_p = collections.Counter(p), len(p)
+        count_p = len_p
+        res = []
+        for i in range(len(s)):
+            if s[i] in counter_p:
+                counter_p[s[i]] -= 1
+                if counter_p[s[i]] >= 0: count_p -= 1
+
+            if i >= len_p:
+                if s[i-len_p] in counter_p:
+                    counter_p[s[i-len_p]] += 1
+                    if counter_p[s[i-len_p]] > 0: count_p += 1
+
+            if count_p == 0:
+                res.append(i-len_p+1)
+        return res
