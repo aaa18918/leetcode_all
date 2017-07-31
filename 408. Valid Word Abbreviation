@@ -1,0 +1,26 @@
+class Solution(object):
+    def validWordAbbreviation(self, word, abbr):
+        """
+        :type word: str
+        :type abbr: str
+        :rtype: bool
+        """
+        
+        len_word, len_abbr = len(word), len(abbr)
+        index_word, index_abbr = 0, 0
+        abbr_num = 0
+        while index_word < len_word and index_abbr < len_abbr:
+            if '0' <= abbr[index_abbr] <= '9':
+                if abbr[index_abbr] == '0' and abbr_num == 0: return False
+                abbr_num = abbr_num*10+int(abbr[index_abbr])
+                index_abbr += 1
+            else:
+                if abbr_num > 0:
+                    index_word += abbr_num
+                    abbr_num = 0
+                else:
+                    if word[index_word] != abbr[index_abbr]: return False
+                    index_word, index_abbr = index_word+1, index_abbr+1
+        
+        if abbr_num > 0: index_word += abbr_num
+        return index_word == len_word and index_abbr == len_abbr
