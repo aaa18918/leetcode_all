@@ -1,0 +1,47 @@
+class Solution(object):
+    def findRadius(self, houses, heaters):
+        """
+        :type houses: List[int]
+        :type heaters: List[int]
+        :rtype: int
+        """
+        
+        houses, heaters = sorted(houses), sorted(heaters)
+        min_radius, i = 0, 0
+        for house in houses:
+            if heaters[i] >= house:
+                min_radius = max(min_radius, heaters[i]-house)
+            else:
+                while i+1 < len(heaters) and heaters[i+1] < house: i += 1
+                
+                if i == len(heaters)-1:
+                    min_radius = max(min_radius, house-heaters[i])
+                else:
+                    min_radius = max(min_radius, min(house-heaters[i], heaters[i+1]-house))
+        
+        return min_radius
+
+
+class Solution(object):
+    def findRadius(self, houses, heaters):
+        """
+        :type houses: List[int]
+        :type heaters: List[int]
+        :rtype: int
+        """
+        
+        houses, heaters = sorted(houses), sorted(heaters)
+        min_radius, i = 0, 0
+        for house in houses:
+            if heaters[i] >= house:
+                min_radius = max(min_radius, heaters[i]-house)
+            else:
+                while i+1 < len(heaters) and heaters[i+1] < house: i += 1
+                
+                if i == len(heaters)-1:
+                    min_radius = max(min_radius, house-heaters[i])
+                else:
+                    min_radius = max(min_radius, min(house-heaters[i], heaters[i+1]-house))
+        
+        return min_radius
+
