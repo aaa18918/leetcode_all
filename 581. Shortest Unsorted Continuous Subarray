@@ -1,0 +1,32 @@
+class Solution(object):
+    def findUnsortedSubarray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        
+        sorted_nums = sorted(nums)
+        left, right = 0, len(nums)-1
+        while left <= right and nums[left] == sorted_nums[left]: left += 1
+        while left <= right and nums[right] == sorted_nums[right]: right -= 1
+        return right-left+1
+
+
+class Solution(object):
+    def findUnsortedSubarray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        
+        len_nums = len(nums)
+        start, end = -1, -1
+        left_max, right_min = nums[0], nums[len_nums-1]
+        for i in range(len_nums):
+            if nums[i] < left_max: end = i
+            if nums[len_nums-i-1] > right_min: start = len_nums-i-1
+            left_max, right_min = max(left_max, nums[i]), min(right_min, nums[len_nums-1-i])
+        
+        return end-start+1 if end >= 0 and start >= 0 else 0
+
+
