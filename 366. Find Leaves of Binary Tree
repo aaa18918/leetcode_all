@@ -1,0 +1,90 @@
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def findLeaves(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[List[int]]
+        """
+        
+        if not root: return []
+        adjacent, my_stack = {}, [(root, None)]
+        while my_stack:
+            node, parent = my_stack.pop()
+            if node not in adjacent:
+                adjacent[node] = set()
+            
+            if parent: adjacent[node].add(parent)
+
+            if node.left:
+                adjacent[node].add(node.left)
+                my_stack.append((node.left, node))
+
+            if node.right:
+                adjacent[node].add(node.right)
+                my_stack.append((node.right, node))
+            
+        res = []
+        while len(adjacent) > 1:
+            if not res:
+                res.append([key for key in adjacent if len(adjacent[key]) == 1 and key is not root])
+            else:
+                prev_leaves, temp = res[-1], []
+                for prev_leave in prev_leaves:
+                    parent_node = adjacent[prev_leave].pop()
+                    adjacent[parent_node].remove(prev_leave)
+                    del adjacent[prev_leave]
+                    if len(adjacent[parent_node]) == 1 and parent_node is not root:
+                        temp.append(parent_node)
+                if temp: res.append(temp)
+        
+        res.append([root])
+        res = [ [node.val for node in res[i]] for i in range(len(res)) ]
+        return res
+
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def findLeaves(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[List[int]]
+        """
+        
+        if not root: return []
+        
+        res = []
+
+        def helper(node):
+            if not node.left and not node.right:
+                depth = 0
+                if len(res) == depth:
+                    res.append([node.val])
+                else:
+                    res[depth].append(node.val)
+                return depth
+            
+            left_depth, right_depth = -1, -1
+            if node.left: left_depth = helper(node.left)
+            if node.right: right_depth = helper(node.right)
+            
+            depth = max(left_depth, right_depth)+1
+            if len(res) == depth:
+                res.append([node.val])
+            else:
+                res[depth].append(node.val)
+            return depth
+        
+        helper(root)
+        return res
