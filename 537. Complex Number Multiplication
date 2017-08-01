@@ -1,0 +1,24 @@
+class Solution(object):
+    def complexNumberMultiply(self, a, b):
+        """
+        :type a: str
+        :type b: str
+        :rtype: str
+        """
+        
+        a, b = a.split('+'), b.split('+')
+        real1, imaginary1, real2, imaginary2 = int(a[0]), int(a[1][:-1]), int(b[0]), int(b[1][:-1])
+        return "{}+{}i".format(real1*real2+(-1)*imaginary1*imaginary2, real1*imaginary2+real2*imaginary1)
+
+
+class Solution(object):
+    def complexNumberMultiply(self, a, b):
+        """
+        :type a: str
+        :type b: str
+        :rtype: str
+        """
+        
+        real1, imaginary1 = map(int, a[:-1].split('+'))
+        real2, imaginary2 = map(int, b[:-1].split('+'))
+        return "{}+{}i".format(real1*real2-imaginary1*imaginary2, real1*imaginary2+real2*imaginary1)
