@@ -1,0 +1,104 @@
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def plusOne(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        
+        head = self.reverseLinkedList(head)
+        p, carry = head, 1
+        while carry and p:
+            cur_sum = p.val+carry
+            p.val = cur_sum%10
+            carry = cur_sum/10
+            p = p.next
+        
+        head = self.reverseLinkedList(head)
+        new_head = None
+        if carry:
+            new_head = ListNode(1)
+            new_head.next = head
+        
+        return new_head if new_head else head
+        
+    def reverseLinkedList(self, head):
+        if not head: return None
+        p, q = head, head.next
+        while q:
+            temp = q.next
+            q.next = p
+            p, q = q, temp
+        
+        head.next = None
+        return p
+
+
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def plusOne(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        
+        p, q = head, None
+        while p:
+            if p.val != 9:
+                q = p
+            p = p.next
+        
+        p = q.next if q else head
+        while p:
+            p.val = 0
+            p = p.next
+        
+        new_head = None
+        if q: q.val += 1
+        else:
+            new_head = ListNode(1)
+            new_head.next = head
+        
+        return new_head if new_head else head
+
+
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def plusOne(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        
+        def myDFS(node):
+            if not node: return 1
+            
+            carry = myDFS(node.next)
+            if not carry: return 0
+            
+            cur_sum = carry+node.val
+            node.val = cur_sum%10
+            return cur_sum/10
+        
+        carry = myDFS(head)
+        new_head = None
+        if carry == 1:
+            new_head = ListNode(1)
+            new_head.next = head
+        
+        return new_head if new_head else head
