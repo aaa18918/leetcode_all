@@ -1,0 +1,22 @@
+class Solution(object):
+    def optimalDivision(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: str
+        """
+        
+        if len(nums) == 1: return str(nums[0])
+        elif len(nums) == 2: return "{}/{}".format(str(nums[0]), str(nums[1]))
+        return "{}/({})".format(nums[0], '/'.join(map(str, nums[1:])))
+
+
+class Solution(object):
+    def optimalDivision(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: str
+        """
+        
+        nums = map(str, nums)
+        if len(nums) < 3: return '/'.join(nums)
+        return "{}/({})".format(nums[0], '/'.join(nums[1:]))
