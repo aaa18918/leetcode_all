@@ -1,0 +1,18 @@
+class Solution(object):
+    def countArrangement(self, N):
+        """
+        :type N: int
+        :rtype: int
+        """
+        
+        self.count = 0
+        
+        def myDFS(cur, nums):
+            if not nums: self.count += 1
+            i = len(cur)+1
+            for index, num in enumerate(nums):
+                if i%num == 0 or num%i == 0:
+                    myDFS(cur+[num], nums[:index]+nums[index+1:])
+        
+        myDFS([], [i+1 for i in range(N)])
+        return self.count
