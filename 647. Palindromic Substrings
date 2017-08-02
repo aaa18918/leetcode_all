@@ -1,0 +1,40 @@
+class Solution(object):
+    def countSubstrings(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        
+        len_s = len(s)
+        dp, count = [[i == j for j in range(len_s)] for i in range(len_s)], 0
+        for i in range(len_s-1, -1, -1):
+            for j in range(i, len_s):
+                if not dp[i][j]: dp[i][j] = s[i] == s[j] and (i+1 >= j-1 or dp[i+1][j-1])
+                if dp[i][j]: count += 1
+        return count
+
+
+class Solution(object):
+    def countSubstrings(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        
+        len_s = len(s)
+        def countPalindrome(i, j):
+            count = 1
+            while i > 0 and j < len_s-1 and s[i-1] == s[j+1]:
+                count += 1
+                i, j = i-1, j+1
+            return count
+        
+        count = 0
+        for i in range(len_s):
+            count += countPalindrome(i, i)
+            if i+1 < len_s and s[i] == s[i+1]:
+                count += countPalindrome(i, i+1)
+        return count
+
+
+还有一个O(n)的解法。
