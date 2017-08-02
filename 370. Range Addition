@@ -1,0 +1,21 @@
+class Solution(object):
+    def getModifiedArray(self, length, updates):
+        """
+        :type length: int
+        :type updates: List[List[int]]
+        :rtype: List[int]
+        """
+        
+        res = [0 for _ in range(length)]
+        for update in updates:
+            start, end, increment = update
+            res[start] += increment
+            if end+1 < length:
+                res[end+1] -= increment
+        
+        cur_sum = 0
+        for i in range(len(res)):
+            cur_sum += res[i]
+            res[i] = cur_sum
+
+        return res
