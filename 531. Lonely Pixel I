@@ -1,0 +1,27 @@
+class Solution(object):
+    def findLonelyPixel(self, picture):
+        """
+        :type picture: List[List[str]]
+        :rtype: int
+        """
+        
+        if not picture: return 0
+        row, col = len(picture), len(picture[0])
+        
+        count_row, count_col = [0 for _ in range(row)], [0 for _ in range(col)]
+        
+        for i in range(row):
+            for j in range(col):
+                if picture[i][j] == 'B':
+                    count_row[i] += 1
+                    count_col[j] += 1
+        
+        count = 0
+        for i in range(row):
+            for j in range(col):
+                if picture[i][j] == 'B' and count_row[i] == 1 and count_col[j] == 1:
+                    count += 1
+        return count
+
+
+还有一个O(1) space的。
