@@ -1,0 +1,33 @@
+class Solution(object):
+    def multiply(self, A, B):
+        """
+        :type A: List[List[int]]
+        :type B: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        
+        hash_table_A, hash_table_B = {}, {}
+        
+        for i in range(len(A)):
+            not_all_zeros = False
+            for j in range(len(A[0])):
+                if A[i][j] != 0:
+                    not_all_zeros = True
+                    break
+            
+            if not_all_zeros: hash_table_A[i] = A[i]
+        
+        for j in range(len(B[0])):
+            not_all_zeros = False
+            for i in range(len(B)):
+                if B[i][j] != 0:
+                    not_all_zeros = True
+                    break
+            
+            if not_all_zeros: hash_table_B[j] = [B[i][j] for i in range(len(B))]
+        
+        res = [[0]*len(B[0]) for _ in range(len(A))]
+        for i in hash_table_A.iterkeys():
+            for j in hash_table_B.iterkeys():
+                res[i][j] = sum( hash_table_A[i][k]*hash_table_B[j][k] for k in range(len(A[0])))
+        return res
