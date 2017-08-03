@@ -1,0 +1,46 @@
+class Solution(object):
+    def singleNumber(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        
+        diff = 0
+        for num in nums:
+            diff ^= num
+        
+        mask = 1
+        while mask&diff == 0:
+            mask <<= 1
+        
+        num1, num2 = 0, 0
+        for num in nums:
+            if num&mask:
+                num1 ^= num
+            else:
+                num2 ^= num
+        
+        return [num1, num2]
+
+
+class Solution(object):
+    def singleNumber(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        
+        diff = 0
+        for num in nums:
+            diff ^= num
+        
+        mask = diff&(-diff)
+        
+        num1, num2 = 0, 0
+        for num in nums:
+            if num&mask:
+                num1 ^= num
+            else:
+                num2 ^= num
+        
+        return [num1, num2]
