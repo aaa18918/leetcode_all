@@ -1,0 +1,19 @@
+class Solution(object):
+    def parseTernary(self, expression):
+        """
+        :type expression: str
+        :rtype: str
+        """
+        
+        my_stack, expression = [], list(expression)
+        
+        while len(my_stack) > 1 or expression:
+            last_five = my_stack[-5:]
+            if len(last_five) == 5 and last_five[3] == '?' and last_five[1] == ':':
+                if last_five[4] == 'T':
+                    my_stack[-5:] = [last_five[2]]
+                else:
+                    my_stack[-5:] = [last_five[0]]
+            if expression: my_stack.append(expression.pop())
+        
+        return my_stack[0]
