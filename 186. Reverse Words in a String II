@@ -1,0 +1,15 @@
+class Solution:
+    # @param s, a list of 1 length strings, e.g., s = ['h','e','l','l','o']
+    # @return nothing
+    def reverseWords(self, s):
+        self.reverseWord(s, 0, len(s)-1)
+        left = 0
+        for i in range(len(s)+1):
+            if i == len(s) or s[i] == ' ':
+                self.reverseWord(s, left, i-1)
+                left = i+1
+    
+    def reverseWord(self, s, i, j):
+        while i < j:
+            s[i], s[j] = s[j], s[i]
+            i, j = i+1, j-1
