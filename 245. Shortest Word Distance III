@@ -1,0 +1,22 @@
+class Solution(object):
+    def shortestWordDistance(self, words, word1, word2):
+        """
+        :type words: List[str]
+        :type word1: str
+        :type word2: str
+        :rtype: int
+        """
+        
+        prev, prev_index, res = '', -1, sys.maxint
+        for i, word in enumerate(words):
+            if word in (word1, word2):
+                if prev == '':
+                    prev = word
+                    prev_index = i
+                else:
+                    if word1 == word2 or word != prev:
+                        res = min(res, i-prev_index)
+                    
+                    prev, prev_index = word, i
+        
+        return res
