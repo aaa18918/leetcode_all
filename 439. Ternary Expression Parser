@@ -17,3 +17,5 @@ class Solution(object):
             if expression: my_stack.append(expression.pop())
         
         return my_stack[0]
+
+discuss里别的解法再看一下啦啦啦😝。
