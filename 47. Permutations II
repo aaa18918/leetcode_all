@@ -1,0 +1,49 @@
+class Solution(object):
+    def permuteUnique(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        
+        if not nums: return []
+        
+        res = [[]]
+        nums.sort()
+        
+        for num in nums:
+            temp = []
+            for item in res:
+                for i in range(len(item)+1):
+                    if i == len(item):
+                        temp.append(item[:i]+[num]+item[i:])
+                    elif item[i] < num:
+                        temp.append(item[:i]+[num]+item[i:])
+                    elif item[i] == num:
+                        temp.append(item[:i]+[num]+item[i:])
+                        break
+            res = temp
+        return res
+
+
+class Solution(object):
+    def permuteUnique(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        
+        if not nums: return []
+        
+        res, first_num_set = [], set()
+        
+        for i, num in enumerate(nums):
+            if num in first_num_set: continue
+            else:
+                first_num_set.add(num)
+                rest_num_permutation = self.permuteUnique(nums[:i]+nums[i+1:])
+                if rest_num_permutation:
+                    res += [ [nums[i]] + p_in_rest for p_in_rest in rest_num_permutation ]
+                else:
+                    res.append([nums[i]])
+        return res
+
