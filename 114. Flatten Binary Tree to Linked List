@@ -1,0 +1,114 @@
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def flatten(self, root):
+        """
+        :type root: TreeNode
+        :rtype: void Do not return anything, modify root in-place instead.
+        """
+        
+        if not root: return
+        
+        my_stack, p = [], root
+        if root.right: my_stack.append(root.right)
+        if root.left: my_stack.append(root.left)
+        root.left = None
+        
+        while my_stack:
+            node = my_stack.pop()
+            p.right = node
+            p = p.right
+            if node.right: my_stack.append(node.right)
+            if node.left: my_stack.append(node.left)
+            node.left = None
+        p.right = None
+
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def flatten(self, root):
+        """
+        :type root: TreeNode
+        :rtype: void Do not return anything, modify root in-place instead.
+        """
+        
+        node = root
+        while node:
+            if node.left:
+                p = node.left
+                while p.right:
+                    p = p.right
+                
+                p.right = node.right
+                node.right = node.left
+                node.left = None
+            
+            node = node.right
+
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def flatten(self, root):
+        """
+        :type root: TreeNode
+        :rtype: void Do not return anything, modify root in-place instead.
+        """
+        
+        self.p = None
+        
+        def myDFS(node):
+            if not node: return
+            myDFS(node.right)
+            myDFS(node.left)
+            node.left, node.right = None, self.p
+            self.p = node
+        
+        myDFS(root)
+
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def flatten(self, root):
+        """
+        :type root: TreeNode
+        :rtype: void Do not return anything, modify root in-place instead.
+        """
+        
+        if not root: return
+        
+        self.p = None
+        my_stack = [root]
+        while my_stack:
+            node = my_stack[-1]
+            if node.left or node.right:
+                if node.left: my_stack.append(node.left)
+                if node.right: my_stack.append(node.right)
+                
+                node.left, node.right = None, None
+            else:
+                my_stack.pop()
+                node.right = self.p
+                self.p = node
