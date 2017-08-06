@@ -1,0 +1,32 @@
+class Solution(object):
+    def checkInclusion(self, s1, s2):
+        """
+        :type s1: str
+        :type s2: str
+        :rtype: bool
+        """
+        
+        if not s1: return True
+
+        counter = collections.Counter(s1)
+        c = copy.deepcopy(counter)
+        count, left = len(s1), 0
+        
+        for i, char in enumerate(s2):
+            if char not in counter:
+                counter = copy.deepcopy(c)
+                count = len(s1)
+                left = i+1
+            elif counter[char] > 0:
+                counter[char] -= 1
+                count -= 1
+                if count == 0: return True
+            elif counter[char] == 0:
+                while s2[left] != char:
+                    counter[s2[left]] += 1
+                    left += 1
+                    count += 1
+                
+                left += 1
+        return False
+
