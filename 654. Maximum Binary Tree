@@ -27,3 +27,5 @@ class Solution(object):
             if nums[i] > cur_max:
                 res, cur_max = i, nums[i]
         return res
+
+还有一个稍微快一点点的O(n)的解决方法。
