@@ -1,0 +1,35 @@
+class WordDistance(object):
+
+    def __init__(self, words):
+        """
+        :type words: List[str]
+        """
+        
+        self.word_list = {}
+        for idx, word in enumerate(words):
+            if word not in self.word_list:
+                self.word_list[word] = []
+            self.word_list[word].append(idx)
+
+    def shortest(self, word1, word2):
+        """
+        :type word1: str
+        :type word2: str
+        :rtype: int
+        """
+        
+        list1, list2 = self.word_list[word1], self.word_list[word2]
+        idx1, idx2, res = 0, 0, sys.maxint
+        len_l1, len_l2 = len(list1), len(list2)
+        while idx1 < len_l1 and idx2 < len_l2:
+            res = min(res, abs(list1[idx1]-list2[idx2]))
+            if list1[idx1] < list2[idx2]:
+                idx1 += 1
+            else:
+                idx2 += 1
+        
+        return res
+
+# Your WordDistance object will be instantiated and called as such:
+# obj = WordDistance(words)
+# param_1 = obj.shortest(word1,word2)
