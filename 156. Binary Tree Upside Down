@@ -1,0 +1,31 @@
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def upsideDownBinaryTree(self, root):
+        """
+        :type root: TreeNode
+        :rtype: TreeNode
+        """
+        
+        if not root: return root
+        
+        my_stack, p = [], root
+        while p.left:
+            my_stack.append(p)
+            p = p.left
+        
+        new_root = p
+        while my_stack:
+            p.right = my_stack.pop()
+            p.left = p.right.right
+            p.right.left, p.right.right = None, None
+            p = p.right
+        return new_root
+
+
+还有个O(1) space的解法需要花点时间才能理解。
