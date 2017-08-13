@@ -1,0 +1,37 @@
+class Solution(object):
+    def findLUSlength(self, strs):
+        """
+        :type strs: List[str]
+        :rtype: int
+        """
+
+        counter = collections.Counter(strs)
+        unique_strs, repeated_strs = [], set()
+        for cur_str, count in counter.iteritems():
+            if count == 1:
+                unique_strs.append(cur_str)
+            else:
+                repeated_strs.add(cur_str)
+
+        unique_strs = sorted(unique_strs, key = len, reverse = True)
+
+        if not repeated_strs: return -1 if not unique_strs else max(map(len, unique_strs))
+        
+        for cur_str in unique_strs:
+            if not self.isSubsequenceOf(cur_str, repeated_strs):
+                return len(cur_str)
+
+        return -1
+
+    def isSubsequenceOf(self, a, bs):
+        for b in bs:
+            i, j, len_a, len_b = 0, 0, len(a), len(b)
+            while i < len_a and j < len_b:
+                if a[i] == b[j]:
+                    i, j = i+1, j+1
+                else:
+                    j = j+1
+        
+            if i == len_a: return True
+        return False
+
