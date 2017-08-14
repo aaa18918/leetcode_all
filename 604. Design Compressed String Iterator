@@ -1,0 +1,56 @@
+class StringIterator(object):
+
+    def __init__(self, compressedString):
+        self.s = compressedString
+        self.len = len(self.s)
+        self.idx = 0
+        self.count = 0
+        self.cur_char = ''
+        
+    def next(self):
+        if not self.hasNext(): return ' '
+        
+        if self.count > 0:
+            self.count -= 1
+            return self.cur_char
+        else:
+            self.cur_char = self.s[self.idx]
+            self.idx += 1
+            while self.idx < self.len and '0' <= self.s[self.idx] <= '9':
+                self.count = self.count*10+int(self.s[self.idx])
+                self.idx += 1
+            
+            self.count -= 1
+            return self.cur_char
+
+    def hasNext(self):
+        return self.count > 0 or self.idx < self.len
+
+
+class StringIterator(object):
+
+    def __init__(self, compressedString):
+        self.s = compressedString
+        self.size = len(self.s)
+        self.idx = 0
+        self.count = 0
+        self.cur_char = ''
+        
+    def next(self):
+        if not self.hasNext(): return ' '
+        
+        if self.count > 0:
+            self.count -= 1
+            return self.cur_char
+        else:
+            self.cur_char = self.s[self.idx]
+            self.idx += 1
+            while self.idx < self.size and '0' <= self.s[self.idx] <= '9':
+                self.count = self.count*10+int(self.s[self.idx])
+                self.idx += 1
+            
+            self.count -= 1
+            return self.cur_char
+
+    def hasNext(self):
+        return self.count > 0 or self.idx < self.size
