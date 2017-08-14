@@ -1,0 +1,32 @@
+class Solution(object):
+    def decodeString(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        
+        if not s: return ''
+        
+        idx, size, res, num = 0, len(s), '', 0
+        while idx < size:
+            if '0' <= s[idx] <= '9':
+                num = num*10+int(s[idx])
+            elif s[idx] == '[':
+                right_bracket_idx, left_bracket_count = -1, 1
+                for i in range(idx+1, size):
+                    if s[i] == '[':
+                        left_bracket_count += 1
+                    elif s[i] == ']':
+                        left_bracket_count -= 1
+                    
+                    if left_bracket_count == 0:
+                        right_bracket_idx = i
+                        break
+                res += max(1, num)*self.decodeString(s[idx+1:right_bracket_idx])
+                num, idx = 0, right_bracket_idx
+            else:
+                res += s[idx]
+            
+            idx += 1
+
+        return res
