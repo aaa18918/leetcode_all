@@ -1,0 +1,38 @@
+class Solution(object):
+    def judgeCircle(self, moves):
+        """
+        :type moves: str
+        :rtype: bool
+        """
+        
+        record = [0 for _ in range(2)]
+        for move in moves:
+            if move == 'U':
+                record[0] += 1
+            elif move == 'D':
+                record[0] -= 1
+            elif move == 'L':
+                record[1] += 1
+            else:
+                record[1] -= 1
+        return record[0] == 0 and record[1] == 0
+
+
+class Solution(object):
+    def judgeCircle(self, moves):
+        """
+        :type moves: str
+        :rtype: bool
+        """
+        
+        x, y = 0, 0
+        for move in moves:
+            if move == 'U':
+                x += 1
+            elif move == 'D':
+                x -= 1
+            elif move == 'L':
+                y += 1
+            else:
+                y -= 1
+        return x == y == 0
