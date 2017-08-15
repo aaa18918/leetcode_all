@@ -55,3 +55,21 @@ class Solution(object):
             string += word
             index += 1
         
+
+class Solution(object):
+    def longestCommonPrefix(self, strs):
+        """
+        :type strs: List[str]
+        :rtype: str
+        """
+        
+        def getCommonPrefix(a, b):
+            i, j, len_a, len_b = 0, 0, len(a), len(b)
+            while i < len_a and j < len_b:
+                if a[i] == b[j]:
+                    i, j = i+1, j+1
+                else:
+                    break
+            return a[:i]
+        
+        return reduce(getCommonPrefix, strs) if strs else ""
