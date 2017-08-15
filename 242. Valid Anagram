@@ -1,0 +1,46 @@
+class Solution(object):
+    def isAnagram(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: bool
+        """
+        
+        return sorted(s) == sorted(t)
+
+
+class Solution(object):
+    def isAnagram(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: bool
+        """
+        
+        counter = collections.Counter(s)
+        for c in t:
+            if c not in counter: return False
+            counter[c] -= 1
+            if counter[c] == 0: del counter[c]
+        
+        return not counter
+
+
+class Solution(object):
+    def isAnagram(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: bool
+        """
+        
+        hash_table = collections.defaultdict(int)
+        for c in s:
+            hash_table[c] += 1
+        
+        for c in t:
+            if c not in hash_table: return False
+            hash_table[c] -= 1
+            if hash_table[c] == 0: del hash_table[c]
+        
+        return not hash_table
