@@ -21,3 +21,25 @@ class Solution(object):
                     res.append(name)
         
         return res
+
+
+class Solution(object):
+    def findRestaurant(self, list1, list2):
+        """
+        :type list1: List[str]
+        :type list2: List[str]
+        :rtype: List[str]
+        """
+        
+        hash_table = collections.defaultdict(int)
+        for idx, r in enumerate(list1):
+            hash_table[r] = idx
+        
+        res, min_idx_sum = [], sys.maxint
+        for idx, r in enumerate(list2):
+            cur_idx_sum = idx+hash_table.get(r, sys.maxint)
+            if cur_idx_sum < min_idx_sum:
+                res, min_idx_sum = [r], cur_idx_sum
+            elif cur_idx_sum == min_idx_sum:
+                res.append(r)
+        return res
