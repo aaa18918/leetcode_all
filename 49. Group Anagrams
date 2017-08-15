@@ -1,0 +1,32 @@
+class Solution(object):
+    def groupAnagrams(self, strs):
+        """
+        :type strs: List[str]
+        :rtype: List[List[str]]
+        """
+        
+        hash_table = collections.defaultdict(list)
+        for s in strs:
+            sorted_s = ''.join(sorted(s))
+            hash_table[sorted_s].append(s)
+
+        return [words_list for s, words_list in hash_table.iteritems()]
+
+
+class Solution(object):
+    def groupAnagrams(self, strs):
+        """
+        :type strs: List[str]
+        :rtype: List[List[str]]
+        """
+        
+        primes = [2, 3, 5, 7, 11 ,13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 107]
+        hash_table = collections.defaultdict(list)
+        
+        for s in strs:
+            num = 1
+            for c in s:
+                num *= primes[ord(c)-ord('a')]
+            hash_table[num].append(s)
+        
+        return [words_list for k, words_list in hash_table.iteritems()]
