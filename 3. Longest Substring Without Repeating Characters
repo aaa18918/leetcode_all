@@ -1,0 +1,23 @@
+class Solution(object):
+    def lengthOfLongestSubstring(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        
+        hash_table = collections.defaultdict(int)
+        max_len, left = 0, 0
+        for idx, c in enumerate(s):
+            if hash_table[c] > 0:
+                if idx-left > max_len:
+                    max_len = idx-left
+                
+                for i in range(left, idx):
+                    hash_table[s[i]] -= 1
+                    if s[i] == c:
+                        left = i+1
+                        break
+
+            hash_table[c] += 1
+
+        return max(max_len, len(s)-left)
