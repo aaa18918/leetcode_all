@@ -109,3 +109,35 @@ class Solution(object):
             cur = temp
         
         return True if not adjacentList else False
+
+
+class Solution(object):
+    def canFinish(self, numCourses, prerequisites):
+        """
+        :type numCourses: int
+        :type prerequisites: List[List[int]]
+        :rtype: bool
+        """
+        
+        adjacentList = collections.defaultdict(set)
+        for p in prerequisites:
+            adjacentList[p[0]].add(p[1])
+        
+        visited = [0 for _ in range(numCourses)]
+        
+        def myDFS(course):
+            if course not in adjacentList: return True
+            prevList = adjacentList[course]
+            
+            visited[course] = -1
+            for p in prevList:
+                if p not in adjacentList or visited[p] == 1: continue
+                if visited[p] == -1: return False
+                if not myDFS(p): return False
+            
+            visited[course] = 1
+            return True
+        
+        for c in adjacentList:
+            if not myDFS(c): return False
+        return True
