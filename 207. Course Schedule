@@ -74,3 +74,38 @@ class Solution(object):
         
         return True
 
+
+class Solution(object):
+    def canFinish(self, numCourses, prerequisites):
+        """
+        :type numCourses: int
+        :type prerequisites: List[List[int]]
+        :rtype: bool
+        """
+        
+        adjacentList = {}
+        for i in range(numCourses):
+            adjacentList[i] = set()
+        
+        for p in prerequisites:
+            adjacentList[p[0]].add(p[1])
+        
+        cur = []
+        for c in adjacentList.iterkeys():
+            if not adjacentList[c]:
+                cur.append(c)
+        
+        while cur:
+            for c in cur:
+                del adjacentList[c]
+            temp = []
+            for prev_c in cur:
+                for c in adjacentList.iterkeys():
+                    if prev_c in adjacentList[c]:
+                        adjacentList[c].remove(prev_c)
+                        if not adjacentList[c]:
+                            temp.append(c)
+
+            cur = temp
+        
+        return True if not adjacentList else False
