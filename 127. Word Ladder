@@ -28,3 +28,27 @@ class Solution(object):
         
         return 0
 
+
+class Solution(object):
+    def ladderLength(self, beginWord, endWord, wordList):
+        """
+        :type beginWord: str
+        :type endWord: str
+        :type wordList: List[str]
+        :rtype: int
+        """
+        
+        myQueue, wordSet, lowerCaseLetter = collections.deque([(beginWord, 1)]), set(wordList), string.ascii_lowercase
+        while myQueue:
+            curWord, count = myQueue.popleft()
+            for i in range(len(curWord)):
+                for c in lowerCaseLetter:
+                    if c != curWord[i]:
+                        newWord = curWord[:i]+c+curWord[i+1:]
+                        if newWord in wordSet:
+                            if newWord == endWord:
+                                return count+1
+                            else:
+                                myQueue.append((newWord, count+1))
+                                wordSet.remove(newWord)
+        return 0
