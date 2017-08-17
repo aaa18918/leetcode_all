@@ -1,0 +1,21 @@
+class Solution(object):
+    def magicalString(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        
+        if n <= 0: return 0
+        if n <= 3: return 1
+        my_queue, num, count, n = collections.deque([2]), 1, 1, n-3
+
+        while n > 0:
+            c = my_queue.popleft()
+            for i in range(c):
+                my_queue.append(num)
+            
+            if num == 1: count += c
+            n -= c
+            num = 3-num
+        
+        return count+n if num == 2 else count
