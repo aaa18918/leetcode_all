@@ -1,0 +1,75 @@
+class Solution(object):
+    def findLongestWord(self, s, d):
+        """
+        :type s: str
+        :type d: List[str]
+        :rtype: str
+        """
+
+        if not s or not d: return ''
+        
+        def isSubsequenceOf(a, b):
+            i, j, len_a, len_b = 0, 0, len(a), len(b)
+            while i < len_a and j < len_b:
+                if a[i] == b[j]:
+                    i += 1
+                    j += 1
+                else:
+                    j += 1
+            
+            if i == len_a: return True
+            return False
+        
+        def myCmp(x, y):
+            if len(x) > len(y):
+                return -1
+            elif len(x) < len(y):
+                return 1
+            else:
+                if x < y:
+                    return -1
+                elif x > y:
+                    return 1
+                else:
+                    return 0
+        
+        res, d = '', sorted(d, cmp = myCmp)
+        for w in d:
+            if isSubsequenceOf(w, s): return w
+        return ''
+
+
+class Solution(object):
+    def findLongestWord(self, s, d):
+        """
+        :type s: str
+        :type d: List[str]
+        :rtype: str
+        """
+
+        if not s or not d: return ''
+        
+        def isSubsequenceOf(a, b):
+            i, j, len_a, len_b = 0, 0, len(a), len(b)
+            while i < len_a and j < len_b:
+                if a[i] == b[j]:
+                    i += 1
+                    j += 1
+                else:
+                    j += 1
+            
+            if i == len_a: return True
+            return False
+        
+        res, max_len = '', 0
+        for w in d:
+            len_w = len(w)
+            if len_w < max_len: continue
+            
+            if isSubsequenceOf(w, s):
+                if len_w > max_len:
+                    res, max_len = w, len_w
+                elif len_w == max_len:
+                    res = min(w, res)
+            
+        return res
