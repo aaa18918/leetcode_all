@@ -1,0 +1,72 @@
+这代码会TLE：
+class Solution(object):
+    def addOperators(self, num, target):
+        """
+        :type num: str
+        :type target: int
+        :rtype: List[str]
+        """
+        
+        res, len_num, signs = [], len(num), "+-*"
+        
+        def myDFS(exp, idx):
+            if idx == len_num:
+                if exp and eval(exp) == target:
+                    res.append(exp)
+                
+                return
+            
+            if num[idx] == '0':
+                if idx == len_num-1:
+                    myDFS(exp+num[idx], idx+1)
+                else:
+                    if exp and exp[-1] not in signs:
+                        myDFS(exp+num[idx], idx+1)
+
+                    for sign in signs:
+                        myDFS(exp+num[idx]+sign, idx+1)
+                    
+            else:
+                myDFS(exp+num[idx], idx+1)
+                if idx < len_num-1:
+                    for sign in signs:
+                        myDFS(exp+num[idx]+sign, idx+1)
+        
+        myDFS("", 0)
+        return res
+
+
+这个94.2%:
+class Solution(object):
+    def addOperators(self, num, target):
+        """
+        :type num: str
+        :type target: int
+        :rtype: List[str]
+        """
+        
+        res = []
+        
+        def myDFS(exp, num, last, cal):
+            if not num:
+                if cal == target:
+                    res.append(exp)
+                
+                return
+            
+            for i in range(len(num)):
+                if i == 0 or num[0] != '0':
+                    val = int(num[:i+1])
+                    myDFS(exp+'+'+num[:i+1], num[i+1:], val, cal+val)
+                    myDFS(exp+'-'+num[:i+1], num[i+1:], -val, cal-val)
+                    myDFS(exp+'*'+num[:i+1], num[i+1:], last*val, cal-last+last*val)
+        
+        for i in range(len(num)):
+            if i == 0 or num[0] != '0':
+                myDFS(num[:i+1], num[i+1:], int(num[:i+1]), int(num[:i+1]))
+
+        return res
+
+
+别的方法还没看，需要再看看！！！
+
