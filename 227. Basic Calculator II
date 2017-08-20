@@ -1,0 +1,43 @@
+class Solution(object):
+    def calculate(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        
+        sign, my_stack, i, size, num, is_prev_op_m_or_d = 1, [], 0, len(s), 0, False
+        
+        while i < size:
+            if s[i] in '+-':
+                my_stack.append(sign*num)
+                num = 0
+                is_prev_op_m_or_d = False
+                sign = 1 if s[i] == '+' else -1
+                i += 1
+            elif s[i] in '*/':
+                left_num = sign*num if not is_prev_op_m_or_d else my_stack.pop()
+                right_num, op = 0, s[i]
+                sign, num = 1, 0
+                is_prev_op_m_or_d = True
+                i += 1
+                while i < size and s[i] not in "+-*/":
+                    if '0' <= s[i] <= '9':
+                        right_num = right_num*10+ord(s[i])-ord('0')
+                    i += 1
+                
+                if op == '*':
+                    my_stack.append(left_num*right_num)
+                else:
+                    res = left_num/right_num if left_num > 0 and right_num > 0 else -(abs(left_num)/abs(right_num))
+                    my_stack.append(res)
+            elif '0' <= s[i] <= '9':
+                num = num*10+ord(s[i])-ord('0')
+                i += 1
+            else:
+                i += 1
+        
+        return sum(my_stack)+sign*num
+
+
+注意连续两个乘号会导致直接left_num = sign*num出错，比如：2*3*4会等于6。虽然不知道为啥算出来一个6。
+
