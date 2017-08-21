@@ -32,3 +32,4 @@ class Solution(object):
         
         return result
                 
+还有一种也是O(n)的解法，下次写。还有其它discuss的答案没看。
