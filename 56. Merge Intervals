@@ -141,3 +141,44 @@ class Solution(object):
             else:
                 res.append(i)
         return res
+
+
+# Definition for an interval.
+# class Interval(object):
+#     def __init__(self, s=0, e=0):
+#         self.start = s
+#         self.end = e
+
+class Solution(object):
+    def merge(self, intervals):
+        """
+        :type intervals: List[Interval]
+        :rtype: List[Interval]
+        """
+        
+        if not intervals: return []
+        
+        def myCmp(x, y):
+            if x.start < y.start:
+                return -1
+            elif x.start > y.start:
+                return 1
+            else:
+                if x.end < y.end:
+                    return -1
+                elif x.end > y.end:
+                    return 1
+                else:
+                    return 0
+        
+        intervals = sorted(intervals, cmp = myCmp)
+        left = 0
+        for idx, interval in enumerate(intervals[1:]):
+            if interval.start <= intervals[left].end:
+                if interval.end > intervals[left].end:
+                    intervals[left].end = interval.end
+            else:
+                left += 1
+                intervals[left], intervals[idx+1] = intervals[idx+1], intervals[left]
+        
+        return intervals[:left+1]
