@@ -27,3 +27,5 @@ class Solution(object):
             spaces = n+1
         
         return l
+
+leetcode有一个解法答案不想看了，太详细了，下次再看。
