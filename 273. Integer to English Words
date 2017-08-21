@@ -37,3 +37,47 @@ class Solution(object):
         
         return res
 
+
+class Solution(object):
+    def numberToWords(self, num):
+        """
+        :type num: int
+        :rtype: str
+        """
+        
+        if not num: return "Zero"
+        
+        thousands, t_idx = ["Thousand", "Million", "Billion"], -1
+        res = []
+        while num > 0:
+            remainder = num%1000
+            if remainder > 0 and t_idx >= 0:
+                res = [thousands[t_idx]]+res
+            res = self.convertNumToString(remainder)+res
+            t_idx += 1
+            num /= 1000
+        
+        return ' '.join(res)
+    
+    def convertNumToString(self, num):
+        if num == 0: return []
+        res = []
+        
+        less_than_twenty = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten",
+                               "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen",
+                               "Eighteen", "Nineteen"]
+        
+        tens_larger_than_ten = ["Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"]
+        
+        if num >= 100:
+            res += [less_than_twenty[num/100-1], "Hundred"]
+            num %= 100
+        
+        if num >= 20:
+            res += [tens_larger_than_ten[num/10-2]]
+            num %= 10
+        
+        if num > 0:
+            res += [less_than_twenty[num-1]]
+        
+        return res
