@@ -104,3 +104,23 @@ class Solution(object):
         
         s = "".join([char for char in s.lower() if char.isalnum()])
         return s == s[::-1]
+
+
+class Solution(object):
+    def isPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        
+        s = s.lower()
+        left, right = 0, len(s)-1
+        while left < right:
+            while left < right and not ('0' <= s[left] <= '9' or 'a' <= s[left] <= 'z'): left += 1
+            while left < right and not ('0' <= s[right] <= '9' or 'a' <= s[right] <= 'z'): right -= 1
+            
+            if left < right:
+                if s[left] != s[right]:
+                    return False
+                left, right = left+1, right-1
+        return True
