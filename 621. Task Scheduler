@@ -1,0 +1,29 @@
+class Solution(object):
+    def leastInterval(self, tasks, n):
+        """
+        :type tasks: List[str]
+        :type n: int
+        :rtype: int
+        """
+        
+        counter, temp = collections.Counter(tasks), []
+        spaces, l = n+1, 0
+        
+        while counter:
+            while counter and spaces > 0:
+                char, times = counter.most_common(1)[0]
+                l, spaces= l+1, spaces-1
+                del counter[char]
+                times -= 1
+                if times > 0:
+                    temp.append((char, times))
+            
+            for item in temp:
+                counter[item[0]] = item[1]
+            temp = []
+            
+            if spaces > 0 and counter:
+                l += spaces
+            spaces = n+1
+        
+        return l
