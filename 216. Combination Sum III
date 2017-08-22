@@ -1,0 +1,60 @@
+class Solution(object):
+    def combinationSum3(self, k, n):
+        """
+        :type k: int
+        :type n: int
+        :rtype: List[List[int]]
+        """
+        
+        if n <= 0 or k <= 0: return []
+
+        res = []
+        def myDFS(cur, idx, k, n):
+            for i in range(idx, 9+1):
+                if k == 1:
+                    if n > 9: return
+                    elif n-i == 0:
+                        res.append(cur+[i])
+                    elif n-i > 0:
+                        continue
+                    else:
+                        return
+                else:
+                    if n-i > 0:
+                        myDFS(cur+[i], i+1, k-1, n-i)
+                    else:
+                        return
+        
+        myDFS([], 1, k, n)
+        return res
+
+
+class Solution(object):
+    def combinationSum3(self, k, n):
+        """
+        :type k: int
+        :type n: int
+        :rtype: List[List[int]]
+        """
+        
+        if n <= 0 or k <= 0: return []
+
+        res = []
+        def myDFS(cur, idx, k, n):
+            for i in range(idx, 10):
+                if k == 1:
+                    if n > 9: return
+                    elif n-i == 0:
+                        res.append(cur+[i])
+                    elif n-i > 0:
+                        continue
+                    else:
+                        return
+                else:
+                    if n-i > 0:
+                        myDFS(cur+[i], i+1, k-1, n-i)
+                    else:
+                        return
+        
+        myDFS([], 1, k, n)
+        return res
