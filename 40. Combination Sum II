@@ -45,3 +45,6 @@ class Solution(object):
         
         myDFS([], 0, target)
         return res
+
+
+还有一种DP的解法。
