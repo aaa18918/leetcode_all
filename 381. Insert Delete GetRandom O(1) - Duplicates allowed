@@ -1,0 +1,57 @@
+class RandomizedCollection(object):
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        
+        self.hash_table = collections.defaultdict(set)
+        self.my_list = []
+
+    def insert(self, val):
+        """
+        Inserts a value to the collection. Returns true if the collection did not already contain the specified element.
+        :type val: int
+        :rtype: bool
+        """
+        res = val not in self.hash_table
+        self.hash_table[val].add(len(self.my_list))
+        self.my_list.append(val)
+        return res
+
+    def remove(self, val):
+        """
+        Removes a value from the collection. Returns true if the collection contained the specified element.
+        :type val: int
+        :rtype: bool
+        """
+        
+        if val not in self.hash_table: return False
+        
+        idx = self.hash_table[val].pop()
+        if not self.hash_table[val]:
+            del self.hash_table[val]
+
+        l = len(self.my_list)
+        if idx != l-1:
+            self.my_list[idx], self.my_list[l-1] = self.my_list[l-1], self.my_list[idx]
+            replaced_val = self.my_list[idx]
+            self.hash_table[replaced_val].remove(l-1)
+            self.hash_table[replaced_val].add(idx)
+        
+        self.my_list.pop()
+        return True
+
+    def getRandom(self):
+        """
+        Get a random element from the collection.
+        :rtype: int
+        """
+        
+        return random.choice(self.my_list)
+
+# Your RandomizedCollection object will be instantiated and called as such:
+# obj = RandomizedCollection()
+# param_1 = obj.insert(val)
+# param_2 = obj.remove(val)
+# param_3 = obj.getRandom()
