@@ -113,3 +113,37 @@ class Solution(object):
             k -= 1
             if k == 0: return root.val
             root = root.right
+
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def kthSmallest(self, root, k):
+        """
+        :type root: TreeNode
+        :type k: int
+        :rtype: int
+        """
+        
+        my_stack, node = [], root
+        
+        while node:
+            my_stack.append(node)
+            node = node.left
+            
+        while my_stack:
+            if not node:
+                node = my_stack.pop()
+                k -= 1
+                if k == 0:
+                    return node.val
+            
+            node = node.right
+            while node:
+                my_stack.append(node)
+                node = node.left
