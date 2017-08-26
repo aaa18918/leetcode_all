@@ -147,3 +147,35 @@ class Solution(object):
             while node:
                 my_stack.append(node)
                 node = node.left
+
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def kthSmallest(self, root, k):
+        """
+        :type root: TreeNode
+        :type k: int
+        :rtype: int
+        """
+        
+        def yieldNodeVal(node):
+            if node.left:
+                for val in yieldNodeVal(node.left):
+                    yield val
+            
+            yield node.val
+            
+            if node.right:
+                for val in yieldNodeVal(node.right):
+                    yield val
+        
+        for val in yieldNodeVal(root):
+            k -= 1
+            if k == 0:
+                return val
