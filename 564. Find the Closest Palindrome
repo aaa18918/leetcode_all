@@ -1,0 +1,26 @@
+class Solution(object):
+    def nearestPalindromic(self, n):
+        """
+        :type n: str
+        :rtype: str
+        """
+        
+        evenPal = lambda x: x+x[::-1]
+        oddPal = lambda x: x+x[::-1][1:]
+        
+        str_n, n = n, int(n)
+        mid = len(str_n)/2
+        res = sys.maxint
+        
+        if n < 10: return str(n-1)
+        
+        for half_str_n in int(str_n[:mid]), int(str_n[:mid+1]), int(str_n[:mid])*10:
+            for pal in evenPal, oddPal:
+                for diff in -1, 0, 1:
+                    new_n = int(pal(str(half_str_n+diff)))
+                    if new_n == n: continue
+                    res = min(res, new_n, key = lambda x: (abs(x-n), x))
+        return str(res)
+
+
+别的解法还没看。
