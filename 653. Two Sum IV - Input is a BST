@@ -1,0 +1,74 @@
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def findTarget(self, root, k):
+        """
+        :type root: TreeNode
+        :type k: int
+        :rtype: bool
+        """
+        
+        def searchBinaryTree(val):
+            node = root
+            while node:
+                if node.val == val: return True
+
+                if node.val > val:
+                    node = node.left
+                else:
+                    node = node.right
+            return False
+        
+        my_stack = [root]
+        while my_stack:
+            node = my_stack.pop()
+            if not node: continue
+
+            if k-node.val != node.val and searchBinaryTree(k-node.val):
+                return True
+            
+            my_stack.append(node.left)
+            my_stack.append(node.right)
+        
+        return False
+
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def findTarget(self, root, k):
+        """
+        :type root: TreeNode
+        :type k: int
+        :rtype: bool
+        """
+        
+        node, my_stack = root, []
+        while node:
+            my_stack.append(node)
+            node = node.left
+        
+        my_set = set()
+        while my_stack:
+            if not node:
+                node = my_stack.pop()
+            
+            if node.val in my_set: return True
+            my_set.add(k-node.val)
+            
+            node = node.right
+            while node:
+                my_stack.append(node)
+                node = node.left
+
+        return False
