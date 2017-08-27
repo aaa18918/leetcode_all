@@ -91,3 +91,19 @@ class Solution(object):
             return max(max_cross, max_left, max_right)
         
         return helper(0, len(nums)-1)
+
+
+class Solution(object):
+    def maxSubArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        
+        cur_sum, res = 0, -sys.maxint-1
+        for num in nums:
+            cur_sum += num
+            res = max(res, cur_sum)
+            if cur_sum < 0:
+                cur_sum = 0
+        return res
