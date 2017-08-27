@@ -1,0 +1,19 @@
+class Solution(object):
+    def scheduleCourse(self, courses):
+        """
+        :type courses: List[List[int]]
+        :rtype: int
+        """
+        
+        courses_queue = collections.deque(sorted(courses, key = lambda x: x[1]))
+        
+        sum_t, max_heap = 0, []
+        while courses_queue:
+            d, e = courses_queue.popleft()
+
+            sum_t += d
+            heapq.heappush(max_heap, -d)
+            while sum_t > e:
+                sum_t += heapq.heappop(max_heap)
+        
+        return len(max_heap)
