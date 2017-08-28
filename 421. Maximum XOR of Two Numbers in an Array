@@ -32,3 +32,6 @@ class Solution(object):
                     p = p.children[digit]
             res = max(cur_sum, res)
         return res
+
+
+还有最起码两种解法。
