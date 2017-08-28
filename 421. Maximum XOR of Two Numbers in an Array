@@ -1,0 +1,34 @@
+class TrieNode(object):
+    def __init__(self):
+        self.children = [None for _ in range(2)]
+
+class Solution(object):
+    def findMaximumXOR(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        
+        if not nums: return 0
+        
+        root = TrieNode()
+        for num in nums:
+            p = root
+            for i in range(31, -1, -1):
+                digit = (num>>i)&1
+                if not p.children[digit]:
+                    p.children[digit] = TrieNode()
+                p = p.children[digit]
+        
+        res = -sys.maxint-1
+        for num in nums:
+            cur_sum, p = 0, root
+            for i in range(31, -1, -1):
+                digit = (num>>i)&1
+                if p.children[1-digit]:
+                    cur_sum += 1<<i
+                    p = p.children[1-digit]
+                else:
+                    p = p.children[digit]
+            res = max(cur_sum, res)
+        return res
