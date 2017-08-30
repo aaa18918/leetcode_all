@@ -1,0 +1,24 @@
+class Solution(object):
+    def minTotalDistance(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        
+        m, n = len(grid), len(grid[0])
+        x_labels, y_labels = [], []
+        
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 1:
+                    x_labels.append(i)
+                    y_labels.append(j)
+
+        def minDistance(l):
+            i, j, res, l = 0, len(l)-1, 0, sorted(l)
+            while i < j:
+                res += l[j]-l[i]
+                i, j = i+1, j-1
+            return res
+
+        return minDistance(x_labels)+minDistance(y_labels)
