@@ -1,0 +1,24 @@
+class Solution(object):
+    def minMutation(self, start, end, bank):
+        """
+        :type start: str
+        :type end: str
+        :type bank: List[str]
+        :rtype: int
+        """
+        
+        bank, gene, my_queue = set(bank), "ACGT", collections.deque([(start, 0)])
+        
+        if end not in bank: return -1
+        
+        while my_queue and bank:
+            s, t = my_queue.popleft()
+            for i in range(len(s)):
+                for c in gene:
+                    new_s = s[:i]+c+s[i+1:]
+                    if s == new_s: continue
+                    if new_s == end: return t+1
+                    if new_s in bank:
+                        my_queue.append((new_s, t+1))
+                        bank.remove(new_s)
+        return -1
