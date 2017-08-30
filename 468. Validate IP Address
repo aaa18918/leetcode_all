@@ -1,0 +1,34 @@
+class Solution(object):
+    def validIPAddress(self, IP):
+        """
+        :type IP: str
+        :rtype: str
+        """
+        
+        err_message = "Neither"
+        
+        if '.' in IP:
+            ip = IP.split('.')
+            if len(ip) != 4: return err_message
+            for item in ip:
+                print item, ip
+                if not item or (item[0] == '0' and len(item) > 1): return err_message
+                cur_num = 0
+                for c in item:
+                    if c < '0' or c > '9':
+                        return err_message
+                    else:
+                        cur_num = cur_num*10+int(c)
+                if cur_num > 255: return err_message
+            return "IPv4"
+        elif ':' in IP:
+            ip = IP.split(':')
+            if len(ip) != 8: return err_message
+            for item in ip:
+                if not item or len(item) > 4: return err_message
+                for c in item:
+                    if '0' <= c <= '9' or 'a' <= c <= 'f' or 'A' <= c <= 'F': continue
+                    else:
+                        return err_message
+            return "IPv6"
+        return err_message
