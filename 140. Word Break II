@@ -1,0 +1,34 @@
+class Solution(object):
+    def wordBreak(self, s, wordDict):
+        """
+        :type s: str
+        :type wordDict: List[str]
+        :rtype: List[str]
+        """
+        
+        wordSet, record = set(wordDict), {}
+        
+        def myDFS(word):
+            res = []
+            if word in wordSet:
+                res.append(word)
+            
+            for i in range(len(word)):
+                pre, suf = word[:i], word[i:]
+                if pre in wordSet:
+                    rest = []
+                    if suf in record:
+                        rest = record[suf]
+                    else:
+                        rest = myDFS(word[i:])
+                    
+                    for r in rest:
+                        res.append(pre+' '+r)
+                    
+                    record[suf] = rest
+            return res
+        
+        return myDFS(s)
+
+
+discuss还没看。
