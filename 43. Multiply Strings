@@ -1,0 +1,67 @@
+class Solution(object):
+    def multiply(self, num1, num2):
+        """
+        :type num1: str
+        :type num2: str
+        :rtype: str
+        """
+        
+        def addString(num1, num2):
+            res = ""
+            i, j, c = len(num1)-1, len(num2)-1, 0
+            while i >= 0 and j >= 0:
+                cur_sum = int(num1[i])+int(num2[j])+c
+                res = str(cur_sum%10)+res
+                c = cur_sum/10
+                i, j = i-1, j-1
+            
+            while i >= 0:
+                cur_sum = int(num1[i])+c
+                res = str(cur_sum%10)+res
+                c = cur_sum/10
+                i -= 1
+            
+            while j >= 0:
+                cur_sum = int(num2[j])+c
+                res = str(cur_sum%10)+res
+                c = cur_sum/10
+                j -= 1
+            
+            if c:
+                res = str(c)+res
+            
+            return res
+        
+        def stringMultiplySingleNumber(s, num):
+            num, c, res = int(num), 0, ""
+            
+            for i in range(len(s)-1, -1, -1):
+                cur_cal = int(s[i])*num+c
+                res = str(cur_cal%10)+res
+                c = cur_cal/10
+            
+            if c:
+                res = str(c)+res
+            
+            return res
+        
+        res = ""
+        if len(num1) < len(num2):
+            num1, num2 = num2, num1
+        
+        for i in range(len(num2)-1, -1, -1):
+            if not res:
+                res = stringMultiplySingleNumber(num1, num2[i])
+            else:
+                res = addString(res, stringMultiplySingleNumber(num1, num2[i])+'0'*(len(num2)-1-i))
+        
+        i = 0
+        while i < len(res):
+            if res[i] != '0':
+                break
+            i += 1
+        res = res[i:]
+        return res if res else '0'
+
+
+还有一个O(n^1.58)的解法。
