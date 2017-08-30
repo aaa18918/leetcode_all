@@ -1,0 +1,50 @@
+class Solution(object):
+    def alienOrder(self, words):
+        """
+        :type words: List[str]
+        :rtype: str
+        """
+        
+        adjacent_matrix = collections.defaultdict(set)
+        
+        def constructAdjacenetViaWords(l, r):
+            size = min(len(l), len(r))
+            for i in range(size):
+                if l[i] != r[i]:
+                    adjacent_matrix[l[i]].add(r[i])
+                    return
+        
+        len_words, res = len(words), set()
+        for i in range(len_words-1):
+            constructAdjacenetViaWords(words[i], words[i+1])
+        
+        for i in range(len_words):
+            w = words[i]
+            for c in w:
+                if c not in adjacent_matrix:
+                    adjacent_matrix[c] = set()
+
+        cur = []
+        for k, v in adjacent_matrix.iteritems():
+            if not v:
+                cur.append(k)
+        
+        res = []
+        while adjacent_matrix:
+            res += cur
+            for item in cur:
+                del adjacent_matrix[item]
+            temp = []
+            for item in cur:
+                for k in adjacent_matrix.iterkeys():
+                    if item in adjacent_matrix[k]:
+                        adjacent_matrix[k].remove(item)
+                        if not adjacent_matrix[k]:
+                            temp.append(k)
+            
+            if not temp: break
+            cur = temp
+        
+        return ''.join(res[::-1]) if not adjacent_matrix else ""
+
+没看别的解法
