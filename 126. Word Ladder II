@@ -44,3 +44,53 @@ class Solution(object):
 
         buildPath([], endWord)
         return res
+
+
+class Solution(object):
+    def findLadders(self, beginWord, endWord, wordList):
+        """
+        :type beginWord: str
+        :type endWord: str
+        :type wordList: List[str]
+        :rtype: List[List[str]]
+        """
+        
+        wordSet = set(wordList)
+
+        if endWord not in wordSet: return []
+
+        prevMap = collections.defaultdict(list)
+        cur = set([beginWord])
+        lowercaseLetters = string.ascii_lowercase
+        while cur:
+            temp = set()
+            for word in cur:
+                for i in range(len(word)):
+                    for c in lowercaseLetters:
+                        if c == word[i]: continue
+                        newWord = word[:i]+c+word[i+1:]
+                        if newWord in wordSet:
+                            prevMap[newWord].append(word)
+                            temp.add(newWord)
+            
+            if not temp or endWord in temp: break
+
+            for word in temp:
+                wordSet.remove(word)
+
+            cur = temp
+        
+        res = []
+        def buildPath(word, path):
+            if word == beginWord:
+                res.append([beginWord]+path[::-1])
+                return
+            
+            if word not in prevMap:
+                return
+            
+            for prev in prevMap[word]:
+                buildPath(prev, path+[word])
+        
+        buildPath(endWord, [])
+        return res
