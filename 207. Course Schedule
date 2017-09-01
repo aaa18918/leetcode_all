@@ -237,3 +237,41 @@ class Solution(object):
             cur = temp
         
         return not adjacent_list
+
+
+class Solution(object):
+    def canFinish(self, numCourses, prerequisites):
+        """
+        :type numCourses: int
+        :type prerequisites: List[List[int]]
+        :rtype: bool
+        """
+        
+        adjacency_list = collections.defaultdict(set)
+        
+        for pre in prerequisites:
+            adjacency_list[pre[0]].add(pre[1])
+        
+        cur = []
+        for c in range(numCourses):
+            if not adjacency_list[c]:
+                cur.append(c)
+        
+        while cur:
+            for c in cur:
+                del adjacency_list[c]
+            
+            temp = []
+            
+            for next_c, pre_list in adjacency_list.iteritems():
+                for c in cur:
+                    if c in pre_list:
+                        pre_list.remove(c)
+                        if not pre_list:
+                            temp.append(next_c)
+            
+            if not temp: break
+
+            cur = temp
+        
+        return not adjacency_list
