@@ -275,3 +275,74 @@ class Solution(object):
             cur = temp
         
         return not adjacency_list
+
+class Solution(object):
+    def canFinish(self, numCourses, prerequisites):
+        """
+        :type numCourses: int
+        :type prerequisites: List[List[int]]
+        :rtype: bool
+        """
+        
+        adjacency_list = collections.defaultdict(list)
+        
+        for pre in prerequisites:
+            adjacency_list[pre[0]].append(pre[1])
+        
+        visited = {}
+        def myDFS(c):
+            if c not in adjacency_list: return True
+            if c in visited and visited[c] == -1: return False
+            if c in visited and visited[c] == 1: return True
+            
+            pre_list = adjacency_list[c]
+            visited[c] = -1
+            for pre_c in pre_list:
+                if not myDFS(pre_c):
+                    return False
+            
+            visited[c] = 1
+            return True
+        
+        for c in range(numCourses):
+            if c not in adjacency_list: continue
+            if not myDFS(c):
+                return False
+        
+        return True
+
+
+class Solution(object):
+    def canFinish(self, numCourses, prerequisites):
+        """
+        :type numCourses: int
+        :type prerequisites: List[List[int]]
+        :rtype: bool
+        """
+        
+        adjacency_list = collections.defaultdict(list)
+        
+        for pre in prerequisites:
+            adjacency_list[pre[0]].append(pre[1])
+        
+        visited = [0 for c in range(numCourses)]
+        def myDFS(c):
+            if c not in adjacency_list: return True
+            if visited[c] == -1: return False
+            if visited[c] == 1: return True
+            
+            pre_list = adjacency_list[c]
+            visited[c] = -1
+            for pre_c in pre_list:
+                if not myDFS(pre_c):
+                    return False
+            
+            visited[c] = 1
+            return True
+        
+        for c in range(numCourses):
+            if c not in adjacency_list: continue
+            if not myDFS(c):
+                return False
+        
+        return True
