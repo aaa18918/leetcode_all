@@ -112,3 +112,39 @@ class Solution(object):
                 return [item[1] for item in items[:k]]
 
         return topKFrequentNumber(num_and_frequent, k)
+
+
+class Solution(object):
+    def topKFrequent(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: List[int]
+        """
+        
+        counter = [(t, val) for val, t in collections.Counter(nums).iteritems()]
+        
+        def quickSelection(counter, k):
+            p = counter[0][0]
+            left, right, idx = 0, len(counter)-1, 0
+            
+            while left <= idx <= right:
+                if counter[idx][0] > p:
+                    counter[left], counter[idx] = counter[idx], counter[left]
+                    left += 1
+                elif counter[idx][0] < p:
+                    counter[idx], counter[right] = counter[right], counter[idx]
+                    right -= 1
+                else:
+                    idx += 1
+            
+            if k < left:
+                return quickSelection(counter[:left], k)
+            elif k == left:
+                return counter[:left]
+            elif k <= idx:
+                return counter[:k]
+            else:
+                return counter[:idx]+quickSelection(counter[idx:], k-idx)
+        
+        return [val for t, val in quickSelection(counter, k)]
