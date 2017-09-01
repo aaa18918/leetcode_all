@@ -43,3 +43,23 @@ class Solution(object):
                 my_set.add(s[i])
         
         return max(len(s)-left, res)
+
+
+class Solution(object):
+    def lengthOfLongestSubstring(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        
+        res, left, my_set = 0, 0, set()
+        for i in range(len(s)):
+            if s[i] in my_set:
+                res = max(i-left, res)
+                while left < i and s[left] != s[i]:
+                    my_set.remove(s[left])
+                    left += 1
+                left += 1
+            else:
+                my_set.add(s[i])
+        return max(len(s)-left, res)
