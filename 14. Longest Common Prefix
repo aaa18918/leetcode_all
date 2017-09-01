@@ -73,3 +73,21 @@ class Solution(object):
             return a[:i]
         
         return reduce(getCommonPrefix, strs) if strs else ""
+
+
+class Solution(object):
+    def longestCommonPrefix(self, strs):
+        """
+        :type strs: List[str]
+        :rtype: str
+        """
+        
+        def getCommonPrefix(a, b):
+            size = min(len(a), len(b))
+            for i in range(size):
+                if a[i] != b[i]:
+                    return a[:i]
+            
+            return a if len(a) < len(b) else b
+        
+        return reduce(getCommonPrefix, strs) if strs else ""
