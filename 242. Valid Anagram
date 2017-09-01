@@ -44,3 +44,23 @@ class Solution(object):
             if hash_table[c] == 0: del hash_table[c]
         
         return not hash_table
+
+
+class Solution(object):
+    def isAnagram(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: bool
+        """
+        
+        counter = collections.Counter(s)
+        
+        for c in t:
+            if c not in counter or counter[c] == 0: return False
+            counter[c] -= 1
+        
+        for c, times in counter.iteritems():
+            if times > 0: return False
+        
+        return True
