@@ -1,0 +1,21 @@
+class Solution(object):
+    def minSubArrayLen(self, s, nums):
+        """
+        :type s: int
+        :type nums: List[int]
+        :rtype: int
+        """
+        
+        left, cur_sum, res = 0, 0, sys.maxint
+        
+        for i in range(len(nums)):
+            cur_sum += nums[i]
+            while cur_sum >= s:
+                res = min(res, i-left+1)
+                cur_sum -= nums[left]
+                left += 1
+        
+        return res if res < sys.maxint else 0
+
+
+别的解法没看。
