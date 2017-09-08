@@ -1,0 +1,41 @@
+class Solution(object):
+    def increasingTriplet(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: bool
+        """
+        
+        num1, num2, t = None, None, None
+        
+        for num in nums:
+            if num1 is None:
+                num1 = num
+            elif num <= num1:
+                if t and num > t:
+                    num1, num2 = t, num
+                else:
+                    t = num
+            elif num2 is None or num < num2:
+                num2 = num
+            elif num > num2:
+                return True
+        return False
+
+
+class Solution(object):
+    def increasingTriplet(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: bool
+        """
+        
+        num1, num2 = sys.maxint, sys.maxint
+        
+        for num in nums:
+            if num <= num1:
+                num1 = num
+            elif num <= num2:
+                num2 = num
+            else:
+                return True
+        return False
