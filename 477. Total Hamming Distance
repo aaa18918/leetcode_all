@@ -1,0 +1,24 @@
+class Solution(object):
+    def totalHammingDistance(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        
+        res = 0
+        
+        for i in range(32):
+            zero, one = 0, 0
+            mask = 1<<i
+            for num in nums:
+                if num&mask == 0:
+                    zero += 1
+                else:
+                    one += 1
+            
+            res += zero*one
+        
+        return res
+
+
+别的解法没看。
