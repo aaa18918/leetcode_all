@@ -1,0 +1,23 @@
+class Solution(object):
+    def leastBricks(self, wall):
+        """
+        :type wall: List[List[int]]
+        :rtype: int
+        """
+        
+        if not wall: return 0
+        
+        frequency, res = collections.defaultdict(int), 0
+        for i in range(len(wall)):
+            cur_sum = 0
+            for num in wall[i][:-1]:
+                cur_sum += num
+                frequency[cur_sum] += 1
+        
+        for v in frequency.itervalues():
+            res = max(res, v)
+        
+        return len(wall)-res
+
+
+别的答案还没看。
