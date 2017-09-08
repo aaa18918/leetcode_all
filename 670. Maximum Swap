@@ -1,0 +1,23 @@
+class Solution(object):
+    def maximumSwap(self, num):
+        """
+        :type num: int
+        :rtype: int
+        """
+        
+        bucket = [0 for _ in range(10)]
+        list_num = list(str(num))
+        
+        for idx in range(len(list_num)):
+            bucket[ord(list_num[idx])-ord('0')] = idx
+        
+        for idx in range(len(list_num)):
+            for d in range(9, int(list_num[idx]), -1):
+                if bucket[d] > idx:
+                    list_num[idx], list_num[bucket[d]] = list_num[bucket[d]], list_num[idx]
+                    return int(''.join(list_num))
+        
+        return num
+
+
+还有几种解法没看。
