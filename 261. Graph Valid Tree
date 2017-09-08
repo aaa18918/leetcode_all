@@ -1,0 +1,30 @@
+class Solution(object):
+    def validTree(self, n, edges):
+        """
+        :type n: int
+        :type edges: List[List[int]]
+        :rtype: bool
+        """
+        
+        nums = [-1 for _ in range(n)]
+        
+        def find(i):
+            depth = 0
+            while nums[i] != -1:
+                i, depth = nums[i], depth+1
+            return i, depth
+        
+        for edge in edges:
+            x, depth_x = find(edge[0])
+            y, depth_y = find(edge[1])
+            if x == y: return False
+            
+            if depth_x < depth_y:
+                nums[x] = y
+            else:
+                nums[y] = x
+        
+        return len(edges) == n-1
+
+
+别的解法还没看，union-find算法还需要复习，也可以改进。
