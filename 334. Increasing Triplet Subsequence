@@ -39,3 +39,6 @@ class Solution(object):
             else:
                 return True
         return False
+
+
+只看了一种额外的解法。
