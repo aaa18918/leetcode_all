@@ -1,0 +1,24 @@
+class Solution(object):
+    def removeDuplicates(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        
+        if not nums: return 0
+        
+        left, count = 1, 1
+        for idx, num in enumerate(nums[1:]):
+            if num == nums[idx]:
+                count += 1
+                if count == 2:
+                    nums[left] = num
+                    left += 1
+            else:
+                count = 1
+                nums[left] = num
+                left += 1
+        return left
+
+
+别的解法还没看。
