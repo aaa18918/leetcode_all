@@ -1,0 +1,33 @@
+class Solution(object):
+    def checkSubarraySum(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: bool
+        """
+        
+        size = len(nums)
+        if size <= 1: return False
+        
+        if k == 0:
+            for idx in range(1, size):
+                cur_sum = 0
+                for idx, num in enumerate(nums):
+                    cur_sum += num
+                    if cur_sum == 0 and idx >= 1:
+                        return True
+            return False
+        else:
+            hash_table = {0: -1}
+            cur_mod = 0
+            for idx, num in enumerate(nums):
+                cur_mod = (cur_mod+num)%k
+                if cur_mod in hash_table:
+                    if idx-hash_table[cur_mod] > 1:
+                        return True
+                else:
+                    hash_table[cur_mod] = idx
+            return False
+
+
+只看了一种解法。
