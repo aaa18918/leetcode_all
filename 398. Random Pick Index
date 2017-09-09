@@ -1,0 +1,29 @@
+class Solution(object):
+
+    def __init__(self, nums):
+        """
+        
+        :type nums: List[int]
+        :type numsSize: int
+        """
+        
+        self.nums = nums
+
+    def pick(self, target):
+        """
+        :type target: int
+        :rtype: int
+        """
+        
+        record = []
+        for idx, num in enumerate(self.nums):
+            if num == target:
+                record.append(idx)
+        return random.choice(record)
+
+# Your Solution object will be instantiated and called as such:
+# obj = Solution(nums)
+# param_1 = obj.pick(target)
+
+
+没看别的解法。
