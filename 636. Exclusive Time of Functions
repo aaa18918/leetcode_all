@@ -1,0 +1,31 @@
+class Solution(object):
+    def exclusiveTime(self, n, logs):
+        """
+        :type n: int
+        :type logs: List[str]
+        :rtype: List[int]
+        """
+        
+        my_stack = []
+        hash_table = collections.defaultdict(int)
+        for log in logs:
+            log_id, state, t = log.split(':')
+            t = int(t)
+            if state == 'end':
+                log_id, start_t = my_stack.pop()
+                hash_table[log_id] += t-start_t+1
+                if my_stack:
+                    my_stack[-1][1] = t+1
+            else:
+                if my_stack:
+                    prev_id, start_t = my_stack[-1]
+                    hash_table[prev_id] += t-start_t
+                my_stack.append([log_id, t])
+        
+        res = [0 for _ in range(len(hash_table))]
+        for idx in range(len(res)):
+            res[idx] = hash_table[str(idx)]
+        return res
+
+
+还没看解答。
