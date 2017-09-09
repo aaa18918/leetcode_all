@@ -1,0 +1,38 @@
+class Solution(object):
+    def wallsAndGates(self, rooms):
+        """
+        :type rooms: List[List[int]]
+        :rtype: void Do not return anything, modify rooms in-place instead.
+        """
+        
+        if not rooms: return
+        
+        INF = 2147483647
+        m, n = len(rooms), len(rooms[0])
+        my_queue = collections.deque()
+        
+        for i in range(m):
+            for j in range(n):
+                if rooms[i][j] == 0:
+                    my_queue.append((i, j))
+        
+        while my_queue:
+            x, y = my_queue.popleft()
+            if x > 0 and rooms[x-1][y] == INF:
+                rooms[x-1][y] = rooms[x][y]+1
+                my_queue.append((x-1, y))
+                
+            if x < m-1 and rooms[x+1][y] == INF:
+                rooms[x+1][y] = rooms[x][y]+1
+                my_queue.append((x+1, y))
+                
+            if y > 0 and rooms[x][y-1] == INF:
+                rooms[x][y-1] = rooms[x][y]+1
+                my_queue.append((x, y-1))
+            
+            if y < n-1 and rooms[x][y+1] == INF:
+                rooms[x][y+1] = rooms[x][y]+1
+                my_queue.append((x, y+1))
+
+
+别的解法没看。
