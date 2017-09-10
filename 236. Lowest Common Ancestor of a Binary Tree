@@ -180,3 +180,41 @@ class Solution(object):
         
         left, right = self.lowestCommonAncestor(root.left, p, q), self.lowestCommonAncestor(root.right, p, q)
         return root if left and right else left or right
+
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def lowestCommonAncestor(self, root, p, q):
+        """
+        :type root: TreeNode
+        :type p: TreeNode
+        :type q: TreeNode
+        :rtype: TreeNode
+        """
+        
+        my_queue = collections.deque([root])
+        parents = {root: None}
+        while my_queue:
+            node = my_queue.popleft()
+            if node.left:
+                my_queue.append(node.left)
+                parents[node.left] = node
+            if node.right:
+                my_queue.append(node.right)
+                parents[node.right] = node
+        
+        p_parents = set()
+        while p:
+            p_parents.add(p)
+            p = parents[p]
+        
+        while q not in p_parents:
+            q = parents[q]
+        
+        return q
