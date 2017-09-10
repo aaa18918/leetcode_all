@@ -83,3 +83,28 @@ class Solution(object):
         
         return self.convertBTToList(root.left)+[root.val]+self.convertBTToList(root.right)
 
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def isValidBST(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        
+        def helper(root, range):
+            if not root:
+                return True
+            
+            if root.val <= range[0] or root.val >= range[1]:
+                return False
+            
+            return helper(root.left, [range[0], root.val]) and helper(root.right, [root.val, range[1]])
+        
+        return helper(root, [-sys.maxint-1, sys.maxint])
