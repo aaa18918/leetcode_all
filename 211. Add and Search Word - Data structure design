@@ -268,3 +268,64 @@ class WordDictionary(object):
 # wordDictionary = WordDictionary()
 # wordDictionary.addWord("word")
 # wordDictionary.search("pattern")
+
+
+class Trie(object):
+    def __init__(self):
+        self.is_word = False
+        self.children = [None for _ in range(26)]
+    
+class WordDictionary(object):
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        
+        self.root = Trie()
+
+    def addWord(self, word):
+        """
+        Adds a word into the data structure.
+        :type word: str
+        :rtype: void
+        """
+        
+        p = self.root
+        for w in word:
+            idx = ord(w)-ord('a')
+            if p.children[idx] is None:
+                p.children[idx] = Trie()
+            p = p.children[idx]
+        p.is_word = True
+
+    def search(self, word):
+        """
+        Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter.
+        :type word: str
+        :rtype: bool
+        """
+        
+        def myDFS(node, word):
+            if not word: return node.is_word
+            
+            p = node
+            for idx, w in enumerate(word):
+                if w != '.':
+                    idx = ord(w)-ord('a')
+                    if p.children[idx] is None: return False
+                    p = p.children[idx]
+                else:
+                    for next_node in p.children:
+                        if next_node and myDFS(next_node, word[idx+1:]):
+                            return True
+                    return False
+            
+            return p.is_word
+        
+        return myDFS(self.root, word)
+
+# Your WordDictionary object will be instantiated and called as such:
+# obj = WordDictionary()
+# obj.addWord(word)
+# param_2 = obj.search(word)
