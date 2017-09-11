@@ -73,3 +73,30 @@ class Solution(object):
             else:
                 dp[i] = dp[i+1]
         return dp[0]
+
+
+class Solution(object):
+    def numDecodings(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        
+        len_s = len(s)
+        dp = [1 for _ in range(len_s+1)]
+        for idx in range(len_s):
+            if idx == 0:
+                if s[idx] != '0':
+                    dp[idx+1] = dp[idx]
+                else:
+                    return 0
+            elif s[idx-1] == '1' and '1' <= s[idx] <= '9' or s[idx-1] == '2' and '1' <= s[idx] <= '6':
+                dp[idx+1] = dp[idx-1]+dp[idx]
+            elif s[idx-1] in '12' and s[idx] == '0':
+                dp[idx+1] = dp[idx-1]
+            elif s[idx] == '0':
+                return 0
+            else:
+                dp[idx+1] = dp[idx]
+
+        return dp[len_s] if s else 0
