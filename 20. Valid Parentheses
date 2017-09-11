@@ -53,3 +53,33 @@ class Solution(object):
             return True
         else:
             return False
+
+
+class Solution(object):
+    def isValid(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        
+        my_stack = []
+        for c in s:
+            if c in "({[":
+                my_stack.append(c)
+            else:
+                if c == ')':
+                    if not my_stack or my_stack[-1] != '(':
+                        return False
+                    else:
+                        my_stack.pop()
+                elif c == '}':
+                    if not my_stack or my_stack[-1] != '{':
+                        return False
+                    else:
+                        my_stack.pop()
+                else:
+                    if not my_stack or my_stack[-1] != '[':
+                        return False
+                    else:
+                        my_stack.pop()
+        return not my_stack
