@@ -17,4 +17,23 @@ class Solution(object):
         return res
 
 
+class Solution(object):
+    def subsetsWithDup(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        
+        nums = sorted(nums)
+        res = [[]]
+        
+        l = 0
+        for idx, num in enumerate(nums):
+            if idx == 0 or nums[idx] != nums[idx-1]:
+                l = len(res)
+            
+            res += [r+[num] for r in res[len(res)-l:]]
+        return res
+
+
 别的解法没看。
