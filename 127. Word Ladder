@@ -109,5 +109,33 @@ class Solution(object):
                         wordSet.remove(newWord)
         return 0
 
-不太清楚为什么，方法有点慢，下次需要再看下别的方法都是怎么做的啊。
 
+class Solution(object):
+    def ladderLength(self, beginWord, endWord, wordList):
+        """
+        :type beginWord: str
+        :type endWord: str
+        :type wordList: List[str]
+        :rtype: int
+        """
+        
+        wordSet = set(wordList)
+        if endWord not in wordSet: return 0
+        
+        myQueue = collections.deque([(beginWord, 1)])
+        lowerCaseLetters = string.ascii_lowercase
+        
+        while myQueue:
+            word, l = myQueue.popleft()
+            for idx in range(len(word)):
+                for c in lowerCaseLetters:
+                    if c == word[i]: continue
+                    newWord = word[:idx]+c+word[idx+1:]
+                    if newWord == endWord: return l+1
+                    if newWord in wordSet:
+                        myQueue.append((newWord, l+1))
+                        wordSet.remove(newWord)
+        return 0
+
+
+不太清楚为什么，方法有点慢，下次需要再看下别的方法都是怎么做的啊。
