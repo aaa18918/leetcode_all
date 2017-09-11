@@ -1,0 +1,30 @@
+class Solution(object):
+    def minWindow(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: str
+        """
+        
+        counter, count = collections.Counter(t), len(t)
+        min_length, res, left = sys.maxint, "", 0
+        
+        for idx in range(len(s)):
+            if s[idx] in counter:
+                counter[s[idx]] -= 1
+                if counter[s[idx]] >= 0:
+                    count -= 1
+                    while count == 0 and left <= idx:
+                        if idx-left+1 < min_length:
+                            min_length, res = idx-left+1, s[left:idx+1]
+                        
+                        if s[left] in counter:
+                            counter[s[left]] += 1
+                            if counter[s[left]] > 0:
+                                count += 1
+                        left += 1
+        
+        return res
+
+
+别的解法没看过。
