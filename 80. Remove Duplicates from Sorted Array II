@@ -21,4 +21,27 @@ class Solution(object):
         return left
 
 
+class Solution(object):
+    def removeDuplicates(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        
+        if not nums: return 0
+        
+        count, left = 1, 1
+        for idx in range(1, len(nums)):
+            if nums[idx] == nums[idx-1]:
+                count += 1
+                if count <= 2:
+                    nums[left] = nums[idx]
+                    left += 1
+            else:
+                count = 1
+                nums[left] = nums[idx]
+                left += 1
+        return left
+
+
 别的解法还没看。
