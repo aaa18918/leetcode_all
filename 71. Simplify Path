@@ -18,6 +18,7 @@ class Solution(object):
         
         return '/' if not my_stack else '/'+'/'.join(my_stack)
 
+
 class Solution(object):
     def simplifyPath(self, path):
         """
@@ -36,4 +37,26 @@ class Solution(object):
             else:
                 my_stack.append(str)
         
+        return '/'+'/'.join(my_stack)
+
+
+class Solution(object):
+    def simplifyPath(self, path):
+        """
+        :type path: str
+        :rtype: str
+        """
+        
+        res = []
+        path = path.split('/')
+        my_stack = []
+        for p in path:
+            if p:
+                if p == '.':
+                    continue
+                elif p == '..':
+                    if my_stack:
+                        my_stack.pop()
+                else:
+                    my_stack.append(p)
         return '/'+'/'.join(my_stack)
