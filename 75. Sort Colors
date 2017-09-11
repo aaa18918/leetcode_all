@@ -78,3 +78,24 @@ def sortColors(self, nums):
 # Status: Accepted
 # Runtime: 44 ms
 # 84.03%
+
+
+class Solution(object):
+    def sortColors(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: void Do not return anything, modify nums in-place instead.
+        """
+        
+        left, right = 0, len(nums)-1
+        idx = 0
+        while left <= idx <= right:
+            if nums[idx] == 0:
+                nums[idx], nums[left] = nums[left], nums[idx]
+                left += 1
+                idx += 1
+            elif nums[idx] == 2:
+                nums[idx], nums[right] = nums[right], nums[idx]
+                right -= 1
+            else:
+                idx += 1
