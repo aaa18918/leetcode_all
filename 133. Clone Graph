@@ -117,3 +117,33 @@ class Solution:
                     bfs_queue.append(neighbor)
         
         return new_node
+
+
+# Definition for a undirected graph node
+# class UndirectedGraphNode:
+#     def __init__(self, x):
+#         self.label = x
+#         self.neighbors = []
+
+class Solution:
+    # @param node, a undirected graph node
+    # @return a undirected graph node
+    def cloneGraph(self, node):
+        if not node: return node
+        
+        root = UndirectedGraphNode(node.label)
+        hash_table = {node: root}
+        my_queue = collections.deque([node])
+        
+        while my_queue:
+            cur_node = my_queue.popleft()
+            copied_node = hash_table[cur_node]
+            for n in cur_node.neighbors:
+                if n not in hash_table:
+                    new_node = UndirectedGraphNode(n.label)
+                    copied_node.neighbors.append(new_node)
+                    hash_table[n] = new_node
+                    my_queue.append(n)
+                else:
+                    copied_node.neighbors.append(hash_table[n])
+        return root
