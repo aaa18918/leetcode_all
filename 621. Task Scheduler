@@ -28,4 +28,39 @@ class Solution(object):
         
         return l
 
+
+class Solution(object):
+    def leastInterval(self, tasks, n):
+        """
+        :type tasks: List[str]
+        :type n: int
+        :rtype: int
+        """
+        
+        counter = collections.Counter(tasks)
+        res, spaces = 0, n+1
+        heap = [-count for task, count in counter.most_common()]
+        heapq.heapify(heap)
+        
+        while heap:
+            temp = []
+            while spaces > 0 and heap:
+                count = heapq.heappop(heap)
+                count += 1
+                if count != 0:
+                    temp.append(count)
+                spaces -= 1
+            
+            if not temp and not heap:
+                res += n+1-spaces
+                return res
+            
+            res += n+1
+            spaces = n+1
+            for item in temp:
+                heapq.heappush(heap, item)
+        
+        return 0
+
+
 leetcode有一个解法答案不想看了，太详细了，下次再看。
