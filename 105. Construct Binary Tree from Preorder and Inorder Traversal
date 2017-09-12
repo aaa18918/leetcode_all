@@ -53,4 +53,4 @@ class Solution(object):
         return root
 
 
-别的解法全没看。
+别的解法全都没看。
