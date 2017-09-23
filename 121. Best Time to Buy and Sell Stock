@@ -73,3 +73,15 @@ class Solution(object):
 
         return max_profit
  
+class Solution(object):
+    def maxProfit(self, prices):
+        """
+        :type prices: List[int]
+        :rtype: int
+        """
+        
+        res, min_value = 0, sys.maxint
+        for price in prices:
+            res = max(res, price-min_value)
+            min_value = min(min_value, price)
+        return res
