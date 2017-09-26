@@ -1,0 +1,50 @@
+class Solution(object):
+    def pathSum(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+
+        hash_table = {}
+        leaves = set([1])
+        for num in nums:
+            level, p, val = num/100, num%100/10, num%10
+            if level == 1:
+                hash_table[1] = val
+            else:
+                total_p = pow(2, level-1)-1+p
+                hash_table[total_p] = hash_table[total_p/2]+val
+                leaves.add(total_p)
+                if total_p/2 in leaves:
+                    leaves.remove(total_p/2)
+                
+        res = 0
+        for leaf in leaves:
+            res += hash_table[leaf]
+        return res
+
+
+class Solution(object):
+    def pathSum(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        
+        hash_table = {}
+        leaves = set([1])
+        for num in nums:
+            level, p, val = num/100, num%100/10, num%10
+            if level == 1:
+                hash_table[1] = val
+            else:
+                total_p = pow(2, level-1)-1+p
+                hash_table[total_p] = hash_table[total_p/2]+val
+                leaves.add(total_p)
+                if total_p/2 in leaves:
+                    leaves.remove(total_p/2)
+        
+        res = 0
+        for leaf in leaves:
+            res += hash_table[leaf]
+        return res
