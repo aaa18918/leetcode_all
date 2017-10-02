@@ -22,3 +22,37 @@ class Solution(object):
                         my_queue.append((new_s, t+1))
                         bank.remove(new_s)
         return -1
+
+
+class Solution(object):
+    def minMutation(self, start, end, bank):
+        """
+        :type start: str
+        :type end: str
+        :type bank: List[str]
+        :rtype: int
+        """
+        
+        if not start and not end:
+            return 0
+        
+        bank = set(bank)
+        
+        if len(start) != len(end) or end not in bank:
+            return -1
+        
+        gene_chars = "ACGT"
+        my_queue = collections.deque([(start, 0)])
+        while my_queue:
+            gene, mutate_times = my_queue.popleft()
+            for idx in range(len(gene)):
+                for c in gene_chars:
+                    if gene[idx] != c:
+                        new_gene = gene[:idx]+c+gene[idx+1:]
+                        if new_gene == end:
+                            return mutate_times+1
+                        
+                        if new_gene in bank:
+                            my_queue.append((new_gene, mutate_times+1))
+                            bank.remove(new_gene)
+        return -1
