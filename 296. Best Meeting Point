@@ -76,3 +76,32 @@ class Solution(object):
             return res
         
         return getMinDistance(row_total)+getMinDistance(col_total)
+
+
+class Solution(object):
+    def minTotalDistance(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        
+        if not grid:
+            return 0
+        
+        row_total = map(sum, grid)
+        col_total = map(sum, zip(*grid))
+        
+        def getMinDistance(the_list):
+            i, j, left, right, res = 0, len(the_list)-1, the_list[0], the_list[-1], 0
+            while i < j:
+                if left < right:
+                    res += left
+                    i += 1
+                    left += the_list[i]
+                else:
+                    res += right
+                    j -= 1
+                    right += the_list[j]
+            return res
+        
+        return getMinDistance(row_total)+getMinDistance(col_total)
