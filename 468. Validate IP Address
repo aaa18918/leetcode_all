@@ -31,3 +31,50 @@ class Solution(object):
                         return err_message
             return "IPv6"
         return err_message
+
+
+class Solution(object):
+    def validIPAddress(self, IP):
+        """
+        :type IP: str
+        :rtype: str
+        """
+
+        error_message = "Neither"
+
+        if '.' in IP:
+            ip = IP.split('.')
+            if len(ip) != 4:
+                return error_message
+            
+            for item in ip:
+                if not item or len(item) > 3 or item[0] == '0' and len(item) > 1:
+                    return error_message
+                
+                cur_num = 0
+                for i in item:
+                    if '0' <= i <= '9':
+                        cur_num = cur_num*10+int(i)
+                    else:
+                        return error_message
+                
+                if cur_num > 255:
+                    return error_message
+            return "IPv4"
+        elif ':' in IP:
+            ip = IP.split(':')
+            if len(ip) != 8:
+                return error_message
+            
+            for item in ip:
+                if not item or len(item) > 4:
+                    return error_message
+                
+                for i in item:
+                    if '0' <= i <= '9' or 'a' <= i <= 'f' or 'A' <= i <= 'F':
+                        continue
+                    else:
+                        return error_message
+            return "IPv6"
+
+        return error_message
