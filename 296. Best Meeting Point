@@ -22,3 +22,29 @@ class Solution(object):
             return res
 
         return minDistance(x_labels)+minDistance(y_labels)
+
+
+class Solution(object):
+    def minTotalDistance(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        
+        if not grid: return 0
+        
+        m, n, x_labels, y_labels = len(grid), len(grid[0]), [], []
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 1:
+                    x_labels.append(i)
+                    y_labels.append(j)
+        
+        def getMinDistance(labels):
+            res, i, j, labels = 0, 0, len(labels)-1, sorted(labels)
+            while i < j:
+                res += labels[j]-labels[i]
+                i, j = i+1, j-1
+            return res
+        
+        return getMinDistance(x_labels)+getMinDistance(y_labels)
