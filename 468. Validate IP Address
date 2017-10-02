@@ -52,9 +52,9 @@ class Solution(object):
                     return error_message
                 
                 cur_sum = 0
-                for i in item:
-                    if '0' <= i <= '9':
-                        cur_sum = cur_sum*10+int(i)
+                for c in item:
+                    if '0' <= c <= '9':
+                        cur_sum = cur_sum*10+int(c)
                     else:
                         return error_message
                 
@@ -70,8 +70,8 @@ class Solution(object):
                 if not item or len(item) > 4:
                     return error_message
                 
-                for i in item:
-                    if '0' <= i <= '9' or 'a' <= i <= 'f' or 'A' <= i <= 'F':
+                for c in item:
+                    if '0' <= c <= '9' or 'a' <= c <= 'f' or 'A' <= c <= 'F':
                         continue
                     else:
                         return error_message
