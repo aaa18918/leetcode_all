@@ -1,0 +1,55 @@
+class Solution(object):
+    def trapRainWater(self, heightMap):
+        """
+        :type heightMap: List[List[int]]
+        :rtype: int
+        """
+        
+        if not heightMap: return 0
+        
+        heap = []
+        visited = set()
+        m, n = len(heightMap), len(heightMap[0])
+        count = m*n
+        for idx in range(n):
+            heap.append((heightMap[0][idx], 0, idx))
+            visited.add((0, idx))
+            count -= 1
+            if m-1 > 0:
+                heap.append((heightMap[m-1][idx], m-1, idx))
+                visited.add((m-1, idx))
+                count -= 1
+        
+        for idx in range(1, m-1):
+            heap.append((heightMap[idx][0], idx, 0))
+            visited.add((idx, 0))
+            count -= 1
+            if n-1 > 0:
+                heap.append((heightMap[idx][n-1], idx, n-1))
+                visited.add((idx, n-1))
+                count -= 1
+
+        heapq.heapify(heap)
+        
+        res = 0
+        max_height = -sys.maxint-1
+        diff = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        while count > 0:
+            h, x, y = heapq.heappop(heap)
+            max_height = max(h, max_height)
+            for d in diff:
+                new_x, new_y = x+d[0], y+d[1]
+                if new_x < 0 or new_x >= m or new_y < 0 or new_y >= n or (new_x, new_y) in visited:
+                    continue
+                
+                if heightMap[new_x][new_y] < max_height:
+                    res += max_height - heightMap[new_x][new_y]
+                
+                visited.add((new_x, new_y))
+                count -= 1
+                heapq.heappush(heap, (heightMap[new_x][new_y], new_x, new_y))
+        
+        return res
+
+
+别的解法没看。
