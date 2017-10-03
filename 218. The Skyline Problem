@@ -50,3 +50,61 @@ class Solution(object):
             j += 1
 
         return res
+
+
+class Solution(object):
+    def getSkyline(self, buildings):
+        """
+        :type buildings: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        
+        size = len(buildings)
+        if size == 0:
+            return []
+        elif size == 1:
+            return [[buildings[0][0], buildings[0][2]], [buildings[0][1], 0]]
+        else:
+            mid = size/2
+            left = self.getSkyline(buildings[:mid])
+            right = self.getSkyline(buildings[mid:])
+            
+            return self.mergeBuildings(left, right)
+    
+    def mergeBuildings(self, left, right):
+        i, j, len_l, len_r = 0, 0, len(left), len(right)
+        h1, h2 = 0, 0
+        
+        res = []
+        while i < len_l and j < len_r:
+            if left[i][0] == right[j][0]:
+                h1 = left[i][1]
+                h2 = right[j][1]
+                new_node = [left[i][0], max(h1, h2)]
+                if not res or res[-1][1] != new_node[1]:
+                    res.append(new_node)
+                i, j = i+1, j+1
+            elif left[i][0] < right[j][0]:
+                h1 = left[i][1]
+                new_node = [left[i][0], max(h1, h2)]
+                if not res or res[-1][1] != new_node[1]:
+                    res.append(new_node)
+                i += 1
+            else:
+                h2 = right[j][1]
+                new_node = [right[j][0], max(h1, h2)]
+                if not res or res[-1][1] != new_node[1]:
+                    res.append(new_node)
+                j += 1
+        
+        while i < len_l:
+            if not res or res[-1][1] != left[i][1]:
+                res.append(left[i])
+                i += 1
+        
+        while j < len_r:
+            if not res or res[-1][1] != right[j][1]:
+                res.append(right[j])
+                j += 1
+        
+        return res
