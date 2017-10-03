@@ -29,4 +29,36 @@ class Solution(object):
         return j == len(p)
 
 
+class Solution(object):
+    def isMatch(self, s, p):
+        """
+        :type s: str
+        :type p: str
+        :rtype: bool
+        """
+        
+        i, j, len_s, len_p = 0, 0, len(s), len(p)
+        
+        match, star = -1, -1
+        while i < len_s:
+            if j < len_p and (s[i] == p[j] or p[j] == '?'):
+                i, j = i+1, j+1
+            elif j < len_p and p[j] == '*':
+                match, star = i, j
+                j += 1
+            elif star > -1:
+                match = match+1
+                i, j = match, star+1
+            else:
+                return False
+        
+        while j < len_p:
+            if p[j] != '*':
+                return False
+            
+            j += 1
+        
+        return True
+
+
 别的解法还没看，dp的解法空间复杂度更不好。
