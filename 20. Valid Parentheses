@@ -83,3 +83,24 @@ class Solution(object):
                     else:
                         my_stack.pop()
         return not my_stack
+
+
+class Solution(object):
+    def isValid(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        
+        my_stack = []
+        bracket_map = {')':'(', ']':'[', '}':'{'}
+        for c in s:
+            if c in "([{":
+                my_stack.append(c)
+            else:
+                if not my_stack or bracket_map[c] != my_stack[-1]:
+                    return False
+                
+                my_stack.pop()
+        
+        return not my_stack
