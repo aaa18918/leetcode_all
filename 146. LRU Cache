@@ -75,3 +75,100 @@ class LRUCache(object):
 # obj = LRUCache(capacity)
 # param_1 = obj.get(key)
 # obj.put(key,value)
+
+
+class CacheNode(object):
+    def __init__(self, key, value):
+        self.key = key
+        self.value = value
+        self.prev = None
+        self.next = None
+
+class LRUCache(object):
+
+    def __init__(self, capacity):
+        """
+        :type capacity: int
+        """
+        
+        self.capacity = capacity
+        self.occupied = 0
+        self.head = CacheNode(0, 0)
+        self.tail = CacheNode(0, 0)
+        self.head.next = self.tail
+        self.tail.prev = self.head
+        self.hash_table = {}
+
+    def get(self, key):
+        """
+        :type key: int
+        :rtype: int
+        """
+        
+        if key in self.hash_table:
+            cache_node = self.hash_table[key]
+            self.moveNodeToEnd(cache_node)
+            return cache_node.value
+        
+        return -1
+
+    def put(self, key, value):
+        """
+        :type key: int
+        :type value: int
+        :rtype: void
+        """
+        
+        if key in self.hash_table:
+            cache_node = self.hash_table[key]
+            cache_node.value = value
+            self.moveNodeToEnd(cache_node)
+        else:
+            new_cache_node = CacheNode(key, value)
+            
+            if self.occupied < self.capacity:
+                self.InsertNode(new_cache_node)
+                self.occupied += 1
+            else:
+                self.reuseTheLRUNode(key, value)
+        
+            p = self.head
+    
+    def moveNodeToEnd(self, cache_node):
+        if cache_node.next is self.tail:
+            return
+        
+        cache_node.prev.next = cache_node.next
+        cache_node.next.prev = cache_node.prev
+        
+        temp = self.tail.prev
+        temp.next = cache_node
+        cache_node.prev = temp
+        cache_node.next = self.tail
+        self.tail.prev = cache_node
+    
+    def InsertNode(self, cache_node):
+        self.hash_table[cache_node.key] = cache_node
+        
+        temp = self.tail.prev
+        temp.next = cache_node
+        cache_node.prev = temp
+        cache_node.next = self.tail
+        self.tail.prev = cache_node
+    
+    def reuseTheLRUNode(self, key, value):
+        if self.head.next is self.tail:
+            return
+        
+        cache_node = self.head.next
+        del self.hash_table[cache_node.key]
+        cache_node.key = key
+        cache_node.value = value
+        self.hash_table[key] = cache_node
+        
+        self.moveNodeToEnd(cache_node)
+
+# Your LRUCache object will be instantiated and called as such:
+# obj = LRUCache(capacity)
+# param_1 = obj.get(key)
+# obj.put(key,value)
