@@ -29,7 +29,7 @@ class Solution(object):
         left_max, right_max = height[0], height[-1]
         
         result = 0
-        while left < right:
+        while left <= right:
             left_max, right_max = max(height[left], left_max), max(height[right], right_max)
             if left_max <= right_max:
                 result += max(0, left_max-height[left])
