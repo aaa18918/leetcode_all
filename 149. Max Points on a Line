@@ -67,3 +67,5 @@ class Solution(object):
             result = max(result, line.point_number)
         
         return result
+
+这题要重写。
