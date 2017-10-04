@@ -36,4 +36,39 @@ class Solution(object):
         return res
 
 
+class Solution(object):
+    def countComponents(self, n, edges):
+        """
+        :type n: int
+        :type edges: List[List[int]]
+        :rtype: int
+        """
+        
+        parent = [-1 for i in range(n)]
+        
+        def find(num):
+            while parent[num] >= 0:
+                num = parent[num]
+            
+            return num
+        
+        def union(left, right):
+            if left != right:
+                if parent[left] < parent[right]:
+                    parent[left] += parent[right]
+                    parent[right] = left
+                else:
+                    parent[right] += parent[left]
+                    parent[left] = right
+        
+        for e in edges:
+            union(find(e[0]), find(e[1]))
+        
+        res = 0
+        for num in parent:
+            if num < 0:
+                res += 1
+        return res
+
+
 没看别的解法。
