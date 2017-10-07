@@ -28,3 +28,5 @@ class Solution(object):
             if len(sub_string) > len(res):
                 res = sub_string
         return res
+
+别的解法没看，也不清楚KMP是不是这道题的。
