@@ -1,0 +1,30 @@
+class Solution(object):
+    def longestPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        
+        res = ""
+        len_s = len(s)
+        
+        def getLongestPalindromicSubstring(i, j):
+            while i >= 0 and j < len_s:
+                if s[i] != s[j]:
+                    break
+                
+                i -= 1
+                j += 1
+            
+            return s[i+1:j]
+        
+        for idx in range(len(s)):
+            if idx < len_s-1:
+                sub_string = getLongestPalindromicSubstring(idx, idx+1)
+                if len(sub_string) > len(res):
+                    res = sub_string
+            
+            sub_string = getLongestPalindromicSubstring(idx, idx)
+            if len(sub_string) > len(res):
+                res = sub_string
+        return res
