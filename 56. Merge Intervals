@@ -208,3 +208,36 @@ class Solution(object):
                 intervals[left] = intervals[idx]
         
         return intervals[:left+1]
+
+
+# Definition for an interval.
+# class Interval(object):
+#     def __init__(self, s=0, e=0):
+#         self.start = s
+#         self.end = e
+
+class Solution(object):
+    def merge(self, intervals):
+        """
+        :type intervals: List[Interval]
+        :rtype: List[Interval]
+        """
+        
+        def my_cmp(x, y):
+            if x.start < y.start:
+                return -1
+            elif x.start > y.start:
+                return 1
+            else:
+                return 0
+        
+        intervals = sorted(intervals, cmp = my_cmp)
+        idx = 0
+        for i in range(1, len(intervals)):
+            if intervals[i].start <= intervals[idx].end:
+                if intervals[i].end > intervals[idx].end:
+                    intervals[idx].end = intervals[i].end
+            else:
+                idx += 1
+                intervals[i], intervals[idx] = intervals[idx], intervals[i]
+        return intervals[:idx+1] if intervals else []
