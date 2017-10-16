@@ -1,0 +1,56 @@
+class Solution(object):
+    def calPoints(self, ops):
+        """
+        :type ops: List[str]
+        :rtype: int
+        """
+        
+        my_stack = []
+        res = 0
+        
+        for op in ops:
+            if op == 'C':
+                res -= my_stack.pop()
+            elif op == 'D':
+                my_stack.append(my_stack[-1]*2)
+                res += my_stack[-1]
+            elif op == '+':
+                my_stack.append(my_stack[-2]+my_stack[-1])
+                res += my_stack[-1]
+            else:
+                my_stack.append(int(op))
+                res += my_stack[-1]
+        return res
+
+
+class Solution(object):
+    def calPoints(self, ops):
+        """
+        :type ops: List[str]
+        :rtype: int
+        """
+        
+        left = 0
+        res = 0
+        
+        for idx in range(len(ops)):
+            if ops[idx] == 'C':
+                res -= int(ops[left-1])
+                left -= 1
+            elif ops[idx] == 'D':
+                point = 2*int(ops[left-1])
+                res += point
+                ops[left] = str(point)
+                left += 1
+            elif ops[idx] == '+':
+                point = int(ops[left-1])+int(ops[left-2])
+                res += point
+                ops[left] = str(point)
+                left += 1
+            else:
+                point = int(ops[idx])
+                res += point
+                ops[left] = str(point)
+                left += 1
+        
+        return res
