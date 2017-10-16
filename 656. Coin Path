@@ -1,0 +1,36 @@
+class Solution(object):
+    def cheapestJump(self, A, B):
+        """
+        :type A: List[int]
+        :type B: int
+        :rtype: List[int]
+        """
+        
+        if not A or A[-1] == -1: return []
+        
+        size = len(A)
+        dp = [[sys.maxint, []] for _ in range(size)]
+        
+        dp[0] = [A[0], [1]]
+        
+        def isLeftLessThanRight(l, r):
+            len_l, len_r = len(l), len(r)
+            for idx in range(min(len_l, len_r)):
+                if l[idx] < r[idx]:
+                    return True
+                elif l[idx] > r[idx]:
+                    return False
+            
+            return len_l < len_r
+        
+        for i in range(1, size):
+            if A[i] == -1: continue
+
+            for j in range(max(i-B, 0), i):
+                if dp[j][0] != sys.maxint and (dp[j][0]+A[i] < dp[i][0] or dp[j][0]+A[i] == dp[i][0] and isLeftLessThanRight(dp[j][1]+[i+1], dp[i][1])):
+                    dp[i] = [dp[j][0]+A[i], dp[j][1]+[i+1]]
+        
+        return dp[size-1][1]
+
+
+别的解法没看。
