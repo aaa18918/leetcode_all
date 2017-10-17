@@ -1,0 +1,20 @@
+class Solution(object):
+    def nextClosestTime(self, time):
+        """
+        :type time: str
+        :rtype: str
+        """
+        
+        digits = [y for x in time.split(':') for y in x]
+        h, m = time.split(':')
+        while True:
+            h, m = (str(int(h)+1), "00") if m == '59' else (h, str(int(m)+1))
+            if int(h) > 23:
+                h = "00"
+            h = '0'+h if len(h) == 1 else h
+            m = '0'+m if len(m) == 1 else m
+            if all([x in digits for x in h+m]):
+                return h+':'+m
+
+
+别的解法还没看。
