@@ -1,0 +1,37 @@
+class Codec:
+    
+    def __init__(self):
+        self.encodeTable = {}
+        self.decodeTable = {}
+        self.letters = string.ascii_letters+"0123456789"
+
+    def encode(self, longUrl):
+        """Encodes a URL to a shortened URL.
+        
+        :type longUrl: str
+        :rtype: str
+        """
+        
+        if longUrl in self.encodeTable:
+            return self.encodeTable[longUrl]
+        else:
+            tinyUrl = ''.join([random.choice(self.letters) for _ in range(6)])
+            self.encodeTable[longUrl] = tinyUrl
+            self.decodeTable[tinyUrl] = longUrl
+            return ''.join(longUrl.split('/')[:-1])+tinyUrl
+
+    def decode(self, shortUrl):
+        """Decodes a shortened URL to its original URL.
+        
+        :type shortUrl: str
+        :rtype: str
+        """
+        
+        return self.decodeTable[shortUrl[-6:]]
+
+# Your Codec object will be instantiated and called as such:
+# codec = Codec()
+# codec.decode(codec.encode(url))
+
+
+随便写写的，有许多地方值得琢磨。
