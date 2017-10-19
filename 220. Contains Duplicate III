@@ -1,0 +1,31 @@
+class Solution(object):
+    def containsNearbyAlmostDuplicate(self, nums, k, t):
+        """
+        :type nums: List[int]
+        :type k: int
+        :type t: int
+        :rtype: bool
+        """
+        if t < 0: return False
+        
+        w = t+1
+        hash_table = {}
+        for idx in range(len(nums)):
+            bucket_num = nums[idx]/w
+            if bucket_num in hash_table: return True
+            
+            if bucket_num-1 in hash_table and abs(nums[idx]-hash_table[bucket_num-1]) <= t:
+                return True
+            
+            if bucket_num+1 in hash_table and abs(nums[idx]-hash_table[bucket_num+1]) <= t:
+                return True
+            
+            hash_table[bucket_num] = nums[idx]
+            
+            if idx >= k and hash_table[nums[idx-k]/w] == nums[idx-k]:
+                del hash_table[nums[idx-k]/w]
+        
+        return False
+
+
+在谷歌搜还有一种解法还没看。
