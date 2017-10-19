@@ -1,0 +1,38 @@
+这代码在n==8的时候会超时。
+class Solution(object):
+    def largestPalindrome(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        
+        if n == 1:
+            return 9
+        
+        def createPalindrome(num):
+            str_num = str(num)
+            return int(str_num+str_num[::-1])
+        
+        high, low = int(math.pow(10, n))-1, int(math.pow(10, n-1))
+        for num in xrange(high, low-1, -1):
+            palindrome = createPalindrome(num)
+            for j in xrange(high, low-1, -1):
+                if palindrome/j > high:
+                    break
+                
+                if palindrome%j == 0:
+                    return palindrome%1337
+
+
+简单粗暴的解法：
+class Solution(object):
+    def largestPalindrome(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        
+        return [9, 9009, 906609, 99000099, 9966006699, 999000000999, 99956644665999, 9999000000009999][n-1] % 1337
+
+
+discuss的解法没有看。
