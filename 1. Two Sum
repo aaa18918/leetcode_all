@@ -1,40 +1,4 @@
-https://leetcode.com/problems/two-sum/
-class Solution(object):
-    def twoSum(self, nums, target):
-        """
-        :type nums: List[int]
-        :type target: int
-        :rtype: List[int]
-        """
-        
-        hash_table = {}
-        
-        for index in range(0, len(nums)):
-            if target-nums[index] in hash_table:
-                return [hash_table[target-nums[index]], index]
-            else:
-                hash_table[nums[index]] = index
-
-
-https://leetcode.com/problems/two-sum/
-hash table: O(n) time complexity, O(n) space complexity 67%
-class Solution(object):
-    def twoSum(self, nums, target):
-        """
-        :type nums: List[int]
-        :type target: int
-        :rtype: List[int]
-        """
-        
-        hash_table = {}
-        for index in xrange(0, len(nums)):
-            if nums[index] in hash_table:
-                return [hash_table[nums[index]], index]
-            else:
-                hash_table[target-nums[index]] = index
-
-sort: O(nlgn), O(1) 85%
-One loop for searching index:
+sort: O(nlgn), O(1) 88%
 class Solution(object):
     def twoSum(self, nums, target):
         """
@@ -44,116 +8,19 @@ class Solution(object):
         """
         
         sorted_nums = sorted(nums)
+        
         left, right = 0, len(sorted_nums)-1
-        while True:
-            if sorted_nums[left]+sorted_nums[right] == target:
-                is_left_added, is_right_added, result = 0, 0, []
-                for index in xrange(0, len(nums)):
-                    if not is_left_added and nums[index] == sorted_nums[left]:
-                        result.append(index)
-                        is_left_added += 1
-                        if is_left_added+is_right_added == 2:
-                            return result
-                        else:
-                            continue
-                    if not is_right_added and nums[index] == sorted_nums[right]:
-                        result.append(index)
-                        is_right_added += 1
-                        if is_left_added+is_right_added == 2:
-                            return result
-                        else:
-                            continue
-            elif sorted_nums[left]+sorted_nums[right] < target:
-                left += 1
-            else:
-                right -= 1
-
-Two loops for searching index:
-class Solution(object):
-    def twoSum(self, nums, target):
-        """
-        :type nums: List[int]
-        :type target: int
-        :rtype: List[int]
-        """
-        
-        sorted_nums = sorted(nums)
-        left, right = 0, len(sorted_nums)-1
-        while True:
-            if sorted_nums[left]+sorted_nums[right] == target:
-                result = []
-                for index in xrange(0, len(nums)):
-                    if nums[index] == sorted_nums[left]:
-                        result.append(index)
-                        break
-                for index in xrange(0, len(nums)):
-                    if index != result[0] and nums[index] ==  sorted_nums[right]:
-                        result.append(index)
-                        return result
-            elif sorted_nums[left]+sorted_nums[right] < target:
-                left += 1
-            else:
-                right -= 1
-
-class Solution(object):
-    def twoSum(self, nums, target):
-        """
-        :type nums: List[int]
-        :type target: int
-        :rtype: List[int]
-        """
-        
-        hash_record = {}
-        for index, num in enumerate(nums):
-            if target-num in hash_record:
-                return [hash_record[target-num], index]
-            else:
-                hash_record[num] = index
-
-class Solution(object):
-    def twoSum(self, nums, target):
-        """
-        :type nums: List[int]
-        :type target: int
-        :rtype: List[int]
-        """
-        
-        sorted_nums = sorted(nums)
-        left, right = 0, len(sorted_nums)-1
-        
         while left < right:
             if sorted_nums[left]+sorted_nums[right] == target:
-                is_left_added, is_right_added, result = False, False, []
-                for index, num in enumerate(nums):
-                    if not is_left_added and num == sorted_nums[left]:
-                        result.append(index)
-                        is_left_added = True
-                    elif not is_right_added and num == sorted_nums[right]:
-                        result.append(index)
-                        is_right_added = True
-                    
-                    if is_left_added and is_right_added:
-                        return result
+                res = []
+                for idx in range(len(nums)):
+                    if nums[idx] in (sorted_nums[left], sorted_nums[right]):
+                        res.append(idx)
+                return res
             elif sorted_nums[left]+sorted_nums[right] < target:
                 left += 1
             else:
                 right -= 1
-
-
-class Solution(object):
-    def twoSum(self, nums, target):
-        """
-        :type nums: List[int]
-        :type target: int
-        :rtype: List[int]
-        """
-        
-        hash_table = {}
-        for idx, num in enumerate(nums):
-            if num in hash_table:
-                return [hash_table[num], idx]
-            else:
-                hash_table[target-num] = idx
 
 
 class Solution(object):
