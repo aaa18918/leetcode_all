@@ -1,4 +1,4 @@
-sort: O(nlgn), O(1) 88%
+O(nlgn) time, O(1) space:
 class Solution(object):
     def twoSum(self, nums, target):
         """
@@ -22,7 +22,7 @@ class Solution(object):
             else:
                 right -= 1
 
-
+O(n) time, O(n) space:
 class Solution(object):
     def twoSum(self, nums, target):
         """
