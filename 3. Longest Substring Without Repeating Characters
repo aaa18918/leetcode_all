@@ -1,3 +1,4 @@
+o(n) time, o(n) space:
 class Solution(object):
     def lengthOfLongestSubstring(self, s):
         """
@@ -5,61 +6,18 @@ class Solution(object):
         :rtype: int
         """
         
-        hash_table = collections.defaultdict(int)
-        max_len, left = 0, 0
-        for idx, c in enumerate(s):
-            if hash_table[c] > 0:
-                if idx-left > max_len:
-                    max_len = idx-left
-                
-                for i in range(left, idx):
-                    hash_table[s[i]] -= 1
-                    if s[i] == c:
-                        left = i+1
-                        break
-
-            hash_table[c] += 1
-
-        return max(max_len, len(s)-left)
-
-
-class Solution(object):
-    def lengthOfLongestSubstring(self, s):
-        """
-        :type s: str
-        :rtype: int
-        """
-        
-        res, left, my_set = 0, 0, set()
-        for i in range(len(s)):
-            if s[i] in my_set:
-                res = max(i-left, res)
-                while left < i and s[left] != s[i]:
-                    my_set.remove(s[left])
-                    left += 1
-
-                left += 1
-            else:
-                my_set.add(s[i])
-        
-        return max(len(s)-left, res)
-
-
-class Solution(object):
-    def lengthOfLongestSubstring(self, s):
-        """
-        :type s: str
-        :rtype: int
-        """
-        
-        res, left, my_set = 0, 0, set()
-        for i in range(len(s)):
-            if s[i] in my_set:
-                res = max(i-left, res)
-                while left < i and s[left] != s[i]:
+        my_set = set()
+        left, res = 0, 0
+        for char in s:
+            if char in my_set:
+                res = max(res, len(my_set))
+                while s[left] != char:
                     my_set.remove(s[left])
                     left += 1
                 left += 1
             else:
-                my_set.add(s[i])
-        return max(len(s)-left, res)
+                my_set.add(char)
+        return max(res, len(s)-left)
+
+
+discuss里用的是hash table，方法相似，时间空间复杂度相似，就不重复写了。
