@@ -1,3 +1,4 @@
+o(nlgn) time, o(1) space
 class Solution(object):
     def twoSum(self, nums, target):
         """
@@ -21,7 +22,7 @@ class Solution(object):
             else:
                 right -= 1
 
-
+o(n) time, o(n) space
 class Solution(object):
     def twoSum(self, nums, target):
         """
