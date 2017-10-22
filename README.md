@@ -1,1 +1,1 @@
-# leetcode_all
+# leetcode python
