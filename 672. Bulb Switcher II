@@ -1,0 +1,23 @@
+class Solution(object):
+    def flipLights(self, n, m):
+        """
+        :type n: int
+        :type m: int
+        :rtype: int
+        """
+        
+        if m == 0 or n == 0:
+            return 1
+        elif n == 1:
+            return 2
+        elif n == 2:
+            return 4-m%2
+        elif m == 1:
+            return 4
+        elif m == 2:
+            return 7
+        
+        return 8
+
+
+不知道为什么，是一道找规律的题。
