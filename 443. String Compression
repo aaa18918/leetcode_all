@@ -1,0 +1,27 @@
+class Solution(object):
+    def compress(self, chars):
+        """
+        :type chars: List[str]
+        :rtype: int
+        """
+        
+        if not chars: return chars
+        
+        left, count, size = 0, 1, len(chars)
+        for idx in range(1, size+1):
+            if idx != size and chars[idx] == chars[idx-1]:
+                count += 1
+            else:
+                chars[left] = chars[idx-1]
+                left += 1
+                if count > 1:
+                    str_count = str(count)
+                    for char in str_count:
+                        chars[left] = char
+                        left += 1
+                count = 1
+
+        return left
+
+
+别的解法都没有看。
