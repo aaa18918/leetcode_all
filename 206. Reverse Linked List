@@ -1,5 +1,4 @@
-https://leetcode.com/problems/reverse-linked-list/
-
+O(n) time, O(1) space
 # Definition for singly-linked list.
 # class ListNode(object):
 #     def __init__(self, x):
@@ -13,64 +12,8 @@ class Solution(object):
         :rtype: ListNode
         """
         
-        if head == None:
-            return None
-        
-        former = head
-        rear = head.next
-        
-        while rear != None:
-            temp = rear.next
-            rear.next = former
-            former = rear
-            rear = temp
-        
-        head.next = None
-        
-        return former
-
-# Definition for singly-linked list.
-# class ListNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution(object):
-    def reverseList(self, head):
-        """
-        :type head: ListNode
-        :rtype: ListNode
-        """
-        
-        if not head:
-            return None
-        
-        pre, rear = head, head.next
-        
-        while rear:
-            temp = rear.next
-            rear.next = pre
-            pre = rear
-            rear = temp
-        
-        head.next = None
-        return pre
-
-
-# Definition for singly-linked list.
-# class ListNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution(object):
-    def reverseList(self, head):
-        """
-        :type head: ListNode
-        :rtype: ListNode
-        """
-        
-        if not head or not head.next: return head
+        if not head or not head.next:
+            return head
         
         p, q = head, head.next
         while q:
@@ -79,4 +22,5 @@ class Solution(object):
             p, q = q, temp
         
         head.next = None
+        
         return p
