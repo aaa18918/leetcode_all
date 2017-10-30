@@ -1,3 +1,4 @@
+O(n) space, O(1) time
 class TicTacToe(object):
 
     def __init__(self, n):
