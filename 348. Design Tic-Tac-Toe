@@ -1,4 +1,4 @@
-TicTacToe(object):
+class TicTacToe(object):
 
     def __init__(self, n):
         """
@@ -6,18 +6,12 @@ TicTacToe(object):
         :type n: int
         """
         
+        self.diagonal1 = 0
+        self.diagonal2 = 0
+        self.row = [0 for _ in range(n)]
+        self.col = [0 for _ in range(n)]
         self.n = n
-        
-        self.p1_row = [0]*n
-        self.p1_col = [0]*n
-        self.p1_diag1 = 0
-        self.p1_diag2 = 0
-        
-        self.p2_row = [0]*n
-        self.p2_col = [0]*n
-        self.p2_diag1 = 0
-        self.p2_diag2 = 0
-        
+
     def move(self, row, col, player):
         """
         Player {player} makes a move at ({row}, {col}).
@@ -34,22 +28,21 @@ TicTacToe(object):
         :rtype: int
         """
         
-        if player == 1:
-            self.p1_row[row] += 1
-            self.p1_col[col] += 1
-            if row == col: self.p1_diag1 += 1
-            if row+col == self.n-1: self.p1_diag2 += 1
+        sign = 1 if player == 1 else -1
+        aim = self.n*sign
+        
+        self.row[row] += sign
+        
+        if row+col == self.n-1:
+            self.diagonal1 += sign
 
-            if self.p1_row[row] == self.n or self.p1_col[col] == self.n or self.p1_diag1 == self.n or self.p1_diag2 == self.n:
-                return 1
-        else:
-            self.p2_row[row] += 1
-            self.p2_col[col] += 1
-            if row == col: self.p2_diag1 += 1
-            if row+col == self.n-1: self.p2_diag2 += 1
-
-            if self.p2_row[row] == self.n or self.p2_col[col] == self.n or self.p2_diag1 == self.n or self.p2_diag2 == self.n:
-                return 2
+        self.col[col] += sign
+        
+        if row == col:
+            self.diagonal2 += sign
+        
+        if self.col[col] == aim or self.row[row] == aim or self.diagonal1 == aim or self.diagonal2 == aim:
+            return player
         
         return 0
 
