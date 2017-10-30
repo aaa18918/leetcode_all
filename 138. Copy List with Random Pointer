@@ -1,4 +1,4 @@
-O(3n) time, O(n) space 
+O(3n) time, O(1) space 
 # Definition for singly-linked list with a random pointer.
 # class RandomListNode(object):
 #     def __init__(self, x):
