@@ -1,0 +1,12 @@
+O(1) time, O(1) space
+class Solution(object):
+    def titleToNumber(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        
+        total = 0
+        for char in s:
+            total = 26*total-ord('A')+ord(char)+1
+        return total
