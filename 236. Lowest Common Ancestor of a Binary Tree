@@ -23,6 +23,7 @@ class Solution(object):
         return root if left and right else left or right
 
 
+O(n) time, O(n) space
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -39,103 +40,24 @@ class Solution(object):
         :rtype: TreeNode
         """
         
-        myStack = [root]
-        parents = {root:None}
-        
+        parents = {root: None}
+        my_stack = [root]
         while p not in parents or q not in parents:
-            curNode = myStack.pop()
-            if curNode.left:
-                parents[curNode.left] = curNode
-                myStack.append(curNode.left)
-            if curNode.right:
-                parents[curNode.right] = curNode
-                myStack.append(curNode.right)
-
-        pParents = set()
-        while p:
-            pParents.add(p)
-            p = parents[p]
-        
-        while q not in pParents:
-            q = parents[q]
-        
-        return q
-
-
-# Definition for a binary tree node.
-# class TreeNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution(object):
-    def lowestCommonAncestor(self, root, p, q):
-        """
-        :type root: TreeNode
-        :type p: TreeNode
-        :type q: TreeNode
-        :rtype: TreeNode
-        """
-
-        if not root: return None
-
-        dfs_stack = [root]
-        parents = {root: None}
-
-        while dfs_stack:
-            cur_node = dfs_stack.pop()
-            if cur_node.left:
-                parents[cur_node.left] = cur_node
-                dfs_stack.append(cur_node.left)
-            if cur_node.right:
-                parents[cur_node.right] = cur_node
-                dfs_stack.append(cur_node.right)
-
-        p_parents = {p}
-        while p:
-            p_parents.add(parents[p])
-            p = parents[p]
-        
-        while q not in p_parents:
-            q = parents[q]
-
-        return q
-
-
-# Definition for a binary tree node.
-# class TreeNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution(object):
-    def lowestCommonAncestor(self, root, p, q):
-        """
-        :type root: TreeNode
-        :type p: TreeNode
-        :type q: TreeNode
-        :rtype: TreeNode
-        """
-        
-        my_queue = collections.deque([root])
-        parents = {root: None}
-        while my_queue:
-            node = my_queue.popleft()
+            node = my_stack.pop()
             if node.left:
-                my_queue.append(node.left)
                 parents[node.left] = node
+                my_stack.append(node.left)
+            
             if node.right:
-                my_queue.append(node.right)
                 parents[node.right] = node
+                my_stack.append(node.right)
         
-        p_parents = set()
+        my_set = set()
         while p:
-            p_parents.add(p)
+            my_set.add(p)
             p = parents[p]
         
-        while q not in p_parents:
+        while q not in my_set:
             q = parents[q]
         
         return q
