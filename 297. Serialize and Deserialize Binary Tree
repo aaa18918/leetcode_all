@@ -1,72 +1,4 @@
-# Definition for a binary tree node.
-# class TreeNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Codec:
-
-    def serialize(self, root):
-        """Encodes a tree to a single string.
-        
-        :type root: TreeNode
-        :rtype: str
-        """
-        
-        if not root: return "None"
-        
-        cur_level, is_all_none, res = [root], False, ''
-        
-        while not is_all_none:
-            is_all_none, next_level = True, []
-            for node in cur_level:
-                if node:
-                    res += ','+str(node.val)
-                    next_level.append(node.left)
-                    next_level.append(node.right)
-                    if node.left or node.right: is_all_none = False
-                else:
-                    res += ",None"
-            cur_level = next_level
-
-        return res[1:]
-
-    def deserialize(self, data):
-        """Decodes your encoded data to tree.
-        
-        :type data: str
-        :rtype: TreeNode
-        """
-        
-        data_list = data.split(',')
-        if len(data_list) == 1 and data_list[0] == "None": return None
-        
-        next_node_num, total_num = 2, 1
-        root = TreeNode(int(data_list[0]))
-        cur_level, next_level = [root], data_list[total_num: total_num+next_node_num]
-
-        while next_level:
-            new_next = []
-            for i in range(len(cur_level)):
-                next_left = None if next_level[2*i] == "None" else TreeNode(next_level[2*i])
-                next_right = None if next_level[2*i+1] == "None" else TreeNode(next_level[2*i+1])
-                cur_level[i].left, cur_level[i].right = next_left, next_right
-                if next_left: new_next.append(next_left)
-                if next_right: new_next.append(next_right)
-            
-            total_num += next_node_num
-            next_node_num = len(new_next*2)
-            cur_level, next_level = new_next, data_list[total_num: total_num+next_node_num]
-        
-        return root
-
-
-# Your Codec object will be instantiated and called as such:
-# codec = Codec()
-# codec.deserialize(codec.serialize(root))
-
-
+O(n) time, O(n) space
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -85,24 +17,35 @@ class Codec:
         
         if not root: return ""
         
-        res = []
+        res = str(root.val)+','
         cur = [root]
         while cur:
-            next_level = []
-            for c in cur:
-                res += [str(c.val)] if c else ["None"]
+            temp = []
+            for node in cur:
+                if not node.left:
+                    temp.append(None)
+                else:
+                    temp.append(node.left)
                 
-                if c:
-                    next_level.append(c.left)
-                    next_level.append(c.right)
+                if not node.right:
+                    temp.append(None)
+                else:
+                    temp.append(node.right)
             
-            if filter(lambda x: x is not None, next_level):
-                res.append('#')
-                cur = next_level
-            else:
-                break
+            f = filter(lambda x: x is not None, temp)
+            if f:
+                l = []
+                for t in temp:
+                    if t is None:
+                        l.append("None")
+                    else:
+                        l.append(str(t.val))
+                
+                res += ','.join(l)+','
+            
+            cur = f
         
-        return ' '.join(res)
+        return res.rstrip(',')
 
     def deserialize(self, data):
         """Decodes your encoded data to tree.
@@ -110,30 +53,36 @@ class Codec:
         :type data: str
         :rtype: TreeNode
         """
-        
         if not data: return None
         
-        data_list = data.split('#')
+        data_list = data.split(',')
+        root = TreeNode(int(data_list[0]))
+        idx, size = 1, len(data_list)
+        cur = [root]
         
-        if len(data_list) == 1:
-            return TreeNode(int(data_list[0]))
+        while idx < size:
+            temp = []
+            for node in cur:
+                if data_list[idx] == "None":
+                    node.left = None
+                else:
+                    node.left = TreeNode(int(data_list[idx]))
+                    temp.append(node.left)
+                
+                if data_list[idx+1] == "None":
+                    node.right = None
+                else:
+                    node.right = TreeNode(int(data_list[idx+1]))
+                    temp.append(node.right)
+                
+                idx += 2
+            
+            cur = temp
         
-        cur =  map(lambda x: TreeNode(int(x)) if x != "None" else None, data_list[0].split())
-        root = cur[0]
-        
-        for i in range(len(data_list)-1):
-            next_level = map(lambda x: TreeNode(int(x)) if x != "None" else None, data_list[i+1].split())
-            j = 0
-            for c in cur:
-                if c:
-                    c.left, c.right = next_level[j], next_level[j+1]
-                    j += 2
-            cur = next_level
         return root
 
 # Your Codec object will be instantiated and called as such:
 # codec = Codec()
 # codec.deserialize(codec.serialize(root))
-
 
 还有一种dfs的解法。
