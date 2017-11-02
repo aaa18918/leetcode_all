@@ -1,75 +1,45 @@
+O(m*n) time, O(1) space
 class Solution(object):
     def setZeroes(self, matrix):
         """
         :type matrix: List[List[int]]
         :rtype: void Do not return anything, modify matrix in-place instead.
         """
+        
+        if not matrix: return
         
         m, n = len(matrix), len(matrix[0])
-        record_row, record_col = [0 for _ in range(m)], [0 for _ in range(n)]
+        row0, col0 = 1, 1
         
         for i in range(m):
             for j in range(n):
                 if matrix[i][j] == 0:
-                    record_row[i], record_col[j] = 1, 1
+                    if i == 0:
+                        row0 = 0
+                        
+                    if j == 0:
+                        col0 = 0
+                    
+                    if i != 0 and j != 0:
+                        matrix[i][0] = 0
+                        matrix[0][j] = 0
         
-        for i in range(m):
-            for j in range(n):
-                if record_row[i] == 1 or record_col[j] == 1:
-                    matrix[i][j] = 0
+        for i in range(m-1, -1, -1):
+            for j in range(n-1, -1, -1):
+                if i == 0:
+                    if row0 == 0:
+                        matrix[i][j] = 0
+                
+                if j == 0:
+                    if col0 == 0:
+                        matrix[i][j] = 0
+                
+                if i != 0 and j != 0:
+                    if matrix[0][j] == 0 or matrix[i][0] == 0:
+                        matrix[i][j] = 0
 
-https://leetcode.com/problems/set-matrix-zeroes/
-class Solution(object):
-    def setZeroes(self, matrix):
-        """
-        :type matrix: List[List[int]]
-        :rtype: void Do not return anything, modify matrix in-place instead.
-        """
-        
-        len_row, len_col = len(matrix), len(matrix[0])
-        row, col = [0 for i in range(0, len_row)], [0 for i in range(0, len_col)]
-        
-        for i in range(0, len_row):
-            for j in range(0, len_col):
-                if matrix[i][j] == 0:
-                    row[i], col[j] = 1, 1
-        
-        for i in range(0, len_row):
-            for j in range(0, len_col):
-                if row[i] == 1 or col[j] == 1:
-                    matrix[i][j] = 0
 
-class Solution(object):
-    def setZeroes(self, matrix):
-        """
-        :type matrix: List[List[int]]
-        :rtype: void Do not return anything, modify matrix in-place instead.
-        """
-        
-        m, n = len(matrix), len(matrix[0])
-        
-        col0 = 1
-        for i in range(m):
-            if matrix[i][0] == 0:
-                col0 = 0
-            for j in range(1, n):
-                if matrix[i][j] == 0:
-                    matrix[i][0], matrix[0][j] = 0, 0
-        
-        for i in range(1, m):
-            for j in range(1, n):
-                if matrix[i][0] == 0 or matrix[0][j] == 0:
-                    matrix[i][j] = 0
-            if col0 == 0:
-                matrix[i][0] = 0
-        
-        if matrix[0][0] == 0:
-            for j in range(n):
-                matrix[0][j] = 0
-        
-        if col0 == 0:
-            matrix[0][0] = 0
-
+O(m*n) time, O(1) space
 class Solution(object):
     def setZeroes(self, matrix):
         """
@@ -94,4 +64,3 @@ class Solution(object):
             
             if col0 == 0:
                 matrix[i][0] = 0
-        
