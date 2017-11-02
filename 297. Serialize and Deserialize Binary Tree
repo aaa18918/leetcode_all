@@ -85,4 +85,82 @@ class Codec:
 # codec = Codec()
 # codec.deserialize(codec.serialize(root))
 
-还有一种dfs的解法。
+
+O(n) time, O(n) space
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Codec:
+
+    def serialize(self, root):
+        """Encodes a tree to a single string.
+        
+        :type root: TreeNode
+        :rtype: str
+        """
+        
+        if not root: return ""
+        
+        res = ""
+        my_stack = [root]
+        
+        while my_stack:
+            node = my_stack.pop()
+            if not node:
+                res += "None,"
+            else:
+                res += str(node.val)+","
+                my_stack.append(node.right)
+                my_stack.append(node.left)
+        
+        return res[:-1]
+
+    def deserialize(self, data):
+        """Decodes your encoded data to tree.
+        
+        :type data: str
+        :rtype: TreeNode
+        """
+        
+        if not data: return None
+        
+        data_list = data.split(',')
+        idx, size = 0, len(data_list)
+        my_stack, root = [], None
+        
+        while idx < size:
+            if data_list[idx] != "None":
+                new_node = TreeNode(int(data_list[idx]))
+                if idx == 0:
+                    root = new_node
+                
+                if my_stack:
+                    my_stack[-1].left = new_node
+                
+                my_stack.append(new_node)
+            else:
+                my_stack[-1].left = None
+                idx += 1
+                
+                while idx < size and data_list[idx] == "None":
+                    my_stack[-1].right = None
+                    my_stack.pop()
+                    idx += 1
+                
+                if idx < size:
+                    new_node = TreeNode(int(data_list[idx]))
+                    my_stack[-1].right = new_node
+                    my_stack.pop()
+                    my_stack.append(new_node)
+            
+            idx += 1
+        
+        return root
+
+# Your Codec object will be instantiated and called as such:
+# codec = Codec()
+# codec.deserialize(codec.serialize(root))
