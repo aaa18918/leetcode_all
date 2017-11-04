@@ -1,26 +1,4 @@
-https://leetcode.com/problems/reverse-words-in-a-string/
-class Solution(object):
-    def reverseWords(self, s):
-        """
-        :type s: str
-        :rtype: str
-        """
-        result = []
-        end, len_s = 0, len(s)
-        while end < len_s and s[end] == ' ': end += 1
-        start = end
-        
-        while end < len_s:
-            if s[end] == ' ':
-                result.append(s[start: end])
-                while end < len_s and s[end] == ' ': end += 1
-                start = end
-            else:
-                end += 1
-                if end >= len_s: result.append(s[start: end])
-        
-        return ' '.join(result[::-1]) if result != [] else ''
-
+O(5n) time, O(n) space
 class Solution(object):
     def reverseWords(self, s):
         """
@@ -28,11 +6,33 @@ class Solution(object):
         :rtype: str
         """
         
-        reversed_s_list = s.split(' ')[::-1]
-        reversed_s_list = [word for word in reversed_s_list if word != '']
-        return " ".join(reversed_s_list)
+        list_s = list(s.strip())
+        
+        def reverseList(l, r):
+            while l < r:
+                list_s[l], list_s[r] = list_s[r], list_s[l]
+                l, r = l+1, r-1
+        
+        size = len(list_s)
+        reverseList(0, size-1)
+        
+        left = 0
+        for idx in range(size):
+            if idx == 0 or list_s[idx] != ' ' or list_s[idx-1] != ' ':
+                list_s[left] = list_s[idx]
+                left += 1
+        
+        size = left
+        left = 0
+        for idx in range(size+1):
+            if idx == size or list_s[idx] == ' ':
+                reverseList(left, idx-1)
+                left = idx+1
+        
+        return ''.join(list_s[:size])
 
 
+O(3n) time, O(n) space
 class Solution(object):
     def reverseWords(self, s):
         """
@@ -41,40 +41,3 @@ class Solution(object):
         """
         
         return ' '.join(s.split()[::-1])
-
-
-class Solution(object):
-    def reverseWords(self, s):
-        """
-        :type s: str
-        :rtype: str
-        """
-        
-        def reverseString(s, i, j):
-            while i < j:
-                s[i], s[j] = s[j], s[i]
-                i, j = i+1, j-1
-
-        s_list = list(s.strip())
-        reverseString(s_list, 0, len(s_list)-1)
-        
-        if not s_list or len(s_list) == 1: return ''.join(s_list)
-        
-        i, j, size = 1, 1, len(s_list)
-        while j < size:
-            if s_list[j] == ' ' and s_list[j-1] == ' ':
-                j += 1
-            else:
-                s_list[i] = s_list[j]
-                i += 1
-                j += 1
-        
-        for _ in range(size-i):
-            s_list.pop()
-        
-        left, size = 0, len(s_list)
-        for i in range(size+1):
-            if i == size or s_list[i] == ' ':
-                reverseString(s_list, left, i-1)
-                left = i+1
-        return ''.join(s_list)
