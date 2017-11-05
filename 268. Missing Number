@@ -1,3 +1,4 @@
+O(2n) time, O(1) space
 class Solution(object):
     def missingNumber(self, nums):
         """
@@ -5,11 +6,22 @@ class Solution(object):
         :rtype: int
         """
         
-        n = len(nums)
-        return n*(n+1)/2-sum(nums)
+        nums.append(-1)
+        
+        idx, size = 0, len(nums)
+        while idx < size:
+            if nums[idx] == idx or nums[idx] == -1:
+                idx += 1
+            else:
+                target = nums[idx]
+                nums[idx], nums[target] = nums[target], nums[idx]
+        
+        for idx in range(size):
+            if nums[idx] != idx:
+                return idx
 
 
-https://leetcode.com/problems/missing-number/
+O(n) time, O(1) space
 class Solution(object):
     def missingNumber(self, nums):
         """
@@ -17,49 +29,8 @@ class Solution(object):
         :rtype: int
         """
         
-        return len(nums)*(len(nums)+1)/2-sum(nums)
-
-class Solution(object):
-    def missingNumber(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
-        
-        a = reduce(lambda x, y: x^y, nums)
-        b = reduce(lambda x, y: x^y, [i for i in range(len(nums)+1)])
-        
-        return a^b
-
-class Solution(object):
-    def missingNumber(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
-        
-        a = set(nums)
-        b = set([i for i in range(len(nums)+1)])
-        
-        return b.difference(a).pop()
-
-class Solution(object):
-    def missingNumber(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
-        
-        a = reduce(operator.xor, nums)
-        b = reduce(operator.xor, [i for i in range(len(nums)+1)])
-        
-        return a^b
-
-class Solution(object):
-    def missingNumber(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
-        
-        return reduce(operator.xor, nums + [i for i in range(len(nums)+1)])
+        size = len(nums)
+        res = size
+        for idx in range(size):
+            res ^= idx^nums[idx]
+        return res
