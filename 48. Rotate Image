@@ -1,0 +1,18 @@
+O(m*n) time, O(1) space
+class Solution(object):
+    def rotate(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: void Do not return anything, modify matrix in-place instead.
+        """
+        
+        size = len(matrix)
+        mid = size/2
+        
+        for i in range(mid):
+            for j in range(mid):
+                matrix[i][j], matrix[j][size-1-i], matrix[size-1-i][size-1-j], matrix[size-1-j][i] = matrix[size-1-j][i], matrix[i][j], matrix[j][size-1-i], matrix[size-1-i][size-1-j]
+        
+        if size%2 == 1:
+            for i in range(mid):
+                matrix[mid][i], matrix[i][mid], matrix[mid][size-1-i], matrix[size-1-i][mid] = matrix[size-1-i][mid], matrix[mid][i], matrix[i][mid], matrix[mid][size-1-i]
