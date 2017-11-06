@@ -1,34 +1,4 @@
-# Definition for binary tree with next pointer.
-# class TreeLinkNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-#         self.next = None
-
-class Solution:
-    # @param root, a tree link node
-    # @return nothing
-    def connect(self, root):
-        if not root: return
-        
-        cur_level = [root]
-        while cur_level:
-            next_level = []
-            for i in range(len(cur_level)-1):
-                cur_level[i].next = cur_level[i+1]
-                if cur_level[i].left:
-                    next_level.append(cur_level[i].left)
-                if cur_level[i].right:
-                    next_level.append(cur_level[i].right)
-            
-            if cur_level[-1].left:
-                next_level.append(cur_level[-1].left)
-            if cur_level[-1].right:
-                next_level.append(cur_level[-1].right)
-            cur_level = next_level
-
-
+O(n) time, O(1) space
 # Definition for binary tree with next pointer.
 # class TreeLinkNode:
 #     def __init__(self, x):
@@ -64,40 +34,3 @@ class Solution:
                     q, next_head = p.right, p.right
             
             p = p.next
-
-
-# Definition for binary tree with next pointer.
-# class TreeLinkNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-#         self.next = None
-
-class Solution:
-    # @param root, a tree link node
-    # @return nothing
-    def connect(self, root):
-        if not root: return
-        
-        cur = [root]
-        while cur:
-            next_level = []
-            prev = None
-            for node in cur:
-                if node.left and node.right:
-                    node.left.next = node.right
-                
-                if prev:
-                    if node.left:
-                        prev.next = node.left
-                    elif node.right:
-                        prev.next = node.right
-                
-                if node.left:
-                    prev = node.left
-                    next_level.append(node.left)
-                if node.right:
-                    prev = node.right
-                    next_level.append(node.right)
-            cur = next_level
