@@ -11,26 +11,27 @@ class Solution:
     # @param root, a tree link node
     # @return nothing
     def connect(self, root):
-        if not root: return
-        
         p, q, next_head = root, None, None
+        
         while p or next_head:
             if not p:
                 p = next_head
                 q, next_head = None, None
-                
+
             if p.left:
                 if q:
                     q.next = p.left
-                    q = q.next
                 else:
-                    q, next_head = p.left, p.left
+                    next_head = p.left
+                
+                q = p.left
             
             if p.right:
                 if q:
                     q.next = p.right
-                    q = q.next
                 else:
-                    q, next_head = p.right, p.right
+                    next_head = p.right
+                
+                q = p.right
             
             p = p.next
