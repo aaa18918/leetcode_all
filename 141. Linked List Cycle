@@ -1,5 +1,4 @@
-https://leetcode.com/problems/linked-list-cycle/
-
+O(n) time, O(1) space
 # Definition for singly-linked list.
 # class ListNode(object):
 #     def __init__(self, x):
@@ -13,42 +12,12 @@ class Solution(object):
         :rtype: bool
         """
         
-        if head == None:
+        if not head or not head.next:
             return False
         
-        slower = head
-        faster = head.next
-        
-        while faster != None and faster.next != None:
-            if slower == faster:
-                return True
-            else:
-                slower = slower.next
-                faster = faster.next.next
-        
-        return False
-
-# Definition for singly-linked list.
-# class ListNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution(object):
-    def hasCycle(self, head):
-        """
-        :type head: ListNode
-        :rtype: bool
-        """
-        
-        if not head: return False
-        
         slow, fast = head, head.next
-        
-        while fast and fast.next:
-            if fast is slow:
-                return True
-            fast = fast.next.next
+        while fast.next and fast.next.next and slow is not fast:
             slow = slow.next
+            fast = fast.next.next
         
-        return False
+        return slow is fast
