@@ -13,22 +13,24 @@ class Solution(object):
         :rtype: bool
         """
         
-        stack, cur = [], root
-        pre = None
+        prev, my_stack, p = None, [], root
+        while p:
+            my_stack.append(p)
+            p = p.left
         
-        while stack or cur:
-            if cur:
-                stack.append(cur)
-                cur = cur.left
-            else:
-                p = stack.pop()
-                if pre and pre.val >= p.val:
-                    return False
-                
-                pre = p
-                cur = p.right
+        while my_stack:
+            p = my_stack.pop()
+            if prev and prev.val >= p.val:
+                return False
             
+            prev = p
+            p = p.right
+            while p:
+                my_stack.append(p)
+                p = p.left
+        
         return True
+
 
 import sys
 
@@ -132,39 +134,3 @@ class Solution(object):
             return myDFS(node.left, lower, node.val) and myDFS(node.right, node.val, upper)
         
         return myDFS(root, -sys.maxint-1, sys.maxint)
-
-
-# Definition for a binary tree node.
-# class TreeNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution(object):
-    def isValidBST(self, root):
-        """
-        :type root: TreeNode
-        :rtype: bool
-        """
-        
-        if not root: return True
-        
-        my_stack = []
-        node, prev = root, None
-        while node:
-            my_stack.append(node)
-            node = node.left
-        
-        while my_stack:
-            if not node:
-                node = my_stack.pop()
-                if prev and node.val <= prev.val: return False
-            
-            prev = node
-            node = node.right
-            while node:
-                my_stack.append(node)
-                node = node.left
-        
-        return True
