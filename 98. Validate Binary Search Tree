@@ -24,6 +24,7 @@ class Solution(object):
                 return False
             
             prev = p
+            
             p = p.right
             while p:
                 my_stack.append(p)
