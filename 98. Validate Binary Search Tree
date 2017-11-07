@@ -123,42 +123,6 @@ class Solution(object):
         :type root: TreeNode
         :rtype: bool
         """
-
-        def myDFS(node):
-            if not node: return True, 0, 0
-            
-            is_left_valid, left_min, left_max = myDFS(node.left)
-            is_right_valid, right_min, right_max = myDFS(node.right)
-            
-            if not is_left_valid or not is_right_valid: return False, 0, 0
-            if node.left and node.val <= left_max: return False, 0, 0
-            if node.right and node.val >= right_min: return False, 0, 0
-            
-            if node.left and node.right:
-                return True, left_min, right_max
-            elif node.left:
-                return True, left_min, node.val
-            elif node.right:
-                return True, node.val, right_max
-            else:
-                return True, node.val, node.val
-        
-        return myDFS(root)[0]
-
-
-# Definition for a binary tree node.
-# class TreeNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution(object):
-    def isValidBST(self, root):
-        """
-        :type root: TreeNode
-        :rtype: bool
-        """
         
         def myDFS(node, lower, upper):
             if not node: return True
