@@ -1,3 +1,4 @@
+O(1) time, O(n) space
 class CacheNode(object):
     def __init__(self, key, val):
         self.key = key
@@ -77,10 +78,11 @@ class LRUCache(object):
 # obj.put(key,value)
 
 
+O(1) time, O(n) space
 class CacheNode(object):
-    def __init__(self, key, value):
+    def __init__(self, key, val):
         self.key = key
-        self.value = value
+        self.val = val
         self.prev = None
         self.next = None
 
@@ -92,12 +94,11 @@ class LRUCache(object):
         """
         
         self.capacity = capacity
-        self.occupied = 0
+        self.hash_table = {}
         self.head = CacheNode(0, 0)
         self.tail = CacheNode(0, 0)
         self.head.next = self.tail
         self.tail.prev = self.head
-        self.hash_table = {}
 
     def get(self, key):
         """
@@ -106,11 +107,20 @@ class LRUCache(object):
         """
         
         if key in self.hash_table:
-            cache_node = self.hash_table[key]
-            self.moveNodeToEnd(cache_node)
-            return cache_node.value
-        
-        return -1
+            node = self.hash_table[key]
+            
+            node.prev.next = node.next
+            node.next.prev = node.prev
+            
+            temp = self.tail.prev
+            self.tail.prev = node
+            node.prev = temp
+            temp.next = node
+            node.next = self.tail
+            
+            return self.hash_table[key].val
+        else:
+            return -1
 
     def put(self, key, value):
         """
@@ -120,53 +130,35 @@ class LRUCache(object):
         """
         
         if key in self.hash_table:
-            cache_node = self.hash_table[key]
-            cache_node.value = value
-            self.moveNodeToEnd(cache_node)
-        else:
-            new_cache_node = CacheNode(key, value)
+            self.hash_table[key].val = value
             
-            if self.occupied < self.capacity:
-                self.InsertNode(new_cache_node)
-                self.occupied += 1
+            node = self.hash_table[key]
+            
+            node.prev.next = node.next
+            node.next.prev = node.prev
+            
+            temp = self.tail.prev
+            self.tail.prev = node
+            node.prev = temp
+            temp.next = node
+            node.next = self.tail
+        else:
+            new_node = CacheNode(key, value)
+            
+            temp = self.tail.prev
+            temp.next = new_node
+            new_node.next = self.tail
+            self.tail.prev = new_node
+            new_node.prev = temp
+            self.hash_table[key] = new_node
+            
+            if self.capacity > 0:
+                self.capacity -= 1
             else:
-                self.reuseTheLRUNode(key, value)
-        
-            p = self.head
-    
-    def moveNodeToEnd(self, cache_node):
-        if cache_node.next is self.tail:
-            return
-        
-        cache_node.prev.next = cache_node.next
-        cache_node.next.prev = cache_node.prev
-        
-        temp = self.tail.prev
-        temp.next = cache_node
-        cache_node.prev = temp
-        cache_node.next = self.tail
-        self.tail.prev = cache_node
-    
-    def InsertNode(self, cache_node):
-        self.hash_table[cache_node.key] = cache_node
-        
-        temp = self.tail.prev
-        temp.next = cache_node
-        cache_node.prev = temp
-        cache_node.next = self.tail
-        self.tail.prev = cache_node
-    
-    def reuseTheLRUNode(self, key, value):
-        if self.head.next is self.tail:
-            return
-        
-        cache_node = self.head.next
-        del self.hash_table[cache_node.key]
-        cache_node.key = key
-        cache_node.value = value
-        self.hash_table[key] = cache_node
-        
-        self.moveNodeToEnd(cache_node)
+                temp = self.head.next
+                del self.hash_table[temp.key]
+                self.head.next = self.head.next.next
+                self.head.next.prev = self.head
 
 # Your LRUCache object will be instantiated and called as such:
 # obj = LRUCache(capacity)
