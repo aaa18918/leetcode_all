@@ -1,0 +1,27 @@
+O(n) time, O(1) space
+class Solution(object):
+    def myAtoi(self, str):
+        """
+        :type str: str
+        :rtype: int
+        """
+        
+        if not str: return 0
+        
+        str = str.strip()
+        
+        sign, left = 1, 0
+        if str[0] < '0' or str[0] > '9':
+            left = 1
+            if str[0] == '-':
+                sign = -1
+            elif str[0] != '+':
+                return 0
+        
+        res = 0
+        for idx in range(left, len(str)):
+            if str[idx] < '0' or str[idx] > '9':
+                return min(max(-2147483648, sign*res), 2147483647)
+            else:
+                res = res*10+int(str[idx])
+        return min(max(-2147483648, sign*res), 2147483647)
