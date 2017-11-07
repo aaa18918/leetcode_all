@@ -164,3 +164,7 @@ class LRUCache(object):
 # obj = LRUCache(capacity)
 # param_1 = obj.get(key)
 # obj.put(key,value)
+
+
+注意每个get和put都需要更新一下整个数据结构。
+# param_1 = obj.get(key)
