@@ -1,3 +1,4 @@
+O(n) time, O(1) space
 # Definition for singly-linked list.
 # class ListNode(object):
 #     def __init__(self, x):
@@ -11,53 +12,22 @@ class Solution(object):
         :rtype: ListNode
         """
         
-        dummy_head, p = ListNode(0), head
-        q = dummy_head
+        dummy_head = ListNode(0)
+        h = dummy_head
+        p = head
         
         while p:
-            if p.next:
-                temp = p.next.next
-                q.next = p.next
-                q.next.next = p
-                p = temp
-                q = q.next.next
+            q = p.next
+            if not q:
+                h.next = p
+                h = h.next
+                break
             else:
+                temp = p.next.next
+                h.next = q
                 q.next = p
-                return dummy_head.next
+                h = h.next.next
+                p = temp
         
-        q.next = None
+        h.next = None
         return dummy_head.next
- 
- 
- https://leetcode.com/problems/swap-nodes-in-pairs/
-
-# Definition for singly-linked list.
-# class ListNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution(object):
-    def swapPairs(self, head):
-        """
-        :type head: ListNode
-        :rtype: ListNode
-        """
-        
-        new_head = ListNode(0)
-        p, q = new_head, head
-        
-        while q != None and q.next != None:
-            temp = q.next.next
-            p.next = q.next
-            p.next.next = q
-            p = p.next.next
-            q = temp
-        
-        if q != None:
-            p.next = q
-            p = p.next
-        
-        p.next = None
-        return new_head.next
-        
