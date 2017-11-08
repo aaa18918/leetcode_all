@@ -1,24 +1,4 @@
-class Solution(object):
-    def findMin(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
-        
-        if not nums: return 0
-        if len(nums) == 1 or nums[0] < nums[-1]: return nums[0]
-        
-        left, right = 0, len(nums)-1
-        
-        while left <= right:
-            mid = (left+right)/2
-            if nums[mid-1] > nums[mid] and nums[mid] < nums[(mid+1)%len(nums)]:
-                return nums[mid]
-            elif nums[mid] >= nums[0]:
-                left = mid+1
-            else:
-                right = mid-1
-
+O(lgn) time, O(1) space
 class Solution(object):
     def findMin(self, nums):
         """
@@ -36,4 +16,3 @@ class Solution(object):
                 right = mid
         
         return nums[left]
-        
