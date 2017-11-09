@@ -1,95 +1,15 @@
-https://leetcode.com/problems/implement-trie-prefix-tree/
-
+O(n) time, O(n) space insert; O(n) time, O(n) space search; O(n) time, O(n) space startsWith
 class TrieNode(object):
     def __init__(self):
-        """
-        Initialize your data structure here.
-        """
-        self.val = ""
-        self.next = {}
-        
+        self.is_word = False
+        self.children = collections.defaultdict(TrieNode)
 
 class Trie(object):
-
-    def __init__(self):
-        self.root = TrieNode()
-
-    def insert(self, word):
-        """
-        Inserts a word into the trie.
-        :type word: str
-        :rtype: void
-        """
-        
-        p = self.root
-        
-        for index in range(0, len(word)):
-            if word[index] not in p.next:
-                p.next[word[index]] = TrieNode()
-                
-            p = p.next[word[index]]
-        
-        p.val = word
-
-    def search(self, word):
-        """
-        Returns if the word is in the trie.
-        :type word: str
-        :rtype: bool
-        """
-        
-        p = self.root
-        
-        for index in range(0, len(word)):
-            if word[index] not in p.next:
-                return False
-                
-            p = p.next[word[index]]
-        
-        if p.val != "":
-            return True
-        else:
-            return False
-            
-
-    def startsWith(self, prefix):
-        """
-        Returns if there is any word in the trie
-        that starts with the given prefix.
-        :type prefix: str
-        :rtype: bool
-        """
-
-        p = self.root
-        
-        for index in range(0, len(prefix)):
-            if prefix[index] not in p.next:
-                return False
-                
-            p = p.next[prefix[index]]
-        
-        return True        
-
-# Your Trie object will be instantiated and called as such:
-# trie = Trie()
-# trie.insert("somestring")
-# trie.search("key")
-
-https://leetcode.com/problems/implement-trie-prefix-tree/
-
-class TrieNode(object):
     def __init__(self):
         """
         Initialize your data structure here.
         """
         
-        self.word = False
-        self.next_char = [None for i in xrange(26)]
-        
-
-class Trie(object):
-
-    def __init__(self):
         self.root = TrieNode()
 
     def insert(self, word):
@@ -101,11 +21,10 @@ class Trie(object):
         
         p = self.root
         for char in word:
-            if p.next_char[ord(char)-ord('a')] is None:
-                p.next_char[ord(char)-ord('a')] = TrieNode()
-            p = p.next_char[ord(char)-ord('a')]
-        p.word = True
+            p = p.children[char]
         
+        p.is_word = True
+
     def search(self, word):
         """
         Returns if the word is in the trie.
@@ -115,39 +34,33 @@ class Trie(object):
         
         p = self.root
         for char in word:
-            if p.next_char[ord(char)-ord('a')] is None:
+            if char in p.children:
+                p = p.children[char]
+            else:
                 return False
-            p = p.next_char[ord(char)-ord('a')]
-        if p.word:
-            return True
-        else:
-            return False
+        return p.is_word
 
     def startsWith(self, prefix):
         """
-        Returns if there is any word in the trie
-        that starts with the given prefix.
+        Returns if there is any word in the trie that starts with the given prefix.
         :type prefix: str
         :rtype: bool
         """
         
         p = self.root
         for char in prefix:
-            if p.next_char[ord(char)-ord('a')] is None:
+            if char in p.children:
+                p = p.children[char]
+            else:
                 return False
-            p = p.next_char[ord(char)-ord('a')]
-        if p.word:
-            return True
-        for next_child in p.next_char:
-            if next_child is not None:
-                return True
-        return False
-        
+        return True
 
 # Your Trie object will be instantiated and called as such:
-# trie = Trie()
-# trie.insert("somestring")
-# trie.search("key")
+# obj = Trie()
+# obj.insert(word)
+# param_2 = obj.search(word)
+# param_3 = obj.startsWith(prefix)
+
 
 class TrieNode(object):
     def __init__(self):
@@ -210,76 +123,6 @@ class Trie(object):
             if not curNode.charTable[ord(char)-ord('a')]:
                 return False
             curNode = curNode.charTable[ord(char)-ord('a')]
-        
-        return True
-
-# Your Trie object will be instantiated and called as such:
-# obj = Trie()
-# obj.insert(word)
-# param_2 = obj.search(word)
-# param_3 = obj.startsWith(prefix)
-
-
-class TrieNode(object):
-    def __init__(self):
-        self.is_word = False
-        self.children = {}
-
-class Trie(object):
-
-    def __init__(self):
-        """
-        Initialize your data structure here.
-        """
-        
-        self.root = TrieNode()
-
-    def insert(self, word):
-        """
-        Inserts a word into the trie.
-        :type word: str
-        :rtype: void
-        """
-        
-        p = self.root
-        for w in word:
-            if w not in p.children:
-                p.children[w] = TrieNode()
-            p = p.children[w]
-        p.is_word = True
-
-    def search(self, word):
-        """
-        Returns if the word is in the trie.
-        :type word: str
-        :rtype: bool
-        """
-        
-        if not word: return True
-        
-        p = self.root
-        for w in word:
-            if w not in p.children:
-                return False
-            
-            p = p.children[w]
-        
-        return p.is_word
-
-    def startsWith(self, prefix):
-        """
-        Returns if there is any word in the trie that starts with the given prefix.
-        :type prefix: str
-        :rtype: bool
-        """
-        
-        if not prefix: return True
-        
-        p = self.root
-        for w in prefix:
-            if w not in p.children:
-                return False
-            p = p.children[w]
         
         return True
 
