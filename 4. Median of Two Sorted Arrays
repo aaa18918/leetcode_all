@@ -1,3 +1,4 @@
+O(lgn) time, O(1) space
 class Solution(object):
     def findMedianSortedArrays(self, nums1, nums2):
         """
@@ -6,30 +7,27 @@ class Solution(object):
         :rtype: float
         """
         
-        len1, len2 = len(nums1), len(nums2)
-        if (len1+len2)%2 == 0:
-            return (self.findKthElement(nums1, nums2, (len1+len2)/2)+self.findKthElement(nums1, nums2, (len1+len2)/2+1))*0.5
-        else:
-            return self.findKthElement(nums1, nums2, (len1+len2)/2+1)*1.0
+        def findKthSmallest(nums1, nums2, k):
+            if len(nums1) < len(nums2):
+                nums1, nums2 = nums2, nums1
+            
+            if not nums2: return nums1[k-1]
+            
+            if k == 1: return min(nums1[0], nums2[0])
+            
+            mid = k/2
+            len_nums1, len_nums2 = len(nums1), len(nums2)
+            mid = mid if mid < len_nums2 else len_nums2
+            
+            if nums1[mid-1] < nums2[mid-1]:
+                return findKthSmallest(nums1[mid:], nums2, k-mid)
+            else:
+                return findKthSmallest(nums1, nums2[mid:], k-mid)
         
-    def findKthElement(self, nums1, nums2, k):
-        len1, len2 = len(nums1), len(nums2)
-        if len1 < len2:
-            nums1, nums2 = nums2, nums1
-            len1, len2 = len2, len1
+        total = len(nums1)+len(nums2)
         
-        if not nums2: return nums1[k-1]
-        if k == 1: return min(nums1[0], nums2[0])
-        
-        if k/2 <= len2:
-            p1, p2 = k/2-1, k/2-1
-        else:
-            p1, p2 = k-len2-1, len2-1
+        return findKthSmallest(nums1, nums2, total/2+1) if total%2 == 1 else (findKthSmallest(nums1, nums2, total/2)+findKthSmallest(nums1, nums2, total/2+1))/2.0
 
-        if nums1[p1] <= nums2[p2]:
-            return self.findKthElement(nums1[p1+1:], nums2, k-p1-1)
-        else:
-            return self.findKthElement(nums1, nums2[p2+1:], k-p2-1)
 
 Iterative:
 https://discuss.leetcode.com/topic/3367/share-my-iterative-solution-with-o-log-min-n-m/2
