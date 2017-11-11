@@ -12,57 +12,11 @@ class Solution(object):
         :type k: int
         :rtype: ListNode
         """
-
-        fake_head = ListNode(0)
-        fake_head.next = head
-        count, slow, fast = k, fake_head, fake_head
-        
-        while True:
-            while count > 0 and fast:
-                fast = fast.next
-                count -= 1
-        
-            if fast:
-                temp_slow, temp_fast = slow.next, fast.next
-                new_head = self.reverseLinkedList(temp_slow, fast)
-                slow.next = new_head
-                slow, fast = temp_slow, temp_slow
-                temp_slow.next = temp_fast
-                count = k
-            else:
-                return fake_head.next
-    
-    def reverseLinkedList(self, start, end):
-        if start == end: return start
-        p, q = start, start.next
-        while q != end:
-            temp = q.next
-            q.next = p
-            p, q = q, temp
-        
-        q.next = p
-        return q
-
-
-O(n) time, O(1) space
-# Definition for singly-linked list.
-# class ListNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution(object):
-    def reverseKGroup(self, head, k):
-        """
-        :type head: ListNode
-        :type k: int
-        :rtype: ListNode
-        """
         
         dummy_head = ListNode(0)
         dummy_head.next = head
-        slow, fast = dummy_head, dummy_head
         count = k
+        slow, fast = dummy_head, dummy_head
         while True:
             while count > 0 and fast:
                 fast = fast.next
@@ -70,16 +24,16 @@ class Solution(object):
             
             if not fast: return dummy_head.next
             
-            p, q = slow.next, slow.next
             prev, tail = slow, fast.next
-            while q is not fast:
+            p, q = slow.next, slow.next.next
+            while q is not tail:
                 temp = q.next
                 q.next = p
-                p, q = q, temp
+                q, p = temp, q
             
-            q.next = p
-            temp = slow.next
-            prev.next = q
+            temp = prev.next
+            prev.next = p
             temp.next = tail
+            
             slow, fast = temp, temp
             count = k
