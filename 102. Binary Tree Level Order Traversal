@@ -1,5 +1,4 @@
-https://leetcode.com/problems/binary-tree-level-order-traversal/
-
+O(n) time, O(1) space
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -14,61 +13,29 @@ class Solution(object):
         :rtype: List[List[int]]
         """
         
-        if root == None:
-            return []
+        res = []
         
-        record = [[root.val]]
-        my_queue = [root.left, root.right]
-        
-        while my_queue != []:
-            value = []
-            next_level = []
+        def myHelper(node, level):
+            if level < len(res):
+                res[level].append(node.val)
+            else:
+                res.append([node.val])
             
-            for node in my_queue:
-                if node != None:
-                    value.append(node.val)
-                    next_level.append(node.left)
-                    next_level.append(node.right)
+            if node.left:
+                myHelper(node.left, level+1)
             
-            if value != []:
-                record.append(value)
-                
-            my_queue = next_level
-        
-        return record
-
-# Definition for a binary tree node.
-# class TreeNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution(object):
-    def levelOrder(self, root):
-        """
-        :type root: TreeNode
-        :rtype: List[List[int]]
-        """
+            if node.right:
+                myHelper(node.right, level+1)
         
         if not root: return []
         
-        res, parent_nodes = [], [root]
-        while parent_nodes:
-            cur_nodes, cur_val = [], []
-            for parent_node in parent_nodes:
-                cur_val.append(parent_node.val)
-                if parent_node.left:
-                    cur_nodes.append(parent_node.left)
-                if parent_node.right:
-                    cur_nodes.append(parent_node.right)
-            
-            parent_nodes = cur_nodes
-            res.append(cur_val)
+        myHelper(root, 0)
         
         return res
- 
- # Definition for a binary tree node.
+
+
+O(n) time, O(n) space
+# Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
 #         self.val = x
@@ -76,9 +43,6 @@ class Solution(object):
 #         self.right = None
 
 class Solution(object):
-    def __init__(self):
-        self.res = []
-        
     def levelOrder(self, root):
         """
         :type root: TreeNode
@@ -86,16 +50,20 @@ class Solution(object):
         """
         
         if not root: return []
-        self.myHelper(root, 0)
-        return self.res
         
-    def myHelper(self, node, level):
-        if level < len(self.res):
-            self.res[level].append(node.val)
-        else:
-            self.res.append([node.val])
-        
-        if node.left:
-            self.myHelper(node.left, level+1)
-        if node.right:
-            self.myHelper(node.right, level+1)
+        cur, res = [root], [[root.val]]
+        while cur:
+            temp, values = [], []
+            for node in cur:
+                if node.left:
+                    temp.append(node.left)
+                    values.append(node.left.val)
+                
+                if node.right:
+                    temp.append(node.right)
+                    values.append(node.right.val)
+            
+            if temp:
+                res.append(values)
+            cur = temp
+        return res
