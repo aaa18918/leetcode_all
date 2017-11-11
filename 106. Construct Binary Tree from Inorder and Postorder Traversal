@@ -1,4 +1,4 @@
-Average O(nlgn) time, Worst O(n^2) time, O(1) space
+O(n) time, O(n) space
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -14,19 +14,23 @@ class Solution(object):
         :rtype: TreeNode
         """
         
-        def myDFS(inorder):
-            if not inorder:
+        hash_table = {}
+        for idx, val in enumerate(inorder):
+            hash_table[val] = idx
+        
+        def myDFS(left, right):
+            if left > right:
                 return None
             
             root_val = postorder.pop()
-            idx = inorder.index(root_val)
+            idx = hash_table[root_val]
             
             root = TreeNode(root_val)
             
-            right = myDFS(inorder[idx+1:])
-            left = myDFS(inorder[:idx])
+            right_tree = myDFS(idx+1, right)
+            left_tree = myDFS(left, idx-1)
             
-            root.right, root.left = right, left
+            root.left, root.right = left_tree, right_tree
             return root
         
-        return myDFS(inorder)
+        return myDFS(0, len(inorder)-1)
