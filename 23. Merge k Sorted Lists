@@ -1,0 +1,71 @@
+O(nlgk) time, O(k) space
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def mergeKLists(self, lists):
+        """
+        :type lists: List[ListNode]
+        :rtype: ListNode
+        """
+        
+        dummy_head = ListNode(0)
+        my_heap = []
+        for node in lists:
+            if node:
+                my_heap.append((node.val, node))
+        
+        heapq.heapify(my_heap)
+        p = dummy_head
+        while my_heap:
+            node = heapq.heappop(my_heap)[1]
+            if node.next:
+                heapq.heappush(my_heap, (node.next.val, node.next))
+            p.next = node
+            p = p.next
+        return dummy_head.next
+
+
+O(nlgn) time, O(1) space
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def mergeKLists(self, lists):
+        """
+        :type lists: List[ListNode]
+        :rtype: ListNode
+        """
+        
+        size = len(lists)
+        if size == 0: return None
+        if size == 1: return lists[0]
+        
+        mid = size/2
+        left = self.mergeKLists(lists[:mid])
+        right = self.mergeKLists(lists[mid:])
+        
+        dummy_head = ListNode(0)
+        l, r, p = left, right, dummy_head
+        while l or r:
+            if l and r:
+                if l.val <= r.val:
+                    p.next = l
+                    l = l.next
+                else:
+                    p.next = r
+                    r = r.next
+            elif l:
+                p.next = l
+                l = l.next
+            elif r:
+                p.next = r
+                r = r.next
+            p = p.next
+        return dummy_head.next
