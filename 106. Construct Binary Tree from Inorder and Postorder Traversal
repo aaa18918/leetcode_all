@@ -1,3 +1,4 @@
+O(nlgn) time, O(1) space
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -13,42 +14,19 @@ class Solution(object):
         :rtype: TreeNode
         """
         
-        if not inorder: return None
+        def myDFS(inorder):
+            if not inorder:
+                return None
+            
+            root_val = postorder.pop()
+            idx = inorder.index(root_val)
+            
+            root = TreeNode(root_val)
+            
+            right = myDFS(inorder[idx+1:])
+            left = myDFS(inorder[:idx])
+            
+            root.right, root.left = right, left
+            return root
         
-        root = TreeNode(postorder.pop())
-        idx = inorder.index(root.val)
-        
-        right = self.buildTree(inorder[idx+1:], postorder)
-        left = self.buildTree(inorder[:idx], postorder)
-        
-        root.right, root.left = right, left
-        return root
-
-
-# Definition for a binary tree node.
-# class TreeNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution(object):
-    def buildTree(self, inorder, postorder):
-        """
-        :type inorder: List[int]
-        :type postorder: List[int]
-        :rtype: TreeNode
-        """
-
-        if not inorder: return None
-
-        root = TreeNode(postorder.pop())
-        idx = inorder.index(root.val)
-
-        right, left = self.buildTree(inorder[idx+1:], postorder), self.buildTree(inorder[:idx], postorder)
-
-        root.right, root.left = right, left
-        return root
-
-
-别的解法全都没看。
+        return myDFS(inorder)
