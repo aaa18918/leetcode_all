@@ -1,64 +1,4 @@
-class Solution(object):
-    def removeDuplicates(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
-        
-        len_nums = len(nums)
-        if len_nums == 0 or len_nums == 1:
-            return len_nums
-        
-        left = 1
-        for index in range(1, len_nums):
-            if nums[index] != nums[index-1]:
-                nums[left] = nums[index]
-                left += 1
-        
-        return left
- 
-https://leetcode.com/problems/remove-duplicates-from-sorted-array/
-class Solution(object):
-    def removeDuplicates(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
-        
-        if nums == []:
-            return 0
-        
-        length, cur_index, cur_num, count = len(nums), 1, nums[0], 0
-        
-        for index in range(1, length):
-            if nums[index] != cur_num:
-                nums[cur_index] = nums[index]
-                cur_index += 1
-                cur_num = nums[index]
-            else:
-                count += 1
-        
-        return length-count
- 
-https://leetcode.com/problems/remove-duplicates-from-sorted-array/
-start from 1:
-class Solution(object):
-    def removeDuplicates(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
-        
-        if not nums: return 0
-        
-        start = 1
-        for index, num in enumerate(nums[1:]):
-            if num != nums[index]:
-                nums[start] = num
-                start += 1
-        return start
-        
-start from 0:
+O(n) time, O(1) space:
 class Solution(object):
     def removeDuplicates(self, nums):
         """
@@ -72,3 +12,21 @@ class Solution(object):
                 nums[start] = num
                 start += 1
         return start
+
+
+O(n) time, O(1) space:
+class Solution(object):
+    def removeDuplicates(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        
+        if not nums: return 0
+        
+        left = 1
+        for idx in range(1, len(nums)):
+            if nums[idx] != nums[idx-1]:
+                nums[left] = nums[idx]
+                left += 1
+        return left
