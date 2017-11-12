@@ -1,3 +1,16 @@
+O(n) time, O(1) space
+class Solution(object):
+    def firstUniqChar(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        
+        lower_case_letters = string.ascii_lowercase
+        indices = [s.find(l) for l in lower_case_letters if s.count(l) == 1]
+        return min(indices) if indices else -1
+
+
 O(n) time, O(n) space
 class Solution(object):
     def firstUniqChar(self, s):
