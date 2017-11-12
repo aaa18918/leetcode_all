@@ -1,3 +1,4 @@
+O(n) time, O(1) space
 class Solution(object):
     def findKthLargest(self, nums, k):
         """
@@ -7,17 +8,28 @@ class Solution(object):
         """
         
         pivot = nums[0]
-        left = [l for l in nums if l > pivot]
-        right = [r for r in nums if r < pivot]
+        left, idx, right = 0, 0, len(nums)-1
+        while left <= idx <= right:
+            if nums[idx] == pivot:
+                idx += 1
+            elif nums[idx] > pivot:
+                nums[left], nums[idx] = nums[idx], nums[left]
+                left += 1
+                idx += 1
+            else:
+                nums[right], nums[idx] = nums[idx], nums[right]
+                right -= 1
         
-        if k <= len(left):
-            return self.findKthLargest(left, k)
-        elif k > len(nums)-len(right):
-            return self.findKthLargest(right, k-len(nums)+len(right))
-        return pivot
+        if k <= left:
+            return self.findKthLargest(nums[:left], k)
+        elif k <= idx:
+            return pivot
+        else:
+            return self.findKthLargest(nums[idx:], k-idx)
 
+
+O(nlgk) time, O(k) space
 import heapq
-
 class Solution(object):
     def findKthLargest(self, nums, k):
         """
@@ -34,14 +46,3 @@ class Solution(object):
                 heapq.heappushpop(minHeap, num)
         
         return minHeap[0]
-
-class Solution(object):
-    def findKthLargest(self, nums, k):
-        """
-        :type nums: List[int]
-        :type k: int
-        :rtype: int
-        """
-        
-        nums = sorted(nums, reverse = True)
-        return nums[k-1]
