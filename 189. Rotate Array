@@ -1,3 +1,4 @@
+O(n) time, O(1) space
 class Solution(object):
     def rotate(self, nums, k):
         """
@@ -17,25 +18,8 @@ class Solution(object):
             nums[left], nums[right] = nums[right], nums[left]
             left, right = left+1, right-1
 
-class Solution(object):
-    def rotate(self, nums, k):
-        """
-        :type nums: List[int]
-        :type k: int
-        :rtype: void Do not return anything, modify nums in-place instead.
-        """
-        
-        len_nums = len(nums)
-        k %= len_nums
-        self.reverse(nums, 0, len_nums-1)
-        self.reverse(nums, 0, k-1)
-        self.reverse(nums, k, len_nums-1)
-    
-    def reverse(self, nums, left, right):
-        while left < right:
-            nums[left], nums[right] = nums[right], nums[left]
-            left, right = left+1, right-1
 
+O(n) time, O(1) space
 class Solution(object):
     def rotate(self, nums, k):
         """
@@ -47,4 +31,3 @@ class Solution(object):
         len_nums = len(nums)
         k %= len_nums
         nums[:] = nums[-k:]+nums[:-k]
-
