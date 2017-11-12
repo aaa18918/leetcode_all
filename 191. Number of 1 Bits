@@ -1,3 +1,4 @@
+O(32) time, O(1) space
 class Solution(object):
     def hammingWeight(self, n):
         """
@@ -9,14 +10,4 @@ class Solution(object):
         while n:
             res += n&1
             n >>= 1
-        
         return res
-
-class Solution(object):
-    def hammingWeight(self, n):
-        """
-        :type n: int
-        :rtype: int
-        """
-        
-        return bin(n).count('1')
