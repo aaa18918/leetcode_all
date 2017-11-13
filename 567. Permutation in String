@@ -1,4 +1,4 @@
-O(n) time, O(n) space
+O(n) time, O(26) space
 class Solution(object):
     def checkInclusion(self, s1, s2):
         """
