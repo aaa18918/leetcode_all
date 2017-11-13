@@ -27,3 +27,14 @@ class Solution(object):
         """
         
         return [ pre[:index]+[nums[-1]]+pre[index:] for pre in self.permute(nums[:-1]) for index in xrange(0, len(pre)+1)] if nums != [] else [[]]
+
+
+O(n!) time, O(n*n!) space
+class Solution(object):
+    def permute(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        
+        return [[nums[idx]]+p for idx in range(len(nums)) for p in self.permute(nums[:idx]+nums[idx+1:])] if nums else [[]]
