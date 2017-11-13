@@ -1,3 +1,4 @@
+O(n) time, O(lgn) space
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -12,75 +13,17 @@ class Solution(object):
         :rtype: List[int]
         """
         
+        my_stack = []
+        p = root
         res = []
-        
-        def helper(root):
-            if not root:
-                return
+        while p or my_stack:            
+            while p:
+                my_stack.append(p)
+                p = p.left
             
-            if root.left:
-                helper(root.left)
+            if not p:
+                p = my_stack.pop()
+                res.append(p.val)
             
-            res.append(root.val)
-            
-            if root.right:
-                helper(root.right)
-        
-        helper(root)
+            p = p.right
         return res
-        
-
-# Definition for a binary tree node.
-# class TreeNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution(object):
-    def inorderTraversal(self, root):
-        """
-        :type root: TreeNode
-        :rtype: List[int]
-        """
-        
-        stack, res = [], []
-        node = root
-        
-        while stack or node:
-            if node:
-                stack.append(node)
-                node = node.left
-            else:
-                node = stack.pop()
-                res.append(node.val)
-                node = node.right
-        
-        return res
-        
-
-# Definition for a binary tree node.
-# class TreeNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution(object):
-    def inorderTraversal(self, root):
-        """
-        :type root: TreeNode
-        :rtype: List[int]
-        """
-        
-        res = []
-        
-        def helper(root):
-            if root:
-                helper(root.left)
-                res.append(root.val)
-                helper(root.right)
-        
-        helper(root)
-        return res
-        
