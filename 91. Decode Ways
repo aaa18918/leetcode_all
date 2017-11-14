@@ -1,5 +1,4 @@
-https://leetcode.com/problems/decode-ways/
-
+O(n) time, O(n) space
 class Solution(object):
     def numDecodings(self, s):
         """
@@ -7,96 +6,24 @@ class Solution(object):
         :rtype: int
         """
         
-        len_s = len(s)
+        if not s or s[0] == '0': return 0
         
-        if len_s == 0 or s[0] == '0':
-            return 0
-        elif len_s == 1:
-            if s == '0':
-                return 0
-            return 1
-        elif len_s == 2:
-            if 0 < int(s) <= 26 and s[1] != '0':
-                return 2
-            elif int(s) == 0:
-                return 0
-            elif s[1] == '0' and int(s) > 26:
-                return 0
-            else:
-                return 1
-        
-        record = [1]
-        if 0 < int(s[:2]) <= 26 and s[1] != '0':
-            record.append(2)
-        elif int(s[:2]) == 0:
-            return 0
-        elif s[1] == '0' and int(s[:2]) > 26:
-            return 0
-        else:
-            record.append(1)
-        
-        for index in xrange(2, len_s):
-            if 0 < int(s[index-1:index+1]) <= 26 and s[index] != '0' and s[index-1] != '0':
-                record.append(record[index-1]+record[index-2])
-            elif int(s[index-1:index+1]) == 0:
-                return 0
-            elif s[index] == '0':
-                if s[index-1] < '3':
-                    record.append(record[index-2])
-                else:
+        dp = [0 for _ in range(len(s)+1)]
+        dp[0], dp[1] = 1, 1
+        for idx in range(1, len(s)):
+            if s[idx] == '0':
+                if s[idx-1] not in "12":
                     return 0
+                else:
+                    dp[idx+1] = dp[idx-1]
             else:
-                record.append(record[index-1])
-        return record[-1]
-
-
-class Solution(object):
-    def numDecodings(self, s):
-        """
-        :type s: str
-        :rtype: int
-        """
-        
-        if not s: return 0
-        
-        len_s = len(s)
-
-        dp = [0 for i in range(len_s+1)]
-        dp[len_s] = 1
-        dp[len_s-1] = 1 if s[-1] != '0' else 0
-
-        for i in range(len_s-2, -1, -1):
-            if s[i] == '0':
-                dp[i] = 0
-            elif int(s[i:i+2]) <= 26:
-                dp[i] = dp[i+1]+dp[i+2]
-            else:
-                dp[i] = dp[i+1]
-        return dp[0]
-
-
-class Solution(object):
-    def numDecodings(self, s):
-        """
-        :type s: str
-        :rtype: int
-        """
-        
-        len_s = len(s)
-        dp = [1 for _ in range(len_s+1)]
-        for idx in range(len_s):
-            if idx == 0:
-                if s[idx] != '0':
+                if s[idx-1] == '1':
+                    dp[idx+1] = dp[idx]+dp[idx-1]
+                elif s[idx-1] == '2':
+                    if '1' <= s[idx] <= '6':
+                        dp[idx+1] = dp[idx]+dp[idx-1]
+                    else:
+                        dp[idx+1] = dp[idx]
+                else:
                     dp[idx+1] = dp[idx]
-                else:
-                    return 0
-            elif s[idx-1] == '1' and '1' <= s[idx] <= '9' or s[idx-1] == '2' and '1' <= s[idx] <= '6':
-                dp[idx+1] = dp[idx-1]+dp[idx]
-            elif s[idx-1] in '12' and s[idx] == '0':
-                dp[idx+1] = dp[idx-1]
-            elif s[idx] == '0':
-                return 0
-            else:
-                dp[idx+1] = dp[idx]
-
-        return dp[len_s] if s else 0
+        return dp[len(s)]
