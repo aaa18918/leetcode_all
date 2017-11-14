@@ -25,10 +25,5 @@ class Solution(object):
             self.res = max(self.res, left_max+node.val+right_max)
             return max(left_max, right_max)+node.val
         
-        if not root: return 0
-        
-        res_with_root = max(0, maxPath(root.left))+root.val+max(0, maxPath(root.right))
-        return max(self.res, res_with_root)
-
-
-别的解法没看。
+        maxPath(root)
+        return self.res
