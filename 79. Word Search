@@ -1,4 +1,4 @@
-O(n^2*m) time, O(n^2) space
+O(m*n^2) time, O(n^2) space
 class Solution(object):
     def exist(self, board, word):
         """
