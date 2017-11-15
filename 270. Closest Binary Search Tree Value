@@ -1,3 +1,4 @@
+O(lgn) time, O(1) space
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -13,12 +14,8 @@ class Solution(object):
         :rtype: int
         """
         
-        result = root.val
-        while root:
-            result = root.val if abs(root.val-target) < abs(result-target) else result
-            if target > root.val:
-                root = root.right
-            else:
-                root = root.left
-        
-        return result
+        p, res = root, root.val
+        while p:
+            res = p.val if abs(p.val-target) < abs(res-target) else res
+            p = p.right if target > p.val else p.left
+        return res
