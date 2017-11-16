@@ -1,3 +1,4 @@
+O(n) time, O(1) space
 class Solution(object):
     def rob(self, nums):
         """
@@ -6,24 +7,23 @@ class Solution(object):
         """
         
         if not nums: return 0
+        if len(nums) == 1: return nums[0]
         
-        len_nums = len(nums)
+        left, right = 0, nums[1]
+        for idx in range(2, len(nums)):
+            if idx%2 == 0:
+                left = max(left+nums[idx], right)
+            else:
+                right = max(right+nums[idx], left)
         
-        if len_nums == 1: return nums[0]
+        res = left if (len(nums)-1)%2 == 0 else right
         
-        dp = [0 for _ in range(len_nums)]
-        res = 0
-
-        dp[0], dp[1] = nums[0], nums[0]
-        for i in range(2, len_nums-1):
-            dp[i] = max(dp[i-1], dp[i-2]+nums[i])
+        left, right = nums[0], nums[0]
+        for idx in range(2, len(nums)-1):
+            if idx%2 == 0:
+                left = max(left+nums[idx], right)
+            else:
+                right = max(right+nums[idx], left)
         
-        res += dp[len_nums-2]
-        
-        dp = [0 for _ in range(len_nums)]
-        dp[1] = nums[1]
-        for i in range(2, len_nums):
-            dp[i] = max(dp[i-1], dp[i-2]+nums[i])
-        
-        res = max(res, dp[len_nums-1])
+        res = max(res, left) if (len(nums)-2)%2 == 0 else max(res, right)
         return res
