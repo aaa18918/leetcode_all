@@ -1,3 +1,4 @@
+O(n) time, O(1) space
 class Solution(object):
     def canJump(self, nums):
         """
@@ -5,46 +6,10 @@ class Solution(object):
         :rtype: bool
         """
         
-        left, right = 0, 0
-        len_nums = len(nums)
-        
-        while left <= right:
-            right = max(right, nums[left]+left)
-            if right >= len_nums-1: return True
-            left += 1
-        
-        return False
-
-https://leetcode.com/problems/jump-game/
-class Solution(object):
-    def canJump(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: bool
-        """
-        
-        len_nums = len(nums)
-        can_jump = 0
-        
-        for index in xrange(0, len_nums):
-            if index > can_jump: return False
-            can_jump = max(can_jump, index+nums[index])
-            if can_jump >= len_nums: return True
+        max_distance = 0
+        for idx in range(len(nums)):
+            if idx > max_distance:
+                return False
             
+            max_distance = max(max_distance, idx+nums[idx])
         return True
-
-class Solution(object):
-    def canJump(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: bool
-        """
-        
-        can_jump = 0
-        
-        for i, jump_step in enumerate(nums):
-            if i > can_jump: return False
-            can_jump = max(can_jump, i+jump_step)
-        
-        return True
-            
