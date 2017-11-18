@@ -5,7 +5,7 @@ class Solution(object):
         :rtype: int
         """
         
-        if not chars: return chars
+        if not chars: return 0
         
         left, count, size = 0, 1, len(chars)
         for idx in range(1, size+1):
