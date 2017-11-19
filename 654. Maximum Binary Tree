@@ -1,3 +1,4 @@
+O(nlgn) time, O(1) space
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -14,18 +15,14 @@ class Solution(object):
         
         if not nums: return None
         
-        idx = self.findMax(nums)
-        root = TreeNode(nums[idx])
-        left, right = self.constructMaximumBinaryTree(nums[:idx]), self.constructMaximumBinaryTree(nums[idx+1:])
-        root.left, root.right = left, right
+        max_val, max_idx = nums[0], 0
+        for idx in range(len(nums)):
+            if nums[idx] > max_val:
+                max_val, max_idx = nums[idx], idx
+        
+        root = TreeNode(max_val)
+        left_subtree = self.constructMaximumBinaryTree(nums[:max_idx])
+        right_subtree = self.constructMaximumBinaryTree(nums[max_idx+1:])
+        
+        root.left, root.right = left_subtree, right_subtree
         return root
-    
-    def findMax(self, nums):
-        if not nums: return -1
-        res, cur_max = 0, nums[0]
-        for i in range(len(nums)):
-            if nums[i] > cur_max:
-                res, cur_max = i, nums[i]
-        return res
-
-还有一个稍微快一点点的O(n)的解决方法。
