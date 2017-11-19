@@ -1,3 +1,4 @@
+O(nlgn) time, O(1) space
 class Solution(object):
     def findMinArrowShots(self, points):
         """
@@ -5,36 +6,18 @@ class Solution(object):
         :rtype: int
         """
         
-        if not points: return 0
-        
-        points = sorted(points)
-        res, end = 1, points[0][1]
-        
-        for point in points[1:]:
-            if point[0] <= end:
-                end = min(end, point[1])
+        def myCMP(left, right):
+            if left[1] < right[1]:
+                return -1
+            elif left[1] > right[1]:
+                return 1
             else:
-                res += 1
-                end = point[1]
+                return left[0]-right[0]
         
-        return res
-
-
-class Solution(object):
-    def findMinArrowShots(self, points):
-        """
-        :type points: List[List[int]]
-        :rtype: int
-        """
-
-        if not points: return 0
-
-        points = sorted(points, key = lambda x: x[1])
-        res, end = 1, points[0][1]
-
-        for point in points[1:]:
-            if point[0] > end:
-                res += 1
-                end = point[1]
-
-        return res
+        points.sort(cmp = myCMP)
+        count, left = 0, 0
+        for idx in range(len(points)):
+            if idx == 0 or points[idx][0] > points[left][1]:
+                count += 1
+                left = idx
+        return count
