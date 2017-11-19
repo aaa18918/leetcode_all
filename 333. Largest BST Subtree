@@ -1,3 +1,4 @@
+O(n) time, O(1) space
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -11,33 +12,14 @@ class Solution(object):
         :type root: TreeNode
         :rtype: int
         """
-
-        def myDFS(root):
-            if not root: return True, None, None, 0
-            
-            is_left_bst, left_smallest_node, left_largest_node, left_node_num = myDFS(root.left)
-            is_right_bst, right_smallest_node, right_largest_node, right_node_num = myDFS(root.right)
-
-            if is_left_bst and is_right_bst:
-                if root.left and root.right:
-                    if left_largest_node.val < root.val < right_smallest_node.val:
-                        return True, left_smallest_node, right_largest_node, left_node_num+right_node_num+1
-                    else:
-                        return False, None, None, max(left_node_num, right_node_num)
-                elif root.left:
-                    if root.val > left_largest_node.val:
-                        return True, left_smallest_node, root, left_node_num+1
-                    else:
-                        return False, None, None, left_node_num
-                elif root.right:
-                    if root.val < right_smallest_node.val:
-                        return True, root, right_largest_node, right_node_num+1
-                    else:
-                        return False, None, None, right_node_num
-                else:
-                    return True, root, root, 1
-            else:
-                return False, None, None, max(left_node_num, right_node_num)
         
-        return myDFS(root)[3]
-
+        def myDFS(node):
+            if not node: return 0, 0, -sys.maxint-1, sys.maxint
+        
+            left_bst_node_num, left_node_num, left_max_val, left_min_val = myDFS(node.left)
+            right_bst_node_num, right_node_num, right_max_val, right_min_val = myDFS(node.right)
+            
+            n = -sys.maxint-1 if node.val <= left_max_val or node.val >= right_min_val else left_node_num+right_node_num+1
+            return max(n, left_bst_node_num, right_bst_node_num), n, max(node.val, right_max_val), min(left_min_val, node.val)
+        
+        return myDFS(root)[0]
