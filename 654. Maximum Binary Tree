@@ -1,4 +1,4 @@
-O(nlgn) time, O(1) space
+O(n) time, O(n) space
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -13,16 +13,16 @@ class Solution(object):
         :rtype: TreeNode
         """
         
-        if not nums: return None
+        my_stack = []
+        for num in nums:
+            node = TreeNode(num)
+            while my_stack and my_stack[-1].val < num:
+                node.left = my_stack[-1]
+                my_stack.pop()
+            
+            if my_stack:
+                my_stack[-1].right = node
+            
+            my_stack.append(node)
         
-        max_val, max_idx = nums[0], 0
-        for idx in range(len(nums)):
-            if nums[idx] > max_val:
-                max_val, max_idx = nums[idx], idx
-        
-        root = TreeNode(max_val)
-        left_subtree = self.constructMaximumBinaryTree(nums[:max_idx])
-        right_subtree = self.constructMaximumBinaryTree(nums[max_idx+1:])
-        
-        root.left, root.right = left_subtree, right_subtree
-        return root
+        return my_stack[0] if nums else []
