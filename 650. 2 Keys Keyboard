@@ -1,4 +1,4 @@
-O(lgn) time, O(1) space
+Normally O(lgn) time, Prime Number: O(n) time, O(1) space
 class Solution(object):
     def minSteps(self, n):
         """
