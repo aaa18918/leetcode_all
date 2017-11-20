@@ -1,76 +1,59 @@
+O(n) time, O(tag_nested_layer_num) space
 class Solution(object):
     def isValid(self, code):
         """
         :type code: str
         :rtype: bool
         """
-
-        if not code: return True
-
-        if code[0] != '<': return False
-
-        my_stack, is_cdata, idx, length, contain_tags = [], False, 0, len(code), False
-        while idx < length:
+        
+        my_stack = []
+        idx, size = 0, len(code)
+        while idx < size:
             if code[idx] == '<':
-                left = idx
-                while idx < length and code[idx] != '>':
-                    idx += 1
-
-                if idx == length:
-                    return False
-
-                inside = code[left+1:idx]
-
-                if is_cdata:
-                    if len(inside) > 2 and inside[:-2] == "]]":
-                        cdata = my_stack.pop()
-                        is_cdata = False
-                else:
-                    if not inside:
+                if idx+8 < size and code[idx+1:idx+9] == "![CDATA[":
+                    if not my_stack:
                         return False
+                    
+                    while idx+3 < size and code[idx:idx+3] != "]]>":
+                        idx += 1
 
-                    if len(inside) >= len("![CDATA["):
-                        if inside[:8] == "![CDATA[":
-                            if not my_stack:
-                                return False
-                            
-                            if inside[:-2] == "]]":
-                                pass
-                            else:
-                                my_stack.append("![CDATA[")
-                                is_cdata = True
-
-                            continue
-
-                    if inside[0] == '/':
-                        if my_stack and my_stack[-1] == inside[1:]:
-                            my_stack.pop()
-                            
-                            if not my_stack:
-                                idx += 1
-                                break
-                        else:
+                    if idx+3 >= size:
+                        return False
+                    
+                    idx += 3
+                else:
+                    left = idx
+                    while idx < size and code[idx] != '>':
+                        idx += 1
+                    
+                    if idx == size:
+                        return False
+                    
+                    tag_name = code[left+1:idx]
+                    if not tag_name:
+                        return False
+                    
+                    if tag_name[0] == '/':
+                        if not my_stack or my_stack[-1] != tag_name[1:]:
                             return False
+                        
+                        my_stack.pop()
+                        if not my_stack:
+                            return idx == size-1
                     else:
-                        if 1 <= len(inside) <= 9:
-                            for c in inside:
-                                if 'A' <= c <= 'Z':
-                                    pass
-                                else:
-                                    return False
-
-                            contain_tags = True
-                            my_stack.append(inside)
-                        else:
+                        if len(tag_name) < 1 or len(tag_name) > 9:
                             return False
-            elif code[idx] == '>':
-                if my_stack and my_stack[-1] == "![CDATA[" and idx > 1 and code[idx-2:idx] == "]]":
-                    cdata = my_stack.pop()
-                    is_cdata = False
-
-            idx += 1
-
-        return idx == length and not my_stack and contain_tags
-
-
-别的答案还都没有看呢喔~~~
+                        
+                        for char in tag_name:
+                            if char < 'A' or char > 'Z':
+                                return False
+                        
+                        my_stack.append(tag_name)
+                    
+                    idx += 1
+            else:
+                if not my_stack:
+                    return False
+                
+                idx += 1
+        return False
