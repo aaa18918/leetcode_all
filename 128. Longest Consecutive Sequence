@@ -1,3 +1,4 @@
+O(n) time, O(n) space
 class Solution(object):
     def longestConsecutive(self, nums):
         """
@@ -5,31 +6,22 @@ class Solution(object):
         :rtype: int
         """
         
-        hash_table = {}
+        hash_set = set()
         for num in nums:
-            hash_table[num] = True
+            hash_set.add(num)
         
-        result = 0
-        
+        max_length = 0
         for num in nums:
-            if hash_table[num]:
-                hash_table[num] = False
+            if num in hash_set:
+                hash_set.remove(num)
+                left, right = num, num
+                while left-1 in hash_set:
+                    left -= 1
+                    hash_set.remove(left)
                 
-                left_count, left_num = 0, num-1
-                right_count, right_num = 0, num+1
+                while right+1 in hash_set:
+                    right += 1
+                    hash_set.remove(right)
                 
-                while left_num in hash_table:
-                    hash_table[left_num] = False
-                    left_count += 1
-                    left_num -= 1
-                
-                while right_num in hash_table:
-                    hash_table[right_num] = False
-                    right_count += 1
-                    right_num += 1
-                
-                result = max(result, 1+left_count+right_count)
-        
-        return result
-                
-还有一种也是O(n)的解法，下次写。还有其它discuss的答案没看。
+                max_length = max(max_length, right-left+1)
+        return max_length
