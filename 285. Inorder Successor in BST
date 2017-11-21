@@ -14,45 +14,10 @@ class Solution(object):
         :rtype: TreeNode
         """
         
-        prev, cur = None, root
-        while cur is not p:
-            if p.val < cur.val:
-                prev = cur
-                cur = cur.left
-            else:
-                cur = cur.right
-        
-        if not p.right: return prev
-        
-        p = p.right
-        while p.left:
-            p = p.left
-        return p
-
-
-O(lgn) time, O(1) space
-# Definition for a binary tree node.
-# class TreeNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution(object):
-    def inorderSuccessor(self, root, p):
-        """
-        :type root: TreeNode
-        :type p: TreeNode
-        :rtype: TreeNode
-        """
-        
-        if not root: return None
-        
         node, parent = root, None
         while node:
-            if node.val > p.val:
-                node, parent = node.left, node
-            else:
+            if p.val >= node.val:
                 node = node.right
-
+            else:
+                node, parent = node.left, node
         return parent
