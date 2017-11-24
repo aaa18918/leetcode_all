@@ -8,7 +8,4 @@ class Solution(object):
         
         nums.sort()
         
-        def helper(nums):
-            return [[nums[idx]]+p for idx in range(len(nums)) for p in self.permuteUnique(nums[:idx]+nums[idx+1:]) if idx == 0 or nums[idx] != nums[idx-1]] if nums else [[]]
-        
-        return helper(nums)
+        return [[nums[idx]]+p for idx in range(len(nums)) for p in self.permuteUnique(nums[:idx]+nums[idx+1:]) if idx == 0 or nums[idx] != nums[idx-1]] if nums else [[]]
