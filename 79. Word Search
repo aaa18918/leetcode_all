@@ -1,4 +1,4 @@
-O(mn) time, O(mn) space
+O(mmnn) time(guess), O(mn) space
 class Solution(object):
     def exist(self, board, word):
         """
