@@ -1,42 +1,4 @@
 O(???) time, O(???) space
-class TrieNode(object):
-    def __init__(self):
-        self.is_word = False
-        self.children = [None for _ in range(26)]
-
-class Trie(object):
-    def __init__(self):
-        self.root = TrieNode()
-    
-    def getRoot(self):
-        return self.root
-    
-    def insertWord(self, word):
-        if not word: return
-        
-        p = self.root
-        for c in word:
-            if not p.children[ord(c)-ord('a')]:
-                p.children[ord(c)-ord('a')] = TrieNode()
-            p = p.children[ord(c)-ord('a')]
-        
-        p.is_word = True
-    
-    def deleteWord(self, word):
-        if not word: return
-        
-        p = self.root
-        path_stack = []
-        for c in word:
-            path_stack.append((p, c))
-            p = p.children[ord(c)-ord('a')]
-        
-        p.is_word = False
-        while path_stack and not p.is_word and not filter(lambda x: x is not None, p.children):
-            parent, c = path_stack.pop()
-            parent.children[ord(c)-ord('a')] = None
-            p = parent
-
 class Solution(object):
     def findWords(self, board, words):
         """
@@ -45,113 +7,32 @@ class Solution(object):
         :rtype: List[str]
         """
         
-        if not board or not words: return []
-        
-        trie = Trie()
+        trie = {}
         for word in words:
-            trie.insertWord(word)
+            p = trie
+            for c in word:
+                if c not in p:
+                    p[c] = {}
+                p = p[c]
+            p['#'] = {}
         
-        res = []
-        visited = set()
-        diff = [(0, -1), (0, 1), (-1, 0), (1, 0)]
-        m, n = len(board), len(board[0])
-        def myDFS(word, node, x, y):
-            if node.is_word:
-                res.append(word)
-                trie.deleteWord(word)
+        res = set()
+        diff = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        
+        def myDFS(cur_word, x, y, p):
+            if '#' in p:
+                res.add(cur_word)
             
-            visited.add((x, y))
+            temp = board[x][y]
+            board[x][y] = '@'
             for d in diff:
                 new_x, new_y = x+d[0], y+d[1]
-                if 0 <= new_x < m and 0 <= new_y < n and (new_x, new_y) not in visited:
-                    child_idx = ord(board[new_x][new_y])-ord('a')
-                    if node.children[child_idx]:
-                        myDFS(word+board[new_x][new_y], node.children[child_idx], new_x, new_y)
-            
-            visited.remove((x, y))
-        
-        root = trie.getRoot()
-        for i in range(m):
-            for j in range(n):
-                child_idx = ord(board[i][j])-ord('a')
-                if root.children[child_idx]:
-                    myDFS(board[i][j], root.children[child_idx], i, j)
-        
-        return res
+                if 0 <= new_x < len(board) and 0 <= new_y < len(board[0]) and board[new_x][new_y] in p:
+                    myDFS(cur_word+board[new_x][new_y], new_x, new_y, p[board[new_x][new_y]])
+            board[x][y] = temp
 
-
-O(???) time, O(???) space
-class TrieNode(object):
-    def __init__(self):
-        self.is_word = False
-        self.children = collections.defaultdict(TrieNode)
-
-        
-class Trie(object):
-    def __init__(self):
-        self.root = TrieNode()
-    
-    def insertWord(self, word):
-        p = self.root
-        for char in word:
-            p = p.children[char]
-        
-        p.is_word = True
-    
-    def deleteWord(self, word):
-        p = self.root
-        my_stack = []
-        for char in word:
-            my_stack.append(p)
-            p = p.children[char]
-        
-        p.is_word = False
-        idx = len(word)-1
-        while not p.children and my_stack and not p.is_word:
-            del my_stack[-1].children[word[idx]]
-            p = my_stack.pop()
-            idx -= 1
-    
-    def getRoot(self):
-        return self.root
-
-class Solution(object):
-    def findWords(self, board, words):
-        """
-        :type board: List[List[str]]
-        :type words: List[str]
-        :rtype: List[str]
-        """
-        
-        if not board or not words: return []
-        
-        t = Trie()
-        root = t.getRoot()
-        
-        m, n = len(board), len(board[0])
-        res = []
-        
-        for word in words:
-            t.insertWord(word)
-        
-        diff = [(0, -1), (0, 1), (-1, 0), (1, 0)]
-        visited = set()
-        def myDFS(word, node, x, y):
-            if node.is_word:
-                res.append(word)
-                t.deleteWord(word)
-            
-            visited.add((x, y))
-            for d in diff:
-                new_x, new_y = x+d[0], y+d[1]
-                if 0 <= new_x < m and 0 <= new_y < n and (new_x, new_y) not in visited:
-                    if board[new_x][new_y] in node.children:
-                        myDFS(word+board[new_x][new_y], node.children[board[new_x][new_y]], new_x, new_y)
-            visited.remove((x, y))
-        
-        for i in range(m):
-            for j in range(n):
-                if board[i][j] in root.children:
-                    myDFS(board[i][j], root.children[board[i][j]], i, j)
-        
-        return res
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if board[i][j] in trie:
+                    myDFS(board[i][j], i, j, trie[board[i][j]])
+        return list(res)
