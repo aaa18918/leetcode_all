@@ -18,12 +18,14 @@ class Solution(object):
         
         def maxPath(node):
             if not node: return 0
-            
-            left_max = 0 if not node.left else max(0, maxPath(node.left))
-            right_max = 0 if not node.right else max(0, maxPath(node.right))
+        
+            left_max = max(0, maxPath(node.left))
+            right_max = max(0, maxPath(node.right))
             
             self.res = max(self.res, left_max+node.val+right_max)
             return max(left_max, right_max)+node.val
         
-        maxPath(root)
-        return self.res
+        if not root: return 0
+        
+        root_path_sum = max(0, maxPath(root.left))+root.val+max(0, maxPath(root.right))
+        return max(root_path_sum, self.res)
