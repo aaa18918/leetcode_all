@@ -12,35 +12,22 @@ class Solution(object):
         :type root: TreeNode
         :rtype: List[List[int]]
         """
-        
-        if not root: return []
-        
-        res, cur, level = [[root.val]], [root], 1
-        while cur:
-            temp, value = [], []
-            if level%2 == 1:
-                for idx in range(len(cur)-1, -1, -1):
-                    if cur[idx].right:
-                        temp.append(cur[idx].right)
-                        value.append(cur[idx].right.val)
-                    
-                    if cur[idx].left:
-                        temp.append(cur[idx].left)
-                        value.append(cur[idx].left.val)
+
+        res = []
+        my_stack = [(root, 0)]
+        while my_stack:
+            node, level = my_stack.pop()
+            if not node: continue
+            
+            if level == len(res):
+                res.append([])
+            
+            if level%2 == 0:
+                res[level].append(node.val)
             else:
-                for idx in range(len(cur)-1, -1, -1):
-                    if cur[idx].left:
-                        temp.append(cur[idx].left)
-                        value.append(cur[idx].left.val)
-                    
-                    if cur[idx].right:
-                        temp.append(cur[idx].right)
-                        value.append(cur[idx].right.val)
-            
-            level += 1
-            
-            if value: res.append(value)
-            
-            cur = temp
+                res[level] = [node.val]+res[level]
+                
+            my_stack.append((node.right, level+1))
+            my_stack.append((node.left, level+1))
         
         return res
