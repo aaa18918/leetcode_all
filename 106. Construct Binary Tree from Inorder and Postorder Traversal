@@ -15,22 +15,16 @@ class Solution(object):
         """
         
         hash_table = {}
-        for idx, val in enumerate(inorder):
-            hash_table[val] = idx
+        for idx, num in enumerate(inorder):
+            hash_table[num] = idx
         
         def myDFS(left, right):
-            if left > right:
-                return None
+            if left > right: return None
             
-            root_val = postorder.pop()
-            idx = hash_table[root_val]
-            
-            root = TreeNode(root_val)
-            
-            right_tree = myDFS(idx+1, right)
-            left_tree = myDFS(left, idx-1)
-            
-            root.left, root.right = left_tree, right_tree
-            return root
+            val = postorder.pop()
+            node, idx = TreeNode(val), hash_table[val]
+            node.right = myDFS(idx+1, right)
+            node.left = myDFS(left, idx-1)
+            return node
         
         return myDFS(0, len(inorder)-1)
