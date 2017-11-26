@@ -20,3 +20,28 @@ class Solution(object):
             return helper(left.left, right.right) and helper(left.right, right.left)
         
         return helper(root.left, root.right) if root else True
+
+
+O(n) time, O(1) space
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def isSymmetric(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        
+        my_stack = [(root, root)]
+        while my_stack:
+            left, right = my_stack.pop()
+            if not left and not right: continue
+            if not left or not right or left.val != right.val: return False
+            my_stack.append((left.left, right.right))
+            my_stack.append((left.right, right.left))
+        return True
