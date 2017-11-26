@@ -1,4 +1,4 @@
-O(n) time, O(1) space
+best O(n) time, worst O(n^2) time; O(1) space
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -22,4 +22,5 @@ class Solution(object):
                 p.right = cur.right
                 cur.right = cur.left
                 cur.left = None
+            
             cur = cur.right
