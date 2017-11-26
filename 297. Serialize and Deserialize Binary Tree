@@ -15,109 +15,18 @@ class Codec:
         :rtype: str
         """
         
-        if not root: return ""
+        vals = []
         
-        res = str(root.val)+','
-        cur = [root]
-        while cur:
-            temp = []
-            for node in cur:
-                if not node.left:
-                    temp.append(None)
-                else:
-                    temp.append(node.left)
-                
-                if not node.right:
-                    temp.append(None)
-                else:
-                    temp.append(node.right)
-            
-            f = filter(lambda x: x is not None, temp)
-            if f:
-                l = []
-                for t in temp:
-                    if t is None:
-                        l.append("None")
-                    else:
-                        l.append(str(t.val))
-                
-                res += ','.join(l)+','
-            
-            cur = f
-        
-        return res.rstrip(',')
-
-    def deserialize(self, data):
-        """Decodes your encoded data to tree.
-        
-        :type data: str
-        :rtype: TreeNode
-        """
-        if not data: return None
-        
-        data_list = data.split(',')
-        root = TreeNode(int(data_list[0]))
-        idx, size = 1, len(data_list)
-        cur = [root]
-        
-        while idx < size:
-            temp = []
-            for node in cur:
-                if data_list[idx] == "None":
-                    node.left = None
-                else:
-                    node.left = TreeNode(int(data_list[idx]))
-                    temp.append(node.left)
-                
-                if data_list[idx+1] == "None":
-                    node.right = None
-                else:
-                    node.right = TreeNode(int(data_list[idx+1]))
-                    temp.append(node.right)
-                
-                idx += 2
-            
-            cur = temp
-        
-        return root
-
-# Your Codec object will be instantiated and called as such:
-# codec = Codec()
-# codec.deserialize(codec.serialize(root))
-
-
-O(n) time, O(n) space
-# Definition for a binary tree node.
-# class TreeNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Codec:
-
-    def serialize(self, root):
-        """Encodes a tree to a single string.
-        
-        :type root: TreeNode
-        :rtype: str
-        """
-        
-        if not root: return ""
-        
-        res = ""
-        my_stack = [root]
-        
-        while my_stack:
-            node = my_stack.pop()
-            if not node:
-                res += "None,"
+        def myDFS(node):
+            if node:
+                vals.append(str(node.val))
+                myDFS(node.left)
+                myDFS(node.right)
             else:
-                res += str(node.val)+","
-                my_stack.append(node.right)
-                my_stack.append(node.left)
+                vals.append('#')
         
-        return res[:-1]
+        myDFS(root)
+        return ','.join(vals)
 
     def deserialize(self, data):
         """Decodes your encoded data to tree.
@@ -126,44 +35,20 @@ class Codec:
         :rtype: TreeNode
         """
         
-        if not data: return None
+        vals = data.split(',')[::-1]
         
-        data_list = data.split(',')
-        idx, size = 0, len(data_list)
-        my_stack, root = [], None
-        
-        while idx < size:
-            if data_list[idx] != "None":
-                new_node = TreeNode(int(data_list[idx]))
-                if idx == 0:
-                    root = new_node
-                
-                if my_stack:
-                    my_stack[-1].left = new_node
-                
-                my_stack.append(new_node)
-            else:
-                my_stack[-1].left = None
-                idx += 1
-                
-                while idx < size and data_list[idx] == "None":
-                    my_stack[-1].right = None
-                    my_stack.pop()
-                    idx += 1
-                
-                if idx < size:
-                    new_node = TreeNode(int(data_list[idx]))
-                    my_stack[-1].right = new_node
-                    my_stack.pop()
-                    my_stack.append(new_node)
+        def myDFS():
+            cur = vals.pop()
+            if cur == '#':
+                return None
             
-            idx += 1
+            node = TreeNode(int(cur))
+            node.left = myDFS()
+            node.right = myDFS()
+            return node
         
-        return root
-
+        return myDFS()
+        
 # Your Codec object will be instantiated and called as such:
 # codec = Codec()
 # codec.deserialize(codec.serialize(root))
-
-
-可能还有别的提高办法，只看了部分解答(discuss)。
