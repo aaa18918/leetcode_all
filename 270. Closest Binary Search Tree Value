@@ -14,8 +14,8 @@ class Solution(object):
         :rtype: int
         """
         
-        p, res = root, root.val
-        while p:
-            res = p.val if abs(p.val-target) < abs(res-target) else res
-            p = p.right if target > p.val else p.left
+        res = root.val
+        while root:
+            res = root.val if abs(res-target) > abs(root.val-target) else res
+            root = root.left if target < root.val else root.right
         return res
