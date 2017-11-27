@@ -1,4 +1,4 @@
-O(n) time, O(1) space
+O(n) time, O(lgn) space
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -13,57 +13,14 @@ class Solution(object):
         :rtype: List[List[int]]
         """
         
-        res = []
-        
-        def myHelper(node, level):
-            if level < len(res):
-                res[level].append(node.val)
-            else:
-                res.append([node.val])
+        res, my_stack = [], [(root, 0)]
+        while my_stack:
+            node, level = my_stack.pop()
+            if not node: continue
+            if level == len(res):
+                res.append([])
             
-            if node.left:
-                myHelper(node.left, level+1)
-            
-            if node.right:
-                myHelper(node.right, level+1)
-        
-        if not root: return []
-        
-        myHelper(root, 0)
-        
-        return res
-
-
-O(n) time, O(n) space
-# Definition for a binary tree node.
-# class TreeNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution(object):
-    def levelOrder(self, root):
-        """
-        :type root: TreeNode
-        :rtype: List[List[int]]
-        """
-        
-        if not root: return []
-        
-        cur, res = [root], [[root.val]]
-        while cur:
-            temp, values = [], []
-            for node in cur:
-                if node.left:
-                    temp.append(node.left)
-                    values.append(node.left.val)
-                
-                if node.right:
-                    temp.append(node.right)
-                    values.append(node.right.val)
-            
-            if temp:
-                res.append(values)
-            cur = temp
+            res[level].append(node.val)
+            my_stack.append((node.right, level+1))
+            my_stack.append((node.left, level+1))
         return res
