@@ -13,21 +13,14 @@ class Solution(object):
         :rtype: bool
         """
         
-        prev, my_stack, p = None, [], root
-        while p:
-            my_stack.append(p)
-            p = p.left
-        
-        while my_stack:
-            p = my_stack.pop()
-            if prev and prev.val >= p.val:
-                return False
-            
-            prev = p
-            
-            p = p.right
+        prev, p, my_stack = None, root, []
+        while p or my_stack:
             while p:
                 my_stack.append(p)
                 p = p.left
-        
+            
+            p = my_stack.pop()
+            if prev and prev.val >= p.val: return False
+            prev = p
+            p = p.right
         return True
