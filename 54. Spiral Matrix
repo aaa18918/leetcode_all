@@ -1,4 +1,4 @@
-O(m*n) time, O(m*n) space
+O(mn) time, O(mn) space
 class Solution(object):
     def spiralOrder(self, matrix):
         """
@@ -6,45 +6,39 @@ class Solution(object):
         :rtype: List[int]
         """
         
-        def _next_position_generator():
-            low_x, high_x = 0, len(matrix)-1
-            low_y, high_y = 0, len(matrix[0])-1
-            
-            x, y = 0, -1
-            
-            while high_x >= low_x and high_y >= low_y:
-                while x == low_x and y < high_y:
-                    y += 1
-                    yield x, y
-                
-                low_x += 1
-                if low_x > high_x: return
-            
-                while y == high_y and x < high_x:
-                    x += 1
-                    yield x, y
-                
-                high_y -= 1
-                if high_y < low_y: return
-                
-                while x == high_x and y > low_y:
-                    y -= 1
-                    yield x, y
-                    
-                high_x -= 1
-                if high_x < low_x: return
-                
-                while y == low_y and x > low_x:
-                    x -= 1
-                    yield x, y
-                    
-                low_y += 1
-                if low_y > high_y: return
-        
         if not matrix: return []
         
-        res = []
-        for x, y in _next_position_generator():
-            res.append(matrix[x][y])
+        low_x, high_x = 0, len(matrix)-1
+        low_y, high_y = 0, len(matrix[0])-1
+        
+        x, y, res = 0, -1, []
+        while low_x <= high_x or low_y <= high_y:
+            while y < high_y:
+                y += 1
+                res.append(matrix[x][y])
+            
+            low_x += 1
+            if low_x > high_x: break
+            
+            while x < high_x:
+                x += 1
+                res.append(matrix[x][y])
+            
+            high_y -= 1
+            if low_y > high_y: break
+
+            while y > low_y:
+                y -= 1
+                res.append(matrix[x][y])
+            
+            high_x -= 1
+            if low_x > high_x: break
+            
+            while x > low_x:
+                x -= 1
+                res.append(matrix[x][y])
+            
+            low_y += 1
+            if low_y > high_y: break
         
         return res
