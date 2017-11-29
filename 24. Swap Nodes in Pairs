@@ -13,21 +13,13 @@ class Solution(object):
         """
         
         dummy_head = ListNode(0)
+        dummy_head.next = head
         h = dummy_head
-        p = head
-        
-        while p:
-            q = p.next
-            if not q:
-                h.next = p
-                h = h.next
-                break
-            else:
-                temp = p.next.next
-                h.next = q
-                q.next = p
-                h = h.next.next
-                p = temp
-        
-        h.next = None
+        while h.next and h.next.next:
+            p, q = h.next, h.next.next
+            temp = q.next
+            h.next = q
+            q.next = p
+            p.next = temp
+            h = p
         return dummy_head.next
