@@ -30,8 +30,7 @@ class Solution(object):
             p = p.next.next
         
         new_head = head.next
-        p = head
-        q = new_head
+        p, q = head, new_head
         while q.next:
             p.next = q.next
             q.next = q.next.next
