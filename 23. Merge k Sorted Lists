@@ -44,28 +44,32 @@ class Solution(object):
         """
         
         size = len(lists)
-        if size == 0: return None
-        if size == 1: return lists[0]
-        
-        mid = size/2
-        left = self.mergeKLists(lists[:mid])
-        right = self.mergeKLists(lists[mid:])
-        
-        dummy_head = ListNode(0)
-        l, r, p = left, right, dummy_head
-        while l or r:
-            if l and r:
-                if l.val <= r.val:
-                    p.next = l
-                    l = l.next
-                else:
-                    p.next = r
-                    r = r.next
-            elif l:
-                p.next = l
-                l = l.next
-            elif r:
-                p.next = r
-                r = r.next
-            p = p.next
-        return dummy_head.next
+        if not size:
+            return None
+        elif size == 1:
+            return lists[0]
+        else:
+            mid = size/2
+            left = self.mergeKLists(lists[:mid])
+            right = self.mergeKLists(lists[mid:])
+            
+            dummy_head = ListNode(0)
+            h = dummy_head
+            while left or right:
+                if left and right:
+                    if left.val < right.val:
+                        h.next = left
+                        left = left.next
+                    else:
+                        h.next = right
+                        right = right.next
+                elif left:
+                    h.next = left
+                    left = left.next
+                elif right:
+                    h.next = right
+                    right = right.next
+                
+                h = h.next
+            
+            return dummy_head.next
