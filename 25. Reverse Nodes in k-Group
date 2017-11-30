@@ -12,28 +12,26 @@ class Solution(object):
         :type k: int
         :rtype: ListNode
         """
-        
+
         dummy_head = ListNode(0)
         dummy_head.next = head
-        count = k
-        slow, fast = dummy_head, dummy_head
+        prev, slow, fast = dummy_head, dummy_head, dummy_head
         while True:
-            while count > 0 and fast:
+            t = k
+            while t > 0 and fast:
                 fast = fast.next
-                count -= 1
+                t -= 1
             
-            if not fast: return dummy_head.next
-            
-            prev, tail = slow, fast.next
-            p, q = slow.next, slow.next.next
+            if not fast: break
+            slow = slow.next
+            tail = fast.next
+            p, q = slow, slow.next
             while q is not tail:
                 temp = q.next
                 q.next = p
-                q, p = temp, q
-            
-            temp = prev.next
+                p, q = q, temp
+            slow.next = tail
             prev.next = p
-            temp.next = tail
             
-            slow, fast = temp, temp
-            count = k
+            prev, slow, fast = slow, slow, slow
+        return dummy_head.next
