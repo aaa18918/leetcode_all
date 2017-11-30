@@ -1,4 +1,4 @@
-O(n^2) time, O(n) space
+O(n^2) time, O(res) space
 class Solution(object):
     def longestPalindrome(self, s):
         """
@@ -6,28 +6,21 @@ class Solution(object):
         :rtype: str
         """
         
-        res = ""
         len_s = len(s)
         
-        def getLongestPalindromicSubstring(i, j):
-            while i >= 0 and j < len_s:
-                if s[i] != s[j]:
-                    break
-                
-                i -= 1
-                j += 1
-            
+        def palindrome(i, j):
+            while 0 <= i and j < len_s and s[i] == s[j]:
+                i, j = i-1, j+1
             return s[i+1:j]
         
-        for idx in range(len(s)):
+        res = ""
+        for idx in range(len_s):
             if idx < len_s-1:
-                sub_string = getLongestPalindromicSubstring(idx, idx+1)
-                if len(sub_string) > len(res):
-                    res = sub_string
+                temp = palindrome(idx, idx+1)
+                if len(temp) > len(res):
+                    res = temp
             
-            sub_string = getLongestPalindromicSubstring(idx, idx)
-            if len(sub_string) > len(res):
-                res = sub_string
+            temp = palindrome(idx, idx)
+            if len(temp) > len(res):
+                res = temp
         return res
-
-别的解法没看，也不清楚KMP是不是这道题的。
