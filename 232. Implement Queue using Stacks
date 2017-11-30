@@ -1,4 +1,4 @@
-O(n) time, O(n) space
+O(1) time, 0(1) space push; O(n) time, O(n) space pop; O(1) time, O(1) space peek; O(1) time, O(1) space empty
 class MyQueue(object):
 
     def __init__(self):
@@ -6,7 +6,7 @@ class MyQueue(object):
         Initialize your data structure here.
         """
         
-        self.my_stack = collections.deque()
+        self.my_stack = []
 
     def push(self, x):
         """
@@ -23,8 +23,15 @@ class MyQueue(object):
         :rtype: int
         """
         
-        return self.my_stack.popleft()
-
+        temp = []
+        while self.my_stack:
+            temp.append(self.my_stack.pop())
+        
+        val = temp.pop()
+        while temp:
+            self.my_stack.append(temp.pop())
+        return val
+        
     def peek(self):
         """
         Get the front element.
@@ -39,7 +46,7 @@ class MyQueue(object):
         :rtype: bool
         """
         
-        return not self.my_stack
+        return len(self.my_stack) == 0
 
 # Your MyQueue object will be instantiated and called as such:
 # obj = MyQueue()
