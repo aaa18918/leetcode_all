@@ -16,14 +16,14 @@ class Solution(object):
         
         pA, pB = headA, headB
         while pA is not pB:
-            if pA is None:
-                pA = headB
-            else:
+            if pA:
                 pA = pA.next
-            
-            if pB is None:
-                pB = headA
             else:
+                pA = headB
+            
+            if pB:
                 pB = pB.next
+            else:
+                pB = headA
         
         return pA
