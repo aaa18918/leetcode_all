@@ -20,7 +20,7 @@ class Solution(object):
         reverseList(0, k-1)
 
 
-O(n) time, O(1) space
+O(n) time, O(n) space
 class Solution(object):
     def rotate(self, nums, k):
         """
@@ -32,3 +32,18 @@ class Solution(object):
         len_nums = len(nums)
         k %= len_nums
         nums[:] = nums[-k:]+nums[:-k]
+
+
+O(n) time, O(k) space
+class Solution(object):
+    def rotate(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: void Do not return anything, modify nums in-place instead.
+        """
+        
+        temp, k = [], k%len(nums)
+        for i in range(k):
+            temp.append(nums.pop())
+        nums[:] = temp[::-1]+nums
