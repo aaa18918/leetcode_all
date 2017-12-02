@@ -1,61 +1,4 @@
-class Solution(object):
-    def countAndSay(self, n):
-        """
-        :type n: int
-        :rtype: str
-        """
-        
-        res = "1"
-        for _ in range(n-1):
-            res = self.generateNextSequence(res)
-        
-        return res
-    
-    def generateNextSequence(self, pre_sequence):
-        count, next_sequence = 1, ""
-        for index in range(1, len(pre_sequence)):
-            if pre_sequence[index-1] == pre_sequence[index]:
-                count += 1
-            else:
-                next_sequence += str(count)+pre_sequence[index-1]
-                count = 1
-        
-        return next_sequence+str(count)+pre_sequence[-1]
-
-https://leetcode.com/problems/count-and-say/
-
-class Solution(object):
-    def countAndSay(self, n):
-        """
-        :type n: int
-        :rtype: str
-        """
-        
-        result = 1
-        for i in range(1,n):
-            result = self.myHelp(result)
-        
-        return str(result)
-    
-    def myHelp(self, n):
-        
-        string_n, count, result = str(n), 0, ''
-        
-        for index in range(0, len(string_n)):
-            if index == 0:
-                count = 1
-            elif string_n[index] != string_n[index-1]:
-                result += str(count)+string_n[index-1]
-                count = 1
-            else:
-                count += 1
-            
-        if (result == '' and string_n != '') or result[len(result)-1] != string_n[len(string_n)-1]:
-            result += str(count)+string_n[len(string_n)-1]
-        
-        return int(result)
-
-
+O(n^2) time, O(n) space
 class Solution(object):
     def countAndSay(self, n):
         """
@@ -65,12 +8,12 @@ class Solution(object):
         
         res = '1'
         for i in range(n-1, 0, -1):
-            count, char, cur, size = 1, res[0], "", len(res)
+            count, cur, size = 1, "", len(res)
             for idx in range(1, size+1):
-                if idx != size and res[idx] == res[idx-1]:
-                    count += 1
+                if idx == size or res[idx] != res[idx-1]:
+                    cur += str(count)+res[idx-1]
+                    count = 1
                 else:
-                    cur += str(count)+char
-                    if idx != size: count, char = 1, res[idx]
+                    count += 1
             res = cur
         return res
