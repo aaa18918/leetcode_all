@@ -29,7 +29,6 @@ class Solution(object):
 
 
 O(nlgk) time, O(k) space
-import heapq
 class Solution(object):
     def findKthLargest(self, nums, k):
         """
