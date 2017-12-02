@@ -1,4 +1,4 @@
-O(n) time, O(1) space
+O(n) time, O(n) space
 # Definition for an interval.
 # class Interval(object):
 #     def __init__(self, s=0, e=0):
@@ -12,11 +12,7 @@ class Solution(object):
         :rtype: List[Interval]
         """
         
-        def myCmp(left, right):
-            return left.start - right.start
-                
-        intervals = sorted(intervals, cmp = myCmp)
-        
+        intervals.sort(key = lambda i: i.start)
         left = 0
         for idx in range(1, len(intervals)):
             if intervals[idx].start <= intervals[left].end:
@@ -24,5 +20,5 @@ class Solution(object):
                     intervals[left].end = intervals[idx].end
             else:
                 left += 1
-                intervals[left], intervals[idx] = intervals[idx], intervals[left]
+                intervals[left] = intervals[idx]
         return intervals[:left+1]
