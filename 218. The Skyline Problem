@@ -14,43 +14,44 @@ class Solution(object):
         else:
             mid = size/2
             left, right = self.getSkyline(buildings[:mid]), self.getSkyline(buildings[mid:])
-            return self.mergeSkyline(left, right)
-    
-    def mergeSkyline(self, left, right):
-        size_l, size_r, l, r, h1, h2 = len(left), len(right), 0, 0, 0, 0
-        res = []
-        
-        while l < size_l and r < size_r:
-            if left[l][0] < right[r][0]:
-                h1 = left[l][1]
-                new_node = [left[l][0], max(h1, h2)]
-                if not res or res[-1][1] != new_node[1]:
-                    res.append(new_node)
-                l += 1
-            elif left[l][0] > right[r][0]:
-                h2 = right[r][1]
-                new_node = [right[r][0], max(h1, h2)]
-                if not res or res[-1][1] != new_node[1]:
-                    res.append(new_node)
-                r += 1
-            else:
-                h1, h2 = left[l][1], right[r][1]
-                new_node = [left[l][0], max(h1, h2)]
-                if not res or res[-1][1] != new_node[1]:
-                    res.append(new_node)
-                l, r = l+1, r+1
-        
-        while l < size_l:
-            if not res or res[-1][1] != left[l][1]:
-                res.append(left[l])
-            l += 1
-        
-        while r < size_r:
-            if not res or res[-1][1] != right[r][1]:
-                res.append(right[r])
-            r += 1
-        
-        return res
+            
+            def mergeSkyline(left, right):
+                l, r, len_l, len_r = 0, 0, len(left), len(right)
+                h1, h2 = 0, 0
+                res = []
+                while l < len_l and r < len_r:
+                    if left[l][0] == right[r][0]:
+                        h1, h2 = left[l][1], right[r][1]
+                        new_node = [left[l][0], max(h1, h2)]
+                        if not res or res[-1][1] != new_node[1]:
+                            res.append(new_node)
+                        l, r = l+1, r+1
+                    elif left[l][0] < right[r][0]:
+                        h1 = left[l][1]
+                        new_node = [left[l][0], max(h1, h2)]
+                        if not res or res[-1][1] != new_node[1]:
+                            res.append(new_node)
+                        l += 1
+                    else:
+                        h2 = right[r][1]
+                        new_node = [right[r][0], max(h1, h2)]
+                        if not res or res[-1][1] != new_node[1]:
+                            res.append(new_node)
+                        r += 1
+                
+                while l < len_l:
+                    if not res or res[-1][1] != left[l][1]:
+                        res.append(left[l])
+                    l += 1
+                
+                while r < len_r:
+                    if not res or res[-1][1] != right[r][1]:
+                        res.append(right[r])
+                    r += 1
+                
+                return res
+            
+            return mergeSkyline(left, right)
 
 
 别的解法都没看呢啦。
