@@ -15,10 +15,6 @@ class Solution(object):
         :rtype: TreeNode
         """
         
-        if (p.val-root.val)*(q.val-root.val) <= 0:
-            return root
-        
-        return self.lowestCommonAncestor([root.left, root.right][p.val > root.val], p, q)
-
-
-这里要注意节点本身就是最低的祖先节点的情况。
+        while (p.val-root.val)*(q.val-root.val) > 0:
+            root = [root.left, root.right][p.val > root.val]
+        return root
