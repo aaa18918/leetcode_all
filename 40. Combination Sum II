@@ -1,3 +1,4 @@
+O(???) time, O(???) space
 class Solution(object):
     def combinationSum2(self, candidates, target):
         """
@@ -6,42 +7,18 @@ class Solution(object):
         :rtype: List[List[int]]
         """
         
-        res, size = set(), len(candidates)
+        candidates.sort()
+        size = len(candidates)
+        res = []
         
-        def myDFS(cur, idx, target):
+        def myDFS(nums, idx, target):
             if target == 0:
-                res.add(tuple(sorted(cur)))
-                return
-            
-            if target < 0:
+                res.append(nums)
                 return
             
             for i in range(idx, size):
-                myDFS(cur+[candidates[i]], i+1, target-candidates[i])
-        
-        myDFS([], 0, target)
-        return [i for i in res]
-
-
-class Solution(object):
-    def combinationSum2(self, candidates, target):
-        """
-        :type candidates: List[int]
-        :type target: int
-        :rtype: List[List[int]]
-        """
-        
-        candidates = sorted(candidates)
-        res, size = [], len(candidates)
-        
-        def myDFS(cur, idx, target):            
-            for i in range(idx, size):
-                if i > idx and candidates[i] == candidates[i-1]: continue
-                if target-candidates[i] == 0:
-                    res.append(cur+[candidates[i]])
-                    break
-                if target-candidates[i] < 0: break
-                myDFS(cur+[candidates[i]], i+1, target-candidates[i])
+                if candidates[i] <= target and (i-idx == 0 or candidates[i] != candidates[i-1]):
+                    myDFS(nums+[candidates[i]], i+1, target-candidates[i])
         
         myDFS([], 0, target)
         return res
