@@ -1,3 +1,4 @@
+O(???) time, O(???) space
 class Solution(object):
     def combinationSum(self, candidates, target):
         """
@@ -6,17 +7,17 @@ class Solution(object):
         :rtype: List[List[int]]
         """
         
-        res, len_c = [], len(candidates)
+        size = len(candidates)
+        res = []
         
-        def myDFS(cur, idx, target):
+        def myDFS(nums, idx, target):
             if target == 0:
-                res.append(cur)
+                res.append(nums)
                 return
             
-            if target < 0: return
-            
-            for i in range(idx, len_c):
-                myDFS(cur+[candidates[i]], i, target-candidates[i])
+            for i in range(idx, size):
+                if candidates[i] <= target:
+                    myDFS(nums+[candidates[i]], i, target-candidates[i])
         
         myDFS([], 0, target)
         return res
