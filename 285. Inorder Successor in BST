@@ -14,10 +14,10 @@ class Solution(object):
         :rtype: TreeNode
         """
         
-        node, parent = root, None
-        while node:
-            if p.val >= node.val:
-                node = node.right
+        prev, cur = None, root
+        while cur:
+            if cur.val > p.val:
+                prev, cur = cur, cur.left
             else:
-                node, parent = node.left, node
-        return parent
+                cur = cur.right
+        return prev
