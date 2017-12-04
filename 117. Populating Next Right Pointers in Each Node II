@@ -13,21 +13,22 @@ class Solution:
     def connect(self, root):
         p, prev, next_head = root, None, None
         while p or next_head:
-            if not p:
-                p, prev, next_head = next_head, None, None
+            while p:
+                if p.left:
+                    if not prev:
+                        prev, next_head = p.left, p.left
+                    else:
+                        prev.next = p.left
+                        prev = prev.next
             
-            if p.left:
-                if prev:
-                    prev.next = p.left
-                    prev = prev.next
-                else:
-                    prev, next_head = p.left, p.left
+                if p.right:
+                    if not prev:
+                        prev, next_head = p.right, p.right
+                    else:
+                        prev.next = p.right
+                        prev = prev.next
             
-            if p.right:
-                if prev:
-                    prev.next = p.right
-                    prev = prev.next
-                else:
-                    prev, next_head = p.right, p.right
+                p = p.next
             
-            p = p.next
+            p = next_head
+            prev, next_head = None, None
