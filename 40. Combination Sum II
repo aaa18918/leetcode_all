@@ -24,4 +24,21 @@ class Solution(object):
         return res
 
 
-还有一种DP的解法。
+O(mn) time, O(mn) space:
+class Solution(object):
+    def combinationSum2(self, candidates, target):
+        """
+        :type candidates: List[int]
+        :type target: int
+        :rtype: List[List[int]]
+        """
+        
+        candidates.sort()
+        dp = [set() for _ in range(target+1)]
+        dp[0].add(())
+        
+        for num in candidates:
+            for idx in range(target, num-1, -1):
+                for prev in dp[idx-num]:
+                    dp[idx].add(prev+(num,))
+        return list(dp[target])
