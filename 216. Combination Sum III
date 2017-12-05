@@ -1,3 +1,4 @@
+O(C(9,k)) time, O(C(9, k)k) space
 class Solution(object):
     def combinationSum3(self, k, n):
         """
@@ -7,54 +8,21 @@ class Solution(object):
         """
         
         if n <= 0 or k <= 0: return []
-
-        res = []
-        def myDFS(cur, idx, k, n):
-            for i in range(idx, 9+1):
-                if k == 1:
-                    if n > 9: return
-                    elif n-i == 0:
-                        res.append(cur+[i])
-                    elif n-i > 0:
-                        continue
-                    else:
-                        return
-                else:
-                    if n-i > 0:
-                        myDFS(cur+[i], i+1, k-1, n-i)
-                    else:
-                        return
         
-        myDFS([], 1, k, n)
-        return res
-
-
-class Solution(object):
-    def combinationSum3(self, k, n):
-        """
-        :type k: int
-        :type n: int
-        :rtype: List[List[int]]
-        """
-        
-        if n <= 0 or k <= 0: return []
-
         res = []
-        def myDFS(cur, idx, k, n):
+        
+        def myDFS(nums, idx, k, n):
+            if n == 0:
+                if k == 0:
+                    res.append(nums)
+                return
+            
+            if k == 0 or idx > 9:
+                return
+            
             for i in range(idx, 10):
-                if k == 1:
-                    if n > 9: return
-                    elif n-i == 0:
-                        res.append(cur+[i])
-                    elif n-i > 0:
-                        continue
-                    else:
-                        return
-                else:
-                    if n-i > 0:
-                        myDFS(cur+[i], i+1, k-1, n-i)
-                    else:
-                        return
+                if i <= n:
+                    myDFS(nums+[i], i+1, k-1, n-i)
         
         myDFS([], 1, k, n)
         return res
