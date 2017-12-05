@@ -7,12 +7,11 @@ class TicTacToe(object):
         :type n: int
         """
         
-        self.diagonal1 = 0
-        self.diagonal2 = 0
-        self.row = [0 for _ in range(n)]
-        self.col = [0 for _ in range(n)]
+        self.r = [0 for _ in range(n)]
+        self.c = [0 for _ in range(n)]
+        self.diag1, self.diag2 = 0, 0
         self.n = n
-
+        
     def move(self, row, col, player):
         """
         Player {player} makes a move at ({row}, {col}).
@@ -30,19 +29,18 @@ class TicTacToe(object):
         """
         
         sign = 1 if player == 1 else -1
-        aim = self.n*sign
+        aim = sign*self.n
         
-        self.row[row] += sign
-        
-        if row+col == self.n-1:
-            self.diagonal1 += sign
-
-        self.col[col] += sign
+        self.r[row] += sign
+        self.c[col] += sign
         
         if row == col:
-            self.diagonal2 += sign
+            self.diag1 += sign
         
-        if self.col[col] == aim or self.row[row] == aim or self.diagonal1 == aim or self.diagonal2 == aim:
+        if row+col == self.n-1:
+            self.diag2 += sign
+        
+        if self.r[row] == aim or self.c[col] == aim or self.diag1 == aim or self.diag2 == aim:
             return player
         
         return 0
