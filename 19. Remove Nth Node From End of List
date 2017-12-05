@@ -1,5 +1,4 @@
-97.3%: https://leetcode.com/submissions/detail/98841264/
-
+O(n) time, O(1) space
 # Definition for singly-linked list.
 # class ListNode(object):
 #     def __init__(self, x):
@@ -14,15 +13,14 @@ class Solution(object):
         :rtype: ListNode
         """
         
-        fake_head = ListNode(0)
-        fake_head.next = head
-        slow, fast = fake_head, head
-        
-        for _ in range(1, n):
+        dummy_head = ListNode(0)
+        dummy_head.next = head
+        slow, fast = dummy_head, dummy_head
+        for i in range(n):
             fast = fast.next
         
         while fast.next:
             slow, fast = slow.next, fast.next
         
         slow.next = slow.next.next
-        return fake_head.next
+        return dummy_head.next
