@@ -7,31 +7,31 @@ class Solution(object):
         :rtype: bool
         """
         
-        adjacency_list = collections.defaultdict(list)
-        
+        adjacency = collections.defaultdict(set)
         for pre in prerequisites:
-            adjacency_list[pre[0]].append(pre[1])
+            adjacency[pre[0]].add(pre[1])
         
-        visited = [0 for c in range(numCourses)]
+        visited = [0 for _ in range(numCourses)]
+        
         def myDFS(c):
-            if c not in adjacency_list: return True
-            if visited[c] == -1: return False
+            if c not in adjacency: return True
             if visited[c] == 1: return True
+            if visited[c] == -1: return False
             
-            pre_list = adjacency_list[c]
             visited[c] = -1
-            for pre_c in pre_list:
+            pre = adjacency[c]
+            for pre_c in pre:
                 if not myDFS(pre_c):
                     return False
             
             visited[c] = 1
+            
             return True
         
-        for c in range(numCourses):
-            if c not in adjacency_list: continue
+        for c in adjacency:
             if not myDFS(c):
                 return False
-        
+
         return True
 
 
