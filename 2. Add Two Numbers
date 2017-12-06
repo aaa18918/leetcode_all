@@ -14,8 +14,8 @@ class Solution(object):
         """
         
         p1, p2, cur_sum = l1, l2, 0
-        fake_head = ListNode(0)
-        p = fake_head
+        dummy_head = ListNode(0)
+        p = dummy_head
         
         while p1 or p2:
             if p2: cur_sum += p2.val
@@ -39,4 +39,4 @@ class Solution(object):
             p = p.next
         
         p.next = None
-        return fake_head.next
+        return dummy_head.next
