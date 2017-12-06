@@ -1,244 +1,4 @@
-https://leetcode.com/problems/course-schedule/
-
-DFS: 85%
-class Solution(object):
-    def canFinish(self, numCourses, prerequisites):
-        """
-        :type numCourses: int
-        :type prerequisites: List[List[int]]
-        :rtype: bool
-        """
-        
-        adjacent_matrix = {}
-        visited_courses = [0 for i in xrange(numCourses)]
-        for edge in prerequisites:
-            course, pre_course = edge[0], edge[1]
-            if course not in adjacent_matrix:
-                adjacent_matrix[course] = []
-            adjacent_matrix[course].append(pre_course)
-        
-        def myDFS(course, pre_course_list):
-            visited_courses[course] = -1
-            for pre_course in pre_course_list:
-                if pre_course not in adjacent_matrix or visited_courses[pre_course] == 1: continue
-                if visited_courses[pre_course] == -1: return False
-                if not myDFS(pre_course, adjacent_matrix[pre_course]): return False
-            visited_courses[course] = 1
-            return True
-        
-        for key_course in adjacent_matrix.keys():
-            if not myDFS(key_course, adjacent_matrix[key_course]): return False
-        return True
-
-class Solution(object):
-    def canFinish(self, numCourses, prerequisites):
-        """
-        :type numCourses: int
-        :type prerequisites: List[List[int]]
-        :rtype: bool
-        """
-        
-        visited = set()
-        possible_courses = set()
-        
-        pre_table = {}
-        for prerequisite in prerequisites:
-            pre_course, course = prerequisite
-            if course not in pre_table:
-                pre_table[course] = set()
-            pre_table[course].add(pre_course)
-        
-        def dfs(course):
-            if course in possible_courses:
-                return True
-                
-            if course in visited:
-                return False
-            
-            if course not in pre_table:
-                return True
-            
-            pre_courses = pre_table[course]
-            visited.add(course)
-            for pre_course in pre_courses:
-                if not dfs(pre_course):
-                    return False
-            visited.remove(course)
-            
-            possible_courses.add(course)
-            return True
-        
-        for course in pre_table:
-            if not dfs(course):
-                return False
-        
-        return True
-
-
-class Solution(object):
-    def canFinish(self, numCourses, prerequisites):
-        """
-        :type numCourses: int
-        :type prerequisites: List[List[int]]
-        :rtype: bool
-        """
-        
-        adjacentList = {}
-        for i in range(numCourses):
-            adjacentList[i] = set()
-        
-        for p in prerequisites:
-            adjacentList[p[0]].add(p[1])
-        
-        cur = []
-        for c in adjacentList.iterkeys():
-            if not adjacentList[c]:
-                cur.append(c)
-        
-        while cur:
-            for c in cur:
-                del adjacentList[c]
-            temp = []
-            for prev_c in cur:
-                for c in adjacentList.iterkeys():
-                    if prev_c in adjacentList[c]:
-                        adjacentList[c].remove(prev_c)
-                        if not adjacentList[c]:
-                            temp.append(c)
-
-            cur = temp
-        
-        return True if not adjacentList else False
-
-
-class Solution(object):
-    def canFinish(self, numCourses, prerequisites):
-        """
-        :type numCourses: int
-        :type prerequisites: List[List[int]]
-        :rtype: bool
-        """
-        
-        adjacentList = collections.defaultdict(set)
-        for p in prerequisites:
-            adjacentList[p[0]].add(p[1])
-        
-        visited = [0 for _ in range(numCourses)]
-        
-        def myDFS(course):
-            if course not in adjacentList: return True
-            prevList = adjacentList[course]
-            
-            visited[course] = -1
-            for p in prevList:
-                if p not in adjacentList or visited[p] == 1: continue
-                if visited[p] == -1: return False
-                if not myDFS(p): return False
-            
-            visited[course] = 1
-            return True
-        
-        for c in adjacentList:
-            if not myDFS(c): return False
-        return True
-
-
-class Solution(object):
-    def canFinish(self, numCourses, prerequisites):
-        """
-        :type numCourses: int
-        :type prerequisites: List[List[int]]
-        :rtype: bool
-        """
-        
-        adjacentList, visited = collections.defaultdict(set), {}
-        for p in prerequisites:
-            adjacentList[p[0]].add(p[1])
-            visited[p[0]] = 0
-        
-        def myDFS(course):
-            prevList = adjacentList[course]
-            
-            visited[course] = -1
-            for p in prevList:
-                if p not in adjacentList or visited[p] == 1: continue
-                if visited[p] == -1: return False
-                if not myDFS(p): return False
-            
-            visited[course] = 1
-            return True
-        
-        for c in adjacentList:
-            if not myDFS(c): return False
-        return True
-
-
-class Solution(object):
-    def canFinish(self, numCourses, prerequisites):
-        """
-        :type numCourses: int
-        :type prerequisites: List[List[int]]
-        :rtype: bool
-        """
-        
-        adjacentList = collections.defaultdict(set)
-        for p in prerequisites:
-            adjacentList[p[0]].add(p[1])
-        
-        visited = [0 for _ in range(numCourses)]
-        
-        def myDFS(course):
-            prevList = adjacentList[course]
-            
-            visited[course] = -1
-            for p in prevList:
-                if p not in adjacentList or visited[p] == 1: continue
-                if visited[p] == -1: return False
-                if not myDFS(p): return False
-            
-            visited[course] = 1
-            return True
-        
-        for c in adjacentList:
-            if not myDFS(c): return False
-        return True
-
-
-class Solution(object):
-    def canFinish(self, numCourses, prerequisites):
-        """
-        :type numCourses: int
-        :type prerequisites: List[List[int]]
-        :rtype: bool
-        """
-        
-        adjacent_list = collections.defaultdict(set)
-        for pre in prerequisites:
-            adjacent_list[pre[0]].add(pre[1])
-        
-        cur = []
-        for c in range(numCourses):
-            if not adjacent_list[c]:
-                cur.append(c)
-        
-        while cur:
-            for c in cur:
-                del adjacent_list[c]
-            
-            temp = []
-            for next_c, pre_list in adjacent_list.iteritems():
-                for c in cur:
-                    if c in pre_list:
-                        pre_list.remove(c)
-                        if not pre_list:
-                            temp.append(next_c)
-            
-            if not temp: break
-            cur = temp
-        
-        return not adjacent_list
-
-
+O(???) time, O(max(numCourses, len(prerequisites))) space
 class Solution(object):
     def canFinish(self, numCourses, prerequisites):
         """
@@ -248,70 +8,31 @@ class Solution(object):
         """
         
         adjacency_list = collections.defaultdict(set)
-        
+        num_set = set([num for num in range(numCourses)])
         for pre in prerequisites:
             adjacency_list[pre[0]].add(pre[1])
+            if pre[0] in num_set:
+                num_set.remove(pre[0])
         
-        cur = []
-        for c in range(numCourses):
-            if not adjacency_list[c]:
-                cur.append(c)
-        
+        cur = list(num_set)
         while cur:
-            for c in cur:
-                del adjacency_list[c]
-            
             temp = []
-            
-            for next_c, pre_list in adjacency_list.iteritems():
+            for course in adjacency_list:
                 for c in cur:
-                    if c in pre_list:
-                        pre_list.remove(c)
-                        if not pre_list:
-                            temp.append(next_c)
+                    if c in adjacency_list[course]:
+                        adjacency_list[course].remove(c)
+                        if not adjacency_list[course]:
+                            temp.append(course)
             
-            if not temp: break
-
+            for course in temp:
+                del adjacency_list[course]
+            
             cur = temp
         
         return not adjacency_list
 
-class Solution(object):
-    def canFinish(self, numCourses, prerequisites):
-        """
-        :type numCourses: int
-        :type prerequisites: List[List[int]]
-        :rtype: bool
-        """
-        
-        adjacency_list = collections.defaultdict(list)
-        
-        for pre in prerequisites:
-            adjacency_list[pre[0]].append(pre[1])
-        
-        visited = {}
-        def myDFS(c):
-            if c not in adjacency_list: return True
-            if c in visited and visited[c] == -1: return False
-            if c in visited and visited[c] == 1: return True
-            
-            pre_list = adjacency_list[c]
-            visited[c] = -1
-            for pre_c in pre_list:
-                if not myDFS(pre_c):
-                    return False
-            
-            visited[c] = 1
-            return True
-        
-        for c in range(numCourses):
-            if c not in adjacency_list: continue
-            if not myDFS(c):
-                return False
-        
-        return True
 
-
+O(max(numCourses, len(prerequisites))) time, O(max(numCourses, len(prerequisites))) space
 class Solution(object):
     def canFinish(self, numCourses, prerequisites):
         """
