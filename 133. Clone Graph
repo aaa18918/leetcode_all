@@ -1,4 +1,4 @@
-O(n) time, O(n) space
+average O(n) time, worst O(n^2) time, O(n) space
 # Definition for a undirected graph node
 # class UndirectedGraphNode:
 #     def __init__(self, x):
