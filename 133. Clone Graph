@@ -1,3 +1,4 @@
+O(n) time, O(n) space
 # Definition for a undirected graph node
 # class UndirectedGraphNode:
 #     def __init__(self, x):
@@ -8,142 +9,27 @@ class Solution:
     # @param node, a undirected graph node
     # @return a undirected graph node
     def cloneGraph(self, node):
-        if not node: return node
+        if not node: return None
         
-        new_node = UndirectedGraphNode(node.label)
-        dfs_stack = [(new_node, node)]
-        created = {node.label: new_node}
+        new_root = UndirectedGraphNode(node.label)
+        mappings = {node:new_root}
         visited = set()
         
-        while dfs_stack:
-            new_cur_node, cur_node = dfs_stack.pop()
-            if cur_node.label in visited:
-                continue
+        def myDFS(node):
+            new_node = mappings[node]
+            if not new_node.neighbors:
+                for old_child in node.neighbors:
+                    if old_child not in mappings:
+                        new_child = UndirectedGraphNode(old_child.label)
+                        mappings[old_child] = new_child
+                    
+                    new_node.neighbors.append(mappings[old_child])
             
-            visited.add(cur_node.label)
-
-            for neighbor in cur_node.neighbors:
-                if neighbor.label in created:
-                    new_cur_node.neighbors.append(created[neighbor.label])
-                else:
-                    new_child_node = UndirectedGraphNode(neighbor.label)
-                    new_cur_node.neighbors.append(new_child_node)
-                    created[neighbor.label] = new_child_node
-                
-                if neighbor.label not in visited:
-                    dfs_stack.append((new_cur_node.neighbors[-1], neighbor))
-        
-        return new_node
-
-# Definition for a undirected graph node
-# class UndirectedGraphNode:
-#     def __init__(self, x):
-#         self.label = x
-#         self.neighbors = []
-
-class Solution:
-    # @param node, a undirected graph node
-    # @return a undirected graph node
-    def cloneGraph(self, node):
-        if not node: return node
-        
-        map = {}
-        def nodeDFS(input):
-            if input in map:
-                return map[input]
+            visited.add(node)
             
-            output = UndirectedGraphNode(input.label)
-            map[input] = output
-            
-            for neighbor in input.neighbors:
-                output.neighbors.append(nodeDFS(neighbor))
-            
-            return output
+            for child in node.neighbors:
+                if child not in visited:
+                    myDFS(child)
         
-        return nodeDFS(node)
-
-# Definition for a undirected graph node
-# class UndirectedGraphNode:
-#     def __init__(self, x):
-#         self.label = x
-#         self.neighbors = []
-
-class Solution:
-    # @param node, a undirected graph node
-    # @return a undirected graph node
-    def cloneGraph(self, node):
-        if not node: return node
-        
-        new_node = UndirectedGraphNode(node.label)
-        clone_map, dfs_stack = {node: new_node}, [node]
-        
-        while dfs_stack:
-            cur_node = dfs_stack.pop()
-            for neighbor in cur_node.neighbors:
-                if neighbor in clone_map:
-                    clone_map[cur_node].neighbors.append(clone_map[neighbor])
-                else:
-                    new_cur_node = UndirectedGraphNode(neighbor.label)
-                    clone_map[cur_node].neighbors.append(new_cur_node)
-                    clone_map[neighbor] = new_cur_node
-                    dfs_stack.append(neighbor)
-        
-        return new_node
-
-# Definition for a undirected graph node
-# class UndirectedGraphNode:
-#     def __init__(self, x):
-#         self.label = x
-#         self.neighbors = []
-
-class Solution:
-    # @param node, a undirected graph node
-    # @return a undirected graph node
-    def cloneGraph(self, node):
-        if not node: return node
-        
-        new_node = UndirectedGraphNode(node.label)
-        clone_map, bfs_queue = {node: new_node}, [node]
-        
-        while bfs_queue:
-            cur_node = bfs_queue.pop(0)
-            for neighbor in cur_node.neighbors:
-                if neighbor in clone_map:
-                    clone_map[cur_node].neighbors.append(clone_map[neighbor])
-                else:
-                    new_cur_node = UndirectedGraphNode(neighbor.label)
-                    clone_map[cur_node].neighbors.append(new_cur_node)
-                    clone_map[neighbor] = new_cur_node
-                    bfs_queue.append(neighbor)
-        
-        return new_node
-
-
-# Definition for a undirected graph node
-# class UndirectedGraphNode:
-#     def __init__(self, x):
-#         self.label = x
-#         self.neighbors = []
-
-class Solution:
-    # @param node, a undirected graph node
-    # @return a undirected graph node
-    def cloneGraph(self, node):
-        if not node: return node
-        
-        root = UndirectedGraphNode(node.label)
-        hash_table = {node: root}
-        my_queue = collections.deque([node])
-        
-        while my_queue:
-            cur_node = my_queue.popleft()
-            copied_node = hash_table[cur_node]
-            for n in cur_node.neighbors:
-                if n not in hash_table:
-                    new_node = UndirectedGraphNode(n.label)
-                    copied_node.neighbors.append(new_node)
-                    hash_table[n] = new_node
-                    my_queue.append(n)
-                else:
-                    copied_node.neighbors.append(hash_table[n])
-        return root
+        myDFS(node)
+        return new_root
