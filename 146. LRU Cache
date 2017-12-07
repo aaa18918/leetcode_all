@@ -79,7 +79,7 @@ class LRUCache(object):
 
 
 O(1) time, O(n) space
-class CacheNode(object):
+class LRUNode(object):
     def __init__(self, key, val):
         self.key = key
         self.val = val
@@ -93,10 +93,9 @@ class LRUCache(object):
         :type capacity: int
         """
         
-        self.capacity = capacity
         self.hash_table = {}
-        self.head = CacheNode(0, 0)
-        self.tail = CacheNode(0, 0)
+        self.capacity = capacity
+        self.head, self.tail = LRUNode(0, 0), LRUNode(0, 0)
         self.head.next = self.tail
         self.tail.prev = self.head
 
@@ -108,17 +107,13 @@ class LRUCache(object):
         
         if key in self.hash_table:
             node = self.hash_table[key]
-            
             node.prev.next = node.next
             node.next.prev = node.prev
-            
-            temp = self.tail.prev
-            self.tail.prev = node
-            node.prev = temp
-            temp.next = node
+            node.prev = self.tail.prev
             node.next = self.tail
-            
-            return self.hash_table[key].val
+            self.tail.prev = node
+            node.prev.next = node
+            return node.val
         else:
             return -1
 
@@ -130,35 +125,30 @@ class LRUCache(object):
         """
         
         if key in self.hash_table:
-            self.hash_table[key].val = value
-            
             node = self.hash_table[key]
-            
+            node.val = value
             node.prev.next = node.next
             node.next.prev = node.prev
-            
-            temp = self.tail.prev
-            self.tail.prev = node
-            node.prev = temp
-            temp.next = node
+            node.prev = self.tail.prev
             node.next = self.tail
+            self.tail.prev = node
+            node.prev.next = node
         else:
-            new_node = CacheNode(key, value)
-            
-            temp = self.tail.prev
-            temp.next = new_node
-            new_node.next = self.tail
-            self.tail.prev = new_node
-            new_node.prev = temp
-            self.hash_table[key] = new_node
-            
             if self.capacity > 0:
+                new_node = LRUNode(key, value)
                 self.capacity -= 1
             else:
-                temp = self.head.next
-                del self.hash_table[temp.key]
-                self.head.next = self.head.next.next
-                self.head.next.prev = self.head
+                new_node = self.head.next
+                new_node.prev.next = new_node.next
+                new_node.next.prev = new_node.prev
+                del self.hash_table[new_node.key]
+                new_node.key, new_node.val = key, value
+            
+            self.hash_table[new_node.key] = new_node
+            new_node.prev = self.tail.prev
+            new_node.next = self.tail
+            self.tail.prev.next = new_node
+            self.tail.prev = new_node
 
 # Your LRUCache object will be instantiated and called as such:
 # obj = LRUCache(capacity)
@@ -167,4 +157,3 @@ class LRUCache(object):
 
 
 注意每个get和put都需要更新一下整个数据结构。
-# param_1 = obj.get(key)
