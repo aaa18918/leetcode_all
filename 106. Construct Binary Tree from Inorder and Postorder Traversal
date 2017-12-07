@@ -18,13 +18,13 @@ class Solution(object):
         for idx, num in enumerate(inorder):
             hash_table[num] = idx
         
-        def myDFS(left, right):
-            if left > right: return None
+        def helper(l, r):
+            if l > r: return None
             
-            val = postorder.pop()
-            node, idx = TreeNode(val), hash_table[val]
-            node.right = myDFS(idx+1, right)
-            node.left = myDFS(left, idx-1)
-            return node
+            root = TreeNode(postorder.pop())
+            idx = hash_table[root.val]
+            root.right = helper(idx+1, r)
+            root.left = helper(l, idx-1)
+            return root
         
-        return myDFS(0, len(inorder)-1)
+        return helper(0, len(inorder)-1)
