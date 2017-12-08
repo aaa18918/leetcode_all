@@ -1,3 +1,4 @@
+O(nlgn) time, O(n) space
 # Definition for an interval.
 # class Interval(object):
 #     def __init__(self, s=0, e=0):
@@ -11,25 +12,26 @@ class Solution(object):
         :rtype: int
         """
         
-        starts, ends = [], []
+        start, end = [], []
         for i in intervals:
-            starts.append(i.start)
-            ends.append(i.end)
-
-        starts, ends = sorted(starts), sorted(ends)
-        s, e = 0, 0
-        rooms, available = 0, 0
-        while s < len(starts):
-            if starts[s] < ends[e]:
+            start.append(i.start)
+            end.append(i.end)
+        
+        start.sort()
+        end.sort()
+        res, available = 0, 0
+        s, e, size = 0, 0, len(start)
+        while s < size:
+            if start[s] < end[e]:
                 if available == 0:
-                    rooms += 1
+                    res += 1
                 else:
                     available -= 1
                 s += 1
             else:
                 available += 1
                 e += 1
-        return rooms
+        return res
 
 
 别的解法还没看。
