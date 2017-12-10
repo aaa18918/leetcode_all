@@ -36,7 +36,5 @@ class Solution(object):
         
         if cur_sum:
             p.next = ListNode(cur_sum)
-            p = p.next
         
-        p.next = None
         return dummy_head.next
