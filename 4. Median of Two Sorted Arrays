@@ -7,26 +7,27 @@ class Solution(object):
         :rtype: float
         """
         
-        def findKthSmallest(nums1, nums2, k):
-            if len(nums1) < len(nums2):
-                nums1, nums2 = nums2, nums1
+        def findKthSmallest(k, nums1, nums2):
+            size1, size2 = len(nums1), len(nums2)
+            if size1 < size2:
+                nums1, nums2, size1, size2 = nums2, nums1, size2, size1
             
-            if not nums2: return nums1[k-1]
+            if not size2:
+                return nums1[k-1]
             
-            if k == 1: return min(nums1[0], nums2[0])
+            if k == 1:
+                return min(nums1[0], nums2[0])
             
             mid = k/2
-            len_nums1, len_nums2 = len(nums1), len(nums2)
-            mid = mid if mid < len_nums2 else len_nums2
-            
-            if nums1[mid-1] < nums2[mid-1]:
-                return findKthSmallest(nums1[mid:], nums2, k-mid)
+            right = mid if size2 >= mid else size2
+            left = right
+            if nums1[left-1] < nums2[right-1]:
+                return findKthSmallest(k-left, nums1[left:], nums2)
             else:
-                return findKthSmallest(nums1, nums2[mid:], k-mid)
+                return findKthSmallest(k-right, nums1, nums2[right:])
         
         total = len(nums1)+len(nums2)
-        
-        return findKthSmallest(nums1, nums2, total/2+1) if total%2 == 1 else (findKthSmallest(nums1, nums2, total/2)+findKthSmallest(nums1, nums2, total/2+1))/2.0
+        return findKthSmallest(total/2+1, nums1, nums2) if total%2 == 1 else (findKthSmallest(total/2, nums1, nums2)+findKthSmallest(total/2+1, nums1, nums2))/2.0
 
 
 Iterative:
