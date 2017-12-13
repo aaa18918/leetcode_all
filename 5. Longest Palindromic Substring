@@ -8,19 +8,19 @@ class Solution(object):
         
         len_s = len(s)
         
-        def palindrome(i, j):
-            while 0 <= i and j < len_s and s[i] == s[j]:
-                i, j = i-1, j+1
-            return s[i+1:j]
+        def palindrome(left, right):
+            while left >= 0 and right < len_s and s[left] == s[right]:
+                left, right = left-1, right+1
+            return left+1, right-1
         
         res = ""
         for idx in range(len_s):
-            if idx < len_s-1:
-                temp = palindrome(idx, idx+1)
-                if len(temp) > len(res):
-                    res = temp
+            if idx != len_s-1:
+                left, right = palindrome(idx, idx+1)
+                if right-left+1 > len(res):
+                    res = s[left:right+1]
             
-            temp = palindrome(idx, idx)
-            if len(temp) > len(res):
-                res = temp
+            left, right = palindrome(idx, idx)
+            if right-left+1 > len(res):
+                res = s[left:right+1]
         return res
