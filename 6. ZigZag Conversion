@@ -7,16 +7,17 @@ class Solution(object):
         :rtype: str
         """
         
-        res = ""
-        len_s = len(s)
-        for row in range(numRows):
-            if 0 < row < numRows-1:
-                for idx in range(row, len_s, numRows*2-2):
-                    res += s[idx]
-                    mid = idx+2*(numRows-1-row)
-                    if mid < len_s:
-                        res += s[mid]
-            else:
-                for idx in range(row, len_s, max(numRows*2-2, 1)):
-                    res += s[idx]
-        return res
+        if numRows == 1 or numRows > len(s):
+            return s
+        
+        res = ['' for _ in range(numRows)]
+        idx, step = 0, 1
+        for char in s:
+            res[idx] += char
+            if idx == 0:
+                step = 1
+            elif idx == numRows-1:
+                step = -1
+            
+            idx += step
+        return ''.join(res)
