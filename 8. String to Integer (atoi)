@@ -6,25 +6,25 @@ class Solution(object):
         :rtype: int
         """
         
-        if not str: return 0
-        
         left, right = 0, len(str)-1
-        while left <= right and str[left] == ' ': left += 1
-        while left <= right and str[right] == ' ': right -= 1
+        while left <= right and str[left] == ' ':
+            left += 1
+        
+        while left <= right and str[right] == ' ':
+            right -= 1
         
         if left > right: return 0
         
         sign = 1
-        if str[left] in '+-':
-            if str[left] == '-':
-                sign = -1
+        if str[left] == '-':
+            sign, left = -1, left+1
+        elif str[left] == '+':
             left += 1
         
         res = 0
-        while left <= right:
-            if '0' <= str[left] <= '9':
-                res = 10*res+int(str[left])
-                left += 1
+        for idx in range(left, right+1):
+            if '0' <= str[idx] <= '9':
+                res = res*10+ord(str[idx])-ord('0')
             else:
-                return max(-2147483648, min(2147483647, res*sign))
-        return max(-2147483648, min(2147483647, res*sign))
+                return max(-2147483648, min(2147483647, sign*res))
+        return max(-2147483648, min(2147483647, sign*res))
