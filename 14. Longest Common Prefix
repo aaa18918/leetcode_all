@@ -1,3 +1,4 @@
+O(mn) time, O(m) space
 class Solution(object):
     def longestCommonPrefix(self, strs):
         """
@@ -5,89 +6,10 @@ class Solution(object):
         :rtype: str
         """
         
-        def commonPrefix(str1, str2):
-            len1, len2 = len(str1), len(str2)
-            min_len = min(len1, len2)
-            
-            for index in range(min_len):
-                if str1[index] != str2[index]:
-                    return str1[:index]
-            
-            return str1[:min_len]
-        
-        len_strs = len(strs)
-        if len_strs < 2: return "".join(strs)
-        common_prefix = commonPrefix(strs[0], strs[1])
-        for index in range(2, len_strs):
-            common_prefix = commonPrefix(common_prefix, strs[index])
-        
-        return common_prefix
- 
-https://leetcode.com/problems/longest-common-prefix/
-class Solution(object):
-    def longestCommonPrefix(self, strs):
-        """
-        :type strs: List[str]
-        :rtype: str
-        """
-        
-        if strs == []:
-            return ''
-        
-        string, index, strs0 = '', 0, strs[0]
-        
-        if strs0 == "":
-            return ''
-        else:
-            word = strs[0][0]
-        
-        while True:
-            for i in range(0, len(strs)):
-                if index >= len(strs[i]):
-                    return string
-                
-                if i == 0:
-                    word = strs[0][index]
-                
-                if strs[i][index] != word:
-                    return string
-                    
-            string += word
-            index += 1
-        
-
-class Solution(object):
-    def longestCommonPrefix(self, strs):
-        """
-        :type strs: List[str]
-        :rtype: str
-        """
-        
-        def getCommonPrefix(a, b):
-            i, j, len_a, len_b = 0, 0, len(a), len(b)
-            while i < len_a and j < len_b:
-                if a[i] == b[j]:
-                    i, j = i+1, j+1
-                else:
-                    break
-            return a[:i]
-        
-        return reduce(getCommonPrefix, strs) if strs else ""
-
-
-class Solution(object):
-    def longestCommonPrefix(self, strs):
-        """
-        :type strs: List[str]
-        :rtype: str
-        """
-        
-        def getCommonPrefix(a, b):
-            size = min(len(a), len(b))
-            for i in range(size):
-                if a[i] != b[i]:
-                    return a[:i]
-            
-            return a if len(a) < len(b) else b
+        def getCommonPrefix(l, r):
+            for idx in range(min(len(l), len(r))):
+                if l[idx] != r[idx]:
+                    return l[:idx]
+            return l if len(l) < len(r) else r
         
         return reduce(getCommonPrefix, strs) if strs else ""
