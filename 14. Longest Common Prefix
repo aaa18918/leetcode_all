@@ -1,4 +1,4 @@
-O(mn) time, O(m) space
+O(mn) time, O(n) space
 class Solution(object):
     def longestCommonPrefix(self, strs):
         """
