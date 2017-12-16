@@ -1,3 +1,4 @@
+O(???) time, O(???) space
 class Solution(object):
     def generateParenthesis(self, n):
         """
@@ -6,112 +7,17 @@ class Solution(object):
         """
         
         res = []
-    
-        def helper(left, right, cur_string):
-            if left == 0 and right == 0:
-                res.append(cur_string)
-                return
-            elif left == right:
-                helper(left-1, right, cur_string+'(')
-            else:
-                if left > 0:
-                    helper(left-1, right, cur_string+'(')
-                helper(left, right-1, cur_string+')')
         
-        helper(n, n, "")
-        return res
- 
- 
-https://leetcode.com/problems/generate-parentheses/
-
-81%
-class Solution(object):
-    def generateParenthesis(self, n):
-        """
-        :type n: int
-        :rtype: List[str]
-        """
-        
-        result = []
-        
-        def help(left, right, cur_parenthesis):
-            if left < 0: return
-            if left == 0 and right == 0:
-                result.append(cur_parenthesis)
+        def helper(cur, left, right):
+            if left == right == 0:
+                res.append(cur)
                 return
             
-            if right < left: return
-            elif left < right:
-                help(left-1, right, cur_parenthesis+'(')
-                help(left, right-1, cur_parenthesis+')')
-            else:
-                help(left-1, right, cur_parenthesis+'(')
-        
-        help(n, n, "")
-        return result
-
-make the code concise: 81%
-class Solution(object):
-    def generateParenthesis(self, n):
-        """
-        :type n: int
-        :rtype: List[str]
-        """
-        
-        result = []
-        
-        def help(left, right, cur_parenthesis):
-            if left == 0 and right == 0:
-                result.append(cur_parenthesis)
-                return
-            if left > 0:
-                help(left-1, right, cur_parenthesis+'(')
-            if left < right and right > 0:
-                help(left, right-1, cur_parenthesis+')')
-        
-        help(n, n, "")
-        return result
-  
-make the code even more concise:
-class Solution(object):
-    def generateParenthesis(self, n):
-        """
-        :type n: int
-        :rtype: List[str]
-        """
-        
-        result = []
-        
-        def help(left, right, cur_parenthesis):
-            if left == 0 and right == 0:
-                result.append(cur_parenthesis)
-                return
-            if left > 0:
-                help(left-1, right, cur_parenthesis+'(')
             if left < right:
-                help(left, right-1, cur_parenthesis+')')
+                helper(cur+')', left, right-1)
+            
+            if left > 0:
+                helper(cur+'(', left-1, right)
         
-        help(n, n, "")
-        return result
-
-super concise: 93%
-class Solution(object):
-    def generateParenthesis(self, n):
-        """
-        :type n: int
-        :rtype: List[str]
-        """
-        
-        result = []
-        
-        def help(left, right, cur_parenthesis):
-            if right == 0:
-                result.append(cur_parenthesis)
-                return
-            if left:
-                help(left-1, right, cur_parenthesis+'(')
-            if left < right:
-                help(left, right-1, cur_parenthesis+')')
-        
-        help(n, n, "")
-        return result
+        helper('', n, n)
+        return res
