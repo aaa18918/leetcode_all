@@ -13,19 +13,18 @@ class Solution(object):
         """
         
         dummy_head = ListNode(0)
-        my_heap = []
-        for node in lists:
-            if node:
-                my_heap.append((node.val, node))
-        
-        heapq.heapify(my_heap)
         p = dummy_head
-        while my_heap:
-            node = heapq.heappop(my_heap)[1]
-            if node.next:
-                heapq.heappush(my_heap, (node.next.val, node.next))
-            p.next = node
+        heap = []
+        heapq.heapify(heap)
+        for l in lists:
+            if l:
+                heapq.heappush(heap, (l.val, l))
+        
+        while heap:
+            p.next = heapq.heappop(heap)[1]
             p = p.next
+            if p.next:
+                heapq.heappush(heap, (p.next.val, p.next))
         return dummy_head.next
 
 
