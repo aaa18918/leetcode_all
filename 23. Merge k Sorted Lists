@@ -43,32 +43,30 @@ class Solution(object):
         """
         
         size = len(lists)
-        if not size:
+        if size == 0:
             return None
         elif size == 1:
             return lists[0]
         else:
             mid = size/2
-            left = self.mergeKLists(lists[:mid])
-            right = self.mergeKLists(lists[mid:])
+            left, right = self.mergeKLists(lists[:mid]), self.mergeKLists(lists[mid:])
             
             dummy_head = ListNode(0)
-            h = dummy_head
+            p = dummy_head
             while left or right:
                 if left and right:
                     if left.val < right.val:
-                        h.next = left
+                        p.next = left
                         left = left.next
                     else:
-                        h.next = right
+                        p.next = right
                         right = right.next
                 elif left:
-                    h.next = left
+                    p.next = left
                     left = left.next
                 elif right:
-                    h.next = right
+                    p.next = right
                     right = right.next
                 
-                h = h.next
-            
+                p = p.next
             return dummy_head.next
