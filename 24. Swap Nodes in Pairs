@@ -14,12 +14,11 @@ class Solution(object):
         
         dummy_head = ListNode(0)
         dummy_head.next = head
-        h = dummy_head
-        while h.next and h.next.next:
-            p, q = h.next, h.next.next
-            temp = q.next
-            h.next = q
-            q.next = p
-            p.next = temp
-            h = p
+        p = dummy_head
+        while p.next and p.next.next:
+            q, r, temp = p.next, p.next.next, p.next.next.next
+            p.next = r
+            r.next = q
+            q.next = temp
+            p = q
         return dummy_head.next
