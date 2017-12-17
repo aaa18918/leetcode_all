@@ -6,27 +6,12 @@ class Solution(object):
         :rtype: int
         """
         
-        start = 0
-        for index, num in enumerate(nums):
-            if index == 0 or num != nums[index-1]:
-                nums[start] = num
-                start += 1
-        return start
-
-
-O(n) time, O(1) space:
-class Solution(object):
-    def removeDuplicates(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
-        
         if not nums: return 0
         
-        left = 1
+        left = 0
         for idx in range(1, len(nums)):
-            if nums[idx] != nums[idx-1]:
-                nums[left] = nums[idx]
+            if nums[idx-1] != nums[idx]:
                 left += 1
-        return left
+                if idx > left:
+                    nums[left] = nums[idx]
+        return left+1
