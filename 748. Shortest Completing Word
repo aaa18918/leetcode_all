@@ -1,0 +1,57 @@
+O(nlg1000) time, O(26) space
+class Solution(object):
+    def shortestCompletingWord(self, licensePlate, words):
+        """
+        :type licensePlate: str
+        :type words: List[str]
+        :rtype: str
+        """
+        
+        words.sort(key = len)
+        counter = collections.defaultdict(int)
+        for char in licensePlate:
+            if 'a' <= char <= 'z' or 'A' <= char <= 'Z':
+                counter[char.lower()] += 1
+        
+        for word in words:
+            temp_counter = collections.defaultdict(int)
+            for char in word:
+                temp_counter[char] += 1
+            
+            for char, count in counter.iteritems():
+                temp_counter[char] -= count
+            
+            if all([count >= 0 for count in temp_counter.values()]):
+                return word
+        return ''
+
+
+O(n) time, O(26) space:
+class Solution(object):
+    def shortestCompletingWord(self, licensePlate, words):
+        """
+        :type licensePlate: str
+        :type words: List[str]
+        :rtype: str
+        """
+        
+        counter = collections.defaultdict(int)
+        for char in licensePlate:
+            if 'a' <= char <= 'z' or 'A' <= char <= 'Z':
+                counter[char.lower()] += 1
+        
+        res = ""
+        for word in words:
+            temp_counter = collections.defaultdict(int)
+            for char in word:
+                temp_counter[char] += 1
+            
+            for char, count in counter.iteritems():
+                temp_counter[char] -= count
+            
+            if all([count >= 0 for count in temp_counter.values()]) and (not res or len(word) < len(res)):
+                res = word
+        return res
+
+
+新题还暂时没有统计数据喔。
