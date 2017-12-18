@@ -1,3 +1,4 @@
+O(1) time, O(size) space
 class MovingAverage(object):
 
     def __init__(self, size):
@@ -6,9 +7,9 @@ class MovingAverage(object):
         :type size: int
         """
         
+        self.my_queue = collections.deque()
+        self.total = 0
         self.size = size
-        self.queue = []
-        self.queue_length = 0
 
     def next(self, val):
         """
@@ -16,98 +17,19 @@ class MovingAverage(object):
         :rtype: float
         """
         
-        if self.queue_length < self.size:
-            self.queue_length += 1
-        else:
-            self.queue.pop(0)
-        self.queue.append(val)
-        return sum(self.queue)*1.0/self.queue_length
-
-
-# Your MovingAverage object will be instantiated and called as such:
-# obj = MovingAverage(size)
-# param_1 = obj.next(val)
-
-class MovingAverage(object):
-
-    def __init__(self, size):
-        """
-        Initialize your data structure here.
-        :type size: int
-        """
+        if self.size == 0:
+            return 0
         
-        self.size = size
-        self.queue = collections.deque()
-        self.queue_length = 0
-
-    def next(self, val):
-        """
-        :type val: int
-        :rtype: float
-        """
+        if len(self.my_queue) == self.size:
+            self.total -= self.my_queue.popleft()
         
-        if self.queue_length < self.size:
-            self.queue_length += 1
-        else:
-            self.queue.popleft()
-        self.queue.append(val)
-        return sum(self.queue)*1.0/self.queue_length
-
-
-# Your MovingAverage object will be instantiated and called as such:
-# obj = MovingAverage(size)
-# param_1 = obj.next(val)
-
-class MovingAverage(object):
-
-    def __init__(self, size):
-        """
-        Initialize your data structure here.
-        :type size: int
-        """
-        
-        self.queue = collections.deque(maxlen=size)
-
-    def next(self, val):
-        """
-        :type val: int
-        :rtype: float
-        """
-        
-        self.queue.append(val)
-        return sum(self.queue)*1.0/len(self.queue)
-
+        self.my_queue.append(val)
+        self.total += val
+        return self.total*1.0/len(self.my_queue)
 
 # Your MovingAverage object will be instantiated and called as such:
 # obj = MovingAverage(size)
 # param_1 = obj.next(val)
 
 
-class MovingAverage(object):
-
-    def __init__(self, size):
-        """
-        Initialize your data structure here.
-        :type size: int
-        """
-        
-        self.size = size
-        self.queue = collections.deque(maxlen=size)
-        self.sum = 0
-
-    def next(self, val):
-        """
-        :type val: int
-        :rtype: float
-        """
-        
-        if self.size == len(self.queue):
-            self.sum -= self.queue[0]
-        self.sum += val
-        self.queue.append(val)
-        return self.sum*1.0/len(self.queue)
-
-
-# Your MovingAverage object will be instantiated and called as such:
-# obj = MovingAverage(size)
-# param_1 = obj.next(val)
+Could also be implemented in double linked list, which is the underlying implementation of the deque.
