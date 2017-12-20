@@ -30,7 +30,20 @@ class Solution(object):
         return findKthSmallest(total/2+1, nums1, nums2) if total%2 == 1 else (findKthSmallest(total/2, nums1, nums2)+findKthSmallest(total/2+1, nums1, nums2))/2.0
 
 
-Iterative: 我自己都没搞懂这是为什么。
+
+
+
+
+
+
+
+
+
+
+
+
+
+（这方法不用了）Iterative: 我自己都没搞懂这是为什么。
 O(lgn) time, O(1) space
 class Solution(object):
     def findMedianSortedArrays(self, nums1, nums2):
