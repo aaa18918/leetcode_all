@@ -1,41 +1,4 @@
-class Solution(object):
-    def countComponents(self, n, edges):
-        """
-        :type n: int
-        :type edges: List[List[int]]
-        :rtype: int
-        """
-        
-        parent = [-1 for _ in range(n)]
-        
-        def find(num):
-            while parent[num] >= 0:
-                num = parent[num]
-            
-            return num
-        
-        def union(left, right):
-            if left != right:
-                if parent[left] < parent[right]:
-                    right_num = parent[right]
-                    parent[right] = left
-                    parent[left] += right_num
-                else:
-                    left_num = parent[left]
-                    parent[left] = right
-                    parent[right] += left_num
-        
-        for e in edges:
-            left, right = find(e[0]), find(e[1])
-            union(left, right)
-        
-        res = 0
-        for idx in range(len(parent)):
-            if parent[idx] < 0:
-                res += 1
-        return res
-
-
+O(nlgn) time, O(n) space
 class Solution(object):
     def countComponents(self, n, edges):
         """
@@ -69,6 +32,3 @@ class Solution(object):
             if num < 0:
                 res += 1
         return res
-
-
-没看别的解法。
