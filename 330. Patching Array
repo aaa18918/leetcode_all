@@ -1,0 +1,18 @@
+O(n) time, O(1) space
+class Solution(object):
+    def minPatches(self, nums, n):
+        """
+        :type nums: List[int]
+        :type n: int
+        :rtype: int
+        """
+        
+        miss, res, idx, size = 1, 0, 0, len(nums)
+        while miss <= n:
+            if idx < size and nums[idx] <= miss:
+                miss += nums[idx]
+                idx += 1
+            else:
+                miss += miss
+                res += 1
+        return res
