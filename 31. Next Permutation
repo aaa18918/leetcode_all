@@ -1,3 +1,4 @@
+O(n) time, O(1) space
 class Solution(object):
     def nextPermutation(self, nums):
         """
@@ -5,56 +6,22 @@ class Solution(object):
         :rtype: void Do not return anything, modify nums in-place instead.
         """
         
-        len_nums = len(nums)
-        index = len_nums
-        
-        for i in range(len_nums-2, -1, -1):
-            if nums[i] < nums[i+1]:
-                index = i
-                break
-        
-        if index == len_nums:
-            self.reverseList(nums, 0, len_nums-1)
-            return
-        
-        for i in range(len_nums-1, index, -1):
-            if nums[i] > nums[index]:
-                nums[i], nums[index] = nums[index], nums[i]
-                break
-        
-        self.reverseList(nums, index+1, len_nums-1)
-    
-    def reverseList(self, cur_list, left, right):
-        while left < right:
-            cur_list[left], cur_list[right] = cur_list[right], cur_list[left]
-            left, right = left+1, right-1
-
-https://leetcode.com/problems/next-permutation/
-86%
-class Solution(object):
-    def nextPermutation(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: void Do not return anything, modify nums in-place instead.
-        """
-        
-        len_nums = len(nums)
-        index = len_nums-1
-        while index > 0:
-            if nums[index] > nums[index-1]:
-                break
-            index -= 1
-        if index == 0:
-            left, right = 0, len_nums-1
+        def reverse(left, right):
             while left < right:
                 nums[left], nums[right] = nums[right], nums[left]
                 left, right = left+1, right-1
-        else:
-            index_left = index-1
-            while index < len_nums and nums[index] > nums[index_left]: index += 1
-            index = index-1
-            nums[index], nums[index_left] = nums[index_left], nums[index]
-            left, right = index_left+1, len_nums-1
-            while left < right:
-                nums[left], nums[right] = nums[right], nums[left]
-                left, right = left+1, right-1
+        
+        idx = len(nums)-2
+        while idx >= 0:
+            if nums[idx] < nums[idx+1]:
+                i = idx+1
+                while i < len(nums) and nums[i] > nums[idx]:
+                    i += 1
+                
+                nums[idx], nums[i-1] = nums[i-1], nums[idx]
+                reverse(idx+1, len(nums)-1)
+                return
+                
+            idx -= 1
+        
+        reverse(0, len(nums)-1)
