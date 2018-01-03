@@ -6,22 +6,19 @@ class Solution(object):
         :rtype: int
         """
         
-        hash_set = set()
+        my_set = set(nums)
+        res = 0
         for num in nums:
-            hash_set.add(num)
-        
-        max_length = 0
-        for num in nums:
-            if num in hash_set:
-                hash_set.remove(num)
+            if num in my_set:
                 left, right = num, num
-                while left-1 in hash_set:
+                my_set.remove(num)
+                while left-1 in my_set:
                     left -= 1
-                    hash_set.remove(left)
+                    my_set.remove(left)
                 
-                while right+1 in hash_set:
+                while right+1 in my_set:
                     right += 1
-                    hash_set.remove(right)
+                    my_set.remove(right)
                 
-                max_length = max(max_length, right-left+1)
-        return max_length
+                res = max(res, right-left+1)
+        return res
