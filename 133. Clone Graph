@@ -11,25 +11,26 @@ class Solution:
     def cloneGraph(self, node):
         if not node: return None
         
-        new_root = UndirectedGraphNode(node.label)
-        mappings = {node:new_root}
+        res_node = UndirectedGraphNode(node.label)
+        my_queue = collections.deque([node])
+        hash_table = {node: res_node}
         visited = set()
         
-        def myDFS(node):
-            new_node = mappings[node]
-            if not new_node.neighbors:
-                for old_child in node.neighbors:
-                    if old_child not in mappings:
-                        new_child = UndirectedGraphNode(old_child.label)
-                        mappings[old_child] = new_child
-                    
-                    new_node.neighbors.append(mappings[old_child])
+        while my_queue:
+            cur_node = my_queue.popleft()
+            if cur_node in visited:
+                continue
             
-            visited.add(node)
+            corresponding_node = hash_table[cur_node]
+            for node in cur_node.neighbors:
+                if node in hash_table:
+                    corresponding_node.neighbors.append(hash_table[node])
+                else:
+                    new_node = UndirectedGraphNode(node.label)
+                    hash_table[node] = new_node
+                    my_queue.append(node)
+                    corresponding_node.neighbors.append(new_node)
             
-            for child in node.neighbors:
-                if child not in visited:
-                    myDFS(child)
+            visited.add(cur_node)
         
-        myDFS(node)
-        return new_root
+        return res_node
