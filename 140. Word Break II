@@ -1,3 +1,4 @@
+O(???) time, O(???) space
 class Solution(object):
     def wordBreak(self, s, wordDict):
         """
@@ -6,63 +7,13 @@ class Solution(object):
         :rtype: List[str]
         """
         
-        wordSet, record = set(wordDict), {}
+        wordSet, size = set(wordDict), len(s)
+        memo = {size: ['']}
         
-        def myDFS(word):
-            res = []
-            if word in wordSet:
-                res.append(word)
+        def DFS(idx):
+            if idx not in memo:
+                memo[idx] = [s[idx:i]+(r and ' '+r) for i in range(idx+1, size+1) if s[idx:i] in wordSet for r in DFS(i)]
             
-            for i in range(len(word)):
-                pre, suf = word[:i], word[i:]
-                if pre in wordSet:
-                    rest = []
-                    if suf in record:
-                        rest = record[suf]
-                    else:
-                        rest = myDFS(word[i:])
-                    
-                    for r in rest:
-                        res.append(pre+' '+r)
-                    
-                    record[suf] = rest
-            return res
+            return memo[idx]
         
-        return myDFS(s)
-
-
-class Solution(object):
-    def wordBreak(self, s, wordDict):
-        """
-        :type s: str
-        :type wordDict: List[str]
-        :rtype: List[str]
-        """
-        
-        wordSet = set(wordDict)
-        record = {}
-        
-        def myDFS(word):
-            res = []
-            if word in wordSet:
-                res.append(word)
-            
-            for idx in range(len(word)):
-                pre, suf = word[:idx], word[idx:]
-                if pre in wordSet:
-                    rest = []
-                    if suf in record:
-                        rest = record[suf]
-                    else:
-                        rest = myDFS(suf)
-                        record[suf] = rest
-                    
-                    for r in rest:
-                        res.append(pre+' '+r)
-            
-            return res
-        
-        return myDFS(s)
-
-
-discuss还没看。
+        return DFS(0)
