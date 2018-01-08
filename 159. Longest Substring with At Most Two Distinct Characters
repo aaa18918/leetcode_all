@@ -1,3 +1,4 @@
+O(n) time, O(1) space
 class Solution(object):
     def lengthOfLongestSubstringTwoDistinct(self, s):
         """
@@ -5,52 +6,26 @@ class Solution(object):
         :rtype: int
         """
         
-        hash_table, left, res, dis_num = {}, -1, 0, 0
-
-        for i, char in enumerate(s):
-            if char in hash_table:
-                hash_table[char] += 1
-            else:
-                if dis_num == 2:
-                    res = max(res, i-1-left)
-                    while dis_num == 2:
-                        left += 1
-                        hash_table[s[left]] -= 1
-                        if hash_table[s[left]] == 0:
-                            del hash_table[s[left]]
-                            dis_num -= 1
+        hash_table = collections.defaultdict(int)
+        left, size, count, res = 0, len(s), 0, 0
+        for idx in range(size):
+            hash_table[s[idx]] += 1
+            count += 1
+            
+            if len(hash_table) > 2:
+                res = max(count-1, res)
                 
-                hash_table[char] = 1
-                dis_num += 1
-        
-        return max(res, len(s)-1-left)
-
-
-class Solution(object):
-    def lengthOfLongestSubstringTwoDistinct(self, s):
-        """
-        :type s: str
-        :rtype: int
-        """
-        
-        hash_table, left, res, dis_num = {}, -1, 0, 0
-        
-        for i, char in enumerate(s):
-            if char in hash_table:
-                hash_table[char] = i
-            else:
-                if dis_num == 2:
-                    res = max(res, i-1-left)
-                    while dis_num == 2:
+                while left < idx:
+                    hash_table[s[left]] -= 1
+                    count -= 1
+                    if hash_table[s[left]] == 0:
+                        del hash_table[s[left]]
                         left += 1
-                        if hash_table[s[left]] == left:
-                            del hash_table[s[left]]
-                            dis_num -= 1
-                
-                hash_table[char] = i
-                dis_num += 1
+                        break
+                    
+                    left += 1
         
-        return max(res, len(s)-1-left)
+        return max(count, res)
 
 
 最后一种解法没看懂：http://www.cnblogs.com/grandyang/p/5185561.html
