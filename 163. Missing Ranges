@@ -1,3 +1,4 @@
+O(n) time, O(1) space
 class Solution(object):
     def findMissingRanges(self, nums, lower, upper):
         """
@@ -7,19 +8,14 @@ class Solution(object):
         :rtype: List[str]
         """
         
-        if not nums: return ["{}->{}".format(lower, upper)] if lower < upper else [str(lower)]
-        
-        assert lower <= nums[0] and upper >= nums[-1]
         nums.append(upper+1)
-        
-        left, res = lower, []
+        left = lower-1
+        res = []
         for num in nums:
-            if num <= left:
-                left = max(left, num+1)
-                continue
-            if num-left == 1:
-                res.append(str(left))
-            else:
-                res.append("{}->{}".format(left, num-1))
-            left = num+1
+            if num == left+2:
+                res.append(str(left+1))
+            elif num > left+2:
+                res.append('{}->{}'.format(left+1, num-1))
+            
+            left = num
         return res
