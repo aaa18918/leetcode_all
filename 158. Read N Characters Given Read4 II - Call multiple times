@@ -1,0 +1,35 @@
+O(n) time read, O(1) space
+# The read4 API is already defined for you.
+# @param buf, a list of characters
+# @return an integer
+# def read4(buf):
+
+class Solution(object):
+    def __init__(self):
+        self.idx = 0
+        self.size = 0
+        self.buff = ['']*4
+        
+    def read(self, buf, n):
+        """
+        :type buf: Destination buffer (List[str])
+        :type n: Maximum number of characters to read (int)
+        :rtype: The number of characters read (int)
+        """
+        
+        count = 0
+        while count < n:
+            if self.idx == 0:
+                self.size = read4(self.buff)
+            
+            if self.size == 0:
+                break
+            
+            while count < n and self.idx < self.size:
+                buf[count] = self.buff[self.idx]
+                self.idx += 1
+                count += 1
+            
+            if self.idx == self.size:
+                self.idx = 0
+        return count
