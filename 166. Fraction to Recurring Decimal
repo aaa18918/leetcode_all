@@ -1,3 +1,4 @@
+O(denominator) time, O(denominator) space
 class Solution(object):
     def fractionToDecimal(self, numerator, denominator):
         """
@@ -7,30 +8,24 @@ class Solution(object):
         """
         
         if not numerator or not denominator:
-            return "0"
+            return '0'
         
-        if numerator%denominator == 0:
-            return str(numerator/denominator)
-        
-        res = ''
-        if numerator/denominator < 0:
-            res += '-'
-        
+        res = '-' if numerator*denominator < 0 else ''
         numerator, denominator = abs(numerator), abs(denominator)
         res += str(numerator/denominator)
         res += '.'
-        numerator = numerator%denominator
-        index = len(res)
-        hash_table = {numerator: index}
+        remainder = numerator%denominator
         
-        while numerator:
-            res += str(numerator*10/denominator)
-            numerator = numerator*10%denominator
-            if numerator in hash_table:
-                return res[:hash_table[numerator]]+'('+res[hash_table[numerator]:]+')'
-            
-            index += 1
-            hash_table[numerator] = index
+        hash_table = {}
+        idx = len(res)
+        while remainder > 0 and remainder not in hash_table:
+            hash_table[remainder] = idx
+            remainder = remainder*10
+            res += str(remainder/denominator)
+            remainder %= denominator
+            idx += 1
         
-        return res
-
+        if remainder > 0:
+            return res[:hash_table[remainder]]+'('+res[hash_table[remainder]:]+')'
+        
+        return res if res[-1] != '.' else res[:-1]
