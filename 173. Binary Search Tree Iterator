@@ -1,4 +1,4 @@
-O(1) time hasNext(), O(lgn) time next(), O(lgn) space
+Average O(1) time, O(n) space
 # Definition for a  binary tree node
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -12,29 +12,30 @@ class BSTIterator(object):
         :type root: TreeNode
         """
         
-        self.p = root
         self.my_stack = []
+        p = root
+        while p:
+            self.my_stack.append(p)
+            p = p.left
 
     def hasNext(self):
         """
         :rtype: bool
         """
         
-        return True if self.p or self.my_stack else False
+        return True if self.my_stack else False
 
     def next(self):
         """
         :rtype: int
         """
         
-        while self.p:
-            self.my_stack.append(self.p)
-            self.p = self.p.left
-        
-        self.p = self.my_stack.pop()
-        res = self.p.val
-        self.p = self.p.right
-        return res
+        res = self.my_stack.pop()
+        p = res.right
+        while p:
+            self.my_stack.append(p)
+            p = p.left
+        return res.val
 
 # Your BSTIterator will be called like this:
 # i, v = BSTIterator(root), []
