@@ -52,3 +52,33 @@ class Solution(object):
                     myDFS()
         
         return res
+
+
+O(mn) time, O(mn) space
+class Solution(object):
+    def numIslands(self, grid):
+        """
+        :type grid: List[List[str]]
+        :rtype: int
+        """
+        
+        my_queue = collections.deque()
+        
+        def myBFS(i, j):          
+            while my_queue:
+                x, y = my_queue.popleft()
+                if 0 <= x < len(grid) and 0 <= y < len(grid[0]) and grid[x][y] == '1':
+                    grid[x][y] = '0'
+                    my_queue.append((x-1, y))
+                    my_queue.append((x+1, y))
+                    my_queue.append((x, y-1))
+                    my_queue.append((x, y+1))
+        
+        count = 0
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == '1':
+                    count += 1
+                    my_queue.append((i, j))
+                    myBFS(i, j)
+        return count
