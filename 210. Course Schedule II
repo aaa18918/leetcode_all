@@ -7,44 +7,29 @@ class Solution(object):
         :rtype: List[int]
         """
         
-        if not prerequisites: return [num for num in range(numCourses)]
-        
-        adjacency = collections.defaultdict(set)
+        adjacency_list = collections.defaultdict(set)
         for pre in prerequisites:
-            adjacency[pre[0]].add(pre[1])
+            adjacency_list[pre[0]].add(pre[1])
         
-        res = []
-        visited = set()
-        canBeFinished = set()
+        visited = [0 for _ in range(numCourses)]
+        
+        res = [c for c in range(numCourses) if c not in adjacency_list]
         def myDFS(course):
-            if course in visited:
-                return False
+            if course not in adjacency_list: return True
+            if visited[course] == 1: return True
+            if visited[course] == -1: return False
             
-            if course in canBeFinished:
-                return True
-            
-            if course not in adjacency:
-                res.append(course)
-                canBeFinished.add(course)
-                return True
-            
-            visited.add(course)
-            for c in adjacency[course]:
-                if not myDFS(c):
+            visited[course] = -1
+            for pre_course in adjacency_list[course]:
+                if not myDFS(pre_course):
                     return False
             
-            visited.remove(course)
             res.append(course)
-            canBeFinished.add(course)
+            visited[course] = 1
             return True
         
-        for course in adjacency:
+        for course in range(numCourses):
             if not myDFS(course):
                 return []
-        
-        resSet = set(res)
-        for num in range(numCourses):
-            if num not in resSet:
-                res.append(num)
         
         return res
