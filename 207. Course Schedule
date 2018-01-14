@@ -43,27 +43,24 @@ class Solution(object):
         :type prerequisites: List[List[int]]
         :rtype: bool
         """
-        
+
         adjacency_list = collections.defaultdict(set)
-        num_set = set([num for num in range(numCourses)])
         for pre in prerequisites:
             adjacency_list[pre[0]].add(pre[1])
-            if pre[0] in num_set:
-                num_set.remove(pre[0])
-        
-        cur = list(num_set)
+
+        cur = [i for i in range(numCourses) if i not in adjacency_list]
         while cur:
             temp = []
-            for course in adjacency_list:
-                for c in cur:
-                    if c in adjacency_list[course]:
-                        adjacency_list[course].remove(c)
-                        if not adjacency_list[course]:
+            for c in cur:
+                for course, pre_c_set in adjacency_list.iteritems():
+                    if c in pre_c_set:
+                        pre_c_set.remove(c)
+                        if not pre_c_set:
                             temp.append(course)
-            
+
             for course in temp:
                 del adjacency_list[course]
-            
+
             cur = temp
-        
+
         return not adjacency_list
