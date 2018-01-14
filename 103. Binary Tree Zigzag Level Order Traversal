@@ -12,22 +12,22 @@ class Solution(object):
         :type root: TreeNode
         :rtype: List[List[int]]
         """
-
+        
+        my_queue = collections.deque([(root, 0)])
         res = []
-        my_stack = [(root, 0)]
-        while my_stack:
-            node, level = my_stack.pop()
+        while my_queue:
+            node, level = my_queue.popleft()
+            
             if not node: continue
             
             if level == len(res):
                 res.append([])
             
-            if level%2 == 0:
-                res[level].append(node.val)
-            else:
+            if level%2 != 0:
                 res[level] = [node.val]+res[level]
-                
-            my_stack.append((node.right, level+1))
-            my_stack.append((node.left, level+1))
-        
+            else:
+                res[level].append(node.val)
+            
+            my_queue.append((node.left, level+1))
+            my_queue.append((node.right, level+1))
         return res
