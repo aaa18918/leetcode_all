@@ -9,19 +9,19 @@ class Solution(object):
         for c in s:
             if '0' <= c <= '9':
                 cur_num = cur_num*10+int(c)
-            elif c in "+-":
+            elif c in '+-':
                 res += sign*cur_num
                 sign = 1 if c == '+' else -1
                 cur_num = 0
             elif c == '(':
                 my_stack.append((res, sign))
-                res, sign, cur_num = 0, 1, 0
+                res, cur_num, sign = 0, 0, 1
             elif c == ')':
                 res += sign*cur_num
+                sign, cur_num = 1, 0
                 prev_res, prev_sign = my_stack.pop()
                 res = prev_res+prev_sign*res
-                cur_num, sign = 0, 1
-        return res+sign*cur_num
+        return res if not cur_num else res+sign*cur_num
 
 
 还有别的解法还没看。
