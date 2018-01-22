@@ -1,3 +1,4 @@
+O(n) time, O(n) space
 class Solution(object):
     def calculate(self, s):
         """
@@ -22,6 +23,3 @@ class Solution(object):
                 prev_res, prev_sign = my_stack.pop()
                 res = prev_res+prev_sign*res
         return res if not cur_num else res+sign*cur_num
-
-
-还有别的解法还没看。
