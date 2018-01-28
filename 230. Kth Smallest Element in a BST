@@ -29,3 +29,37 @@ class Solution(object):
             k -= 1
             if k == 0:
                 return val
+
+
+O(n) time, O(lgn) space
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def kthSmallest(self, root, k):
+        """
+        :type root: TreeNode
+        :type k: int
+        :rtype: int
+        """
+        
+        p, my_stack = root, []
+        while p:
+            my_stack.append(p)
+            p = p.left
+        
+        while my_stack:
+            if not p:
+                p = my_stack.pop()
+                k -= 1
+                if k == 0:
+                    return p.val
+            
+            p = p.right
+            while p:
+                my_stack.append(p)
+                p = p.left
