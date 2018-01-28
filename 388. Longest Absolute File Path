@@ -1,30 +1,4 @@
-class Solution(object):
-    def lengthLongestPath(self, input):
-        """
-        :type input: str
-        :rtype: int
-        """
-        
-        input_list = input.split('\n')
-        result, cur_level, file_path_stack = 0, -1, []
-        
-        for item in input_list:
-            item_list = item.split('\t')
-            level = len(item_list)-1
-            string = item_list[-1]
-            
-            while level <= cur_level:
-                file_path_stack.pop()
-                cur_level -= 1
-            
-            if '.' in string:
-                result = max(len(''.join(file_path_stack+[string]))+len(file_path_stack), result)
-            else:
-                file_path_stack.append(string)
-                cur_level += 1
-        
-        return result
-
+O(n) time, O(n) space
 class Solution(object):
     def lengthLongestPath(self, input):
         """
