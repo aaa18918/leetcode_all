@@ -1,0 +1,55 @@
+O(???) time, O(???) space
+class Solution(object):
+    def wordSquares(self, words):
+        """
+        :type words: List[str]
+        :rtype: List[List[str]]
+        """
+        
+        trie = {}
+        for word in words:
+            t = trie
+            for char in word:
+                if char not in t:
+                    t[char] = {}
+                t = t[char]
+            t['#'] = {word:{}}
+        
+        def searchPrefix(prefix, trie, words):
+            if '#' in trie:
+                words += trie['#'].keys()
+                return
+            
+            t = trie
+            for char in prefix:
+                if char not in t:
+                    return
+                
+                t = t[char]
+            
+            if '#' in t:
+                words.append(t['#'].keys())
+            
+            for char in t:
+                searchPrefix('', t[char], words)
+        
+        res, size = [], len(words[0])
+        def search(cur, idx):
+            if idx == size:
+                res.append(cur)
+                return
+            
+            prefix = [cur[i][idx] for i in range(len(cur))]
+            prefix_words = []
+            searchPrefix(prefix, trie, prefix_words)
+            
+            for word in prefix_words:
+                search(cur+[word],  idx+1)
+        
+        for word in words:
+            search([word], 1)
+        
+        return res
+
+
+别的解法大致看了一下，没全部仔细看。
