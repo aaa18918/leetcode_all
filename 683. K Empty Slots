@@ -1,0 +1,23 @@
+O(n) time, O(n) space
+class Solution(object):
+    def kEmptySlots(self, flowers, k):
+        """
+        :type flowers: List[int]
+        :type k: int
+        :rtype: int
+        """
+        
+        size = len(flowers)
+        bloom_days = [0 for _ in range(size)]
+        for idx in range(size):
+            bloom_days[flowers[idx]-1] = idx+1
+        
+        idx, left, right, res = 1, 0, k+1, sys.maxint
+        while right < size:
+            if bloom_days[left] > bloom_days[idx] or bloom_days[idx] <= bloom_days[right]:
+                if idx == right:
+                    res = min(res, max(bloom_days[left], bloom_days[right]))
+                left = idx
+                right = left+k+1
+            idx += 1
+        return res if res != sys.maxint else -1
