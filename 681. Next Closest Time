@@ -6,14 +6,13 @@ class Solution(object):
         :rtype: str
         """
         
-        digits = {y for x in time.split(':') for y in x}
+        digits = {x for y in time.split(':') for x in y}
         h, m = time.split(':')
         while True:
-            h, m = (str(int(h)+1), "00") if m == '59' else (h, str(int(m)+1))
-            if int(h) > 23:
-                h = "00"
-            h = '0'+h if len(h) == 1 else h
-            m = '0'+m if len(m) == 1 else m
+            h, m = (str(int(h)+1), '00') if m == '59' else (h, str(int(m)+1))
+            if len(h) == 1: h = '0'+h
+            if len(m) == 1: m = '0'+m
+            if h >= '24': h = '00'
             if all([x in digits for x in h+m]):
                 return h+':'+m
 
