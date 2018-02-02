@@ -1,3 +1,4 @@
+O(24*60) time, O(1) space
 class Solution(object):
     def nextClosestTime(self, time):
         """
@@ -5,7 +6,7 @@ class Solution(object):
         :rtype: str
         """
         
-        digits = [y for x in time.split(':') for y in x]
+        digits = {y for x in time.split(':') for y in x}
         h, m = time.split(':')
         while True:
             h, m = (str(int(h)+1), "00") if m == '59' else (h, str(int(m)+1))
