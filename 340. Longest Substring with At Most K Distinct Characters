@@ -1,3 +1,4 @@
+O(n) time, O(n) space
 class Solution(object):
     def lengthOfLongestSubstringKDistinct(self, s, k):
         """
@@ -6,118 +7,23 @@ class Solution(object):
         :rtype: int
         """
         
-        if k <= 0: return 0
-        
-        hash_table, res, total, left = {}, 0, 0, -1
-        
-        for i, char in enumerate(s):
-            if char in hash_table:
-                hash_table[char] += 1
-            else:
-                if total == k:
-                    res = max(res, i-1-left)
-                    while total == k:
-                        left += 1
-                        hash_table[s[left]] -= 1
-                        if hash_table[s[left]] == 0:
-                            del hash_table[s[left]]
-                            total -= 1
-                hash_table[char] = 1
-                total += 1
-        
-        return max(res, len(s)-1-left)
-
-
-class Solution(object):
-    def lengthOfLongestSubstringKDistinct(self, s, k):
-        """
-        :type s: str
-        :type k: int
-        :rtype: int
-        """
-        
-        if k <= 0: return 0
-        
-        res, hash_table, left, total = 0, {}, -1, 0
-        
-        for i, char in enumerate(s):
-            if char in hash_table:
-                hash_table[char] = i
-            else:
-                if total == k:
-                    res = max(res, i-1-left)
-                    while total == k:
-                        left += 1
-                        if hash_table[s[left]] == left:
-                            del hash_table[s[left]]
-                            total -= 1
+        left, count, t, res = 0, collections.defaultdict(int), k, 0
+        for idx, char in enumerate(s):
+            if count[char] == 0:
+                t -= 1
                 
-                hash_table[char] = i
-                total += 1
-        
-        return max(res, len(s)-1-left)
-
-
-class Solution(object):
-    def lengthOfLongestSubstringKDistinct(self, s, k):
-        """
-        :type s: str
-        :type k: int
-        :rtype: int
-        """
-        
-        if not k: return 0
-        
-        disc_num_count, hash_table = k, {}
-        size, res, left = len(s), 0, 0
-        
-        for i in range(size):
-            if s[i] in hash_table:
-                hash_table[s[i]] += 1
-            else:
-                if disc_num_count > 0:
-                    hash_table[s[i]] = 1
-                    disc_num_count -= 1
-                else:
-                    res = max(res, i-left)
-                    while left < i:
-                        hash_table[s[left]] -= 1
-                        if hash_table[s[left]] == 0:
-                            del hash_table[s[left]]
-                            break
+                if t == -1:
+                    res = max(res, idx-left)
+                    
+                    while left < idx:
+                        count[s[left]] -= 1
+                        if count[s[left]] == 0:
+                            t += 1
+                            if t == 0:
+                                break
                         left += 1
                     left += 1
-                    hash_table[s[i]] = 1
+            
+            count[char] += 1
 
-        return max(res, size-left)
-
-
-class Solution(object):
-    def lengthOfLongestSubstringKDistinct(self, s, k):
-        """
-        :type s: str
-        :type k: int
-        :rtype: int
-        """
-        
-        if k <= 0: return 0
-        
-        count, len_s, hash_table, res, left = k, len(s), {}, 0, 0
-        
-        for i, c in enumerate(s):
-            if c in hash_table:
-                hash_table[c] += 1
-            else:
-                if count > 0:
-                    count -= 1
-                else:
-                    res = max(res, i-left)
-                    while left < i:
-                        hash_table[s[left]] -= 1
-                        if hash_table[s[left]] == 0:
-                            del hash_table[s[left]]
-                            break
-                        left += 1
-                    left += 1
-                hash_table[c] = 1
-        return max(res, len_s-left)
+        return max(res, len(s)-left) if k > 0 else 0
