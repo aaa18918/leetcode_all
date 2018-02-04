@@ -52,20 +52,18 @@ class Solution(object):
         if not root: return 0
         
         res, my_stack = 0, [(root, 1)]
-        
         while my_stack:
-            node, count = my_stack.pop()
-            res = max(count, res)
+            node, length = my_stack.pop()
+            res = max(res, length)
             if node.left:
-                if node.left.val-node.val == 1:
-                    my_stack.append((node.left, count+1))
+                if node.val - node.left.val == -1:
+                    my_stack.append((node.left, length+1))
                 else:
                     my_stack.append((node.left, 1))
-
+            
             if node.right:
-                if node.right.val-node.val == 1:
-                    my_stack.append((node.right, count+1))
+                if node.val - node.right.val == -1:
+                    my_stack.append((node.right, length+1))
                 else:
                     my_stack.append((node.right, 1))
-        
         return res
