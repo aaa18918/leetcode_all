@@ -1,3 +1,4 @@
+O(n) time, O(n) space
 class Solution(object):
     def licenseKeyFormatting(self, S, K):
         """
@@ -6,12 +7,9 @@ class Solution(object):
         :rtype: str
         """
         
-        res = ""
-        str_S = ''.join(S.split('-'))
-        
-        for i in range(len(str_S)-1, -1, -K):
-            res = str_S[max(0, i+1-K):i+1].upper()+res
-            res = '-'+res
-        
-        return res[1:]
-
+        S = S.upper().replace('-', '')
+        left = K if len(S)%K == 0 else len(S)%K
+        res = S[:left]
+        for idx in range(left, len(S), K):
+            res += '-'+S[idx:idx+K]
+        return res
