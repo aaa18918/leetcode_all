@@ -1,3 +1,40 @@
+O(n) time, O(1) space
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def longestConsecutive(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        
+        if not root: return 0
+        
+        def myDFS(node, length):
+            left, right = 0, 0
+            if node.left:
+                if node.val-node.left.val == -1:
+                    left = myDFS(node.left, length+1)
+                else:
+                    left = myDFS(node.left, 1)
+                
+            if node.right:
+                if node.val-node.right.val == -1:
+                    right = myDFS(node.right, length+1)
+                else:
+                    right = myDFS(node.right, 1)
+            
+            return max(length, left, right)
+        
+        return myDFS(root, 1)
+
+
+O(n) time, O(lgn) space
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -32,119 +69,3 @@ class Solution(object):
                     my_stack.append((node.right, 1))
         
         return res
-
-
-# Definition for a binary tree node.
-# class TreeNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution(object):
-    def longestConsecutive(self, root):
-        """
-        :type root: TreeNode
-        :rtype: int
-        """
-        
-        if not root: return 0
-        
-        def myDFS(node):
-            left, right, left_max, right_max = 0, 0, 1, 1
-            if node.left:
-                left_c, left_max = myDFS(node.left)
-                if node.left.val-node.val == 1: left = left_c
-
-            if node.right:
-                right_c, right_max = myDFS(node.right)
-                if node.right.val - node.val == 1: right = right_c
-        
-            count = max(left, right)+1
-            return count, max(left_max, right_max, count)
-        
-        return myDFS(root)[1]
-
-
-# Definition for a binary tree node.
-# class TreeNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution(object):
-    def longestConsecutive(self, root):
-        """
-        :type root: TreeNode
-        :rtype: int
-        """
-        
-        if not root: return 0
-        
-        def myDFS(node, count, prev):
-            if not node: return 0
-            count = count+1 if node.val-prev == 1 else 1
-            left, right = 0, 0
-            if node.left:
-                left = myDFS(node.left, count, node.val)
-            if node.right:
-                right = myDFS(node.right, count, node.val)
-            
-            return max(left, right, count)
-        
-        return max(1, myDFS(root.left, 1, root.val), myDFS(root.right, 1, root.val))
-
-
-# Definition for a binary tree node.
-# class TreeNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution(object):
-    def longestConsecutive(self, root):
-        """
-        :type root: TreeNode
-        :rtype: int
-        """
-        
-        if not root: return 0
-        
-        def myDFS(node, count, prev):
-            if not node: return 0
-            count = count+1 if node.val-prev == 1 else 1
-            left = myDFS(node.left, count, node.val)
-            right = myDFS(node.right, count, node.val)
-            
-            return max(left, right, count)
-        
-        return max(1, myDFS(root.left, 1, root.val), myDFS(root.right, 1, root.val))
-
-
-# Definition for a binary tree node.
-# class TreeNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution(object):
-    def longestConsecutive(self, root):
-        """
-        :type root: TreeNode
-        :rtype: int
-        """
-        
-        def myDFS(node, count, prev_val):
-            if not node: return 0
-            
-            count = count+1 if node.val-prev_val == 1 else 1
-            
-            left = myDFS(node.left, count, node.val)
-            right = myDFS(node.right, count, node.val)
-            
-            return max(left, right, count)
-        
-        return max(1, myDFS(root.left, 1, root.val), myDFS(root.right, 1, root.val)) if root else 0
