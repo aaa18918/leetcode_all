@@ -1,0 +1,38 @@
+O(n) time, O(1) space
+class Solution(object):
+    def validUtf8(self, data):
+        """
+        :type data: List[int]
+        :rtype: bool
+        """
+        
+        def nextNValid(idx, n):
+            for i in range(idx+1, idx+n+1):
+                if 0b10000000 <= data[i] <= 0b10111111:
+                    continue
+                else:
+                    return False
+            return True
+        
+        idx, size = 0, len(data)
+        while idx < size:
+            if 0b11110111 >= data[idx] >= 0b11110000:
+                if idx+3 < size and nextNValid(idx, 3):
+                    idx += 4
+                else:
+                    return False
+            elif 0b11100000 <= data[idx] <= 0b11101111:
+                if idx+2 < size and nextNValid(idx, 2):
+                    idx += 3
+                else:
+                    return False
+            elif 0b11000000 <= data[idx] <= 0b11011111:
+                if idx+1 < size and nextNValid(idx, 1):
+                    idx += 2
+                else:
+                    return False
+            elif 0b01111111 >= data[idx]:
+                idx += 1
+            else:
+                return False
+        return True
