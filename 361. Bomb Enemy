@@ -1,34 +1,34 @@
+O(mn) time, O(n) space
 class Solution(object):
     def maxKilledEnemies(self, grid):
         """
         :type grid: List[List[str]]
         :rtype: int
         """
-
-        m = len(grid)
-        if m == 0: return 0
-        n = len(grid[0])
-
-        row, col, res = 0, [0 for _ in range(n)], 0
+        
+        if not grid or len(grid[0]) == 0: return 0
+        
+        res, m, n = 0, len(grid), len(grid[0])
+        row, col = 0, [0 for _ in range(n)]
         for i in range(m):
             for j in range(n):
-                if j == 0 or grid[i][j] == 'W':
-                    k = j+1
-                    row = 1 if grid[i][j] == 'E' else 0
-                    while k < n and grid[i][k] != 'W':
-                        if grid[i][k] == 'E':
-                            row = row+1
-                        k = k+1
-
                 if i == 0 or grid[i][j] == 'W':
                     k = i+1
                     col[j] = 1 if grid[i][j] == 'E' else 0
                     while k < m and grid[k][j] != 'W':
                         if grid[k][j] == 'E':
-                            col[j] = col[j]+1
-                        k = k+1
-
-                if grid[i][j] == '0': res = max(res, row+col[j])
-
+                            col[j] += 1
+                        k += 1
+                
+                if j == 0 or grid[i][j] == 'W':
+                    k = j+1
+                    row = 1 if grid[i][j] == 'E' else 0
+                    while k < n and grid[i][k] != 'W':
+                        if grid[i][k] == 'E':
+                            row += 1
+                        k += 1
+                
+                if grid[i][j] == '0':
+                    res = max(res, row+col[j])
+        
         return res
-
