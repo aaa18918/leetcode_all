@@ -1,3 +1,4 @@
+O(n) time, O(1) space
 class Solution(object):
     def isStrobogrammatic(self, num):
         """
@@ -5,12 +6,12 @@ class Solution(object):
         :rtype: bool
         """
         
-        num_map = {'6':'9', '9':'6', '1':'1', '8':'8', '0':'0'}
-        left, right = 0, len(num)-1
-        while left <= right:
-            if num[left] in num_map and num_map[num[left]] == num[right]:
-                left, right = left+1, right-1
+        mapping = {'6':'9', '1':'1', '9':'6', '8':'8', '0':'0'}
+        size = len(num)
+        mid = int(round(size*1.0/2))
+        for idx in range(mid):
+            if mapping.get(num[idx]) == num[size-1-idx]:
+                continue
             else:
                 return False
         return True
-
