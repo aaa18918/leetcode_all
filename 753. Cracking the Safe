@@ -1,0 +1,21 @@
+O(k*k^n) time, O(n*k^n) space
+class Solution(object):
+    def crackSafe(self, n, k):
+        """
+        :type n: int
+        :type k: int
+        :rtype: str
+        """
+        
+        visited = set()
+        res, idx = '0'*(n-1), 0
+        for i in range(k**n):
+            cur = res[idx:]
+            for num in range(k-1, -1, -1):
+                cur += str(num)
+                if cur not in visited:
+                    visited.add(cur)
+                    res += str(num)
+                    idx += 1
+                    break
+        return res
