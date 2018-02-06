@@ -19,3 +19,6 @@ class Solution(object):
                     idx += 1
                     break
         return res
+
+
+别的答案还没看。
