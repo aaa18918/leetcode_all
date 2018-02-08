@@ -20,7 +20,7 @@ class Solution(object):
         start.sort()
         end.sort()
         
-        i, j, size_s, size_e = 0, 0, len(start), len(end)
+        i, j, size_s = 0, 0, len(start)
         res, available = 0, 0
         while i < size_s:
             if start[i] < end[j]:
