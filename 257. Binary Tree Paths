@@ -15,6 +15,38 @@ class Solution(object):
         
         if not root: return []
         
+        res, my_stack = [], [(str(root.val), root)]
+        while my_stack:
+            path, node = my_stack.pop()
+            if not node.left and not node.right:
+                res.append(path)
+                continue
+            
+            if node.left:
+                my_stack.append((path+'->{}'.format(node.left.val), node.left))
+            
+            if node.right:
+                my_stack.append((path+'->{}'.format(node.right.val), node.right))
+        return res
+
+
+O(n) time, O(???) space
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def binaryTreePaths(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[str]
+        """
+        
+        if not root: return []
+        
         res = []
         def myDFS(path, node):
             if not node.left and not node.right:
