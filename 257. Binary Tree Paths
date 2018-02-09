@@ -1,4 +1,4 @@
-O(n) time, O(n) space(exclude recursive costs)
+O(n) time, O(???) space
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
