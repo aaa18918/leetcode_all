@@ -7,16 +7,14 @@ class Solution(object):
         :rtype: int
         """
         
-        nums = sorted(nums)
-        len_nums, count = len(nums), 0
-        
-        for i in range(len_nums-2):
-            left, right = i+1, len_nums-1
+        nums.sort()
+        size, count = len(nums), 0
+        for idx in range(size-2):
+            left, right = idx+1, size-1
             while left < right:
-                if nums[i]+nums[left]+nums[right] < target:
+                if nums[idx]+nums[left]+nums[right] < target:
                     count += right-left
                     left += 1
                 else:
                     right -= 1
-        
         return count
