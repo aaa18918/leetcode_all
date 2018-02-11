@@ -1,3 +1,38 @@
+O(n) time, O(n) space
+class Solution(object):
+    def validTree(self, n, edges):
+        """
+        :type n: int
+        :type edges: List[List[int]]
+        :rtype: bool
+        """
+        
+        if len(edges) != n-1: return False
+        
+        visited = [0 for _ in range(n)]
+        adjacency_list = collections.defaultdict(list)
+        for edge in edges:
+            adjacency_list[edge[0]].append(edge[1])
+            adjacency_list[edge[1]].append(edge[0])
+        
+        def myDFS(num, parent):
+            if visited[num] == 1: return True
+            if visited[num] == -1: return False
+            
+            visited[num] = -1
+            for adjacent_num in adjacency_list[num]:
+                if adjacent_num != parent and not myDFS(adjacent_num, num):
+                    return False
+            visited[num] = 1
+            return True
+        
+        for num in adjacency_list.keys():
+            if not myDFS(num, -1):
+                return False
+        return True
+
+
+O(nlgn) time, O(n) space
 class Solution(object):
     def validTree(self, n, edges):
         """
@@ -25,6 +60,3 @@ class Solution(object):
                 nums[y] = x
         
         return len(edges) == n-1
-
-
-别的解法还没看，union-find算法还需要复习，也可以改进。
