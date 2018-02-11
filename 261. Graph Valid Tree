@@ -41,22 +41,26 @@ class Solution(object):
         :rtype: bool
         """
         
+        if len(edges) != n-1: return False
+        
         nums = [-1 for _ in range(n)]
         
-        def find(i):
-            depth = 0
-            while nums[i] != -1:
-                i, depth = nums[i], depth+1
-            return i, depth
+        def find(num):
+            depth = 1
+            while nums[num] != -1:
+                depth, num = depth+1, nums[num]
+            return depth, num
         
         for edge in edges:
-            x, depth_x = find(edge[0])
-            y, depth_y = find(edge[1])
-            if x == y: return False
+            depth_x, x = find(edge[0])
+            depth_y, y = find(edge[1])
+            
+            if x == y:
+                return False
             
             if depth_x < depth_y:
                 nums[x] = y
             else:
                 nums[y] = x
         
-        return len(edges) == n-1
+        return True
