@@ -1,3 +1,4 @@
+O(n) time, O(n) space
 class Solution(object):
     def canPermutePalindrome(self, s):
         """
@@ -5,16 +6,9 @@ class Solution(object):
         :rtype: bool
         """
         
-        hash_table = {}
-        for char in s:
-            if char not in hash_table:
-                hash_table[char] = 0
-            hash_table[char] += 1
-        
-        count = 0
-        for value in hash_table.itervalues():
-            if value%2 == 1:
-                count += 1
-        
-        return False if count > 1 else True
-
+        counter = collections.Counter(s)
+        odd_chars_num = 0
+        for count in counter.values():
+            if count%2 == 1:
+                odd_chars_num += 1
+        return odd_chars_num <= 1
