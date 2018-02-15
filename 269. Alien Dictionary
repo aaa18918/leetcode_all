@@ -1,3 +1,44 @@
+O(???) time, O(???) sapce
+class Solution(object):
+    def alienOrder(self, words):
+        """
+        :type words: List[str]
+        :rtype: str
+        """
+        
+        adjacency_list = collections.defaultdict(set)
+        for idx in range(len(words)-1):
+            size = min(len(words[idx+1]), len(words[idx]))
+            for i in range(size):
+                if words[idx+1][i] != words[idx][i]:
+                    adjacency_list[words[idx+1][i]].add(words[idx][i])
+                    break
+        
+        res = []
+        visited = [False for _ in range(26)]
+        def myDFS(char):
+            if char in res: return True
+            if visited[ord(char)-ord('a')] == True: return False
+            
+            if char not in adjacency_list or not adjacency_list[char]:
+                res.append(char)
+                return True
+            
+            visited[ord(char)-ord('a')] = True
+            for prev_char in adjacency_list[char]:
+                if not myDFS(prev_char):
+                    return False
+            
+            res.append(char)
+            return True
+        
+        for i in range(len(words)):
+            for j in range(len(words[i])):
+                if not myDFS(words[i][j]):
+                    return ''
+        return ''.join(res)
+
+O(???) time, O(???) space
 class Solution(object):
     def alienOrder(self, words):
         """
