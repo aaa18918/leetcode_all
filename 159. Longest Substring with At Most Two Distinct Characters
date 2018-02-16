@@ -6,26 +6,16 @@ class Solution(object):
         :rtype: int
         """
         
-        hash_table = collections.defaultdict(int)
-        left, size, count, res = 0, len(s), 0, 0
-        for idx in range(size):
-            hash_table[s[idx]] += 1
-            count += 1
-            
-            if len(hash_table) > 2:
-                res = max(count-1, res)
+        counter = collections.defaultdict(int)
+        left, res = 0, 0
+        for idx in range(len(s)):
+            counter[s[idx]] += 1
+            if len(counter) > 2:
+                res = max(res, idx-left)
                 
-                while left < idx:
-                    hash_table[s[left]] -= 1
-                    count -= 1
-                    if hash_table[s[left]] == 0:
-                        del hash_table[s[left]]
-                        left += 1
-                        break
-                    
+                while len(counter) > 2:
+                    counter[s[left]] -= 1
+                    if counter[s[left]] == 0:
+                        del counter[s[left]]
                     left += 1
-        
-        return max(count, res)
-
-
-最后一种解法没看懂：http://www.cnblogs.com/grandyang/p/5185561.html
+        return max(res, len(s)-left)
