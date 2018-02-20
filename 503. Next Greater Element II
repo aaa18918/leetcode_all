@@ -1,0 +1,15 @@
+O(n) time, O(n) space
+class Solution(object):
+    def nextGreaterElements(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        
+        size = len(nums)
+        my_stack, res = [], [-1 for _ in range(size)]
+        for i in range(size)*2:
+            while my_stack and nums[my_stack[-1]] < nums[i]:
+                res[my_stack.pop()] = nums[i]
+            my_stack.append(i)
+        return res
