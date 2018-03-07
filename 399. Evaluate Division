@@ -1,3 +1,52 @@
+O(n) time, O(n) space
+class Solution(object):
+    def calcEquation(self, equations, values, queries):
+        """
+        :type equations: List[List[str]]
+        :type values: List[float]
+        :type queries: List[List[str]]
+        :rtype: List[float]
+        """
+        
+        adjacency_list = collections.defaultdict(dict)
+        for e, v in zip(equations, values):
+            adjacency_list[e[0]][e[1]] = v
+            adjacency_list[e[1]][e[0]] = 1/v
+
+        res = []
+        for query in queries:
+            if query[0] not in adjacency_list or query[1] not in adjacency_list:
+                res.append(-1.0)
+                continue
+            
+            if query[1] in adjacency_list[query[0]]:
+                res.append(adjacency_list[query[0]][query[1]])
+                continue
+            
+            visited = [{query[0]:1.0}, {query[1]:1.0}]
+            queue = collections.deque([(query[0], 1.0, 0), (query[1], 1.0, 1)])
+            while queue:
+                char, cur_val, root = queue.popleft()
+                for next_char, next_val in adjacency_list[char].iteritems():
+                    if char == next_char: continue
+                    if next_char in visited[root]: continue
+                    
+                    if next_char in visited[1-root]:
+                        cur_res = cur_val*next_val/visited[1-root][next_char]
+                        if root == 1:
+                            cur_res = 1/cur_res
+                        res.append(cur_res)
+                        queue = None
+                        break
+                    
+                    queue.append([next_char, cur_val*next_val, root])                 
+                    visited[root][next_char] = cur_val*next_val
+            
+            if queue is not None:
+                res.append(-1.0)
+        return res
+
+
 For n variables, O(n) time initially, O(1) time finally, O(n) space initially, O(n^2) space finally.
 class Solution(object):
     def calcEquation(self, equations, values, queries):
