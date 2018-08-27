@@ -15,7 +15,7 @@ class Solution(object):
             hash_table[target-num] = idx
 
 
-o(nlgn) time, o(1) space
+o(nlgn) time, o(n) space
 class Solution(object):
     def twoSum(self, nums, target):
         """
