@@ -38,3 +38,18 @@ class Solution(object):
                 left += 1
             else:
                 right -= 1
+
+
+O(n^2) time, O(1) space:
+class Solution(object):
+    def twoSum(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        
+        for idx in range(len(nums)-1):
+            for inner_idx in range(idx+1, len(nums)):
+                if nums[idx]+nums[inner_idx] == target:
+                    return [idx, inner_idx]
