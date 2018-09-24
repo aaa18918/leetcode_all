@@ -1,4 +1,40 @@
 O(lgn) time, O(1) space
+import sys
+
+class Solution(object):
+    def findMedianSortedArrays(self, nums1, nums2):
+        """
+        :type nums1: List[int]
+        :type nums2: List[int]
+        :rtype: float
+        """
+        
+        m, n = len(nums1), len(nums2)
+        if m > n:
+            return self.findMedianSortedArrays(nums2, nums1)
+        
+        k = (m+n+1)/2
+        left, right = 0, m
+        while left < right:
+            mid = (left+right)/2
+            if nums1[mid] >= nums2[k-mid-1]:
+                right = mid
+            else:
+                left = mid+1
+        
+        nums1_candidate = nums1[left-1] if left > 0 else -sys.maxint-1
+        nums2_candidate = nums2[k-left-1] if k-left > 0 else -sys.maxint-1
+        res = max(nums1_candidate, nums2_candidate)
+        
+        if (m+n)%2 == 1:
+            return res
+        
+        nums1_candidate = nums1[left] if left < m else sys.maxint
+        nums2_candidate = nums2[k-left] if k-left < n else sys.maxint
+        return (res+min(nums1_candidate, nums2_candidate))*0.5
+
+
+O(lgn) time, O(1) space
 class Solution(object):
     def findMedianSortedArrays(self, nums1, nums2):
         """
@@ -28,51 +64,3 @@ class Solution(object):
         
         total = len(nums1)+len(nums2)
         return findKthSmallest(total/2+1, nums1, nums2) if total%2 == 1 else (findKthSmallest(total/2, nums1, nums2)+findKthSmallest(total/2+1, nums1, nums2))/2.0
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-（这方法不用了）Iterative: 我自己都没搞懂这是为什么。
-O(lgn) time, O(1) space
-class Solution(object):
-    def findMedianSortedArrays(self, nums1, nums2):
-        """
-        :type nums1: List[int]
-        :type nums2: List[int]
-        :rtype: float
-        """
-        
-        size1, size2 = len(nums1), len(nums2)
-        if size1 > size2:
-            nums1, nums2, size1, size2 = nums2, nums1, size2, size1
-        
-        total = (size1+size2)
-        k = (total-1)/2
-        l, r = 0, min(k, size1)
-        while l < r:
-            mid = (l+r)/2
-            if nums1[mid] < nums2[k-mid]:
-                l = mid+1
-            else:
-                r = mid
-        
-        left = nums1[l-1] if l > 0 else -sys.maxint-1
-        right = nums2[k-l] if k-l >= 0 else -sys.maxint-1
-        a = max(left, right)
-        if total%2 == 1:
-            return a
-        
-        left = nums1[l] if l < size1 else sys.maxint
-        right = nums2[k-l+1] if k-l+1 < size2 else sys.maxint
-        b = min(left, right)
-        return (a+b)/2.0
