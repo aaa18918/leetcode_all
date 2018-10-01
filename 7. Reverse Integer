@@ -6,11 +6,12 @@ class Solution(object):
         :rtype: int
         """
         
-        res = 0
         sign = 1 if x >= 0 else -1
+        res = 0
         x = abs(x)
         while x > 0:
             res = res*10+x%10
             x /= 10
+        
         res = sign*res
-        return res if -2147483648 <= res <= 2147483647 else 0
+        return res if -2**31 <= res <= 2**31-1 else 0
