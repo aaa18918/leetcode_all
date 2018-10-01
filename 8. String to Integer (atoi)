@@ -7,7 +7,7 @@ class Solution(object):
         """
         
         str = str.strip()
-        if not str or (str[0] not in '+-' and str[0] < '0' and str[0] > '9'):
+        if not str or (str[0] not in '+-' and (str[0] < '0' or str[0] > '9')):
             return 0
         
         sign = -1 if str[0] == '-' else 1
