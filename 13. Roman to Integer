@@ -6,6 +6,30 @@ class Solution(object):
         :rtype: int
         """
         
+        if not s:
+            return 0
+        
+        roman_int_map = {'I':1, 'V':5, 'X':10, 'L':50, 'C':100, 'D':500, 'M':1000}
+        res, prev = 0, roman_int_map[s[0]]
+        for char in s[1:]:
+            if roman_int_map[char] > prev:
+                res -= prev
+            else:
+                res += prev
+            
+            prev = roman_int_map[char]
+        
+        return res+prev
+
+
+O(n) time, O(1) space
+class Solution(object):
+    def romanToInt(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        
         res = 0
         roman_to_int_map = {'I':1, 'V':5, 'X':10, 'L':50, 'C':100, 'D':500, 'M':1000}
         
