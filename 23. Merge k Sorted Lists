@@ -1,4 +1,6 @@
-O(nlgk) time, O(k) space
+O(mnlgm) time, O(m) space
+import heapq
+
 # Definition for singly-linked list.
 # class ListNode(object):
 #     def __init__(self, x):
@@ -12,19 +14,21 @@ class Solution(object):
         :rtype: ListNode
         """
         
-        dummy_head = ListNode(0)
-        p = dummy_head
-        heap = []
-        heapq.heapify(heap)
+        my_heap = []
+        heapq.heapify(my_heap)
+        
         for l in lists:
             if l:
-                heapq.heappush(heap, (l.val, l))
+                heapq.heappush(my_heap, (l.val, l))
         
-        while heap:
-            p.next = heapq.heappop(heap)[1]
+        dummy_head = ListNode(0)
+        p = dummy_head
+        while my_heap:
+            p.next = heapq.heappop(my_heap)[1]
             p = p.next
             if p.next:
-                heapq.heappush(heap, (p.next.val, p.next))
+                heapq.heappush(my_heap, (p.next.val, p.next))
+        
         return dummy_head.next
 
 
