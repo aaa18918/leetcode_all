@@ -13,27 +13,32 @@ class Solution(object):
         :rtype: ListNode
         """
         
-        if k < 2: return head
+        if k < 2:
+            return head
         
-        dummy_head = ListNode(0)
-        dummy_head.next = head
-        slow, fast = dummy_head, dummy_head
-        while slow.next:
-            count = k
-            while count > 0 and fast.next:
-                fast = fast.next
-                count -= 1
-            
-            if count > 0: break
-            
-            h, tail, end = slow.next, fast, fast.next
-            p, q = h, h.next
-            while q is not end:
+        def reverseLinkedList(l, r):
+            p, q = l, l.next
+            while p is not r:
                 temp = q.next
                 q.next = p
                 p, q = q, temp
             
-            slow.next = tail
-            h.next = end
-            slow, fast = h, h
+            l.next = q
+            return r
+        
+        dummy_head = ListNode(0)
+        dummy_head.next = head  #For case k > len(list)
+        p = dummy_head
+        cur = head
+        while cur:
+            right, count = cur, k-1
+            while count > 0:
+                if not right.next:
+                    return dummy_head.next
+                right, count = right.next, count-1
+            
+            p.next = reverseLinkedList(cur, right)
+            p = cur
+            cur = cur.next
+        
         return dummy_head.next
