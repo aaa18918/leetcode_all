@@ -15,57 +15,21 @@ class Solution(object):
         
         dummy_head = ListNode(0)
         p = dummy_head
-        while l1 and l2:
-            if l1.val < l2.val:
+        
+        while l1 or l2:
+            if l1 and l2:
+                if l1.val < l2.val:
+                    p.next = l1
+                    l1 = l1.next
+                else:
+                    p.next = l2
+                    l2 = l2.next
+                p = p.next
+            elif l1:
                 p.next = l1
                 p, l1 = p.next, l1.next
             else:
                 p.next = l2
                 p, l2 = p.next, l2.next
-        
-        while l1:
-            p.next = l1
-            p, l1 = p.next, l1.next
-        
-        while l2:
-            p.next = l2
-            p, l2 = p.next, l2.next
-        
-        p.next = None
-        return dummy_head.next
-
-
-O(n) time, O(1) space
-# Definition for singly-linked list.
-# class ListNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution(object):
-    def mergeTwoLists(self, l1, l2):
-        """
-        :type l1: ListNode
-        :type l2: ListNode
-        :rtype: ListNode
-        """
-        
-        dummy_head = ListNode(0)
-        h, p, q = dummy_head, l1, l2
-        
-        while p or q:
-            if p and q:
-                if p.val <= q.val:
-                    h.next = p
-                    p, h = p.next, h.next
-                else:
-                    h.next = q
-                    q, h = q.next, h.next
-            elif p:
-                h.next = p
-                h, p = h.next, p.next
-            elif q:
-                h.next = q
-                h, q = h.next, q.next
         
         return dummy_head.next
