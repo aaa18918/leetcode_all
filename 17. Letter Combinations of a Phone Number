@@ -11,4 +11,4 @@ class Solution(object):
         def myHelp(digits):
             return [char+r for char in mappings[digits[0]] for r in myHelp(digits[1:])] if digits else [""]
         
-        return myDFS(digits) if digits else []
+        return myHelp(digits) if digits else []
