@@ -8,7 +8,7 @@ class Solution(object):
         
         mappings = {'2':'abc', '3':'def', '4':'ghi', '5':'jkl', '6':'mno', '7':'pqrs', '8':'tuv', '9':'wxyz'}
         
-        def myDFS(digits):
-            return [char+r for char in mappings[digits[0]] for r in myDFS(digits[1:])] if digits else [""]
+        def myHelp(digits):
+            return [char+r for char in mappings[digits[0]] for r in myHelp(digits[1:])] if digits else [""]
         
         return myDFS(digits) if digits else []
