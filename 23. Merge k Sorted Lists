@@ -28,7 +28,7 @@ class Solution(object):
         return dummy_head.next
 
 
-O(nlgn) time, O(1) space
+O(mnlgm) time, O(mn) space
 # Definition for singly-linked list.
 # class ListNode(object):
 #     def __init__(self, x):
@@ -42,31 +42,33 @@ class Solution(object):
         :rtype: ListNode
         """
         
-        size = len(lists)
-        if size == 0:
-            return None
-        elif size == 1:
-            return lists[0]
-        else:
-            mid = size/2
-            left, right = self.mergeKLists(lists[:mid]), self.mergeKLists(lists[mid:])
-            
+        def merge2Lists(l, r):
             dummy_head = ListNode(0)
             p = dummy_head
-            while left or right:
-                if left and right:
-                    if left.val < right.val:
-                        p.next = left
-                        left = left.next
+            
+            while l or r:
+                if l and r:
+                    if l.val < r.val:
+                        p.next = l
+                        l = l.next
                     else:
-                        p.next = right
-                        right = right.next
-                elif left:
-                    p.next = left
-                    left = left.next
-                elif right:
-                    p.next = right
-                    right = right.next
-                
-                p = p.next
+                        p.next = r
+                        r = r.next
+                    
+                    p = p.next
+                elif l:
+                    p.next = l
+                    l, p = l.next, p.next
+                else:
+                    p.next = r
+                    r, p = r.next, p.next
+            
             return dummy_head.next
+        
+        length = len(lists)
+        if length == 0:
+            return None
+        elif length == 1:
+            return lists[0]
+        
+        return merge2Lists(self.mergeKLists(lists[:length/2]), self.mergeKLists(lists[length/2:]))
