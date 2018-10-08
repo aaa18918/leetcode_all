@@ -6,6 +6,26 @@ class Solution(object):
         :rtype: int
         """
         
+        if not nums:
+            return 0
+        
+        left = 1
+        for idx in range(1, len(nums)):
+            if nums[idx] != nums[idx-1]:
+                nums[left] = nums[idx]
+                left += 1
+        
+        return left
+
+
+O(n) time, O(1) space:
+class Solution(object):
+    def removeDuplicates(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        
         if not nums: return 0
         
         left = 0
