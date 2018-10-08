@@ -27,7 +27,7 @@ class Solution(object):
             return r
         
         dummy_head = ListNode(0)
-        dummy_head.next = head  #For case k > len(list)
+        dummy_head.next = head  # For case k > len(list)
         p = dummy_head
         cur = head
         while cur:
