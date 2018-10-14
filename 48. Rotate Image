@@ -6,10 +6,9 @@ class Solution(object):
         :rtype: void Do not return anything, modify matrix in-place instead.
         """
         
-        top, down = 0, len(matrix)-1
-        while top < down:
-            matrix[top], matrix[down] = matrix[down], matrix[top]
-            top, down = top+1, down-1
+        mid = len(matrix)/2
+        for idx in range(mid):
+            matrix[idx], matrix[len(matrix)-1-idx] = matrix[len(matrix)-1-idx], matrix[idx]
         
         for i in range(len(matrix)):
             for j in range(i):
