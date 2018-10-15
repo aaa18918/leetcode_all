@@ -1,3 +1,4 @@
+O(n^2) time, O(n) space
 class Solution(object):
     def getPermutation(self, n, k):
         """
@@ -6,62 +7,18 @@ class Solution(object):
         :rtype: str
         """
         
-        all_nums = [i for i in range(1, n+1)]
-        total_combinations = reduce(lambda x, y: x*y, all_nums)
+        factorial = [1]
+        for i in range(1, n):
+            factorial.append(factorial[-1]*i)
         
-        res, k = "", k-1
-        for i in range(n, 1, -1):
-            d = total_combinations/i
-            cur_num = all_nums[k/d]
-            res += str(cur_num)
-            all_nums.remove(cur_num)
-            total_combinations = d
-            k = k%d
-        
-        return res+str(all_nums[0])
-
-
-class Solution(object):
-    def getPermutation(self, n, k):
-        """
-        :type n: int
-        :type k: int
-        :rtype: str
-        """
-        
-        all_nums = [i for i in range(1, n+1)]
-        d = reduce(lambda x, y: x*y, all_nums)
-        
-        res = ""
+        nums = [i for i in range(1, n+1)]
+        res = ''
         k -= 1
-        for i in range(n, 1, -1):
-            d /= i
-            num = all_nums[k/d]
-            res += str(num)
-            all_nums.remove(num)
-            k %= d
-        
-        return res+str(all_nums[0])
-
-
-class Solution(object):
-    def getPermutation(self, n, k):
-        """
-        :type n: int
-        :type k: int
-        :rtype: str
-        """
-        
-        all_nums = [i for i in range(1, n+1)]
-        d = reduce(lambda x, y: x*y, all_nums)
-        
-        res = ""
-        k -= 1
-        for i in range(n, 0, -1):
-            d /= i
-            num = all_nums[k/d]
-            res += str(num)
-            all_nums.remove(num)
-            k %= d
+        while n > 0:
+            p = k/factorial[n-1]
+            res += str(nums[p])
+            nums = nums[:p]+nums[p+1:]
+            k %= factorial[n-1]
+            n -= 1
         
         return res
