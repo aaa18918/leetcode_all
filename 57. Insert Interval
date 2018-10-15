@@ -1,4 +1,4 @@
-O(n) time, O(n) space
+O(lgn) time, O(n) space
 # Definition for an interval.
 # class Interval(object):
 #     def __init__(self, s=0, e=0):
@@ -13,20 +13,29 @@ class Solution(object):
         :rtype: List[Interval]
         """
         
-        idx, size = 0, len(intervals)
-        while idx <= size:
-            if idx == size or intervals[idx].start >= newInterval.start:
-                intervals = intervals[:idx]+[newInterval]+intervals[idx:]
-                break
-            
-            idx += 1
-        
-        left = 0
-        for idx in range(1, len(intervals)):
-            if intervals[idx].start <= intervals[left].end:
-                intervals[left].end = max(intervals[left].end, intervals[idx].end)
-            else:
+        left, right = 0, len(intervals)
+        while left < right:
+            mid = (left+right)/2
+            if intervals[mid].end < newInterval.start:
                 left += 1
-                if idx > left:
-                    intervals[left] = intervals[idx]
-        return intervals[:left+1]
+            else:
+                right = mid
+        
+        left_side = left
+        
+        left, right = 0, len(intervals)
+        while left < right:
+            mid = (left+right)/2
+            if newInterval.end > intervals[mid].end or newInterval.end >= intervals[mid].start:
+                left = mid+1
+            else:
+                right = mid
+        
+        right_side = left
+        
+        if left_side == len(intervals):
+            return intervals+[newInterval]
+        elif right_side == 0:
+            return [newInterval]+intervals
+        else:
+            return intervals[:left_side]+[Interval(min(newInterval.start, intervals[left_side].start), max(newInterval.end, intervals[right_side-1].end))]+intervals[right_side:]
