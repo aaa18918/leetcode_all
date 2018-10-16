@@ -1,3 +1,36 @@
+O(n) time, O(n) space
+class Solution(object):
+    def fullJustify(self, words, maxWidth):
+        """
+        :type words: List[str]
+        :type maxWidth: int
+        :rtype: List[str]
+        """
+        
+        res = []
+        count, word_count, tmp = maxWidth, 0, []
+        for word in words:
+            if count-len(word) >= 0:
+                tmp.append(word)
+                count -= len(word)+1
+                word_count += 1
+            else:
+                spaces_count = count+len(tmp)
+                left_count = spaces_count%(len(tmp)-1) if len(tmp) > 1 else 1
+                left_spaces = ' '*(spaces_count/(len(tmp)-1)+[0, 1][left_count > 0]) if len(tmp) > 1 else ' '*spaces_count
+                rest_spaces = ' '*(spaces_count/(len(tmp)-1)) if len(tmp) > 1 else ''
+                res.append(left_spaces.join(tmp[:left_count])+['', left_spaces][left_count > 0]+rest_spaces.join(tmp[left_count:]))
+                
+                count = maxWidth-len(word)-1
+                tmp = [word]
+                word_count = 1
+                
+        if tmp:
+            res.append(' '.join(tmp)+' '*(count+1))
+        
+        return res
+
+
 class Solution(object):
     def fullJustify(self, words, maxWidth):
         """
