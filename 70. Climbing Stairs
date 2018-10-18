@@ -1,3 +1,4 @@
+O(n) time, O(1) space
 class Solution(object):
     def climbStairs(self, n):
         """
@@ -5,47 +6,8 @@ class Solution(object):
         :rtype: int
         """
         
-        record = [1 for _ in range(n+1)]
-        if n < 2:
-            return record[n]
-            
-        record[2] = 2
+        record = [1, 2]
+        for i in range(2, n):
+            record[i%2] = record[0]+record[1]
         
-        for i in range(3, n+1):
-            record[i] = record[i-1]+record[i-2]
-        
-        return record[n]
-
-https://leetcode.com/problems/climbing-stairs/
-class Solution(object):
-    def climbStairs(self, n):
-        """
-        :type n: int
-        :rtype: int
-        """
-        
-        ways = [1,2]
-        
-        for step in range(3,n+1):
-            if step%2 == 0:
-                ways[1] += ways[0]
-            else:
-                ways[0] += ways[1]
-        
-        return ways[abs(1-n%2)]
-
-https://leetcode.com/problems/climbing-stairs/
-46.26%
-class Solution(object):
-    def climbStairs(self, n):
-        """
-        :type n: int
-        :rtype: int
-        """
-        
-        one, two = 1, 2
-        
-        for stair in xrange(3, n+1):
-            if stair%2 == 1: one = one+two
-            else: two = one+two
-        return one if n%2 == 1 else two
+        return record[(n-1)%2]
