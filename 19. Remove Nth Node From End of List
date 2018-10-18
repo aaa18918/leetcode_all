@@ -15,12 +15,13 @@ class Solution(object):
         
         dummy_head = ListNode(0)
         dummy_head.next = head
-        slow, fast = dummy_head, dummy_head
-        for i in range(n):
-            fast = fast.next
         
-        while fast.next:
-            slow, fast = slow.next, fast.next
+        left, right = dummy_head, dummy_head
+        for _ in range(n):
+            right = right.next
         
-        slow.next = slow.next.next
+        while right.next:
+            left, right = left.next, right.next
+        
+        left.next = left.next.next
         return dummy_head.next
