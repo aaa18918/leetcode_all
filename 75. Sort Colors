@@ -6,12 +6,36 @@ class Solution(object):
         :rtype: void Do not return anything, modify nums in-place instead.
         """
         
+        left, idx, right = 0, 0, len(nums)-1
+        while left <= idx <= right:
+            if nums[idx] == 0:
+                if idx > left:
+                    nums[left], nums[idx] = nums[idx], nums[left]
+                
+                left, idx = left+1, idx+1
+            elif nums[idx] == 2:
+                while right >= idx and nums[right] == 2:
+                    right -= 1
+
+                if idx < right:
+                    nums[idx], nums[right] = nums[right], nums[idx]
+            else:
+                idx += 1
+
+
+O(n) time, O(1) space
+class Solution(object):
+    def sortColors(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: void Do not return anything, modify nums in-place instead.
+        """
+        
         idx, left, right = 0, 0, len(nums)-1
         while left <= idx <= right:
             if nums[idx] == 0:
                 nums[idx], nums[left] = nums[left], nums[idx]
-                left += 1
-                idx += 1
+                left, idx = left+1, idx+1
             elif nums[idx] == 2:
                 nums[idx], nums[right] = nums[right], nums[idx]
                 right -= 1
