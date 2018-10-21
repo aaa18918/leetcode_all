@@ -9,23 +9,21 @@ class Solution(object):
         
         hash_table = collections.Counter(t)
         
-        count, left, res = len(t), 0, ''
+        res, count, left = '', len(hash_table), 0
         for idx, char in enumerate(s):
             if char in hash_table:
                 hash_table[char] -= 1
-                if hash_table[char] >= 0:
+                if hash_table[char] == 0:
                     count -= 1
-
-                    if count == 0:              
-                        while count == 0:
-                            if s[left] in hash_table:
-                                hash_table[s[left]] += 1
-                                if hash_table[s[left]] > 0:
-                                    if not res or len(res) > idx-left+1:
-                                        res = s[left:idx+1]
-                                    count += 1
-                            left += 1
-        
+                    
+                    while count == 0:
+                        if s[left] in hash_table:
+                            hash_table[s[left]] += 1
+                            if hash_table[s[left]] > 0:
+                                count += 1
+                                if not res or idx-left+1 < len(res):
+                                    res = s[left:idx+1]
+                        left += 1
         return res
 
 
