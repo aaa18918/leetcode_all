@@ -1,3 +1,4 @@
+O(n) time, O(n) space
 class Solution(object):
     def minWindow(self, s, t):
         """
@@ -6,23 +7,24 @@ class Solution(object):
         :rtype: str
         """
         
-        counter, count = collections.Counter(t), len(t)
-        min_length, res, left = sys.maxint, "", 0
+        hash_table = collections.Counter(t)
         
-        for idx in range(len(s)):
-            if s[idx] in counter:
-                counter[s[idx]] -= 1
-                if counter[s[idx]] >= 0:
+        count, left, res = len(t), 0, ''
+        for idx, char in enumerate(s):
+            if char in hash_table:
+                hash_table[char] -= 1
+                if hash_table[char] >= 0:
                     count -= 1
-                    while count == 0 and left <= idx:
-                        if idx-left+1 < min_length:
-                            min_length, res = idx-left+1, s[left:idx+1]
-                        
-                        if s[left] in counter:
-                            counter[s[left]] += 1
-                            if counter[s[left]] > 0:
-                                count += 1
-                        left += 1
+
+                    if count == 0:              
+                        while count == 0:
+                            if s[left] in hash_table:
+                                hash_table[s[left]] += 1
+                                if hash_table[s[left]] > 0:
+                                    if not res or len(res) > idx-left+1:
+                                        res = s[left:idx+1]
+                                    count += 1
+                            left += 1
         
         return res
 
