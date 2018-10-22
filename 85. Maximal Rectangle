@@ -1,3 +1,4 @@
+O(m*n^2) time, O(n) space
 class Solution(object):
     def maximalRectangle(self, matrix):
         """
@@ -5,30 +6,34 @@ class Solution(object):
         :rtype: int
         """
         
-        if not matrix or not matrix[0]: return 0
+        if not matrix or not matrix[0]:
+            return 0
         
-        result, heights = 0, [0 for _ in range((len(matrix[0])))]
-        for row in range(len(matrix)):
-            for col in range(len(matrix[0])):
-                if matrix[row][col] == '1':
-                    heights[col] += 1
+        def largestRectangleArea(heights):
+            my_stack = [-1]
+            heights.append(0)
+            res = 0
+            for idx in range(len(heights)):
+                while heights[idx] < heights[my_stack[-1]]:
+                    cur_h = heights[my_stack.pop()]
+                    res = max(res, cur_h*(idx-my_stack[-1]-1))
+                
+                my_stack.append(idx)
+            
+            heights.pop()
+            return res
+        
+        heights = [0 for _ in range(len(matrix[0]))]
+        
+        res = 0
+        for i in range(len(matrix)):
+            for j in range(len(matrix[0])):
+                if matrix[i][j] == '1':
+                    heights[j] += 1
                 else:
-                    heights[col] = 0
-            result = max(result, self.findLargestHistogram(heights))
+                    heights[j] = 0
+            
+            res = max(res, largestRectangleArea(heights))
         
-        return result
-    
-    def findLargestHistogram(self, heights):
-        heights.append(0)
-        result, my_stack = 0, [-1]
-        
-        for index, height in enumerate(heights):
-            while height < heights[my_stack[-1]]:
-                i = my_stack.pop()
-                h = heights[i]
-                w = index-my_stack[-1]-1
-                result = max(result, w*h)
-            my_stack.append(index)
-        
-        heights.pop()
-        return result
+        return res
+            
