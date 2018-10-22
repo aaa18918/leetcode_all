@@ -5,13 +5,15 @@ class Solution(object):
         :rtype: int
         """
         
+        my_stack = [-1]
         heights.append(0)
-        result, index_stack = 0, [-1]
-        for i in range(len(heights)):
-            while heights[i] < heights[index_stack[-1]]:
-                h = heights[index_stack.pop()]
-                w = i-index_stack[-1]-1
-                result = max(result, h*w)
-            index_stack.append(i)
+        res = 0
+        for idx in range(len(heights)):
+            while heights[idx] < heights[my_stack[-1]]:
+                cur_h = heights[my_stack.pop()]
+                res = max(res, cur_h*(idx-my_stack[-1]-1))
+            
+            my_stack.append(idx)
         
-        return result
+        heights.pop()
+        return res
