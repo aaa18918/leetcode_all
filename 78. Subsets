@@ -1,16 +1,4 @@
-class Solution(object):
-    def subsets(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: List[List[int]]
-        """
-        
-        res = [[]]
-        for num in nums:
-            res.extend([r+[num] for r in res])
-        return res
-
-
+O(n^2) time, O(n^2) space
 class Solution(object):
     def subsets(self, nums):
         """
