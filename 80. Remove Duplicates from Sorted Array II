@@ -1,3 +1,4 @@
+O(n) time, O(1) space
 class Solution(object):
     def removeDuplicates(self, nums):
         """
@@ -5,43 +6,13 @@ class Solution(object):
         :rtype: int
         """
         
-        if not nums: return 0
+        if len(nums) <= 2:
+            return len(nums)
         
-        left, count = 1, 1
-        for idx, num in enumerate(nums[1:]):
-            if num == nums[idx]:
-                count += 1
-                if count == 2:
-                    nums[left] = num
-                    left += 1
-            else:
-                count = 1
-                nums[left] = num
-                left += 1
-        return left
-
-
-class Solution(object):
-    def removeDuplicates(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
-        
-        if not nums: return 0
-        
-        count, left = 1, 1
-        for idx in range(1, len(nums)):
-            if nums[idx] == nums[idx-1]:
-                count += 1
-                if count <= 2:
+        left = 2
+        for idx in range(2, len(nums)):
+            if nums[idx] != nums[left-2]:
+                if idx > left:
                     nums[left] = nums[idx]
-                    left += 1
-            else:
-                count = 1
-                nums[left] = nums[idx]
                 left += 1
         return left
-
-
-别的解法还没看。
