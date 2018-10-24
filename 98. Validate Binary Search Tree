@@ -29,3 +29,30 @@ class Solution(object):
             node = node.right
         
         return True
+
+
+O(n) time, O(???) space
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def isValidBST(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        
+        def myHelp(root, min_val, max_val):
+            if not root:
+                return True
+            
+            if root.val >= max_val or root.val <= min_val:
+                return False
+            
+            return myHelp(root.left, min_val, root.val) and myHelp(root.right, root.val, max_val)
+        
+        return myHelp(root, -sys.maxint-1, sys.maxint)
