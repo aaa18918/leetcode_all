@@ -1,4 +1,4 @@
-O(n) time, O(1) space
+O(n) time, O(???) space
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -22,7 +22,7 @@ class Solution(object):
         return helper(root.left, root.right) if root else True
 
 
-O(n) time, O(1) space
+O(n) time, O(lgn) space
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
