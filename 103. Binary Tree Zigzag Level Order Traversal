@@ -1,4 +1,4 @@
-O(n) time, O(n) space
+O(n^2) time, O(n) space
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -13,21 +13,25 @@ class Solution(object):
         :rtype: List[List[int]]
         """
         
-        my_queue = collections.deque([(root, 0)])
+        if not root:
+            return []
+        
         res = []
-        while my_queue:
-            node, level = my_queue.popleft()
-            
-            if not node: continue
-            
-            if level == len(res):
+        my_stack = [(root, 0)]
+        while my_stack:
+            node, level = my_stack.pop()
+            if level > len(res)-1:
                 res.append([])
             
-            if level%2 != 0:
-                res[level] = [node.val]+res[level]
-            else:
+            if level%2 == 0:
                 res[level].append(node.val)
+            else:
+                res[level] = [node.val]+res[level]
             
-            my_queue.append((node.left, level+1))
-            my_queue.append((node.right, level+1))
+            if node.right:
+                my_stack.append((node.right, level+1))
+            
+            if node.left:
+                my_stack.append((node.left, level+1))
+        
         return res
