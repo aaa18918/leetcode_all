@@ -17,7 +17,7 @@ class MovingAverage(object):
         :rtype: float
         """
         
-        if self.size == 0:
+        if self.size <= 0:
             return 0
         
         if len(self.my_queue) == self.size:
