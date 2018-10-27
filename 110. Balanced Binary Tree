@@ -1,3 +1,4 @@
+O(n) time, O(???) space
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -12,13 +13,13 @@ class Solution(object):
         :rtype: bool
         """
         
-        def myDFS(root):
-            if not root: return 0
+        def myHelp(node):
+            if not node:
+                return True, 0
             
-            left_subtree_depth, right_subtree_depth = myDFS(root.left), myDFS(root.right)
-            if left_subtree_depth == -1 or right_subtree_depth == -1: return -1
-            if abs(left_subtree_depth-right_subtree_depth) > 1: return -1
+            left, left_depth = myHelp(node.left)
+            right, right_depth = myHelp(node.right)
             
-            return max(left_subtree_depth, right_subtree_depth)+1
+            return left and right and abs(left_depth-right_depth) <= 1, max(left_depth, right_depth)+1
         
-        return True if myDFS(root) >= 0 else False
+        return myHelp(root)[0]
