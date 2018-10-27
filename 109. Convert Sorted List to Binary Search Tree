@@ -19,21 +19,20 @@ class Solution(object):
         :rtype: TreeNode
         """
         
-        if not head: return None
-        if not head.next: return TreeNode(head.val)
+        if not head:
+            return None
+        elif not head.next:
+            return TreeNode(head.val)
         
         slow, fast = head, head.next
         while fast.next and fast.next.next:
-            slow = slow.next
-            fast = fast.next.next
+            slow, fast = slow.next, fast.next.next
         
-        cur_root = TreeNode(slow.next.val)
-        right_starting_node = slow.next.next
+        node = TreeNode(slow.next.val)
+        node.right = self.sortedListToBST(slow.next.next)
         slow.next = None
-        cur_root.left = self.sortedListToBST(head)
-        cur_root.right = self.sortedListToBST(right_starting_node)
-        
-        return cur_root
+        node.left = self.sortedListToBST(head)
+        return node
 
 
 O(n) time, O(n) space
