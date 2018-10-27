@@ -1,3 +1,4 @@
+O(1) time, O(n) space
 class Logger(object):
 
     def __init__(self):
@@ -5,7 +6,7 @@ class Logger(object):
         Initialize your data structure here.
         """
         
-        self.record = {}
+        self.hash_table = {}
 
     def shouldPrintMessage(self, timestamp, message):
         """
@@ -17,15 +18,11 @@ class Logger(object):
         :rtype: bool
         """
         
-        if message not in self.record:
-            self.record[message] = timestamp
+        if message not in self.hash_table or timestamp-self.hash_table[message] >= 10:
+            self.hash_table[message] = timestamp
             return True
-        elif self.record[message] <= timestamp-10:
-            self.record[message] = timestamp
-            return True
-        
-        return False
-
+        else:
+            return False
 
 # Your Logger object will be instantiated and called as such:
 # obj = Logger()
