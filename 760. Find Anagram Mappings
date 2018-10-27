@@ -1,0 +1,18 @@
+O(n) time, O(n) space
+class Solution(object):
+    def anagramMappings(self, A, B):
+        """
+        :type A: List[int]
+        :type B: List[int]
+        :rtype: List[int]
+        """
+        
+        hash_table = {}
+        for idx, num in enumerate(B):
+            hash_table[num] = idx
+        
+        res = []
+        for num in A:
+            res.append(hash_table[num])
+        
+        return res
