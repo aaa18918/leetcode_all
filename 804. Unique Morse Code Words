@@ -1,0 +1,18 @@
+O(mn) time, O(mn) space
+class Solution(object):
+    def uniqueMorseRepresentations(self, words):
+        """
+        :type words: List[str]
+        :rtype: int
+        """
+        
+        mapping = [".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."]
+        
+        my_set = set()
+        for word in words:
+            letters = ''
+            for char in word:
+                letters += mapping[ord(char)-ord('a')]
+            my_set.add(letters)
+        
+        return len(my_set)
