@@ -49,3 +49,43 @@ class Solution(object):
             node1, node2 = node1.right, node2.right
         
         return True
+
+
+O(n) time, O(lgn) space
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def leafSimilar(self, root1, root2):
+        """
+        :type root1: TreeNode
+        :type root2: TreeNode
+        :rtype: bool
+        """
+        
+        if not root1 or not root2:
+            return not root1 and not root2
+        
+        def myHelp(my_stack):
+            while True:
+                node = my_stack.pop()
+                if node.right:
+                    my_stack.append(node.right)
+                
+                if node.left:
+                    my_stack.append(node.left)
+                
+                if not node.left and not node.right:
+                    return node.val
+        
+        my_stack1, my_stack2 = [root1], [root2]
+        while my_stack1 and my_stack2:
+            val1, val2 = myHelp(my_stack1), myHelp(my_stack2)
+            if val1 != val2:
+                return False
+        
+        return not my_stack1 and not my_stack2
