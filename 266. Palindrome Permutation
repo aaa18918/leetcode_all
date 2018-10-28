@@ -6,9 +6,10 @@ class Solution(object):
         :rtype: bool
         """
         
-        counter = collections.Counter(s)
-        odd_chars_num = 0
-        for count in counter.values():
+        chars_count = collections.Counter(s)
+        odd_count = 0
+        for count in chars_count.itervalues():
             if count%2 == 1:
-                odd_chars_num += 1
-        return odd_chars_num <= 1
+                odd_count += 1
+        
+        return odd_count <= 1
