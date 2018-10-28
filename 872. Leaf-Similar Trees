@@ -1,0 +1,51 @@
+O(n) time, O(lgn) space
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def leafSimilar(self, root1, root2):
+        """
+        :type root1: TreeNode
+        :type root2: TreeNode
+        :rtype: bool
+        """
+        
+        my_stack1, my_stack2 = [], []
+        node1, node2 = root1, root2
+        while True:
+            while my_stack1 or node1:
+                while node1:
+                    my_stack1.append(node1)
+                    node1 = node1.left
+                
+                node1 = my_stack1.pop()
+                if not node1.left and not node1.right:
+                    break
+                
+                node1 = node1.right
+            
+            while my_stack2 or node2:
+                while node2:
+                    my_stack2.append(node2)
+                    node2 = node2.left
+                
+                node2 = my_stack2.pop()
+                print 'node2', node2.val
+                if not node2.left and not node2.right:
+                    break
+                
+                node2 = node2.right
+            
+            if not node1 and not node2:
+                break
+            
+            if not node1 or not node2 or node1.val != node2.val:
+                return False
+            
+            node1, node2 = node1.right, node2.right
+        
+        return True
