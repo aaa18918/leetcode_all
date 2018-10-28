@@ -1,0 +1,21 @@
+O(mn) time, O(1) space
+class Solution(object):
+    def islandPerimeter(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        
+        if not grid or not grid[0]:
+            return 0
+        
+        adjacents = [(1, 0), (0, 1)]
+        res = 0
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == 1:
+                    for di, dj in adjacents:
+                        if i+di == len(grid) or j+dj == len(grid[0]) or grid[i+di][j+dj] == 0:
+                            res += 1
+        
+        return res*2
