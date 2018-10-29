@@ -1,3 +1,4 @@
+O(nlgn) time, O(1) space
 class Solution(object):
     def isAnagram(self, s, t):
         """
@@ -9,6 +10,7 @@ class Solution(object):
         return sorted(s) == sorted(t)
 
 
+O(n) time, O(n) space
 class Solution(object):
     def isAnagram(self, s, t):
         """
@@ -26,6 +28,7 @@ class Solution(object):
         return not counter
 
 
+O(n) time, O(n) space
 class Solution(object):
     def isAnagram(self, s, t):
         """
@@ -46,6 +49,7 @@ class Solution(object):
         return not hash_table
 
 
+O(n) time, O(n) space
 class Solution(object):
     def isAnagram(self, s, t):
         """
