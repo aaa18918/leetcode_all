@@ -12,17 +12,17 @@ class Solution(object):
         :rtype: ListNode
         """
         
-        if not head or not head.next:
+        if not head:
             return head
         
         p, q = head, head.next
+        
         while q:
-            temp = q.next
+            tmp = q.next
             q.next = p
-            p, q = q, temp
+            p, q = q, tmp
         
         head.next = None
-        
         return p
 
 
