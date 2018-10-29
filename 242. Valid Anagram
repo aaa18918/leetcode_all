@@ -19,6 +19,26 @@ class Solution(object):
         :rtype: bool
         """
         
+        hash_table = collections.Counter(s)
+        
+        for char in t:
+            if char not in hash_table:
+                return False
+            
+            hash_table[char] -= 1
+        
+        return not any(hash_table.itervalues())
+
+
+O(n) time, O(n) space
+class Solution(object):
+    def isAnagram(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: bool
+        """
+        
         counter = collections.Counter(s)
         for c in t:
             if c not in counter: return False
