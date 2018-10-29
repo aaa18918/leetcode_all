@@ -1,0 +1,18 @@
+O(m+n) time, O(n) space
+class Solution(object):
+    def intersection(self, nums1, nums2):
+        """
+        :type nums1: List[int]
+        :type nums2: List[int]
+        :rtype: List[int]
+        """
+        
+        the_set = set(nums1) if len(nums1) <= len(nums2) else set(nums2)
+        rest_nums = nums2 if len(nums1) <= len(nums2) else nums1
+        
+        res = []
+        for num in rest_nums:
+            if num in the_set:
+                res.append(num)
+                the_set.remove(num)
+        return res
