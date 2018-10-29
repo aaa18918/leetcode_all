@@ -7,12 +7,12 @@ class Solution(object):
         :rtype: List[int]
         """
         
-        the_set = set(nums1) if len(nums1) <= len(nums2) else set(nums2)
-        rest_nums = nums2 if len(nums1) <= len(nums2) else nums1
+        my_set = set(nums1) if len(nums1) < len(nums2) else set(nums2)
+        rest_nums = nums2 if len(nums1) < len(nums2) else nums1
         
         res = []
         for num in rest_nums:
-            if num in the_set:
+            if num in my_set:
                 res.append(num)
-                the_set.remove(num)
+                my_set.remove(num)
         return res
