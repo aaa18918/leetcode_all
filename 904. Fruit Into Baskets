@@ -6,6 +6,30 @@ class Solution(object):
         :rtype: int
         """
         
+        hash_table = collections.defaultdict(int)
+        left, res = 0, 0
+        for idx, t in enumerate(tree):
+            hash_table[t] += 1
+            if len(hash_table) > 2:
+                res = max(res, idx-left)
+                while len(hash_table) > 2:
+                    hash_table[tree[left]] -= 1
+                    if hash_table[tree[left]] == 0:
+                        del hash_table[tree[left]]
+                    
+                    left += 1
+        
+        return max(res, len(tree)-left)
+
+
+O(n) time, O(1) space
+class Solution(object):
+    def totalFruit(self, tree):
+        """
+        :type tree: List[int]
+        :rtype: int
+        """
+        
         res, idx, count1, count2, t1, t2 = 0, 0, 0, 0, -1, -1
         while idx < len(tree) and (t1 == -1 or t2 == -1):
             if t1 == -1:
