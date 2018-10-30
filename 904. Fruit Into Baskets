@@ -1,0 +1,42 @@
+O(n) time, O(1) space
+class Solution(object):
+    def totalFruit(self, tree):
+        """
+        :type tree: List[int]
+        :rtype: int
+        """
+        
+        res, idx, count1, count2, t1, t2 = 0, 0, 0, 0, -1, -1
+        while idx < len(tree) and (t1 == -1 or t2 == -1):
+            if t1 == -1:
+                res, t1, count1 = res+1, tree[idx], 1
+            elif t1 == tree[idx]:
+                res, count1 = res+1, count1+1
+            elif t2 == -1:
+                res, t2, count2 = res+1, tree[idx], 1
+            
+            idx += 1
+        
+        left = 0
+        for idx in range(idx, len(tree)):
+            t = tree[idx]
+            if t1 == t:
+                count1 += 1
+            elif t2 == t:
+                count2 += 1
+            else:
+                res = max(res, count1+count2)
+                while count1 > 0 and count2 > 0:
+                    if tree[left] == t1:
+                        count1 -= 1
+                    else:
+                        count2 -= 1
+                    
+                    left += 1
+                
+                if count1 == 0:
+                    count1, t1 = 1, tree[idx]
+                else:
+                    count2, t2 = 1, tree[idx]
+        
+        return max(res, count1+count2)
