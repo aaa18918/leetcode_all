@@ -6,8 +6,8 @@ class Solution(object):
         :rtype: int
         """
         
-        size = len(nums)
-        res = size
-        for idx in range(size):
+        res = len(nums)
+        for idx in range(len(nums)):
             res ^= idx^nums[idx]
+        
         return res
