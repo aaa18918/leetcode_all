@@ -1,3 +1,4 @@
+O(nlgn) time, O(min(m,n)) space
 如果已经排好序的话，用两个指针分别走起来。
 class Solution(object):
     def intersect(self, nums1, nums2):
@@ -23,6 +24,7 @@ class Solution(object):
         return res
 
 
+O(n) time, O(min(m, n)) space
 class Solution(object):
     def intersect(self, nums1, nums2):
         """
