@@ -6,8 +6,9 @@ class Solution(object):
         :rtype: int
         """
         
-        res, left_min = 0, sys.maxint
+        prev_min, res = sys.maxint, 0
         for price in prices:
-            left_min = min(left_min, price)
-            res = max(res, price-left_min)
+            prev_min = min(prev_min, price)
+            res = max(res, price-prev_min)
+        
         return res
