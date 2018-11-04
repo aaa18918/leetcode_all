@@ -5,10 +5,7 @@ class Solution(object):
         :type prices: List[int]
         :rtype: int
         """
-        
-        if not prices:
-            return 0
-        
+
         profit, res = 0, 0
         for idx in range(1, len(prices)):
             profit += prices[idx]-prices[idx-1]
