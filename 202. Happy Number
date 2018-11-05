@@ -1,5 +1,4 @@
-https://leetcode.com/problems/happy-number/
-
+O(k) time, O(1) space
 class Solution(object):
     def isHappy(self, n):
         """
@@ -7,40 +6,30 @@ class Solution(object):
         :rtype: bool
         """
         
-        string_n, hash_table = str(n), {}
-        hash_table[n] = 1
-        
-        while string_n != "1":
-            mySum = 0
-            for number in string_n:
-                mySum += pow(int(number),2)
-                
-            if mySum in hash_table:
-                return False
-            else:
-                hash_table[mySum] = 1
+        def cur_sum(n):
+            cur_num = 0
+            while n > 0:
+                cur_num += (n%10)**2
+                n /= 10
             
-            string_n = str(mySum)
+            return cur_num
         
-        return True
+        slow, fast = n, cur_sum(n)
+        while slow != fast:
+            if fast == 1:
+                return True
+            slow = cur_sum(slow)
+            fast = cur_sum(fast)
+            
+            if fast == 1:
+                return True
+            
+            fast = cur_sum(fast)
+        
+        return fast == 1
 
-class Solution(object):
-    def isHappy(self, n):
-        """
-        :type n: int
-        :rtype: bool
-        """
-        
-        visited = set()
-        
-        while n != 1:
-            n = sum(map(lambda x: int(x)**2, str(n)))
-            if n in visited:
-                return False
-            visited.add(n)
-        
-        return True
 
+O(k) time, O(k) space
 class Solution(object):
     def isHappy(self, n):
         """
