@@ -1,0 +1,36 @@
+O(n) time, O(1) space
+class Solution(object):
+    def backspaceCompare(self, S, T):
+        """
+        :type S: str
+        :type T: str
+        :rtype: bool
+        """
+        
+        idx1, idx2 = len(S)-1, len(T)-1
+        while idx1 >= 0 and idx2 >= 0:
+            count1, count2 = 0, 0
+            while idx1 >= 0 and (S[idx1] == '#' or count1 > 0):
+                count1 = count1+1 if S[idx1] == '#' else count1-1
+                idx1 -= 1
+            
+            while idx2 >= 0 and (T[idx2] == '#' or count2 > 0):
+                count2 = count2+1 if T[idx2] == '#' else count2-1
+                idx2 -= 1
+            
+            if idx1 >= 0 and idx2 >= 0:
+                if S[idx1] != T[idx2]:
+                    return False
+                
+                idx1, idx2 = idx1-1, idx2-1
+            
+        count1, count2 = 0, 0
+        while idx1 >= 0 and (S[idx1] == '#' or count1 > 0):
+            count1 = count1+1 if S[idx1] == '#' else count1-1
+            idx1 -= 1
+            
+        while idx2 >= 0 and (T[idx2] == '#' or count2 > 0):
+            count2 = count2+1 if T[idx2] == '#' else count2-1
+            idx2 -= 1
+        
+        return idx1 == idx2 == -1
