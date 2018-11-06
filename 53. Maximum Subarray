@@ -12,3 +12,6 @@ class Solution(object):
             res = max(cur_sum, res)
             cur_sum = max(cur_sum, 0)
         return res
+
+
+divide and conquer还没看。
