@@ -1,0 +1,19 @@
+O(26n) time, O(n) space
+class Solution(object):
+    def longestWord(self, words):
+        """
+        :type words: List[str]
+        :rtype: str
+        """
+        
+        words_set = set(words)
+        res, my_stack = '', ['']
+        lowercase = string.ascii_lowercase[::-1]
+        while my_stack:
+            cur_word = my_stack.pop()
+            res = cur_word if len(cur_word) > len(res) else res
+            for char in lowercase:
+                if cur_word+char in words_set:
+                    my_stack.append(cur_word+char)
+        
+        return res
