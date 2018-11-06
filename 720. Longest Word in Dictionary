@@ -17,3 +17,23 @@ class Solution(object):
                     my_stack.append(cur_word+char)
         
         return res
+
+
+O(nlgn) time, O(n) space
+class Solution(object):
+    def longestWord(self, words):
+        """
+        :type words: List[str]
+        :rtype: str
+        """
+        
+        words.sort()
+        my_set, res = set(), ''
+        for word in words:
+            if len(word) == 1 or word[:-1] in my_set:
+                if len(word) > len(res):
+                    res = word
+                
+                my_set.add(word)
+        
+        return res
