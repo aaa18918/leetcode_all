@@ -1,3 +1,4 @@
+O(n) time, O(n) space
 class Solution(object):
     def isIsomorphic(self, s, t):
         """
@@ -6,40 +7,21 @@ class Solution(object):
         :rtype: bool
         """
         
-        hash_table = {}
-        for i in range(len(s)):
-            if s[i] not in hash_table:
-                hash_table[s[i]] = t[i]
-            else:
-                if hash_table[s[i]] != t[i]:
-                    return False
+        if len(s) != len(t):
+            return False
         
-        hash_table = {}
-        for i in range(len(t)):
-            if t[i] not in hash_table:
-                hash_table[t[i]] = s[i]
-            else:
-                if hash_table[t[i]] != s[i]:
+        mapping1, mapping2 = {}, {}
+        for idx in range(len(s)):
+            if s[idx] in mapping1:
+                if mapping1[s[idx]] != t[idx]:
                     return False
-
-        return True
-
-
-class Solution(object):
-    def isIsomorphic(self, s, t):
-        """
-        :type s: str
-        :type t: str
-        :rtype: bool
-        """
+            else:
+                mapping1[s[idx]] = t[idx]
+            
+            if t[idx] in mapping2:
+                if mapping2[t[idx]] != s[idx]:
+                    return False
+            else:
+                mapping2[t[idx]] = s[idx]
         
-        hash_table_s, hash_table_t = {}, {}
-        for i in range(len(s)):
-            s_char, t_char = hash_table_t.get(t[i]), hash_table_s.get(s[i])
-            if not s_char and not t_char:
-                hash_table_s[s[i]], hash_table_t[t[i]] = t[i], s[i]
-            elif not s_char or not t_char:
-                return False
-            elif s_char != s[i] or t_char != t[i]:
-                return False
         return True
