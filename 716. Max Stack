@@ -1,0 +1,103 @@
+O(n) time push, O(1) time pop, O(1) time top, O(1) time peekMax, O(1) time popMax, O(n) space
+class ListNode(object):
+    
+    def __init__(self, val):
+        self.val = val
+        self.pointer =  None
+        self.prev = None
+        self.next = None
+
+
+class MaxStack(object):
+
+    def __init__(self):
+        """
+        initialize your data structure here.
+        """
+        
+        self.max_list = ListNode(0)
+        self.stack = ListNode(0)
+
+    def push(self, x):
+        """
+        :type x: int
+        :rtype: void
+        """
+        
+        new_node = ListNode(x)
+        new_node.prev, new_node.next = self.stack, self.stack.next
+        self.stack.next = new_node
+        if new_node.next:
+            new_node.next.prev = new_node
+        
+        p = ListNode(x)
+        q = self.max_list
+        while q.next:
+            if p.val < q.next.val:
+                q = q.next
+            else:
+                break
+        
+        p.prev, p.next = q, q.next
+        q.next = p
+        if p.next:
+            p.next.prev = p
+        
+        new_node.pointer = p
+        p.pointer = new_node
+
+    def pop(self):
+        """
+        :rtype: int
+        """
+        
+        p = self.stack.next
+        self.stack.next = self.stack.next.next
+        if self.stack.next:
+            self.stack.next.prev = self.stack
+        
+        q = p.pointer
+        q.prev.next = q.next
+        if q.next:
+            q.next.prev = q.prev
+        
+        return p.val
+
+    def top(self):
+        """
+        :rtype: int
+        """
+        
+        return self.stack.next.val
+
+    def peekMax(self):
+        """
+        :rtype: int
+        """
+        
+        return self.max_list.next.val
+
+    def popMax(self):
+        """
+        :rtype: int
+        """
+        
+        p = self.max_list.next
+        self.max_list.next = self.max_list.next.next
+        if self.max_list.next:
+            self.max_list.next.prev = self.max_list
+        
+        q = p.pointer
+        q.prev.next = q.next
+        if q.next:
+            q.next.prev = q.prev
+        
+        return p.val
+
+# Your MaxStack object will be instantiated and called as such:
+# obj = MaxStack()
+# obj.push(x)
+# param_2 = obj.pop()
+# param_3 = obj.top()
+# param_4 = obj.peekMax()
+# param_5 = obj.popMax()
