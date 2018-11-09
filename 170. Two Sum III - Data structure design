@@ -1,4 +1,4 @@
-O(1) time add, O(n) time O(n) space find, O(n) space overall
+O(1) time add, O(n) time find, O(n) space overall
 class TwoSum(object):
 
     def __init__(self):
@@ -6,7 +6,7 @@ class TwoSum(object):
         Initialize your data structure here.
         """
         
-        self.numbers = []
+        self.numbers = collections.defaultdict(int)
 
     def add(self, number):
         """
@@ -15,7 +15,7 @@ class TwoSum(object):
         :rtype: void
         """
         
-        self.numbers.append(number)
+        self.numbers[number] += 1
 
     def find(self, value):
         """
@@ -24,12 +24,9 @@ class TwoSum(object):
         :rtype: bool
         """
         
-        my_set = set()
-        for num in self.numbers:
-            if value-num in my_set:
+        for num in self.numbers.iterkeys():
+            if value-num in self.numbers and (value-num != num or self.numbers[num] > 1):
                 return True
-            
-            my_set.add(num)
         
         return False
             
