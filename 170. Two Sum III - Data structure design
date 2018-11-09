@@ -53,6 +53,7 @@ class TwoSum(object):
 # param_2 = obj.find(value)
 
 
+O(1) time add, O(n) time O(n) space find, O(n) space overall
 class TwoSum(object):
 
     def __init__(self):
@@ -60,7 +61,7 @@ class TwoSum(object):
         Initialize your data structure here.
         """
         
-        self.nums = []
+        self.numbers = []
 
     def add(self, number):
         """
@@ -69,7 +70,7 @@ class TwoSum(object):
         :rtype: void
         """
         
-        self.nums.append(number)
+        self.numbers.append(number)
 
     def find(self, value):
         """
@@ -78,17 +79,16 @@ class TwoSum(object):
         :rtype: bool
         """
         
-        hash_table = {}
-        for num in self.nums:
-            if num in hash_table:
+        my_set = set()
+        for num in self.numbers:
+            if value-num in my_set:
                 return True
-            else:
-                hash_table[value-num] = 1
+            
+            my_set.add(num)
         
         return False
-
+            
 # Your TwoSum object will be instantiated and called as such:
 # obj = TwoSum()
 # obj.add(number)
 # param_2 = obj.find(value)
-
