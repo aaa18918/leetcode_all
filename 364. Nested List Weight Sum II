@@ -51,7 +51,7 @@ class Solution(object):
         
         if not nestedList: return 0
         
-        cur, res, unweighted = [nestedList], 0, 0
+        cur, res, total = [nestedList], 0, 0
         
         while cur:
             next_level = []
@@ -62,7 +62,7 @@ class Solution(object):
                     else:
                         next_level.append(element.getList())
             
-            res += unweighted
+            res += total
             cur = next_level
 
         return res
