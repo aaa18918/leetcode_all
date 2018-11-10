@@ -58,7 +58,7 @@ class Solution(object):
             for nl in cur:
                 for element in nl:
                     if element.isInteger():
-                        unweighted += element.getInteger()
+                        total += element.getInteger()
                     else:
                         next_level.append(element.getList())
             
