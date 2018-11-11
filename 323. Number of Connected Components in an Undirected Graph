@@ -1,3 +1,34 @@
+O(n) time, O(n) sapce
+class Solution(object):
+    def countComponents(self, n, edges):
+        """
+        :type n: int
+        :type edges: List[List[int]]
+        :rtype: int
+        """
+        
+        hash_table = collections.defaultdict(set)
+        for edge in edges:
+            hash_table[edge[0]].add(edge[1])
+            hash_table[edge[1]].add(edge[0])
+        
+        visited = set()
+        
+        def myDFS(x):
+            visited.add(x)
+            for i in hash_table[x]:
+                if i not in visited:
+                    myDFS(i)
+        
+        count = 0
+        for i in range(n):
+            if i not in hash_table or i not in visited:
+                count += 1
+                myDFS(i)
+        
+        return count
+
+
 O(nlgn) time, O(n) space
 class Solution(object):
     def countComponents(self, n, edges):
