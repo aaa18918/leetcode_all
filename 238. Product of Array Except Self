@@ -7,16 +7,12 @@ class Solution(object):
         """
         
         size = len(nums)
-        output = [1 for _ in range(size)]
+        res = [1 for _ in range(size)]
+        left, right = nums[0], nums[-1]
+        for idx in range(1, size):
+            res[idx] *= left
+            left *= nums[idx]
+            res[size-idx-1] *= right
+            right *= nums[size-idx-1]
         
-        left_product = 1
-        for idx in range(size-1):
-            left_product *= nums[idx]
-            output[idx+1] = left_product
-        
-        right_product = 1
-        for idx in range(size-1, 0, -1):
-            right_product *= nums[idx]
-            output[idx-1] *= right_product
-        
-        return output
+        return res
