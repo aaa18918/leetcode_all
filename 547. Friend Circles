@@ -1,0 +1,25 @@
+O(n^2) time, O(n) space
+
+class Solution(object):
+    def findCircleNum(self, M):
+        """
+        :type M: List[List[int]]
+        :rtype: int
+        """
+        
+        visited = set()
+        n = len(M)
+        
+        def myDFS(i):
+            visited.add(i)
+            for idx in range(n):
+                if M[i][idx] == 1 and idx not in visited:
+                    myDFS(idx)
+        
+        count = 0
+        for i in range(n):
+            if i not in visited:
+                count += 1
+                myDFS(i)
+        
+        return count
