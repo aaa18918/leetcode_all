@@ -54,3 +54,25 @@ class Solution(object):
         return res
 
 
+O(???) time, O(???) space
+class Solution(object):
+    def combinationSum(self, candidates, target):
+        """
+        :type candidates: List[int]
+        :type target: int
+        :rtype: List[List[int]]
+        """
+        
+        dp = [[] for i in range(target+1)]
+        for j in range(len(candidates)):
+            if candidates[j] <= target:
+                dp[candidates[j]].append([candidates[j]])
+        
+        for i in range(1, target):
+            for j in range(len(candidates)):
+                if i+candidates[j] <= target:
+                    for s in dp[i]:
+                        if s[-1] <= candidates[j]:
+                            dp[i+candidates[j]].append(s+[candidates[j]])
+        
+        return dp[target]
