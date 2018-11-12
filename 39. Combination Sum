@@ -21,3 +21,36 @@ class Solution(object):
         
         myDFS([], 0, target)
         return res
+
+
+O(???) time, O(???) space
+class Solution(object):
+    def combinationSum(self, candidates, target):
+        """
+        :type candidates: List[int]
+        :type target: int
+        :rtype: List[List[int]]
+        """
+        
+        res = []
+        size = len(candidates)
+        
+        def myHelp(i, cur, target):
+            if target == 0:
+                res.append(cur)
+                return
+            
+            if i == size:
+                return
+            
+            for idx in range(i, size):
+                j = 1
+                while candidates[idx]*j <= target:
+                    myHelp(idx+1, cur+[candidates[idx]]*j, target-candidates[idx]*j)
+                    j += 1
+            
+        
+        myHelp(0, [], target)
+        return res
+
+
