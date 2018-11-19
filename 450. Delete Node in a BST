@@ -1,0 +1,59 @@
+O(lgn) time, O(???) space
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def deleteNode(self, root, key):
+        """
+        :type root: TreeNode
+        :type key: int
+        :rtype: TreeNode
+        """
+        
+        prev, p = None, root
+        while p and p.val != key:
+            prev = p
+            p = p.right if key > p.val else p.left
+        
+        if not p: return root
+        
+        if not p.right:
+            if prev:
+                if prev.left is p:
+                    prev.left = p.left
+                else:
+                    prev.right = p.left
+                
+                return root
+            else:
+                return p.left
+        elif not p.left:
+            if prev:
+                if prev.left is p:
+                    prev.left = p.right
+                else:
+                    prev.right = p.right
+                
+                return root
+            else:
+                return p.right
+        else:
+            prev_q, q = p, p.right
+            while q.left:
+                prev_q = q
+                q = q.left
+            
+            p.val = q.val
+            if prev_q is not p:
+                if prev_q.left is q:
+                    prev_q.left = self.deleteNode(q, q.val)
+                else:
+                    prev_q.right = self.deleteNode(q, q.val)
+            else:
+                p.right = p.right.right
+        
+        return root
