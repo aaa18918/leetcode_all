@@ -1,3 +1,4 @@
+O(n) time, O(n) space
 class Solution(object):
     def findRepeatedDnaSequences(self, s):
         """
@@ -5,69 +6,14 @@ class Solution(object):
         :rtype: List[str]
         """
         
-        len_s, hash_table, res = len(s), {}, set()
-        for i in range(len_s-9):
-            s1 = s[i:i+10]
-            if s1 not in hash_table:
-                hash_table[s1] = 1
+        res = set()
+        my_set = set()
+        
+        for idx in range(len(s)-9):
+            string = s[idx:idx+10]
+            if string in my_set:
+                res.add(string)
             else:
-                if s1 not in res: res.add(s1)
-        return list(res)
-
-
-class Solution(object):
-    def findRepeatedDnaSequences(self, s):
-        """
-        :type s: str
-        :rtype: List[str]
-        """
+                my_set.add(string)
         
-        len_s, hash_table, res, char_map_int = len(s), {}, [], {'A':1, 'C':2, 'G':3, 'T':4}
-        for i in range(len_s-9):
-            s1 = s[i:i+10]
-            num = 0
-            for char in s1:
-                num = num*10+char_map_int[char]
-            if num not in hash_table:
-                hash_table[num] = 1
-            else:
-                hash_table[num] += 1
-                if hash_table[num] == 2:
-                    res.append(s1)
-        return res
-
-
-class Solution(object):
-    def findRepeatedDnaSequences(self, s):
-        """
-        :type s: str
-        :rtype: List[str]
-        """
-        
-        len_s, hash_table, res, char_map_int = len(s), {}, [], {'A':1, 'C':2, 'G':3, 'T':4}
-        for i in range(len_s-9):
-            s1 = s[i:i+10]
-            if s1 not in hash_table:
-                hash_table[s1] = 1
-            else:
-                hash_table[s1] += 1
-                if hash_table[s1] == 2:
-                    res.append(s1)
-        return res
-
-
-class Solution(object):
-    def findRepeatedDnaSequences(self, s):
-        """
-        :type s: str
-        :rtype: List[str]
-        """
-        
-        len_s, hash_table, res, char_map_int, cur_sum = len(s), {}, [], {'A':1, 'C':2, 'G':3, 'T':4}, 0
-        for i in range(len_s):
-            cur_sum = (cur_sum*4+char_map_int[s[i]]) & 0xFFFFF
-            if i < 9: continue
-            hash_table[cur_sum] = hash_table.get(cur_sum, 0)+1
-            if hash_table[cur_sum] == 2:
-                res.append(s[i-9:i+1])
-        return res
+        return [r for r in res]
