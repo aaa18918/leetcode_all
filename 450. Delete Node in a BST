@@ -57,3 +57,5 @@ class Solution(object):
                 p.right = p.right.right
         
         return root
+
+别的解法没看。
