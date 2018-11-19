@@ -1,4 +1,4 @@
-O(n) time, O(k) space
+O(lgn) time, O(k) space
 class Solution(object):
     def findClosestElements(self, arr, k, x):
         """
@@ -8,8 +8,15 @@ class Solution(object):
         :rtype: List[int]
         """
         
-        left, right = len(arr)-k, len(arr)-1
-        while 0 < left and abs(arr[left-1]-x) <= abs(arr[right]-x):
-            left, right = left-1, right-1
+        left, right = 0, len(arr)-k
+        while left < right:
+            mid = (left+right)/2
+            print arr[mid]
+            if x-arr[mid] > arr[mid+k]-x:
+                left = mid+1
+            else:
+                right = mid
         
-        return arr[left:right+1]
+        return arr[left:left+k]
+
+有些case没想明白。
