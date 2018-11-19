@@ -7,6 +7,8 @@ class Solution(object):
         :rtype: bool
         """
         
+        edges = set(map(tuple, edges))
+        
         if len(edges) != n-1: return False
         
         visited = [0 for _ in range(n)]
@@ -26,7 +28,7 @@ class Solution(object):
             visited[num] = 1
             return True
         
-        for num in adjacency_list.keys():
+        for num in adjacency_list.iterkeys():
             if not myDFS(num, -1):
                 return False
         return True
