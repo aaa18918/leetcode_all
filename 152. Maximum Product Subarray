@@ -1,3 +1,4 @@
+O(n) time, O(1) space
 class Solution(object):
     def maxProduct(self, nums):
         """
@@ -5,18 +6,15 @@ class Solution(object):
         :rtype: int
         """
         
-        if not nums: return 0
-        if len(nums) == 1: return nums[0]
+        res = nums[0]
+        cur_max, cur_min = nums[0], nums[0]
+        for idx in range(1, len(nums)):
+            if nums[idx] < 0:
+                cur_max, cur_min = cur_min, cur_max
+            
+            cur_max = max(cur_max*nums[idx], nums[idx])
+            cur_min = min(cur_min*nums[idx], nums[idx])
+            
+            res = max(res, cur_max)
         
-        positive, negative = [0 for _ in range(len(nums)+1)], [0 for _ in range(len(nums)+1)]
-        
-        for index in range(len(nums)):
-            if nums[index] > 0:
-                positive[index+1] = max(nums[index], nums[index]*positive[index])
-                negative[index+1] = negative[index]*nums[index]
-            elif nums[index] < 0:
-                positive[index+1] = negative[index]*nums[index]
-                negative[index+1] = min(positive[index]*nums[index], nums[index])
-                
-        return max(positive)
-
+        return res
