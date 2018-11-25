@@ -1,3 +1,4 @@
+O(lgn) time, O(1) space
 class Solution(object):
     def isPerfectSquare(self, num):
         """
@@ -12,6 +13,7 @@ class Solution(object):
         return cur_sum == num
 
 
+O(lgn) time, O(1) space
 class Solution(object):
     def isPerfectSquare(self, num):
         """
@@ -30,6 +32,7 @@ class Solution(object):
         return False
 
 
+O(lgn) time, O(1) space
 class Solution(object):
     def isPerfectSquare(self, num):
         """
@@ -38,12 +41,15 @@ class Solution(object):
         """
         
         x = 1
-        while True:
-            slope = (x*x-num)*1.0/(2*x)
-            if abs(slope) < 1:
-                break
-            else:
-                x = x-slope
+        d = (x*x-num)*1.0/(2*x)
+        
+        while abs(d) > 0.5:
+            x = x-d
+            d = (x*x-num)*1.0/(2*x)
         
         x = int(x)
-        return x**2 == num or (x+1)**2 == num
+        for y in (x-1, x, x+1):
+            if y*y == num:
+                return True
+        
+        return False
