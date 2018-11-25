@@ -1,5 +1,4 @@
-https://leetcode.com/problems/evaluate-reverse-polish-notation/
-
+O(n) time, O(n) space
 class Solution(object):
     def evalRPN(self, tokens):
         """
@@ -8,54 +7,21 @@ class Solution(object):
         """
         
         my_stack = []
-        for cur_string in tokens:
-            if cur_string == '+':
-                right = my_stack.pop()
-                left = my_stack.pop()
-                my_stack.append(left+right)
-            elif cur_string == '-':
-                right = my_stack.pop()
-                left = my_stack.pop()
-                my_stack.append(left-right)
-            elif cur_string == '*':
-                right = my_stack.pop()
-                left = my_stack.pop()
-                my_stack.append(left*right)
-            elif cur_string == '/':
-                right = my_stack.pop()
-                left = my_stack.pop()
-                if left*right < 0 and left%right != 0:
-                    my_stack.append(left/right+1)
-                else:
-                    my_stack.append(left/right)
-            else:
-                my_stack.append(int(cur_string))
-        return my_stack[0]
-
-class Solution(object):
-    def evalRPN(self, tokens):
-        """
-        :type tokens: List[str]
-        :rtype: int
-        """
-        
-        stack = []
-        
-        for item in tokens:
-            if item in "+-*/":
-                right = stack.pop()
-                left = stack.pop()
+        for string in tokens:
+            if string in '+-*/':
+                b = my_stack.pop()
+                a = my_stack.pop()
                 
-                if item == '+':
-                    stack.append(left+right)
-                elif item == '-':
-                    stack.append(left-right)
-                elif item == '*':
-                    stack.append(left*right)
+                if string == '+':
+                    my_stack.append(a+b)
+                elif string == '-':
+                    my_stack.append(a-b)
+                elif string == '*':
+                    my_stack.append(a*b)
                 else:
-                    sign = -1 if left/right < 0 else 1
-                    stack.append(sign*(abs(left)/abs(right)))
+                    sign = -1 if a/b < 0 else 1
+                    my_stack.append(sign*(abs(a)/abs(b)))
             else:
-                stack.append(int(item))
+                my_stack.append(int(string))
         
-        return stack.pop()
+        return my_stack[0] if tokens else 0
