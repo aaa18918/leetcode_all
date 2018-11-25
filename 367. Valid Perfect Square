@@ -21,14 +21,16 @@ class Solution(object):
         :rtype: bool
         """
         
-        left, right = 1, num
+        left, right = 0, num
         while left <= right:
             mid = (left+right)/2
-            if mid**2 == num: return True
-            elif mid**2 < num:
+            if mid*mid == num:
+                return True
+            elif mid*mid < num:
                 left = mid+1
             else:
                 right = mid-1
+        
         return False
 
 
