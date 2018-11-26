@@ -56,3 +56,8 @@ class Codec:
 # Your Codec object will be instantiated and called as such:
 # codec = Codec()
 # codec.deserialize(codec.serialize(root))
+
+
+没有看别的解法，还有好多各种不同序列化的方法。
+            return node.val, children_vals好多
+            return node.val, children_vals
