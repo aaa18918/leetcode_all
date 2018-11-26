@@ -1,3 +1,4 @@
+O(26nk) time, O(26nk) space
 class Solution(object):
     def ladderLength(self, beginWord, endWord, wordList):
         """
@@ -8,77 +9,24 @@ class Solution(object):
         """
         
         wordSet = set(wordList)
+        if endWord not in wordSet:
+            return 0
         
-        if endWord not in wordSet: return 0
-        
-        myQueue, lowercaseLetters = collections.deque([(beginWord, 1)]), string.ascii_lowercase
-        
-        while myQueue and wordSet:
-            word, t = myQueue.popleft()
-            for i in range(len(word)):
-                for c in lowercaseLetters:
-                    newWord = word[:i]+c+word[i+1:]
-                    if word == newWord: continue
-                    if newWord == endWord: return t+1
-                    if newWord in wordSet:
-                        myQueue.append((newWord, t+1))
-                        wordSet.remove(newWord)
-        return 0
-
-
-class Solution(object):
-    def ladderLength(self, beginWord, endWord, wordList):
-        """
-        :type beginWord: str
-        :type endWord: str
-        :type wordList: List[str]
-        :rtype: int
-        """
-        
-        wordSet = set(wordList)
-        
-        if endWord not in wordSet: return 0
-        
-        myQueue, lowercaseLetters = collections.deque([(beginWord, 1)]), string.ascii_lowercase
-        
-        while myQueue and wordSet:
-            word, t = myQueue.popleft()
-            for i in range(len(word)):
-                for c in lowercaseLetters:
-                    if c == word[i]: continue
-                    newWord = word[:i]+c+word[i+1:]
-                    if newWord == endWord: return t+1
-                    if newWord in wordSet:
-                        myQueue.append((newWord, t+1))
-                        wordSet.remove(newWord)
-        return 0
-
-
-class Solution(object):
-    def ladderLength(self, beginWord, endWord, wordList):
-        """
-        :type beginWord: str
-        :type endWord: str
-        :type wordList: List[str]
-        :rtype: int
-        """
-        
-        wordSet = set(wordList)
-        if endWord not in wordSet: return 0
-        
-        myQueue = collections.deque([(beginWord, 1)])
-        lowerCaseLetters = string.ascii_lowercase
-        
-        while myQueue:
-            word, l = myQueue.popleft()
+        queue = collections.deque([(beginWord, 1)])
+        lowercase = string.ascii_lowercase
+        while queue:
+            word, count = queue.popleft()
             for idx in range(len(word)):
-                for c in lowerCaseLetters:
-                    if c == word[i]: continue
-                    newWord = word[:idx]+c+word[idx+1:]
-                    if newWord == endWord: return l+1
-                    if newWord in wordSet:
-                        myQueue.append((newWord, l+1))
-                        wordSet.remove(newWord)
+                for c in lowercase:
+                    if c != word[idx]:
+                        new_word = word[:idx]+c+word[idx+1:]
+                        if new_word == endWord:
+                            return count+1
+                        
+                        if new_word in wordSet:
+                            wordSet.remove(new_word)
+                            queue.append((new_word, count+1))
+        
         return 0
 
 
