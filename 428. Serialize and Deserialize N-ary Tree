@@ -1,0 +1,58 @@
+O(n) serialize, O(n) deserialize. O(???) space
+"""
+# Definition for a Node.
+class Node(object):
+    def __init__(self, val, children):
+        self.val = val
+        self.children = children
+"""
+class Codec:
+
+    def serialize(self, root):
+        """Encodes a tree to a single string.
+        
+        :type root: Node
+        :rtype: str
+        """
+        
+        if not root:
+            return []
+        
+        def myHelp(node):
+            children_vals = []
+            for child in node.children:
+                child_val, child_children = myHelp(child)
+                children_vals.append(child_val)
+                if child_children:
+                    children_vals.append(child_children)
+            
+            return node.val, children_vals
+        
+        root_val, root_children = myHelp(root)
+        return [root_val, root_children] if root_children else [root_val]
+
+    def deserialize(self, data):
+        """Decodes your encoded data to tree.
+        
+        :type data: str
+        :rtype: Node
+        """
+        
+        if not data:
+            return None
+        
+        def myHelp(data):
+            res = []
+            for item in data:
+                if isinstance(item, list):
+                    res[-1].children = myHelp(item)
+                else:
+                    res.append(Node(item, []))
+            
+            return res
+        
+        return myHelp(data)[0]
+
+# Your Codec object will be instantiated and called as such:
+# codec = Codec()
+# codec.deserialize(codec.serialize(root))
