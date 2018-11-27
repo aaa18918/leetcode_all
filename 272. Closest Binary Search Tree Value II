@@ -1,3 +1,4 @@
+O(klgn) time average, O(n) time worst, O(lgn) space average, O(n) space worst
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -14,46 +15,82 @@ class Solution(object):
         :rtype: List[int]
         """
         
-        if not k: return []
-        
-        def dfs(root):
-            if not root: return []
-            
-            result = [root.val]
-            if root.left:
-                result = dfs(root.left)+result
-            if root.right:
-                result = result+dfs(root.right)
-            
-            return result
-        
-        tree_to_list = dfs(root)
-        nearest_value, nearest_index = tree_to_list[0], 0
-        
-        for index, num in enumerate(tree_to_list[1:]):
-            if abs(num-target) < abs(nearest_value-target):
-                nearest_value, nearest_index = num, index+1
-        
-        result = [nearest_value]
-        k -= 1
-        left, right = nearest_index-1, nearest_index+1
-        len_list = len(tree_to_list)
-        while k and left >= 0 and right < len_list:
-            if abs(tree_to_list[left]-target) < abs(tree_to_list[right]-target):
-                result.append(tree_to_list[left])
-                left -= 1
+        predecessor, successor  = [], []
+        p = root
+        while p:
+            if p.val == target:
+                predecessor.append(p)
+                break
+            elif p.val < target:
+                predecessor.append(p)
+                p = p.right
             else:
-                result.append(tree_to_list[right])
-                right += 1
+                p = p.left
+        
+        p = root
+        while p:
+            if p.val == target:
+                successor.append(p)
+                break
+            elif p.val < target:
+                p = p.right
+            else:
+                successor.append(p)
+                p = p.left
+        
+        res = []
+        if predecessor and successor and predecessor[-1].val == successor[-1].val:
+            node = predecessor.pop()
+            res.append(node.val)
+            successor.pop()
+            
+            p = node.left
+            while p:
+                predecessor.append(p)
+                p = p.right
+            
+            p = node.right
+            while p:
+                successor.append(p)
+                p = p.left
             
             k -= 1
         
-        if k:
-            if left >= 0:
-                result += tree_to_list[left+1-k:left+1]
+        while k > 0 and (predecessor or successor):
+            if predecessor and successor:
+                if target-predecessor[-1].val < successor[-1].val-target:
+                    node = predecessor.pop()
+                    res.append(node.val)
+                    
+                    node = node.left
+                    while node:
+                        predecessor.append(node)
+                        node = node.right
+                else:
+                    node = successor.pop()
+                    res.append(node.val)
+                    
+                    node = node.right
+                    while node:
+                        successor.append(node)
+                        node = node.left
+            elif predecessor:
+                node = predecessor.pop()
+                res.append(node.val)
+                
+                node = node.left
+                while node:
+                    predecessor.append(node)
+                    node = node.right
             else:
-                result += tree_to_list[right:right+k]
+                node = successor.pop()
+                res.append(node.val)
+                
+                node = node.right
+                while node:
+                    successor.append(node)
+                    node = node.left
+            
+            k -= 1
         
-        return result
-
-"""解法不满足follow up"""
+        return res
