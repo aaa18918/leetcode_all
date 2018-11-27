@@ -15,18 +15,21 @@ class Codec:
         :rtype: str
         """
         
-        vals = []
+        if not root:
+            return ''
         
-        def myDFS(node):
+        res = ''
+        queue = collections.deque([root])
+        while queue:
+            node = queue.popleft()
             if node:
-                vals.append(str(node.val))
-                myDFS(node.left)
-                myDFS(node.right)
+                res += str(node.val)+','
+                queue.append(node.left)
+                queue.append(node.right)
             else:
-                vals.append('#')
+                res += '#'+','
         
-        myDFS(root)
-        return ','.join(vals)
+        return res[:-1]
 
     def deserialize(self, data):
         """Decodes your encoded data to tree.
@@ -35,20 +38,32 @@ class Codec:
         :rtype: TreeNode
         """
         
-        vals = data.split(',')[::-1]
+        if not data:
+            return None
         
-        def myDFS():
-            cur = vals.pop()
-            if cur == '#':
-                return None
+        data = data.split(',')
+        root = TreeNode(data[0])
+        
+        queue = collections.deque([root])
+        idx, size = 1, len(data)
+        while queue:
+            node = queue.popleft()
+            if idx < size:
+                node.left = TreeNode(data[idx]) if data[idx] != '#' else None
             
-            node = TreeNode(int(cur))
-            node.left = myDFS()
-            node.right = myDFS()
-            return node
+            if idx+1 < size:
+                node.right = TreeNode(data[idx+1]) if data[idx+1] != '#' else None
+            
+            if node.left:
+                queue.append(node.left)
+            
+            if node.right:
+                queue.append(node.right)
         
-        return myDFS()
+            idx += 2
         
+        return root
+
 # Your Codec object will be instantiated and called as such:
 # codec = Codec()
 # codec.deserialize(codec.serialize(root))
