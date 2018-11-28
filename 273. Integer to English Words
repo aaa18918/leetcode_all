@@ -6,43 +6,45 @@ class Solution(object):
         :rtype: str
         """
         
-        if not num: return "Zero"
+        if num == 0:
+            return 'Zero'
         
-        thousands, thousands_idx = ["Thousand", "Million", "Billion"], 0
-        res = []
-        while num:
-            remainder = num%1000
-            res = self.convertNumToString(remainder)+res
+        num_less_than_twenty = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
+                                'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen',
+                                'Nineteen']
+        
+        tens_digit = ['Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety']
+        
+        thousands = ['Thousand', 'Million', 'Billion']
+        
+        def convertNumberLessThanThousandToWords(num):
+            res = []
+            if num >= 100:
+                res += [num_less_than_twenty[num/100], 'Hundred']
+                num %= 100
+            
+            if num >= 20:
+                res.append(tens_digit[num/10-2])
+                num %= 10
+            
+            if num > 0:
+                res.append(num_less_than_twenty[num])
+            
+            return res
+        
+        res, idx = [], -1
+        while num > 0:
+            if num%1000 > 0:
+                if idx >= 0:
+                    res = convertNumberLessThanThousandToWords(num%1000)+[thousands[idx]]+res
+                else:
+                    res = convertNumberLessThanThousandToWords(num%1000)
+            
             num /= 1000
-            if num > 0 and num%1000 > 0:
-                res = [thousands[thousands_idx]]+res
-            thousands_idx += 1
+            
+            idx += 1
         
         return ' '.join(res)
-    
-    def convertNumToString(self, num):
-        ones = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"]
-        ten_more = ["Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"]
-        twenty_more = ["Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"]
-        
-        res = []
-        
-        if num >= 100:
-            res += [ones[num/100-1], "Hundred"]
-            num %= 100
-        
-        if num >= 20:
-            res.append(twenty_more[num/10-2])
-            num %= 10
-        
-        if num >= 10:
-            res.append(ten_more[num-10])
-            num = 0
-        
-        if num > 0:
-            res.append(ones[num-1])
-        
-        return res
 
 
 注意这个输入例子：1000000，不是One Thousand Million而是One Million。
