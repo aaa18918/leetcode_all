@@ -1,0 +1,68 @@
+O(n) time, O(1) space
+class Solution(object):
+    def isNumber(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        
+        s = s.strip()
+        
+        if not s:
+            return False
+        
+        splitted_s = s.split('e')
+        if len(splitted_s) > 2:
+            return False
+        
+        for item in splitted_s:
+            if not item:
+                return False
+        
+        def isValidNumWithoutPower(string):
+            start = 0 if string[0] not in '+-' else 1
+            string = string[start:]
+            
+            if not string:
+                return False
+            
+            splitted_string = string.split('.')
+            
+            if len(splitted_string) > 2 or len(splitted_string) == 2 and not splitted_string[0] and not splitted_string[1]:
+                return False
+            
+            if splitted_string[0]:
+                for char in splitted_string[0]:
+                    if char < '0' or char > '9':
+                        return False
+            
+            if len(splitted_string) == 2:
+                for char in splitted_string[1]:
+                    if char < '0' or char > '9':
+                        return False
+            
+            return True
+        
+        def isValidPower(string):
+            start = 0 if string[0] not in '+-' else 1
+            string = string[start:]
+            
+            if not string:
+                return False
+            
+            for char in string:
+                if char < '0' or char > '9':
+                    return False
+            
+            return True
+        
+        if not isValidNumWithoutPower(splitted_s[0]):
+            return False
+        
+        if len(splitted_s) == 2:
+            if not isValidPower(splitted_s[1]):
+                return False
+        
+        return True
+
+别的解都没有看。
