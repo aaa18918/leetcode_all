@@ -1,13 +1,9 @@
+O(n^2) time, O(n) space
 # Definition for a point.
 # class Point(object):
 #     def __init__(self, a=0, b=0):
 #         self.x = a
 #         self.y = b
-
-class Line(object):
-    def __init__(self):
-        self.point_number = 0
-        self.points = set()
 
 class Solution(object):
     def maxPoints(self, points):
@@ -16,56 +12,52 @@ class Solution(object):
         :rtype: int
         """
         
-        fuck_this_test_case = [[0,0], [94911151,94911150], [94911152,94911151]]
+        size = len(points)
+        if size < 2:
+            return size
         
-        total_same = 0
-        for index, point in enumerate(points):
-            if fuck_this_test_case[index][0] == point.x and fuck_this_test_case[index][1] == point.y:
-                total_same += 1
-            else:
-                break
+        def getGCD(a, b):
+            if a < b:
+                a, b = b, a
             
-        if total_same == len(fuck_this_test_case): return 2
+            while b > 0:
+                a, b = b, a%b
+            
+            return a
         
-        if not points: return 0
-        n = len(points)
-        if n == 1: return 1
-        slope_record = {}
+        def getDefaultIntDict():
+            return collections.defaultdict(int)
         
-        for i in range(n):
-            for j in range(i+1, n):
-                point1, point2 = points[i], points[j]
-                slope, offset = 0, 0
-                if point1.y == point2.y:
-                    slope, offset = "y: ", point1.y
-                elif point1.x == point2.x:
-                    slope, offset = "x: ", point1.x
-                else:
-                    slope = (point1.y-point2.y)*1.0/(point1.x-point2.x)
-                    offset = point1.y-slope*point1.x
-                    
-                    if abs(int(round(slope))-slope) < 0.000000001:
-                        slope = round(slope)
-                    
-                    if abs(int(round(offset))-offset) < 0.000000001:
-                        offset = round(offset)
+        res = 0
+        for i in range(size):
+            hash_table = collections.defaultdict(getDefaultIntDict)
+            overlap = 0
+            cur_max = 0
+            
+            for j in range(i+1, size):
+                x_diff, y_diff = points[i].x-points[j].x, points[i].y-points[j].y
+                if x_diff == 0 and y_diff == 0:
+                    overlap += 1
+                    continue
+                elif x_diff == 0:
+                    hash_table[0][1] += 1
+                    cur_max = max(cur_max, hash_table[0][1])
+                    continue
+                elif y_diff == 0:
+                    hash_table[1][0] += 1
+                    cur_max = max(cur_max, hash_table[1][0])
+                    continue
                 
-                key = (slope, offset)
-                if key not in slope_record:
-                    slope_record[key] = Line()
+                if x_diff*y_diff > 0:
+                    x_diff, y_diff = abs(x_diff), abs(y_diff)
+                elif x_diff < y_diff:
+                    x_diff, y_diff = -x_diff, -y_diff
                 
-                if point1 not in slope_record[key].points:
-                    slope_record[key].point_number += 1
-                    slope_record[key].points.add(point1)
+                gcd = getGCD(x_diff, abs(y_diff))
+                x, y = x_diff/gcd, y_diff/gcd
+                hash_table[x][y] += 1
                 
-                if point2 not in slope_record[key].points:
-                    slope_record[key].point_number += 1
-                    slope_record[key].points.add(point2)
+                cur_max = max(cur_max, hash_table[x][y])
+            res = max(res, cur_max+overlap+1)
         
-        result = 0
-        for line in slope_record.itervalues():
-            result = max(result, line.point_number)
-        
-        return result
-
-这题要重写。
+        return res
