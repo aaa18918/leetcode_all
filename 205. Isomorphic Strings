@@ -10,18 +10,12 @@ class Solution(object):
         if len(s) != len(t):
             return False
         
-        mapping1, mapping2 = {}, {}
+        s_to_t_map, t_to_s_map = collections.defaultdict(str), collections.defaultdict(str)
         for idx in range(len(s)):
-            if s[idx] in mapping1:
-                if mapping1[s[idx]] != t[idx]:
-                    return False
-            else:
-                mapping1[s[idx]] = t[idx]
-            
-            if t[idx] in mapping2:
-                if mapping2[t[idx]] != s[idx]:
-                    return False
-            else:
-                mapping2[t[idx]] = s[idx]
+            if not s_to_t_map[s[idx]] and not t_to_s_map[t[idx]]:
+                s_to_t_map[s[idx]], t_to_s_map[t[idx]] = t[idx], s[idx]
+                
+            if s_to_t_map[s[idx]] != t[idx] or t_to_s_map[t[idx]] != s[idx]:
+                return False
         
         return True
