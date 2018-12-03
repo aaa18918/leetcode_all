@@ -47,3 +47,59 @@ class Solution(object):
         buildPath(endWord, [])
 
         return res
+
+
+O(26kn) time, O(kn) space
+class Solution(object):
+    def findLadders(self, beginWord, endWord, wordList):
+        """
+        :type beginWord: str
+        :type endWord: str
+        :type wordList: List[str]
+        :rtype: List[List[str]]
+        """
+        
+        wordSet = set(wordList)
+        if endWord not in wordSet:
+            return []
+        
+        prevMap = collections.defaultdict(list)
+        cur = set([(beginWord, 0)])
+        minD = sys.maxint
+        lowercase = string.ascii_lowercase
+        while cur:
+            tmp = set()
+            for c in cur:
+                word, d = c
+                if d >= minD:
+                    break
+                
+                for idx in range(len(word)):
+                    for char in lowercase:
+                        if char != word[idx]:
+                            newWord = word[:idx]+char+word[idx+1:]
+                            if newWord == endWord:
+                                minD = d+1
+                                prevMap[endWord].append(word)
+                            elif newWord in wordSet:
+                                prevMap[newWord].append(word)
+                                tmp.add((newWord, d+1))
+                
+            for t in tmp:
+                newWord, _ = t
+                wordSet.remove(newWord)
+            
+            cur = tmp
+        
+        res = []
+        my_stack = [(word, [endWord, word]) for word in prevMap[endWord]]
+        while my_stack:
+            word, trace = my_stack.pop()
+            
+            if word == beginWord:
+                res.append(trace[::-1])
+            else:
+                for prevWord in prevMap[word]:
+                    my_stack.append((prevWord, trace+[prevWord]))
+        
+        return res
