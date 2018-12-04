@@ -1,12 +1,10 @@
 O(n) time push, O(1) time pop, O(1) time top, O(1) time peekMax, O(1) time popMax, O(n) space
 class ListNode(object):
-    
     def __init__(self, val):
         self.val = val
-        self.pointer =  None
-        self.prev = None
+        self.pointer = None
         self.next = None
-
+        self.prev = None
 
 class MaxStack(object):
 
@@ -15,8 +13,8 @@ class MaxStack(object):
         initialize your data structure here.
         """
         
-        self.max_list = ListNode(0)
-        self.stack = ListNode(0)
+        self.values = ListNode(0)
+        self.max_values = ListNode(0)
 
     def push(self, x):
         """
@@ -25,23 +23,24 @@ class MaxStack(object):
         """
         
         new_node = ListNode(x)
-        new_node.prev, new_node.next = self.stack, self.stack.next
-        self.stack.next = new_node
-        if new_node.next:
-            new_node.next.prev = new_node
+        new_node.prev, new_node.next = self.values, self.values.next
+        
+        if self.values.next:
+            self.values.next.prev = new_node
+        
+        self.values.next = new_node
         
         p = ListNode(x)
-        q = self.max_list
-        while q.next:
-            if p.val < q.next.val:
-                q = q.next
-            else:
-                break
+        q = self.max_values
+        while q.next and q.next.val > p.val:
+            q = q.next
         
         p.prev, p.next = q, q.next
+        
+        if q.next:
+            q.next.prev = p
+        
         q.next = p
-        if p.next:
-            p.next.prev = p
         
         new_node.pointer = p
         p.pointer = new_node
@@ -51,48 +50,52 @@ class MaxStack(object):
         :rtype: int
         """
         
-        p = self.stack.next
-        self.stack.next = self.stack.next.next
-        if self.stack.next:
-            self.stack.next.prev = self.stack
+        node = self.values.next
+        self.values.next = self.values.next.next
         
-        q = p.pointer
-        q.prev.next = q.next
-        if q.next:
-            q.next.prev = q.prev
+        if self.values.next:
+            self.values.next.prev = self.values
         
-        return p.val
+        p = node.pointer
+        p.prev.next = p.next
+        
+        if p.next:
+            p.next.prev = p.prev
+        
+        return node.val
 
     def top(self):
         """
         :rtype: int
         """
         
-        return self.stack.next.val
+        return self.values.next.val
 
     def peekMax(self):
         """
         :rtype: int
         """
         
-        return self.max_list.next.val
+        return self.max_values.next.val
 
     def popMax(self):
         """
         :rtype: int
         """
         
-        p = self.max_list.next
-        self.max_list.next = self.max_list.next.next
-        if self.max_list.next:
-            self.max_list.next.prev = self.max_list
+        node = self.max_values.next
+        self.max_values.next = self.max_values.next.next
         
-        q = p.pointer
-        q.prev.next = q.next
-        if q.next:
-            q.next.prev = q.prev
+        if self.max_values.next:
+            self.max_values.next.prev = self.max_values
         
-        return p.val
+        p = node.pointer
+        p.prev.next = p.next
+        
+        if p.next:
+            p.next.prev = p.prev
+        
+        return node.val
 
 # Your MaxStack object will be instantiated and called as such:
 # obj = MaxStack()
