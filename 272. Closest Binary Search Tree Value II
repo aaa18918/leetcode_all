@@ -15,81 +15,62 @@ class Solution(object):
         :rtype: List[int]
         """
         
-        predecessor, successor  = [], []
-        p = root
-        while p:
-            if p.val == target:
-                predecessor.append(p)
-                break
-            elif p.val < target:
-                predecessor.append(p)
-                p = p.right
-            else:
-                p = p.left
+        def appendFollowingNodes(node, l, is_predecessor):
+            node = node.left if is_predecessor else node.right
+            
+            while node:
+                l.append(node)
+                node = node.right if is_predecessor else node.left
         
-        p = root
-        while p:
-            if p.val == target:
-                successor.append(p)
+        predecessor, successor = [], []
+        
+        node = root
+        while node:
+            if node.val == target:
+                predecessor.append(node)
+                successor.append(node)
                 break
-            elif p.val < target:
-                p = p.right
+            elif node.val < target:
+                predecessor.append(node)
+                node = node.right
             else:
-                successor.append(p)
-                p = p.left
+                successor.append(node)
+                node = node.left
         
         res = []
-        if predecessor and successor and predecessor[-1].val == successor[-1].val:
-            node = predecessor.pop()
+        if node and node.val == target:
             res.append(node.val)
-            successor.pop()
             
-            p = node.left
-            while p:
-                predecessor.append(p)
-                p = p.right
+            node = predecessor.pop()
+            appendFollowingNodes(node, predecessor, True)
             
-            p = node.right
-            while p:
-                successor.append(p)
-                p = p.left
+            node = successor.pop()
+            appendFollowingNodes(node, successor, False)
             
             k -= 1
         
-        while k > 0 and (predecessor or successor):
+        while k > 0:
             if predecessor and successor:
                 if target-predecessor[-1].val < successor[-1].val-target:
                     node = predecessor.pop()
                     res.append(node.val)
                     
-                    node = node.left
-                    while node:
-                        predecessor.append(node)
-                        node = node.right
+                    appendFollowingNodes(node, predecessor, True)
                 else:
                     node = successor.pop()
                     res.append(node.val)
                     
-                    node = node.right
-                    while node:
-                        successor.append(node)
-                        node = node.left
+                    appendFollowingNodes(node, successor, False)
             elif predecessor:
                 node = predecessor.pop()
                 res.append(node.val)
                 
-                node = node.left
-                while node:
-                    predecessor.append(node)
-                    node = node.right
+                appendFollowingNodes(node, predecessor, True)
             else:
                 node = successor.pop()
                 res.append(node.val)
                 
-                node = node.right
-                while node:
-                    successor.append(node)
-                    node = node.left
+                appendFollowingNodes(node, successor, False)
             
             k -= 1
         
