@@ -28,6 +28,7 @@ class Solution(object):
         return res
 
 
+小心重复添加点。
 O(mn) time, O(mn) space
 class Solution(object):
     def numIslands(self, grid):
@@ -36,54 +37,24 @@ class Solution(object):
         :rtype: int
         """
         
-        myStack = []
+        if not grid:
+            return 0
         
-        def myDFS():
-            while myStack:
-                x, y = myStack.pop()
-                if 0 <= x < len(grid) and 0 <= y < len(grid[0]) and grid[x][y] == '1':
-                    grid[x][y] = '0'
-                    myStack.append((x+1, y))
-                    myStack.append((x-1, y))
-                    myStack.append((x, y+1))
-                    myStack.append((x, y-1))
+        diff = [(-1, 0), (1, 0), (0, -1), (0, 1)]
         
         res = 0
+        my_stack = set()
         for i in range(len(grid)):
             for j in range(len(grid[0])):
                 if grid[i][j] == '1':
                     res += 1
-                    myStack.append((i, j))
-                    myDFS()
+                    my_stack.add((i, j))
+                    while my_stack:
+                        x, y = my_stack.pop()
+                        grid[x][y] = '0'
+                        
+                        for d in diff:
+                            if 0 <= x+d[0] < len(grid) and 0 <= y+d[1] < len(grid[0]) and grid[x+d[0]][y+d[1]] == '1':
+                                my_stack.add((x+d[0], y+d[1]))
         
         return res
-
-
-O(mn) time, O(mn) space
-class Solution(object):
-    def numIslands(self, grid):
-        """
-        :type grid: List[List[str]]
-        :rtype: int
-        """
-        
-        my_queue = collections.deque()
-        
-        def myBFS(i, j):          
-            while my_queue:
-                x, y = my_queue.popleft()
-                if 0 <= x < len(grid) and 0 <= y < len(grid[0]) and grid[x][y] == '1':
-                    grid[x][y] = '0'
-                    my_queue.append((x-1, y))
-                    my_queue.append((x+1, y))
-                    my_queue.append((x, y-1))
-                    my_queue.append((x, y+1))
-        
-        count = 0
-        for i in range(len(grid)):
-            for j in range(len(grid[0])):
-                if grid[i][j] == '1':
-                    count += 1
-                    my_queue.append((i, j))
-                    myBFS(i, j)
-        return count
