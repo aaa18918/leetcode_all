@@ -29,7 +29,7 @@ class Solution(object):
 
 
 小心重复添加还在my_stack/my_queue里面的点。
-O(mn) time, O(mn) space
+O(mn) time, O(m+n) space
 class Solution(object):
     def numIslands(self, grid):
         """
