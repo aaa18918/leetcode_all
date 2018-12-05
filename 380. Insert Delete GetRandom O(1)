@@ -7,7 +7,7 @@ class RandomizedSet(object):
         """
         
         self.hash_table = {}
-        self.l = []
+        self.values = []
 
     def insert(self, val):
         """
@@ -19,8 +19,8 @@ class RandomizedSet(object):
         if val in self.hash_table:
             return False
         
-        self.l.append(val)
-        self.hash_table[val] = len(self.l)-1
+        self.hash_table[val] = len(self.values)
+        self.values.append(val)
         return True
 
     def remove(self, val):
@@ -34,14 +34,14 @@ class RandomizedSet(object):
             return False
         
         idx = self.hash_table[val]
-        size = len(self.l)
-        if idx != size-1:
-            self.l[idx], self.l[size-1] = self.l[size-1], self.l[idx]
-            self.hash_table[self.l[idx]] = idx
-        
         del self.hash_table[val]
-        self.l.pop()
         
+        size = len(self.values)
+        if idx != size-1:
+            self.values[idx], self.values[size-1] = self.values[size-1], self.values[idx]
+            self.hash_table[self.values[idx]] = idx
+        
+        self.values.pop()
         return True
 
     def getRandom(self):
@@ -50,7 +50,7 @@ class RandomizedSet(object):
         :rtype: int
         """
         
-        return self.l[random.randint(0, len(self.l)-1)]
+        return self.values[random.randint(0, len(self.values)-1)]
 
 # Your RandomizedSet object will be instantiated and called as such:
 # obj = RandomizedSet()
