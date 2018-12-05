@@ -1,4 +1,4 @@
-O(mn) time, O(1) space
+O(mn) time, O(???) space
 class Solution(object):
     def numIslands(self, grid):
         """
@@ -6,13 +6,17 @@ class Solution(object):
         :rtype: int
         """
         
-        def myDFS(x, y):
-            if 0 <= x < len(grid) and 0 <= y < len(grid[0]) and grid[x][y] == '1':
-                grid[x][y] = '0'
-                myDFS(x-1, y)
-                myDFS(x+1, y)
-                myDFS(x, y-1)
-                myDFS(x, y+1)
+        if not grid:
+            return 0
+        
+        diff = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        
+        def myDFS(i, j):
+            grid[i][j] = '0'
+            
+            for d in diff:
+                if 0 <= i+d[0] < len(grid) and 0 <= j+d[1] < len(grid[0]) and grid[i+d[0]][j+d[1]] == '1':
+                    myDFS(i+d[0], j+d[1])
         
         res = 0
         for i in range(len(grid)):
@@ -20,6 +24,7 @@ class Solution(object):
                 if grid[i][j] == '1':
                     res += 1
                     myDFS(i, j)
+        
         return res
 
 
