@@ -7,21 +7,22 @@ class Solution(object):
         """
         
         my_stack = []
-        for string in tokens:
-            if string in '+-*/':
+        for t in tokens:
+            if t in '+-*/':
                 b = my_stack.pop()
                 a = my_stack.pop()
-                
-                if string == '+':
+                if t == '+':
                     my_stack.append(a+b)
-                elif string == '-':
+                elif t == '-':
                     my_stack.append(a-b)
-                elif string == '*':
+                elif t == '*':
                     my_stack.append(a*b)
-                else:
-                    sign = -1 if a/b < 0 else 1
-                    my_stack.append(sign*(abs(a)/abs(b)))
+                elif t == '/':
+                    if a/b < 0:
+                        my_stack.append(-(abs(a)/abs(b)))
+                    else:
+                        my_stack.append(a/b)
             else:
-                my_stack.append(int(string))
+                my_stack.append(int(t))
         
-        return my_stack[0] if tokens else 0
+        return my_stack[0] if my_stack else 0
