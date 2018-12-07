@@ -7,8 +7,8 @@ class WordDistance(object):
         """
         
         self.hash_table = collections.defaultdict(list)
-        for idx in range(len(words)):
-            self.hash_table[words[idx]].append(idx)
+        for idx, word in enumerate(words):
+            self.hash_table[word].append(idx)
 
     def shortest(self, word1, word2):
         """
@@ -18,13 +18,15 @@ class WordDistance(object):
         """
         
         res = sys.maxint
-        idx1, idx2 = 0, 0
-        
-        while idx1 < len(self.hash_table[word1]) and idx2 < len(self.hash_table[word2]):
-            res = min(res, abs(self.hash_table[word1][idx1]-self.hash_table[word2][idx2]))
-            if self.hash_table[word1][idx1] < self.hash_table[word2][idx2]:
+        idx1, idx2, size1, size2 = 0, 0, len(self.hash_table[word1]), len(self.hash_table[word2])
+        while idx1 < size1 and idx2 < size2:
+            if self.hash_table[word1][idx1] == self.hash_table[word2][idx2]:
+                return 0
+            elif self.hash_table[word1][idx1] < self.hash_table[word2][idx2]:
+                res = min(res, self.hash_table[word2][idx2]-self.hash_table[word1][idx1])
                 idx1 += 1
             else:
+                res = min(res, self.hash_table[word1][idx1]-self.hash_table[word2][idx2])
                 idx2 += 1
         
         return res
