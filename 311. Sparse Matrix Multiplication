@@ -20,3 +20,6 @@ class Solution(object):
                             res[i][k] += A[i][j]*B[j][k]
         
         return res
+
+
+就看了第一个解法，别的都没有看过。
