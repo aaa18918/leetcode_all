@@ -29,7 +29,7 @@ class Solution:
         return new_node
 
 
-average O(n) time, worst O(n^2) time, O(n) space
+O(n) time, O(n) space
 # Definition for a undirected graph node
 # class UndirectedGraphNode:
 #     def __init__(self, x):
@@ -40,28 +40,24 @@ class Solution:
     # @param node, a undirected graph node
     # @return a undirected graph node
     def cloneGraph(self, node):
-        if not node: return None
+        if not node:
+            return None
         
-        res_node = UndirectedGraphNode(node.label)
+        res = UndirectedGraphNode(node.label)
+        hash_table = {node.label: res}
+        
         my_queue = collections.deque([node])
-        hash_table = {node: res_node}
-        visited = set()
-        
         while my_queue:
-            cur_node = my_queue.popleft()
-            if cur_node in visited:
-                continue
+            old_node = my_queue.popleft()
+            new_node = hash_table[old_node.label]
             
-            corresponding_node = hash_table[cur_node]
-            for node in cur_node.neighbors:
-                if node in hash_table:
-                    corresponding_node.neighbors.append(hash_table[node])
+            for neighbor in old_node.neighbors:
+                if neighbor.label in hash_table:
+                    new_node.neighbors.append(hash_table[neighbor.label])
                 else:
-                    new_node = UndirectedGraphNode(node.label)
-                    hash_table[node] = new_node
-                    my_queue.append(node)
-                    corresponding_node.neighbors.append(new_node)
-            
-            visited.add(cur_node)
+                    new_neighbor = UndirectedGraphNode(neighbor.label)
+                    new_node.neighbors.append(new_neighbor)
+                    hash_table[neighbor.label] = new_neighbor
+                    my_queue.append(neighbor)
         
-        return res_node
+        return res
