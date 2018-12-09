@@ -1,3 +1,4 @@
+For m*n, n*k matrix, O(mnk-ak) time, a is the number of points equals to 0 in matrix A, O(mk) space
 class Solution(object):
     def multiply(self, A, B):
         """
@@ -6,28 +7,16 @@ class Solution(object):
         :rtype: List[List[int]]
         """
         
-        hash_table_A, hash_table_B = {}, {}
+        if not A or not B:
+            return []
         
-        for i in range(len(A)):
-            not_all_zeros = False
-            for j in range(len(A[0])):
+        m, n, Bn = len(A), len(A[0]), len(B[0])
+        res = [[0]*Bn for _ in range(m)]
+        for i in range(m):
+            for j in range(n):
                 if A[i][j] != 0:
-                    not_all_zeros = True
-                    break
-            
-            if not_all_zeros: hash_table_A[i] = A[i]
+                    for k in range(Bn):
+                        if B[j][k] != 0:
+                            res[i][k] += A[i][j]*B[j][k]
         
-        for j in range(len(B[0])):
-            not_all_zeros = False
-            for i in range(len(B)):
-                if B[i][j] != 0:
-                    not_all_zeros = True
-                    break
-            
-            if not_all_zeros: hash_table_B[j] = [B[i][j] for i in range(len(B))]
-        
-        res = [[0]*len(B[0]) for _ in range(len(A))]
-        for i in hash_table_A.iterkeys():
-            for j in hash_table_B.iterkeys():
-                res[i][j] = sum( hash_table_A[i][k]*hash_table_B[j][k] for k in range(len(A[0])))
         return res
