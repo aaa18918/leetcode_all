@@ -16,6 +16,39 @@ class Solution(object):
         if not root:
             return 0
         
+        res = 1
+        my_queue = collections.deque([(root, 1)])
+        while my_queue:
+            node, level = my_queue.popleft()
+            res = max(res, level)
+            
+            if node.left:
+                my_queue.append((node.left, level+1))
+            
+            if node.right:
+                my_queue.append((node.right, level+1))
+        
+        return res
+
+
+O(n) time, O(n) space
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def maxDepth(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        
+        if not root:
+            return 0
+        
         my_stack = [(root, 1)]
         res = 1
         while my_stack:
