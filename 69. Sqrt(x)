@@ -7,15 +7,15 @@ class Solution(object):
         """
         
         res = 1
-        delta_res = (res*res-x)*1.0/(2*res)
-        while abs(delta_res) > 0.5:
-            res -= delta_res
-            delta_res = (res*res-x)*1.0/(2*res)
+        delta = (res**2-x)*1.0/(2*res)
+        while abs(delta) >= 0.5:
+            res -= delta
+            delta = (res**2-x)/(2*res)
         
         res = int(res)
-        for num in (res+1, res, res-1):
-            if num**2 <= x:
-                return num
+        for r in (res+1, res, res-1):
+            if r**2 <= x:
+                return r
 
 
 O(lgn) time, O(1) space
