@@ -31,6 +31,39 @@ class Solution(object):
         return True
 
 
+O(n) time, O(lgn) space
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def isValidBST(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        
+        if not root:
+            return True
+        
+        my_stack = [(root, sys.maxint, -sys.maxint-1)]
+        while my_stack:
+            node, max_val, min_val = my_stack.pop()
+            if node.val <= min_val or node.val >= max_val:
+                return False
+            
+            if node.left:
+                my_stack.append((node.left, node.val, min_val))
+            
+            if node.right:
+                my_stack.append((node.right, max_val, node.val))
+        
+        return True
+
+
 O(n) time, O(n) space
 # Definition for a binary tree node.
 # class TreeNode(object):
