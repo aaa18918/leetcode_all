@@ -46,13 +46,16 @@ class Solution(object):
         :rtype: bool
         """
         
-        def myHelp(root, min_val, max_val):
-            if not root:
-                return True
-            
-            if root.val >= max_val or root.val <= min_val:
+        def myHelp(node, max_val, min_val):
+            if node.val <= min_val or node.val >= max_val:
                 return False
             
-            return myHelp(root.left, min_val, root.val) and myHelp(root.right, root.val, max_val)
+            if node.left and not myHelp(node.left, node.val, min_val):
+                return False
+            
+            if node.right and not myHelp(node.right, max_val, node.val):
+                return False
+            
+            return True
         
-        return myHelp(root, -sys.maxint-1, sys.maxint)
+        return myHelp(root, sys.maxint, -sys.maxint-1) if root else True
