@@ -6,8 +6,9 @@ class Solution(object):
         :rtype: bool
         """
         
-        my_stack = []
         mapping = {')':'(', ']':'[', '}':'{'}
+        
+        my_stack = []
         for char in s:
             if char in '([{':
                 my_stack.append(char)
