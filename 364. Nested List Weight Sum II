@@ -49,20 +49,17 @@ class Solution(object):
         :rtype: int
         """
         
-        if not nestedList: return 0
-        
-        cur, res, total = [nestedList], 0, 0
-        
+        cur = nestedList
+        res, no_weight_sum = 0, 0
         while cur:
-            next_level = []
-            for nl in cur:
-                for element in nl:
-                    if element.isInteger():
-                        total += element.getInteger()
-                    else:
-                        next_level.append(element.getList())
+            tmp = []
+            for c in cur:
+                if c.isInteger():
+                    no_weight_sum += c.getInteger()
+                else:
+                    tmp += c.getList()
             
-            res += total
-            cur = next_level
-
+            res += no_weight_sum
+            cur = tmp
+        
         return res
