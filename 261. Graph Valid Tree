@@ -43,26 +43,34 @@ class Solution(object):
         :rtype: bool
         """
         
-        if len(edges) != n-1: return False
+        if len(edges) != n-1:
+            return False
         
-        nums = [-1 for _ in range(n)]
+        parent = [-1 for _ in range(n)]
         
-        def find(num):
-            depth = 1
-            while nums[num] != -1:
-                depth, num = depth+1, nums[num]
-            return depth, num
-        
-        for edge in edges:
-            depth_x, x = find(edge[0])
-            depth_y, y = find(edge[1])
+        def find(x):
+            depth = 0
+            while parent[x] != -1:
+                depth, x = depth+1, parent[x]
             
-            if x == y:
+            return depth, x
+        
+        def union(left, right):
+            depth_left, parent_left = find(left)
+            depth_right, parent_right = find(right)
+            
+            if parent_left == parent_right != -1:
                 return False
             
-            if depth_x < depth_y:
-                nums[x] = y
+            if depth_left < depth_right:
+                parent[parent_left] = parent_right
             else:
-                nums[y] = x
+                parent[parent_right] = parent_left
+            
+            return True
+        
+        for edge in edges:
+            if not union(edge[0], edge[1]):
+                return False
         
         return True
