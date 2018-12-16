@@ -8,12 +8,18 @@ class Solution(object):
         :rtype: int
         """
         
-        res, prev, prev_idx = sys.maxint, '', -1
-        for idx in range(len(words)):
-            if words[idx] in (word1, word2):
-                if prev and prev != words[idx]:
-                    res = min(res, idx-prev_idx)
+        res = sys.maxint
+        idx1, idx2 = -1, -1
+        for idx, word in enumerate(words):
+            if word == word1:
+                if idx2 != -1:
+                    res = min(res, idx-idx2)
                 
-                prev, prev_idx = words[idx], idx
+                idx1 = idx
+            elif word == word2:
+                if idx1 != -1:
+                    res = min(res, idx-idx1)
+                
+                idx2 = idx
         
         return res
