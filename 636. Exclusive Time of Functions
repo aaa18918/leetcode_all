@@ -1,3 +1,4 @@
+O(n) time, O(n) space
 class Solution(object):
     def exclusiveTime(self, n, logs):
         """
@@ -7,25 +8,20 @@ class Solution(object):
         """
         
         my_stack = []
-        hash_table = collections.defaultdict(int)
+        res = [0 for _ in range(n)]
         for log in logs:
-            log_id, state, t = log.split(':')
-            t = int(t)
-            if state == 'end':
-                log_id, start_t = my_stack.pop()
-                hash_table[log_id] += t-start_t+1
+            f_id, s_or_e, t = log.split(':')
+            f_id, t = int(f_id), int(t)
+            if s_or_e == 'start':
+                if my_stack:
+                    res[my_stack[-1][0]] += t-my_stack[-1][1]
+                
+                my_stack.append([f_id, t])
+            else:
+                res[f_id] += t-my_stack[-1][1]+1
+                my_stack.pop()
+                
                 if my_stack:
                     my_stack[-1][1] = t+1
-            else:
-                if my_stack:
-                    prev_id, start_t = my_stack[-1]
-                    hash_table[prev_id] += t-start_t
-                my_stack.append([log_id, t])
         
-        res = [0 for _ in range(len(hash_table))]
-        for idx in range(len(res)):
-            res[idx] = hash_table[str(idx)]
         return res
-
-
-完全没看解答。
