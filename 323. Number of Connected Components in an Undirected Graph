@@ -7,26 +7,29 @@ class Solution(object):
         :rtype: int
         """
         
-        hash_table = collections.defaultdict(set)
+        adjacency_list = collections.defaultdict(list)
         for edge in edges:
-            hash_table[edge[0]].add(edge[1])
-            hash_table[edge[1]].add(edge[0])
+            adjacency_list[edge[0]].append(edge[1])
+            adjacency_list[edge[1]].append(edge[0])
         
-        visited = set()
+        visited = [False for _ in range(n)]
         
-        def myDFS(x):
-            visited.add(x)
-            for i in hash_table[x]:
-                if i not in visited:
-                    myDFS(i)
+        def myDFS(num):
+            my_stack = [num]
+            while my_stack:
+                cur_num = my_stack.pop()
+                visited[cur_num] = True
+                for adj_num in adjacency_list[cur_num]:
+                    if not visited[adj_num]:
+                        my_stack.append(adj_num)
         
-        count = 0
-        for i in range(n):
-            if i not in hash_table or i not in visited:
-                count += 1
-                myDFS(i)
+        res = 0
+        for num in range(n):
+            if not visited[num]:
+                res += 1
+                myDFS(num)
         
-        return count
+        return res
 
 
 O(nlgn) time, O(n) space
