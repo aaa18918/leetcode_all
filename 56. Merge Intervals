@@ -14,12 +14,13 @@ class Solution(object):
         
         intervals.sort(key = lambda x: x.start)
         
-        cur = 0
+        left = 0
         for idx in range(len(intervals)):
-            if intervals[idx].start <= intervals[cur].end:
-                intervals[cur].end = max(intervals[idx].end, intervals[cur].end)
+            if intervals[idx].start <= intervals[left].end:
+                intervals[left].end = max(intervals[left].end, intervals[idx].end)
             else:
-                cur += 1
-                intervals[cur] = intervals[idx]
+                left += 1
+                if idx != left:
+                    intervals[left] = intervals[idx]
         
-        return intervals[:cur+1]
+        return intervals[:left+1] if intervals else []
