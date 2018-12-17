@@ -38,28 +38,32 @@ class Solution(object):
         :rtype: int
         """
         
-        parent = [-1 for i in range(n)]
+        parents = [-1 for _ in range(n)]
         
-        def find(num):
-            while parent[num] >= 0:
-                num = parent[num]
+        def find(x):
+            depth = 0
+            while parents[x] != -1:
+                depth += 1
+                x = parents[x]
             
-            return num
+            return depth, x
         
-        def union(left, right):
-            if left != right:
-                if parent[left] < parent[right]:
-                    parent[left] += parent[right]
-                    parent[right] = left
+        def union(l, r):
+            depth_l, root_l = find(l)
+            depth_r, root_r = find(r)
+            
+            if root_l != root_r:
+                if depth_l < depth_r:
+                    parents[root_l] = root_r
                 else:
-                    parent[right] += parent[left]
-                    parent[left] = right
+                    parents[root_r] = root_l
         
-        for e in edges:
-            union(find(e[0]), find(e[1]))
+        for edge in edges:
+            union(edge[0], edge[1])
         
         res = 0
-        for num in parent:
-            if num < 0:
+        for p in parents:
+            if p == -1:
                 res += 1
+        
         return res
