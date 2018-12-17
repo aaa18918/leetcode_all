@@ -1,4 +1,4 @@
-O(n) time, O(lgn) space
+amortize O(lgn) time, worst O(n) time, amortize O(lgn) space, worst O(n) space
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -13,19 +13,26 @@ class Solution(object):
         :rtype: TreeNode
         """
         
-        if not root: return root
+        if not root:
+            return None
         
-        my_stack, p = [], root
-        while p.left:
-            my_stack.append(p)
-            p = p.left
+        node, my_stack = root, []
+        while node:
+            my_stack.append(node)
+            node = node.left
         
-        new_root = p
+        new_root = my_stack[-1]
         while my_stack:
-            p.right = my_stack.pop()
-            p.left = p.right.right
-            p.right.left, p.right.right = None, None
-            p = p.right
+            p = my_stack.pop()
+            if my_stack:
+                p.left = my_stack[-1].right
+                if p.left:
+                    p.left.left, p.left.right = None, None
+                
+                p.right = my_stack[-1]
+                p = p.right
+        
+        p.left, p.right = None, None
         return new_root
 
 
