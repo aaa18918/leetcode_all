@@ -1,0 +1,20 @@
+O(nk) time, O(k) space
+class Solution(object):
+    def minCostII(self, costs):
+        """
+        :type costs: List[List[int]]
+        :rtype: int
+        """
+        
+        for idx in range(1, len(costs)):
+            min1 = min(costs[idx-1])
+            min1_idx = costs[idx-1].index(min1)
+            min2 = min(costs[idx-1][:min1_idx]+costs[idx-1][min1_idx+1:])
+            
+            for j in range(len(costs[0])):
+                if j == min1_idx:
+                    costs[idx][j] += min2
+                else:
+                    costs[idx][j] += min1
+        
+        return min(costs[-1]) if costs else 0
