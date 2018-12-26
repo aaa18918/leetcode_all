@@ -1,4 +1,4 @@
-O(n) time, O(lgn) space
+O(n) time, O(n) space
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -13,21 +13,24 @@ class Solution(object):
         :rtype: int
         """
         
-        self.res = sys.maxint
+        if not root:
+            return -1
         
         my_stack = [root]
+        self.res = -1
         while my_stack:
             node = my_stack.pop()
-            if root.val < node.val < self.res:
+            if root.val < node.val and (self.res == -1 or node.val < self.res):
                 self.res = node.val
-            elif root.val == node.val:
+            
+            if node.val == root.val:
                 if node.left:
                     my_stack.append(node.left)
                 
                 if node.right:
                     my_stack.append(node.right)
         
-        return self.res if self.res != sys.maxint else -1
+        return self.res
 
 
 还有一些别的解法没有看完。
