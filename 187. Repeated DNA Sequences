@@ -6,14 +6,26 @@ class Solution(object):
         :rtype: List[str]
         """
         
-        res = set()
-        my_set = set()
+        if len(s) < 10:
+            return []
         
-        for idx in range(len(s)-9):
-            string = s[idx:idx+10]
-            if string in my_set:
-                res.add(string)
-            else:
-                my_set.add(string)
+        c_to_int = {'A':0, 'C':1, 'G':2, 'T':3}
+        cur = 0
+        words = set()
+        added = set()
+        res = []
+        for idx in range(10):
+            cur = (cur<<2)+c_to_int[s[idx]]
         
-        return [r for r in res]
+        words.add(cur)
+        
+        for idx in range(10, len(s)):
+            cur &= 0b111111111111111111
+            cur = (cur<<2)+c_to_int[s[idx]]
+            if cur in words and cur not in added:
+                res.append(s[idx-9:idx+1])
+                added.add(cur)
+            
+            words.add(cur)
+        
+        return res
