@@ -1,0 +1,64 @@
+O(n) time, O(n) space serialize, O(n) time, O(n) space deserialize
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Codec:
+
+    def serialize(self, root):
+        """Encodes a tree to a single string.
+        
+        :type root: TreeNode
+        :rtype: str
+        """
+        
+        if not root:
+            return ''
+        
+        my_stack = [root]
+        res = []
+        while my_stack:
+            node = my_stack.pop()
+            res.append(str(node.val))
+            if node.right:
+                my_stack.append(node.right)
+            
+            if node.left:
+                my_stack.append(node.left)
+        
+        return ','.join(res)
+
+    def deserialize(self, data):
+        """Decodes your encoded data to tree.
+        
+        :type data: str
+        :rtype: TreeNode
+        """
+
+        if not data:
+            return None
+        
+        data = data.split(',')
+        root = TreeNode(int(data[0]))
+        my_stack = [root]
+        for idx in range(1, len(data)):
+            value = int(data[idx])
+            new_node = TreeNode(value)
+            if value < my_stack[-1].val:
+                my_stack[-1].left = new_node
+            else:
+                while my_stack and my_stack[-1].val < value:
+                    node = my_stack.pop()
+                
+                node.right = new_node
+            
+            my_stack.append(new_node)
+        
+        return root
+
+# Your Codec object will be instantiated and called as such:
+# codec = Codec()
+# codec.deserialize(codec.serialize(root))
