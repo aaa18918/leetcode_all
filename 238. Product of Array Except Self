@@ -6,13 +6,15 @@ class Solution(object):
         :rtype: List[int]
         """
         
-        size = len(nums)
-        res = [1 for _ in range(size)]
-        left, right = nums[0], nums[-1]
-        for idx in range(1, size):
-            res[idx] *= left
-            left *= nums[idx]
-            res[size-idx-1] *= right
-            right *= nums[size-idx-1]
+        res = [1]
+        cur = 1
+        for idx in range(len(nums)-1):
+            cur *= nums[idx]
+            res.append(cur)
         
-        return res
+        cur = 1
+        for idx in range(len(nums)-1, 0, -1):
+            cur *= nums[idx]
+            res[idx-1] *= cur
+        
+        return res if nums else []
