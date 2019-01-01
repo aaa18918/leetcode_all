@@ -9,23 +9,24 @@ class Solution(object):
         """
         
         wordSet = set(wordList)
+        
         if endWord not in wordSet:
             return 0
         
-        queue = collections.deque([(beginWord, 1)])
         lowercase = string.ascii_lowercase
-        while queue:
-            word, count = queue.popleft()
+        myQueue = collections.deque([(beginWord, 1)])
+        
+        while myQueue:
+            word, dist = myQueue.popleft()
             for idx in range(len(word)):
-                for c in lowercase:
-                    if c != word[idx]:
-                        new_word = word[:idx]+c+word[idx+1:]
-                        if new_word == endWord:
-                            return count+1
-                        
-                        if new_word in wordSet:
-                            wordSet.remove(new_word)
-                            queue.append((new_word, count+1))
+                for char in lowercase:
+                    if char != word[idx]:
+                        newWord = word[:idx]+char+word[idx+1:]
+                        if newWord == endWord:
+                            return dist+1
+                        elif newWord in wordSet:
+                            myQueue.append((newWord, dist+1))
+                            wordSet.remove(newWord)
         
         return 0
 
