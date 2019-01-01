@@ -1,5 +1,5 @@
-Average O(1) time, O(n) space
-# Definition for a  binary tree node
+Worst O(n) time init, worst O(n) time next, O(1) time hasNext, overall average O(1) time, overall worst O(n) space.
+# Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
 #         self.val = x
@@ -7,36 +7,42 @@ Average O(1) time, O(n) space
 #         self.right = None
 
 class BSTIterator(object):
+
     def __init__(self, root):
         """
         :type root: TreeNode
         """
         
+        self.node = root
         self.my_stack = []
-        p = root
-        while p:
-            self.my_stack.append(p)
-            p = p.left
+        while self.node:
+            self.my_stack.append(self.node)
+            self.node = self.node.left
+
+    def next(self):
+        """
+        @return the next smallest number
+        :rtype: int
+        """
+        
+        node = self.my_stack.pop()
+        res = node.val
+        node = node.right
+        while node:
+            self.my_stack.append(node)
+            node = node.left
+        
+        return res
 
     def hasNext(self):
         """
+        @return whether we have a next smallest number
         :rtype: bool
         """
         
         return True if self.my_stack else False
 
-    def next(self):
-        """
-        :rtype: int
-        """
-        
-        res = self.my_stack.pop()
-        p = res.right
-        while p:
-            self.my_stack.append(p)
-            p = p.left
-        return res.val
-
-# Your BSTIterator will be called like this:
-# i, v = BSTIterator(root), []
-# while i.hasNext(): v.append(i.next())
+# Your BSTIterator object will be instantiated and called as such:
+# obj = BSTIterator(root)
+# param_1 = obj.next()
+# param_2 = obj.hasNext()
