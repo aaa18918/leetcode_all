@@ -1,0 +1,31 @@
+O(n) time initial, O(n) space initial, O(lgn) time pickIndex, O(1) space pickIndex
+class Solution(object):
+
+    def __init__(self, w):
+        """
+        :type w: List[int]
+        """
+        
+        self.w = w
+        for idx in range(1, len(self.w)):
+            self.w[idx] += self.w[idx-1]
+
+    def pickIndex(self):
+        """
+        :rtype: int
+        """
+        
+        num = random.randint(1, self.w[-1])
+        left, right = 0, len(self.w)-1
+        while left < right:
+            mid = (left+right)/2
+            if num <= self.w[mid]:
+                right = mid
+            else:
+                left = mid+1
+        
+        return left
+
+# Your Solution object will be instantiated and called as such:
+# obj = Solution(w)
+# param_1 = obj.pickIndex()
