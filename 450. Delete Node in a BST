@@ -1,4 +1,4 @@
-O(lgn) time, O(???) space
+O(lgn) time, worst O(n) time, O(???) space
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -14,48 +14,60 @@ class Solution(object):
         :rtype: TreeNode
         """
         
-        prev, p = None, root
-        while p and p.val != key:
-            prev = p
-            p = p.right if key > p.val else p.left
-        
-        if not p: return root
-        
-        if not p.right:
-            if prev:
-                if prev.left is p:
-                    prev.left = p.left
-                else:
-                    prev.right = p.left
-                
-                return root
+        prev, node = None, root
+        while node:
+            if node.val == key:
+                break
+            elif node.val < key:
+                prev = node
+                node = node.right
             else:
-                return p.left
-        elif not p.left:
-            if prev:
-                if prev.left is p:
-                    prev.left = p.right
-                else:
-                    prev.right = p.right
-                
-                return root
+                prev = node
+                node = node.left
+        
+        if not node:
+            return root
+        
+        if not node.left and not node.right:
+            if not prev:
+                return None
             else:
-                return p.right
-        else:
-            prev_q, q = p, p.right
-            while q.left:
-                prev_q = q
-                q = q.left
+                if node is prev.left:
+                    prev.left = None
+                else:
+                    prev.right = None
             
-            p.val = q.val
-            if prev_q is not p:
-                if prev_q.left is q:
-                    prev_q.left = self.deleteNode(q, q.val)
-                else:
-                    prev_q.right = self.deleteNode(q, q.val)
+        elif not node.left:
+            if not prev:
+                return node.right
             else:
-                p.right = p.right.right
-        
+                if node is prev.left:
+                    prev.left = node.right
+                else:
+                    prev.right = node.right
+                    
+        elif not node.right:
+            if not prev:
+                return node.left
+            else:
+                if node is prev.left:
+                    prev.left = node.left
+                else:
+                    prev.right = node.left
+                    
+        else:
+            p, q = node.right, node
+            while p.left:
+                q = p
+                p = p.left
+            
+            node.val, p.val = p.val, node.val
+            if q is node:
+                node.right = self.deleteNode(p, p.val)
+            else:
+                q.left = self.deleteNode(p, p.val)
+
         return root
+
 
 别的解法没看。
