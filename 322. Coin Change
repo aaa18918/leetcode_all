@@ -1,4 +1,4 @@
-O(len(coins)*amount) time, O(amount) space
+O(kn) time, O(n) space
 class Solution(object):
     def coinChange(self, coins, amount):
         """
@@ -8,15 +8,14 @@ class Solution(object):
         """
         
         dp = [-1 for _ in range(amount+1)]
-        dp[0] = 0
         for coin in coins:
             if coin <= amount:
                 dp[coin] = 1
         
-        for idx in range(len(dp)):
+        for idx in range(1, amount+1):
             if dp[idx] != -1:
                 for coin in coins:
-                    if idx+coin <= amount:
-                        dp[idx+coin] = min(dp[idx+coin], dp[idx]+1) if dp[idx+coin] != -1 else dp[idx]+1
+                    if idx+coin <= amount and (dp[idx+coin] == -1 or dp[idx+coin] > dp[idx]+1):
+                        dp[idx+coin] = dp[idx]+1
         
-        return dp[amount] if amount >= 0 else -1
+        return dp[amount] if amount > 0 else 0
