@@ -1,4 +1,4 @@
-O(n) serialize, O(n) deserialize. O(???) space
+O(n) time, O(n) space serialize, O(n) time, O(n) space deserialize.
 """
 # Definition for a Node.
 class Node(object):
@@ -18,18 +18,11 @@ class Codec:
         if not root:
             return []
         
-        def myHelp(node):
-            children_vals = []
-            for child in node.children:
-                child_val, child_children = myHelp(child)
-                children_vals.append(child_val)
-                if child_children:
-                    children_vals.append(child_children)
-            
-            return node.val, children_vals
+        res = [root.val]
+        for node in root.children:
+            res.append(self.serialize(node))
         
-        root_val, root_children = myHelp(root)
-        return [root_val, root_children] if root_children else [root_val]
+        return res
 
     def deserialize(self, data):
         """Decodes your encoded data to tree.
@@ -41,22 +34,15 @@ class Codec:
         if not data:
             return None
         
-        def myHelp(data):
-            res = []
-            for item in data:
-                if isinstance(item, list):
-                    res[-1].children = myHelp(item)
-                else:
-                    res.append(Node(item, []))
-            
-            return res
+        root = Node(data[0], [])
+        for idx in range(1, len(data)):
+            root.children.append(self.deserialize(data[idx]))
         
-        return myHelp(data)[0]
+        return root
 
 # Your Codec object will be instantiated and called as such:
 # codec = Codec()
 # codec.deserialize(codec.serialize(root))
-
 
 没有看别的解法，还有好多各种不同序列化的方法。
             return node.val, children_vals好多
