@@ -1,4 +1,4 @@
-O(1) time, O(n) space
+O(1) time, O(1) space insert, O(1) time, O(1) space remove, O(1) time, O(1) space getRandom, O(n) space overall
 class RandomizedCollection(object):
 
     def __init__(self):
@@ -7,7 +7,7 @@ class RandomizedCollection(object):
         """
         
         self.hash_table = collections.defaultdict(set)
-        self.l = []
+        self.data = []
 
     def insert(self, val):
         """
@@ -16,10 +16,11 @@ class RandomizedCollection(object):
         :rtype: bool
         """
         
-        res = True if val not in self.hash_table else False
+        res = True if not self.hash_table[val] else False
         
-        self.hash_table[val].add(len(self.l))
-        self.l.append(val)
+        self.hash_table[val].add(len(self.data))
+        self.data.append(val)
+        
         return res
 
     def remove(self, val):
@@ -29,18 +30,17 @@ class RandomizedCollection(object):
         :rtype: bool
         """
         
-        if val not in self.hash_table: return False
+        if not self.hash_table[val]:
+            return False
         
         idx = self.hash_table[val].pop()
-        if not self.hash_table[val]: del self.hash_table[val]
-        
-        size = len(self.l)
+        size = len(self.data)
         if idx != size-1:
-            self.l[idx], self.l[size-1] = self.l[size-1], self.l[idx]
-            self.hash_table[self.l[idx]].remove(size-1)
-            self.hash_table[self.l[idx]].add(idx)
+            self.hash_table[self.data[size-1]].remove(size-1)
+            self.hash_table[self.data[size-1]].add(idx)
+            self.data[idx], self.data[size-1] = self.data[size-1], self.data[idx]
         
-        self.l.pop()
+        self.data.pop()
         
         return True
 
@@ -50,7 +50,7 @@ class RandomizedCollection(object):
         :rtype: int
         """
         
-        return random.choice(self.l)
+        return self.data[random.randint(0, len(self.data)-1)]
 
 # Your RandomizedCollection object will be instantiated and called as such:
 # obj = RandomizedCollection()
