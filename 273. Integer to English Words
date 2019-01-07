@@ -1,4 +1,4 @@
-O(1) time, O(1) space
+O(words) time, O(1) space
 class Solution(object):
     def numberToWords(self, num):
         """
@@ -6,45 +6,40 @@ class Solution(object):
         :rtype: str
         """
         
-        if num == 0:
-            return 'Zero'
-        
-        num_less_than_twenty = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
-                                'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen',
-                                'Nineteen']
-        
-        tens_digit = ['Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety']
-        
         thousands = ['Thousand', 'Million', 'Billion']
+        tens = ['Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety']
+        wordsLessThanTwenty = ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Forteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen']
         
-        def convertNumberLessThanThousandToWords(num):
+        def numberLessThanOneThousandToWords(num):
+            if num == 0:
+                return []
+            
             res = []
             if num >= 100:
-                res += [num_less_than_twenty[num/100], 'Hundred']
+                res.append(wordsLessThanTwenty[num/100-1])
+                res.append('Hundred')
                 num %= 100
             
             if num >= 20:
-                res.append(tens_digit[num/10-2])
+                res.append(tens[num/10-2])
                 num %= 10
             
             if num > 0:
-                res.append(num_less_than_twenty[num])
+                res.append(wordsLessThanTwenty[num-1])
             
-            return res
-        
-        res, idx = [], -1
-        while num > 0:
-            if num%1000 > 0:
-                if idx >= 0:
-                    res = convertNumberLessThanThousandToWords(num%1000)+[thousands[idx]]+res
-                else:
-                    res = convertNumberLessThanThousandToWords(num%1000)
-            
+            return res[::-1]
+
+        res = []
+        idx = 0
+        while num:
+            res.extend(numberLessThanOneThousandToWords(num%1000))
             num /= 1000
+            if num and num%1000 != 0:
+                res.append(thousands[idx])
             
             idx += 1
         
-        return ' '.join(res)
+        return ' '.join(res[::-1])
 
 
 注意这个输入例子：1000000，不是One Thousand Million而是One Million。
