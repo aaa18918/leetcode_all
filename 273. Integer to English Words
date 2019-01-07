@@ -8,7 +8,7 @@ class Solution(object):
         
         thousands = ['Thousand', 'Million', 'Billion']
         tens = ['Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety']
-        wordsLessThanTwenty = ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Forteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen']
+        wordsLessThanTwenty = ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen']
         
         def numberLessThanOneThousandToWords(num):
             if num == 0:
@@ -39,7 +39,6 @@ class Solution(object):
             
             idx += 1
         
-        return ' '.join(res[::-1])
-
+        return ' '.join(res[::-1]) if res else 'Zero'
 
 注意这个输入例子：1000000，不是One Thousand Million而是One Million。
