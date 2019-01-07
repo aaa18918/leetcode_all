@@ -1,4 +1,4 @@
-O(lgn) time, O(n) space
+average O(lgn) time, worst O(n) time, O(n) space
 # Definition for an interval.
 # class Interval(object):
 #     def __init__(self, s=0, e=0):
@@ -13,29 +13,29 @@ class Solution(object):
         :rtype: List[Interval]
         """
         
-        left, right = 0, len(intervals)
-        while left < right:
+        left, right = 0, len(intervals)-1
+        while left <= right:
             mid = (left+right)/2
-            if intervals[mid].end < newInterval.start:
-                left += 1
-            else:
-                right = mid
-        
-        left_side = left
-        
-        left, right = 0, len(intervals)
-        while left < right:
-            mid = (left+right)/2
-            if newInterval.end > intervals[mid].end or newInterval.end >= intervals[mid].start:
+            if newInterval.start > intervals[mid].end:
                 left = mid+1
+            elif newInterval.end < intervals[mid].start:
+                right = mid-1
             else:
-                right = mid
+                left = mid+1
         
-        right_side = left
-        
-        if left_side == len(intervals):
+        if left == 0 or intervals[left-1].end < newInterval.start:
+            return intervals[:left]+[newInterval]+intervals[left:]
+        elif left == len(intervals) and intervals[left-1].end < newInterval.start:
             return intervals+[newInterval]
-        elif right_side == 0:
-            return [newInterval]+intervals
         else:
-            return intervals[:left_side]+[Interval(min(newInterval.start, intervals[left_side].start), max(newInterval.end, intervals[right_side-1].end))]+intervals[right_side:]
+            idx = left-1
+            intervals[idx].start = min(intervals[idx].start, newInterval.start)
+            intervals[idx].end = max(intervals[idx].end, newInterval.end)
+            for i in range(idx-1, -1, -1):
+                if intervals[i].end >= intervals[idx].start:
+                    intervals[idx].start = min(intervals[idx].start, intervals[i].start)
+                else:
+                    idx -= 1
+                    intervals[idx] = intervals[i]
+            
+            return intervals[idx:]
