@@ -8,24 +8,22 @@ class Solution(object):
         """
         
         candidates.sort()
-        size = len(candidates)
+        
         res = []
         
-        def myHelp(idx, cur, target):
+        def myDFS(cur, idx, target):
             if target == 0:
                 res.append(cur)
                 return
             
-            for i in range(idx, size):
+            for i in range(idx, len(candidates)):
                 if candidates[i] > target:
                     break
-                
-                if i > idx and candidates[i] == candidates[i-1]:
-                    continue
-                
-                myHelp(i+1, cur+[candidates[i]], target-candidates[i])
+
+                if (i == idx or candidates[i] != candidates[i-1]) and candidates[i] <= target:
+                    myDFS(cur+[candidates[i]], i+1, target-candidates[i])
         
-        myHelp(0, [], target)
+        myDFS([], 0, target)
         return res
 
 
