@@ -1,4 +1,4 @@
-O(???) time, O(???) space
+O(C(len(candidates), target)) time, O(???) space
 class Solution(object):
     def combinationSum2(self, candidates, target):
         """
