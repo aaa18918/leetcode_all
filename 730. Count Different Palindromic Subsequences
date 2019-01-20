@@ -1,0 +1,46 @@
+O(n^2) time, O(n^2) space
+class Solution(object):
+    def countPalindromicSubsequences(self, S):
+        """
+        :type S: str
+        :rtype: int
+        """
+        
+        hash_table = {}
+        prev_idx = []
+        for idx, char in enumerate(S):
+            if char in hash_table:
+                prev_idx.append(hash_table[char])
+            else:
+                prev_idx.append(-1)
+            
+            hash_table[char] = idx
+        
+        hash_table = {}
+        next_idx = []
+        for idx in range(len(S)-1, -1, -1):
+            char = S[idx]
+            if char in hash_table:
+                next_idx.append(hash_table[char])
+            else:
+                next_idx.append(-1)
+            
+            hash_table[char] = idx
+        
+        next_idx = next_idx[::-1]
+        
+        dp = [[0]*len(S) for _ in range(len(S))]
+        for i in range(len(S)):
+            dp[i][i] = 1
+            for j in range(i-1, -1, -1):
+                if S[i] == S[j]:
+                    if prev_idx[i] == next_idx[j] != -1:
+                        dp[i][j] = 2*dp[i-1][j+1]+1
+                    elif j < next_idx[j] < prev_idx[i] < i:
+                        dp[i][j] = 2*dp[i-1][j+1]-dp[prev_idx[i]-1][next_idx[j]+1]
+                    else:
+                        dp[i][j] = 2*dp[i-1][j+1]+2
+                else:
+                    dp[i][j] = dp[i-1][j]+dp[i][j+1]-dp[i-1][j+1]
+        
+        return dp[len(S)-1][0]%(10**9+7)
