@@ -1,4 +1,4 @@
-O(n^2) time, O(n^2) space
+O(2^n) time, O(2^n) space
 class Solution(object):
     def subsets(self, nums):
         """
@@ -6,7 +6,13 @@ class Solution(object):
         :rtype: List[List[int]]
         """
         
-        res = [[]]
-        for num in nums:
-            res += [r+[num] for r in res]
-        return res
+        if not nums:
+            return [[]]
+        
+        num = nums.pop()
+        prev = self.subsets(nums)
+        new = []
+        for p in prev:
+           new.append(p+[num])
+
+        return prev+new
