@@ -1,0 +1,32 @@
+O(nlgk) time, O(n) space
+class Wrapper(object):
+    def __init__(self, word, count):
+        self.word = word
+        self.count = count
+    
+    def __lt__(self, other):
+        return True if self.count < other.count or self.count == other.count and self.word > other.word else False
+
+class Solution(object):
+    def topKFrequent(self, words, k):
+        """
+        :type words: List[str]
+        :type k: int
+        :rtype: List[str]
+        """
+        
+        counter = [Wrapper(word, count) for word, count in collections.Counter(words).iteritems()]
+        heap = counter[:k]
+        heapq.heapify(heap)
+        for idx in range(k, len(counter)):
+            if counter[idx].count > heap[0].count or counter[idx].count == heap[0].count and counter[idx].word < heap[0].word:
+                heapq.heapreplace(heap, counter[idx])
+        
+        res = []
+        while heap:
+            res.append(heapq.heappop(heap).word)
+        
+        return res[::-1]
+
+
+还有别的解法都没看过啊。
