@@ -68,5 +68,36 @@ class Solution(object):
         return res
 
 
+class Solution(object):
+    def addOperators(self, num, target):
+        """
+        :type num: str
+        :type target: int
+        :rtype: List[str]
+        """
+        
+        res = []
+        
+        def myDFS(exp, idx, cur, prev):
+            if idx == len(num):
+                if cur == target:
+                    res.append(exp)
+                
+                return
+            
+            for i in range(idx, len(num)):
+                if i == idx or num[idx] != '0':
+                    val = int(num[idx:i+1])
+                    myDFS(exp+'+'+num[idx:i+1], i+1, cur+val, val)
+                    myDFS(exp+'-'+num[idx:i+1], i+1, cur-val, -val)
+                    myDFS(exp+'*'+num[idx:i+1], i+1, cur-prev+prev*val, prev*val)
+        
+        for i in range(len(num)):
+            if i == 0 or num[0] != '0':
+                myDFS(num[:i+1], i+1, int(num[:i+1]), int(num[:i+1]))
+        
+        return res
+
+
 别的方法还没看，需要再看看！！！
 
