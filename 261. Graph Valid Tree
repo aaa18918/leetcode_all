@@ -7,31 +7,30 @@ class Solution(object):
         :rtype: bool
         """
         
-        edges = set(map(tuple, edges))
-        
-        if len(edges) != n-1: return False
-        
-        visited = [0 for _ in range(n)]
-        adjacency_list = collections.defaultdict(list)
+        adj = collections.defaultdict(list)
         for edge in edges:
-            adjacency_list[edge[0]].append(edge[1])
-            adjacency_list[edge[1]].append(edge[0])
+            adj[edge[0]].append(edge[1])
+            adj[edge[1]].append(edge[0])
         
-        def myDFS(num, parent):
-            if visited[num] == 1: return True
-            if visited[num] == -1: return False
+        visited = [0 for i in range(n)]
+        
+        def myDFS(cur, prev):
+            if visited[cur] == 1:
+                return False
             
-            visited[num] = -1
-            for adjacent_num in adjacency_list[num]:
-                if adjacent_num != parent and not myDFS(adjacent_num, num):
+            visited[cur] = 1
+            for num in adj[cur]:
+                if num != prev and not myDFS(num, cur):
                     return False
-            visited[num] = 1
+            
             return True
         
-        for num in adjacency_list.iterkeys():
-            if not myDFS(num, -1):
+        for i in range(n):
+            if visited[i] != 1 and not myDFS(i, -1):
                 return False
-        return True
+        
+        return len(edges) == n-1
+
 
 
 O(nlgn) time, O(n) space
