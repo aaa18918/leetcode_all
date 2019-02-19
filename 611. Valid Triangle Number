@@ -5,17 +5,17 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-
+        
         nums.sort()
-
+        
         res = 0
-        for idx in range(len(nums)-1, 1, -1):
-            left, right = 0, idx-1
-            while left < right:
-                if nums[left]+nums[right] > nums[idx]:
-                    res += right-left
-                    right -= 1
+        for i in range(len(nums)-1, 1, -1):
+            j, k = 0, i-1
+            while j < k:
+                if nums[j]+nums[k] > nums[i]:
+                    res += k-j
+                    k -= 1
                 else:
-                    left += 1
-
+                    j += 1
+        
         return res
