@@ -1,42 +1,4 @@
-https://leetcode.com/problems/binary-tree-level-order-traversal-ii/
-
-# Definition for a binary tree node.
-# class TreeNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution(object):
-    def levelOrderBottom(self, root):
-        """
-        :type root: TreeNode
-        :rtype: List[List[int]]
-        """
-        
-        if root == None:
-            return []
-        
-        record = [[root.val]]
-        my_queue = [root.left, root.right]
-        
-        while my_queue != []:
-            value = []
-            next_level = []
-            
-            for node in my_queue:
-                if node != None:
-                    value.append(node.val)
-                    next_level.append(node.left)
-                    next_level.append(node.right)
-            
-            if value != []:
-                record.append(value)
-                
-            my_queue = next_level
-        
-        return record[::-1]
-
+O(n) time, O(n) space
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -71,6 +33,8 @@ class Solution(object):
         
         return result[::-1]
 
+
+O(n) time, O(n) space
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -101,6 +65,8 @@ class Solution(object):
         if node.right:
             self.preorder(node.right, level+1, result)
 
+
+O(n) time, O(n) space
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -132,6 +98,8 @@ class Solution(object):
         preorder(root, 0)
         return result[::-1]
 
+
+O(n) time, O(n) space
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -164,3 +132,38 @@ class Solution(object):
                 my_stack.append((cur_node.left, level+1))
         
         return result[::-1]
+
+
+O(n) time, O(n) space
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def levelOrderBottom(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[List[int]]
+        """
+        
+        if not root:
+            return []
+        
+        res = []
+        queue = collections.deque([(root, 0)])
+        while queue:
+            node, level = queue.popleft()
+            if len(res) == level:
+                res.append([])
+            
+            res[level].append(node.val)
+            if node.left:
+                queue.append((node.left, level+1))
+            
+            if node.right:
+                queue.append((node.right, level+1))
+        
+        return res[::-1]
