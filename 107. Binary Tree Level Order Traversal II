@@ -167,3 +167,5 @@ class Solution(object):
                 queue.append((node.right, level+1))
         
         return res[::-1]
+
+想一想有没有不用reverse list的解法啦。
