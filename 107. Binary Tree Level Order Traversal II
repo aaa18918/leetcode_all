@@ -168,5 +168,4 @@ class Solution(object):
         
         return res[::-1]
 
-
 想一想有没有不用reverse list的解法啦。
