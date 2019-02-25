@@ -12,52 +12,33 @@ class Solution(object):
         :rtype: int
         """
         
-        size = len(points)
-        if size < 2:
-            return size
-        
         def getGCD(a, b):
-            if a < b:
-                a, b = b, a
-            
             while b > 0:
                 a, b = b, a%b
             
             return a
         
-        def getDefaultIntDict():
-            return collections.defaultdict(int)
-        
         res = 0
-        for i in range(size):
-            hash_table = collections.defaultdict(getDefaultIntDict)
+        for i in range(len(points)):
             overlap = 0
-            cur_max = 0
-            
-            for j in range(i+1, size):
+            hash_table = collections.defaultdict(int)
+            for j in range(i+1, len(points)):
                 x_diff, y_diff = points[i].x-points[j].x, points[i].y-points[j].y
                 if x_diff == 0 and y_diff == 0:
                     overlap += 1
-                    continue
                 elif x_diff == 0:
-                    hash_table[0][1] += 1
-                    cur_max = max(cur_max, hash_table[0][1])
-                    continue
+                    hash_table[(0, 1)] += 1
                 elif y_diff == 0:
-                    hash_table[1][0] += 1
-                    cur_max = max(cur_max, hash_table[1][0])
-                    continue
-                
-                if x_diff*y_diff > 0:
-                    x_diff, y_diff = abs(x_diff), abs(y_diff)
-                elif x_diff < y_diff:
-                    x_diff, y_diff = -x_diff, -y_diff
-                
-                gcd = getGCD(x_diff, abs(y_diff))
-                x, y = x_diff/gcd, y_diff/gcd
-                hash_table[x][y] += 1
-                
-                cur_max = max(cur_max, hash_table[x][y])
-            res = max(res, cur_max+overlap+1)
-        
-        return res
+                    hash_table[(1, 0)] += 1
+                else:
+                    gcd = getGCD(abs(x_diff), abs(y_diff))
+                    x_diff, y_diff = x_diff/gcd, y_diff/gcd
+                    if x_diff < 0:
+                        x_diff, y_diff = -x_diff, -y_diff
+                    
+                    hash_table[(x_diff, y_diff)] += 1
+            
+            for count in hash_table.itervalues():
+                res = max(res, count+overlap)
+            
+            res = max(res, overlap)
