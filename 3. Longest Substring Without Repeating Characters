@@ -20,4 +20,26 @@ class Solution(object):
         return max(res, len(s)-left)
 
 
+O(n) time, O(n) space
+class Solution(object):
+    def lengthOfLongestSubstring(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        
+        my_set = set()
+        left = -1
+        res = 0
+        for idx, char in enumerate(s):
+            while char in my_set:
+                left += 1
+                my_set.remove(s[left])
+            
+            my_set.add(char)
+            res = max(res, idx-left)
+        
+        return res
+
+
 discuss里用的是hash table，方法相似，时间空间复杂度相似，就不重复写了。
