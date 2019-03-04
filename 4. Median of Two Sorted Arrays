@@ -1,6 +1,4 @@
 O(lgn) time, O(1) space
-import sys
-
 class Solution(object):
     def findMedianSortedArrays(self, nums1, nums2):
         """
@@ -24,14 +22,17 @@ class Solution(object):
         
         nums1_candidate = nums1[left-1] if left > 0 else -sys.maxint-1
         nums2_candidate = nums2[k-left-1] if k-left > 0 else -sys.maxint-1
-        res = max(nums1_candidate, nums2_candidate)
         
         if (m+n)%2 == 1:
-            return res
+            return max(nums1_candidate, nums2_candidate)
         
+        res = max(nums1_candidate, nums2_candidate)
         nums1_candidate = nums1[left] if left < m else sys.maxint
         nums2_candidate = nums2[k-left] if k-left < n else sys.maxint
-        return (res+min(nums1_candidate, nums2_candidate))*0.5
+        
+        res += min(nums1_candidate, nums2_candidate)
+        
+        return res*0.5
 
 
 O(lgn) time, O(1) space
