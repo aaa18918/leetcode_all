@@ -7,6 +7,37 @@ class Solution(object):
         :rtype: str
         """
         
+        if numRows == 1:
+            return s
+        
+        res = ''
+        size = len(s)
+        for idx in range(numRows):
+            cur = idx
+            while cur < size:
+                if idx < numRows-1:
+                    res += s[cur]
+                    cur += 2*(numRows-1-idx)
+                
+                if cur >= size:
+                    break
+                
+                if 0 < idx:
+                    res += s[cur]
+                    cur += 2*idx
+        
+        return res
+
+
+O(n) time, O(n) space
+class Solution(object):
+    def convert(self, s, numRows):
+        """
+        :type s: str
+        :type numRows: int
+        :rtype: str
+        """
+        
         if numRows == 1 or numRows > len(s):
             return s
         
