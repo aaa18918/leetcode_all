@@ -25,3 +25,39 @@ class Solution(object):
                     else:
                         dp[i][j] = dp[i][j-2]
         return dp[len_s][len_p]
+
+
+O(n^2) time, O(n^2) space, can be optimized to the beyond solution.
+class Solution(object):
+    def isMatch(self, s, p):
+        """
+        :type s: str
+        :type p: str
+        :rtype: bool
+        """
+        
+        dp = [[False]*(len(p)+1) for _ in range((len(s)+1))]
+        dp[0][0] = True
+        
+        for j in range(len(p)):
+            if p[j] == '*':
+                dp[0][j+1] = dp[0][j-1] if j > 0 else False
+            else:
+                dp[0][j+1] = False
+        
+        for i in range(len(s)):
+            dp[i+1][0] = False
+            for j in range(len(p)):
+                if s[i] == p[j] or p[j] == '.':
+                    dp[i+1][j+1] = dp[i][j]
+                elif p[j] == '*':
+                    if j > 0 and (s[i] == p[j-1] or p[j-1] == '.'):
+                        dp[i+1][j+1] = dp[i+1][j-1] or dp[i][j+1] or dp[i][j] or dp[i][j-1]
+                    elif j > 0:
+                        dp[i+1][j+1] = dp[i+1][j-1]
+                    else:
+                        dp[i+1][j+1] = False
+                else:
+                    dp[i+1][j+1] = False
+        
+        return dp[len(s)][len(p)]
