@@ -27,7 +27,7 @@ class Solution(object):
         return dp[len_s][len_p]
 
 
-O(n^2) time, O(n^2) space, can be optimized to the beyond solution.
+O(n^2) time, O(n^2) space, can be optimized to beyond solution.
 class Solution(object):
     def isMatch(self, s, p):
         """
