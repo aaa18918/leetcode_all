@@ -6,37 +6,13 @@ class Solution(object):
         :rtype: int
         """
         
-        if not s:
-            return 0
-        
-        roman_int_map = {'I':1, 'V':5, 'X':10, 'L':50, 'C':100, 'D':500, 'M':1000}
-        res, prev = 0, roman_int_map[s[0]]
-        for char in s[1:]:
-            if roman_int_map[char] > prev:
-                res -= prev
-            else:
-                res += prev
-            
-            prev = roman_int_map[char]
-        
-        return res+prev
-
-
-O(n) time, O(1) space
-class Solution(object):
-    def romanToInt(self, s):
-        """
-        :type s: str
-        :rtype: int
-        """
-        
-        res = 0
-        roman_to_int_map = {'I':1, 'V':5, 'X':10, 'L':50, 'C':100, 'D':500, 'M':1000}
+        mapping = {'M': 1000, 'CM': 900, 'D': 500, 'CD': 400, 'C': 100,
+                  'XC': 90, 'L': 50, 'XL':40, 'X': 10, 'IX': 9, 'V': 5, 'I': 1}
         
         size = len(s)
-        for idx, char in enumerate(s):
-            if idx < size-1 and roman_to_int_map[char] < roman_to_int_map[s[idx+1]]:
-                res -= roman_to_int_map[char]
-            else:
-                res += roman_to_int_map[char]
+        
+        res = 0
+        for idx in range(size-1, -1, -1):
+            res = res+mapping[s[idx]] if idx == size-1 or mapping[s[idx]] >= mapping[s[idx+1]] else res-mapping[s[idx]]
+        
         return res
