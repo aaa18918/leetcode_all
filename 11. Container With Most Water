@@ -6,16 +6,19 @@ class Solution(object):
         :rtype: int
         """
         
-        res, left, right = 0, 0, len(height)-1
+        left, right = 0, len(height)-1
+        res = 0
+        
         while left < right:
             res = max(res, min(height[left], height[right])*(right-left))
+            
             if height[left] < height[right]:
-                pre_height = height[left]
-                while left < right and height[left] <= pre_height:
+                prev = height[left]
+                while left < right and height[left] <= prev:
                     left += 1
             else:
-                pre_height = height[right]
-                while left < right and height[right] <= pre_height:
+                prev = height[right]
+                while left < right and height[right] <= prev:
                     right -= 1
         
         return res
