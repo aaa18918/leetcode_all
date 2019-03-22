@@ -5,11 +5,15 @@ class Solution(object):
         :type strs: List[str]
         :rtype: str
         """
+
+        def get_common_prefix(left, right):
+            idx = 0
+            while idx < min(len(left), len(right)):
+                if left[idx] != right[idx]:
+                    break
+                
+                idx += 1
+            
+            return left[:idx]
         
-        def getCommonPrefix(l, r):
-            for idx in range(min(len(l), len(r))):
-                if l[idx] != r[idx]:
-                    return l[:idx]
-            return l if len(l) < len(r) else r
-        
-        return reduce(getCommonPrefix, strs) if strs else ""
+        return reduce(get_common_prefix, strs) if strs else ''
