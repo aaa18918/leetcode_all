@@ -7,20 +7,21 @@ class Solution(object):
         """
         
         nums.sort()
+        
         res = []
-        for idx in xrange(len(nums)-2):
-            if nums[idx] > 0: return res
-            if idx > 0 and nums[idx-1] == nums[idx]: continue
+        for idx in range(len(nums)):
+            if idx > 0 and nums[idx] == nums[idx-1]:
+                continue
+            
             left, right = idx+1, len(nums)-1
             while left < right:
                 cur_sum = nums[idx]+nums[left]+nums[right]
                 if cur_sum == 0:
                     res.append([nums[idx], nums[left], nums[right]])
-                    left += 1
+                    left, right = left+1, right-1
                     while left < right and nums[left] == nums[left-1]:
                         left += 1
                     
-                    right -= 1
                     while left < right and nums[right] == nums[right+1]:
                         right -= 1
                 elif cur_sum < 0:
@@ -31,4 +32,6 @@ class Solution(object):
                     right -= 1
                     while left < right and nums[right] == nums[right+1]:
                         right -= 1
+        
+        
         return res
