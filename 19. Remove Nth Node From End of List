@@ -16,12 +16,12 @@ class Solution(object):
         dummy_head = ListNode(0)
         dummy_head.next = head
         
-        left, right = dummy_head, dummy_head
+        p, q = dummy_head, dummy_head
         for _ in range(n):
-            right = right.next
+            q = q.next
         
-        while right.next:
-            left, right = left.next, right.next
+        while q.next:
+            p, q = p.next, q.next
         
-        left.next = left.next.next
+        p.next = p.next.next
         return dummy_head.next
