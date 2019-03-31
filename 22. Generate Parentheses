@@ -6,43 +6,15 @@ class Solution(object):
         :rtype: List[str]
         """
         
-        def myHelp(l, r):
-            if l == r == 0:
-                return ['']
+        def myHelp(left, right):
+            res = []
             
-            if l == r:
-                return ['('+rest for rest in myHelp(l-1, r)]
-            else:
-                res = []
-                if l > 0:
-                    res += (['('+rest for rest in myHelp(l-1, r)])
-                
-                res += ([')'+rest for rest in myHelp(l, r-1)])
-                return res
+            if 0 <= left < right:
+                res += [')' + p for p in myHelp(left, right-1)]
+            
+            if 0 < left:
+                res += ['(' + p for p in myHelp(left-1, right)]
+            
+            return res if res else ['']
         
         return myHelp(n, n) if n > 0 else []
-
-
-O(???) time, O(???) space
-class Solution(object):
-    def generateParenthesis(self, n):
-        """
-        :type n: int
-        :rtype: List[str]
-        """
-        
-        res = []
-        
-        def helper(cur, left, right):
-            if left == right == 0:
-                res.append(cur)
-                return
-            
-            if left < right:
-                helper(cur+')', left, right-1)
-            
-            if left > 0:
-                helper(cur+'(', left-1, right)
-        
-        helper('', n, n)
-        return res
