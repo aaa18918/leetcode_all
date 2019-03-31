@@ -26,12 +26,12 @@ class Solution(object):
         :rtype: int
         """
         
-        if not nums: return 0
-        
-        left = 0
+        left = 1
         for idx in range(1, len(nums)):
-            if nums[idx-1] != nums[idx]:
-                left += 1
-                if idx > left:
+            if nums[idx] != nums[idx-1]:
+                if idx != left:
                     nums[left] = nums[idx]
-        return left+1
+                
+                left += 1
+        
+        return left if nums else 0
