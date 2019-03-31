@@ -1,4 +1,4 @@
-O(n^2) time, O(len_needle) space
+O(n^2) time, O(len(needle)) space
 class Solution(object):
     def strStr(self, haystack, needle):
         """
@@ -7,10 +7,12 @@ class Solution(object):
         :rtype: int
         """
         
-        if not needle: return 0
+        if not needle:
+            return 0
         
-        len_haystack, len_needle = len(haystack), len(needle)
-        for idx in range(len_haystack+1-len_needle):
-            if haystack[idx] == needle[0] and haystack[idx:idx+len_needle] == needle:
-                return idx
+        for idx in range(len(haystack)):
+            if haystack[idx] == needle[0]:
+                if haystack[idx:idx+len(needle)] == needle:
+                    return idx
+        
         return -1
