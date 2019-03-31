@@ -1,3 +1,4 @@
+O(n) time, O(1) space
 class Solution(object):
     def removeElement(self, nums, val):
         """
@@ -13,43 +14,6 @@ class Solution(object):
                 nums[right], nums[left] = val, nums[right]
                 right -= 1
             else:
-                left += 1
-        
-        return left
- 
-https://leetcode.com/problems/remove-element/
-class Solution(object):
-    def removeElement(self, nums, val):
-        """
-        :type nums: List[int]
-        :type val: int
-        :rtype: int
-        """
-        
-        index, len_nums = 0, len(nums)
-        
-        while index < len_nums:
-            if nums[index] == val:
-                nums[index], nums[len_nums-1] = nums[len_nums-1], nums[index]
-                len_nums -= 1
-            else:
-                index += 1
-        
-        return len_nums
- 
- class Solution(object):
-    def removeElement(self, nums, val):
-        """
-        :type nums: List[int]
-        :type val: int
-        :rtype: int
-        """
-        
-        left = 0
-        
-        for index in range(len(nums)):
-            if nums[index] != val:
-                nums[index], nums[left] = nums[left], nums[index]
                 left += 1
         
         return left
