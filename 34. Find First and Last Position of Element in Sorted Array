@@ -7,28 +7,24 @@ class Solution(object):
         :rtype: List[int]
         """
         
-        if not nums:
-            return [-1, -1]
-        
         left, right = 0, len(nums)-1
-        while left < right:
+        while left <= right:
             mid = (left+right)/2
-            if nums[mid] < target:
-                left = mid+1
+            if nums[mid] >= target:
+                right = mid-1
             else:
-                right = mid
+                left = mid+1
         
-        if nums[left] != target:
+        if left == len(nums) or nums[left] != target:
             return [-1, -1]
         
         res = [left]
-        
-        right = len(nums)
-        while left < right:
+        right = len(nums)-1
+        while left <= right:
             mid = (left+right)/2
             if nums[mid] == target:
-                left += 1
+                left = mid+1
             else:
-                right -= 1
+                right = mid-1
         
-        return res+[left-1]
+        return res+[right]
