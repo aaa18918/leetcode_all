@@ -1,4 +1,3 @@
-O(mn) time, O(mn) space
 class Solution(object):
     def spiralOrder(self, matrix):
         """
@@ -6,39 +5,56 @@ class Solution(object):
         :rtype: List[int]
         """
         
-        if not matrix: return []
+        if not matrix:
+            return []
         
-        low_x, high_x = 0, len(matrix)-1
-        low_y, high_y = 0, len(matrix[0])-1
+        upper_bound, lower_bound, left_bound, right_bound = -1, len(matrix), -1, len(matrix[0])
         
-        x, y, res = 0, -1, []
-        while low_x <= high_x or low_y <= high_y:
-            while y < high_y:
+        res = []
+        x, y = 0, 0
+        while upper_bound+1 < lower_bound and left_bound+1 < right_bound:
+            while y < right_bound:
+                res.append(matrix[x][y])
                 y += 1
+            
+            x += 1
+            y -= 1
+            upper_bound += 1
+            
+            if upper_bound+1 == lower_bound:
+                break
+            
+            while x < lower_bound:
                 res.append(matrix[x][y])
-            
-            low_x += 1
-            if low_x > high_x: break
-            
-            while x < high_x:
                 x += 1
-                res.append(matrix[x][y])
             
-            high_y -= 1
-            if low_y > high_y: break
-
-            while y > low_y:
+            x -= 1
+            y -= 1
+            right_bound -= 1
+            
+            if left_bound+1 == right_bound:
+                break
+            
+            while y > left_bound:
+                res.append(matrix[x][y])
                 y -= 1
+            
+            x -= 1
+            y += 1
+            lower_bound -= 1
+            
+            if upper_bound+1 == lower_bound:
+                break
+            
+            while x > upper_bound:
                 res.append(matrix[x][y])
-            
-            high_x -= 1
-            if low_x > high_x: break
-            
-            while x > low_x:
                 x -= 1
-                res.append(matrix[x][y])
             
-            low_y += 1
-            if low_y > high_y: break
+            x += 1
+            y += 1
+            left_bound += 1
+            
+            if left_bound+1 == right_bound:
+                break
         
         return res
