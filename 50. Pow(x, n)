@@ -7,16 +7,13 @@ class Solution(object):
         :rtype: float
         """
         
-        if x == 0:
-            return 0
-        
-        m = abs(n)
         res = 1
+        m = n if n >= 0 else -n
         while m > 0:
             if m&1:
                 res *= x
             
-            x *= x
             m >>= 1
+            x *= x
         
-        return res if n > 0 else 1.0/res
+        return res if n >= 0 or res == 0 else 1.0/res
