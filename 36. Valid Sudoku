@@ -1,4 +1,4 @@
-O(81*2) time, O(9) space
+O(81*3) time, O(9) space
 class Solution(object):
     def isValidSudoku(self, board):
         """
