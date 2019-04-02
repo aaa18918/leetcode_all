@@ -6,8 +6,15 @@ class Solution(object):
         :rtype: bool
         """
         
-        cur = len(nums)-1
-        for idx in range(len(nums)-2, -1, -1):
-            if nums[idx]+idx >= cur:
-                cur = idx
-        return cur == 0
+        max_position = 0
+        size = len(nums)
+        for idx in range(size):
+            if idx > max_position:
+                return False
+            
+            max_position = max(max_position, idx+nums[idx])
+            
+            if max_position >= size:
+                return True
+        
+        return True
