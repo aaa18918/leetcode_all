@@ -1,4 +1,4 @@
-O(mn) time, O(mn) space
+O(mn) time, O(2*m) space
 class Solution(object):
     def uniquePaths(self, m, n):
         """
@@ -7,10 +7,10 @@ class Solution(object):
         :rtype: int
         """
         
-        dp = [[1]*n for _ in range(m)]
+        dp = [[1]*n for _ in range(2)]
         
         for i in range(m-2, -1, -1):
             for j in range(n-2, -1, -1):
-                dp[i][j] = dp[i+1][j]+dp[i][j+1]
+                dp[(m-i)%2][j] = dp[1-(m-i)%2][j]+dp[(m-i)%2][j+1]
         
-        return dp[0][0] if m > 0 and n > 0 else 0
+        return dp[m%2][0] if m > 0 and n > 0 else 0
