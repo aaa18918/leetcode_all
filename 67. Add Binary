@@ -1,3 +1,4 @@
+O(n) time, O(n) space
 class Solution(object):
     def addBinary(self, a, b):
         """
@@ -6,56 +7,22 @@ class Solution(object):
         :rtype: str
         """
         
-        result = ""
-        index_a, index_b, carry = len(a)-1, len(b)-1, 0
-        while index_a >= 0 and index_b >= 0:
-            total = int(a[index_a])+int(b[index_b])+carry
-            result = str(total%2)+result
-            carry = total/2
-            index_a, index_b = index_a-1, index_b-1
+        res = []
+        cur_sum = 0
+        i, j = len(a)-1, len(b)-1
+        while i >= 0 or j >= 0 or cur_sum > 0:
+            if i >= 0 and j >= 0:
+                cur_sum += int(a[i])+int(b[j])
+                i -= 1
+                j -= 1
+            elif i >= 0:
+                cur_sum += int(a[i])
+                i -= 1
+            elif j >= 0:
+                cur_sum += int(b[j])
+                j -= 1
+            
+            res.append(str(cur_sum%2))
+            cur_sum /= 2
         
-        while index_a >= 0:
-            total = int(a[index_a])+carry
-            result = str(total%2)+result
-            carry = total/2
-            index_a -= 1
-        
-        while index_b >= 0:
-            total = int(b[index_b])+carry
-            result = str(total%2)+result
-            carry = total/2
-            index_b -= 1
-        
-        return result if not carry else str(carry)+result
-
-
-class Solution(object):
-    def addBinary(self, a, b):
-        """
-        :type a: str
-        :type b: str
-        :rtype: str
-        """
-        
-        i, j, carry = len(a)-1, len(b)-1, 0
-        res = ""
-        
-        while i >= 0 and j >= 0:
-            cur_sum = int(a[i])+int(b[j])+carry
-            res = str(cur_sum%2)+res
-            carry = cur_sum/2
-            i, j = i-1, j-1
-        
-        while i >= 0:
-            cur_sum = int(a[i])+carry
-            res = str(cur_sum%2)+res
-            carry = cur_sum/2
-            i -= 1
-        
-        while j >= 0:
-            cur_sum = int(b[j])+carry
-            res = str(cur_sum%2)+res
-            carry = cur_sum/2
-            j -= 1
-        
-        return '1'+res if carry else res
+        return ''.join(res[::-1])
