@@ -26,15 +26,15 @@ class Solution(object):
         :rtype: int
         """
         
-        left, right = 0, x/2+1
+        left, right = 0, x
         while left <= right:
             mid = (left+right)/2
-            cur = mid**2
-            if cur == x:
+            cal = mid**2
+            if cal == x:
                 return mid
-            elif cur < x:
+            elif cal < x:
                 left = mid+1
             else:
                 right = mid-1
         
-        return left-1
+        return right
