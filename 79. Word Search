@@ -6,30 +6,28 @@ class Solution(object):
         :type word: str
         :rtype: bool
         """
-        
+
         diff = [(-1, 0), (1, 0), (0, -1), (0, 1)]
         my_set = set()
-        
+
         def myDFS(i, j, idx):
             my_set.add((i, j))
-            
+
             if idx == len(word):
                 return True
-            
+
             for d in diff:
                 new_i, new_j = i+d[0], j+d[1]
                 if 0 <= new_i < len(board) and 0 <= new_j < len(board[0]) and (new_i, new_j) not in my_set and board[new_i][new_j] == word[idx] and myDFS(new_i, new_j, idx+1):
                     my_set.remove((i, j))
-                    
                     return True
-            
-            my_set.remove((i, j))
 
+            my_set.remove((i, j))
             return False
-        
+
         for i in range(len(board)):
             for j in range(len(board[0])):
                 if word and board[i][j] == word[0] and myDFS(i, j, 1):
                     return True
-        
+
         return False if word else True
