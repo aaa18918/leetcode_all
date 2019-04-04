@@ -16,3 +16,27 @@ class Solution(object):
            new.append(p+[num])
 
         return prev+new
+
+
+O(???) time, O(???) space
+class Solution(object):
+    def subsets(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        
+        res = [[]]
+        cur = [[]]
+        for _ in range(len(nums)):
+            tmp = []
+            for c in cur:
+                for num in nums:
+                    if not c or c[-1] < num:
+                        tmp.append(c+[num])
+            
+            cur = tmp
+            
+            res += cur
+        
+        return res if nums else []
