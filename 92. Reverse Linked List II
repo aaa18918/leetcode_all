@@ -14,21 +14,22 @@ class Solution(object):
         :rtype: ListNode
         """
         
-        if m == n: return head
+        if m >= n:
+            return head
         
         dummy_head = ListNode(0)
         dummy_head.next = head
-        prev = dummy_head
-        for idx in range(m-1):
-            prev = prev.next
+        p = dummy_head
+        for _ in range(m-1):
+            p = p.next
         
-        p, q = prev.next, prev.next.next
-        temp = q.next
-        for idx in range(n-m):
-            temp = q.next
+        left = p
+        q = p.next
+        for _ in range(n-m+1):
+            tmp = q.next
             q.next = p
-            p, q = q, temp
+            p, q = q, tmp
         
-        prev.next.next = temp
-        prev.next = p
+        left.next.next = q
+        left.next = p
         return dummy_head.next
