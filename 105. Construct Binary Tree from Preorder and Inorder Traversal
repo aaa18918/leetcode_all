@@ -35,5 +35,3 @@ class Solution(object):
         
         return myHelp(0, len(inorder)-1)
 
-
-别的解法全都没看。
