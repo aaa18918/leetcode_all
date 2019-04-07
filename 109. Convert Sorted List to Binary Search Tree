@@ -35,7 +35,7 @@ class Solution(object):
         return node
 
 
-O(n) time, O(n) space
+O(n) time, O(???) space
 # Definition for singly-linked list.
 # class ListNode(object):
 #     def __init__(self, x):
