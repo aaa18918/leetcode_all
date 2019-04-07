@@ -15,11 +15,9 @@ class Solution(object):
         
         def myHelp(node):
             if not node:
-                return True, 0
+                return 0
             
-            left, left_depth = myHelp(node.left)
-            right, right_depth = myHelp(node.right)
-            
-            return left and right and abs(left_depth-right_depth) <= 1, max(left_depth, right_depth)+1
-        
-        return myHelp(root)[0]
+            left, right = myHelp(node.left), myHelp(node.right)
+            return max(left, right)+1 if left != -1 and right != -1 and abs(left-right) <= 1 else -1
+ 
+        return True if myHelp(root) >= 0 else False
