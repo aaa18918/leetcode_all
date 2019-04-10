@@ -40,13 +40,14 @@ class Solution(object):
         
         cur = root
         while cur:
-            p, q = cur, None
+            p, q, next_head = cur, None, None
             while p:
                 if p.left:
                     if q:
                         q.next = p.left
                         q = q.next
                     else:
+                        next_head = p.left
                         q = p.left
                 
                 if p.right:
@@ -54,10 +55,11 @@ class Solution(object):
                         q.next = p.right
                         q = q.next
                     else:
+                        next_head = p.right
                         q = p.right
                 
                 p = p.next
             
-            cur = cur.left if cur.left else cur.right
+            cur = next_head
         
         return root
