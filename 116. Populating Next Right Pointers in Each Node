@@ -19,3 +19,45 @@ class Solution:
                     p.right.next = p.next.left
                 p = p.next
             root = root.left
+
+
+O(n) time, O(1) space, generalization if not every node has two children.
+"""
+# Definition for a Node.
+class Node(object):
+    def __init__(self, val, left, right, next):
+        self.val = val
+        self.left = left
+        self.right = right
+        self.next = next
+"""
+class Solution(object):
+    def connect(self, root):
+        """
+        :type root: Node
+        :rtype: Node
+        """
+        
+        cur = root
+        while cur:
+            p, q = cur, None
+            while p:
+                if p.left:
+                    if q:
+                        q.next = p.left
+                        q = q.next
+                    else:
+                        q = p.left
+                
+                if p.right:
+                    if q:
+                        q.next = p.right
+                        q = q.next
+                    else:
+                        q = p.right
+                
+                p = p.next
+            
+            cur = cur.left if cur.left else cur.right
+        
+        return root
