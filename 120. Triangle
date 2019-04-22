@@ -1,0 +1,23 @@
+O(mn) time, O(n) space
+class Solution(object):
+    def minimumTotal(self, triangle):
+        """
+        :type triangle: List[List[int]]
+        :rtype: int
+        """
+        
+        if not triangle:
+            return 0
+        
+        res = [0]*len(triangle)
+        res[0] = triangle[0][0]
+        for i in range(1, len(triangle)):
+            prev = res[0]
+            res[0] = res[0]+triangle[i][0]
+            
+            for j in range(1, len(triangle[i])-1):
+                prev, res[j] = res[j], min(prev, res[j])+triangle[i][j]
+            
+            res[len(triangle[i])-1] = prev+triangle[i][-1]
+        
+        return min(res)
