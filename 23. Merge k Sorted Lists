@@ -33,7 +33,7 @@ class Solution(object):
         return dummy_head.next
 
 
-O(mnlgm) time, O(mn) space
+O(mnlg(mn)) time, O(???) space
 # Definition for singly-linked list.
 # class ListNode(object):
 #     def __init__(self, x):
