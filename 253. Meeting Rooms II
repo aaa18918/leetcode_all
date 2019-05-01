@@ -1,3 +1,26 @@
+O(lgn) time, O(n) space
+class Solution(object):
+    def minMeetingRooms(self, intervals):
+        """
+        :type intervals: List[List[int]]
+        :rtype: int
+        """
+        
+        intervals.sort(key = lambda x: x[0])
+        
+        heap = []
+        res = 0
+        
+        for interval in intervals:
+            while heap and interval[0] >= heap[0]:
+                heapq.heappop(heap)
+
+            heapq.heappush(heap, interval[1])
+            res = max(res, len(heap))
+        
+        return res
+
+
 O(nlgn) time, O(n) space
 # Definition for an interval.
 # class Interval(object):
