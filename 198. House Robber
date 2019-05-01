@@ -1,22 +1,4 @@
-class Solution(object):
-    def rob(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
-        if not nums: return 0
-        len_nums = len(nums)
-        if len_nums == 1:
-            return nums[0]
-        dp = [nums[0], max(nums[0], nums[1])]
-        
-        for index in range(2, len_nums):
-            dp.append(max(dp[index-2]+nums[index], dp[index-1]))
-        
-        return dp[-1]
-
-https://leetcode.com/problems/house-robber/
-
+O(n) time, O(1) space
 class Solution(object):
     def rob(self, nums):
         """
@@ -24,26 +6,11 @@ class Solution(object):
         :rtype: int
         """
         
-        step1, step2 = 0, 0
-        
-        for step in range(0,len(nums)):
-            if step%2 == 0:
-                step1 = max(step1+nums[step], step2)
-            else:
-                step2 = max(step1, step2+nums[step])
-        
-        return max(step1,step2)
+        if not nums:
+            return 0
 
-class Solution(object):
-    def rob(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
+        a, b = 0, nums[0]
+        for idx in range(1, len(nums)):
+            a, b = b, max(a+nums[idx], b)
         
-        last, now = 0, 0
-        
-        for index in range(0, len(nums)):
-            last, now = now, max(last+nums[index], now)
-        
-        return now
+        return b
