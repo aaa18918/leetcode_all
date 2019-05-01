@@ -16,7 +16,7 @@ class Solution(object):
         for i in range(len(nums)):
             for j in range(i, len(nums)):
                 leftover = target-nums[i]-nums[j]
-                if leftover < nums[i]:
+                if leftover < nums[j]:
                     break
                 
                 if leftover not in counter:
