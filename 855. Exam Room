@@ -1,0 +1,78 @@
+O(lgn) time seat, O(n) time leave, O(n) space overall.
+class ExamRoom(object):
+
+    def __init__(self, N):
+        """
+        :type N: int
+        """
+        
+        self.N = N
+        self.heap = []
+
+    def seat(self):
+        """
+        :rtype: int
+        """
+        
+        if not self.heap:
+            heapq.heappush(self.heap, (-((2*self.N-1)/2), 0, 2*self.N-1))
+            return 0
+        else:
+            dis, left, right = heapq.heappop(self.heap)
+            if dis == 0:
+                heapq.heappush(self.heap, (dis, left, right))
+                return -1
+            elif left < 0:
+                heapq.heappush(self.heap, (-(right/2), 0, right))
+                return 0
+            elif right > self.N-1:
+                heapq.heappush(self.heap, (-((self.N-1-left)/2), left, self.N-1))
+                return self.N-1
+            else:
+                mid = (left+right)/2
+                if left >= 0:
+                    heapq.heappush(self.heap, (-((mid-left)/2), left, mid))
+                if right < self.N:
+                    heapq.heappush(self.heap, (-((right-mid)/2), mid, right))
+                
+                return mid
+
+    def leave(self, p):
+        """
+        :type p: int
+       :rtype: None
+        """
+        
+        tmp = []
+        
+        right = len(self.heap)-1
+        idx = 0
+        while idx <= right:
+            if self.heap[idx][1] == p or self.heap[idx][2] == p:
+                tmp.append(self.heap[idx])
+                if idx != right:
+                    self.heap[idx], self.heap[right] = self.heap[right], self.heap[idx]
+                
+                right -= 1
+            else:
+                idx += 1
+        
+        for _ in range(len(tmp)):
+            self.heap.pop()
+        
+        if len(tmp) == 2:
+            left = min(tmp[0][1], tmp[1][1])
+            right = max(tmp[0][2], tmp[1][2])
+            heapq.heappush(self.heap, (-((right-left)/2), left, right))
+        elif len(tmp) == 1:
+            if p == 0:
+                heapq.heappush(self.heap, (-((tmp[0][2]+1)/2), -1, tmp[0][2]))
+            else:
+                heapq.heappush(self.heap, (-(self.N-1-tmp[0][1]), tmp[0][1], 2*(self.N-1)-tmp[0][1]))
+        
+        heapq.heapify(self.heap)
+
+# Your ExamRoom object will be instantiated and called as such:
+# obj = ExamRoom(N)
+# param_1 = obj.seat()
+# obj.leave(p)
