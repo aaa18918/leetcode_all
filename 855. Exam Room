@@ -53,8 +53,11 @@ class ExamRoom(object):
             else:
                 idx += 1
         
-        for _ in range(len(tmp)):
-            self.heap.pop()
+        if tmp:
+            for _ in range(len(tmp)):
+                self.heap.pop()
+            
+            heapq.heapify(self.heap)
         
         if len(tmp) == 2:
             left, right = tmp[0][1]+tmp[1][1]-p, tmp[0][2]+tmp[1][2]-p
@@ -66,8 +69,6 @@ class ExamRoom(object):
             else:
                 left = tmp[0][1]
                 heapq.heappush(self.heap, (-(self.N-1-left), left, 2*(self.N-1)-left))
-
-        heapq.heapify(self.heap)        
 
 # Your ExamRoom object will be instantiated and called as such:
 # obj = ExamRoom(N)
