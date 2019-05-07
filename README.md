@@ -1,5 +1,3 @@
 # leetcodePython
 
-1. Not consider recursive stack space when considering space complexity or considering the recursive stack space and representing by O(???) space.
-
-2. Consider return value space complexity.
+1. When analizing the space complexity, the space usage for the recursive calls is represented by O(???) space.
