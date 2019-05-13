@@ -1,3 +1,4 @@
+O(n) time, O(n) space
 class Solution(object):
     def lengthOfLastWord(self, s):
         """
@@ -5,27 +6,4 @@ class Solution(object):
         :rtype: int
         """
         
-        len_s = len(s)
-        for i in range(len_s-1, -1, -1):
-            if s[i] != ' ':
-                count = 0
-                while i > -1 and s[i] != ' ':
-                    count += 1
-                    i -= 1
-                return count
-        
-        return 0
-
-class Solution(object):
-    def lengthOfLastWord(self, s):
-        """
-        :type s: str
-        :rtype: int
-        """
-        
-        s_list = s.split(' ')
-        for item in s_list[::-1]:
-            if item:
-                return len(item)
-        
-        return 0
+        return len(s.strip().split(' ')[-1])
