@@ -1,3 +1,4 @@
+O(km) time, O(kn) space, where k is the length of a single word, m is the length of the string, n is the number of the words in the words' list.
 class Solution(object):
     def findSubstring(self, s, words):
         """
@@ -6,32 +7,41 @@ class Solution(object):
         :rtype: List[int]
         """
         
-        size = len(words[0])
-        counter = collections.defaultdict(int)
-        for word in words:
-            counter[word] += 1
-
-        res = []
-        length = len(words)
+        if not s or not words or len(s) < len(words[0]):
+            return []
         
-        for idx in range(len(s)-size*length+1):
-            hash_table = collections.defaultdict(int)
-            j = 0
-            while j < length:
-                cur_word = s[idx+j*size:idx+(j+1)*size]
-                if cur_word not in counter:
-                    break
+        k, m, n = len(words[0]), len(s), len(words)
+        
+        backup_counter = collections.Counter(words)
+        res = []
+        for i in range(k):
+            j = i
+            count = n
+            left = i
+            counter = {}
+            for word, time in backup_counter.iteritems():
+                counter[word] = time
+            
+            while j+k <= m:
+                cur_word = s[j:j+k]
+                if cur_word in counter:
+                    if counter[cur_word] > 0:
+                        count -= 1
+                        if count == 0:
+                            res.append(left)
+                    
+                    counter[cur_word] -= 1
                 
-                hash_table[cur_word] += 1
-                if hash_table[cur_word] > counter[cur_word]:
-                    break
+                if j-k*(n-1) >= i:
+                    first_word = s[left:left+k]
+                    if first_word in counter:
+                        counter[first_word] += 1
+                        
+                        if counter[first_word] > 0:
+                            count += 1
+                        
+                    left += k
                 
-                j += 1
-
-            if j == length:
-                res.append(idx)
+                j += k
         
         return res
-
-
-时间复杂度有争议。
