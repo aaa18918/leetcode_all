@@ -1,0 +1,54 @@
+O(n) time, O(n) space
+class Solution(object):
+    def longestValidParentheses(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """ 
+        
+        my_stack, res, left_count, cur, in_stack = [], 0, 0, 0 ,False
+        
+        for parentheses in s:
+            if parentheses == '(':
+                if in_stack:
+                    if my_stack and left_count == 0:
+                        my_stack[-1][0] += cur
+                    else:
+                        my_stack.append([cur, left_count])
+                    
+                    res = max(res, my_stack[-1][0])
+                    
+                    left_count, cur, in_stack = 1, 0, False
+                else:
+                    left_count += 1
+            else:
+                if left_count > 0:
+                    left_count -= 1
+                    cur += 2
+                    
+                    in_stack = True
+                elif my_stack and my_stack[-1][1] > 0:
+                    my_stack[-1][0] += 2
+                    my_stack[-1][1] -= 1
+                    
+                    if my_stack[-1][1] == 0 and len(my_stack) >= 2:
+                        last, _ = my_stack.pop()
+                        my_stack[-1][0] += last
+                    
+                    res = max(res, my_stack[-1][0])
+                    
+                    in_stack = True
+                else:                    
+                    if my_stack and left_count == 0:
+                        my_stack[-1][0] += cur
+                    else:
+                        my_stack.append([cur, left_count])
+                    
+                    res = max(res, my_stack[-1][0])
+                    
+                    my_stack, cur, in_stack = [], 0, False
+        
+        if cur:
+            res = max(res, my_stack[-1][0]+cur) if my_stack and left_count == 0 else max(res, cur)
+        
+        return res
