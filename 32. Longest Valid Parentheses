@@ -54,4 +54,4 @@ class Solution(object):
         return res
 
 
-还有个DP解。
+别人还想出个DP解。
