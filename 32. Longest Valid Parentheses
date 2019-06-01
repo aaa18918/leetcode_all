@@ -52,3 +52,6 @@ class Solution(object):
             res = max(res, my_stack[-1][0]+cur) if my_stack and left_count == 0 else max(res, cur)
         
         return res
+
+
+还有个DP解。
