@@ -1,0 +1,59 @@
+O(???) time, O(???) space
+class Solution(object):
+    def solveSudoku(self, board):
+        """
+        :type board: List[List[str]]
+        :rtype: None Do not return anything, modify board in-place instead.
+        """
+        
+        def pickValidNumber(i, j):
+            valid_set = set([1, 2, 3, 4, 5, 6, 7, 8, 9])
+            
+            for idx in range(9):
+                for char in (board[i][idx], board[idx][j]):
+                    if char != '.':
+                        num = int(char)
+                        
+                        if num in valid_set:
+                            valid_set.remove(num)
+            
+            start_i, start_j = i/3*3, j/3*3
+            for i in range(start_i, start_i+3):
+                for j in range(start_j, start_j+3):
+                    if board[i][j] != '.':
+                        num = int(board[i][j])
+                        
+                        if num in valid_set:
+                            valid_set.remove(num)
+            
+            return valid_set
+        
+        def myDFS(idx):
+            i, j = idx/9, idx%9
+            valid_set = pickValidNumber(i, j)
+            
+            for num in valid_set:
+                board[i][j] = str(num)
+                
+                find_dot = False
+                for new_idx in range(idx+1, 81):
+                    new_i, new_j = new_idx/9, new_idx%9
+                    if board[new_i][new_j] == '.':
+                        find_dot = True
+                        if myDFS(new_idx):
+                            return True
+                        else:
+                            break
+                
+                if find_dot:
+                    board[i][j] = '.'
+                else:
+                    return True
+            
+            return False
+
+        for idx in range(81):
+            i, j = idx/9, idx%9
+            if board[i][j] == '.':
+                myDFS(idx)
+                break
