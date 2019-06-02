@@ -57,3 +57,5 @@ class Solution(object):
             if board[i][j] == '.':
                 myDFS(idx)
                 break
+
+懒得看别的解法。
