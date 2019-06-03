@@ -30,20 +30,16 @@ class Solution(object):
         :rtype: int
         """
         
-        my_stack = []
+        left_largest = []
+        left_max = 0
+        for h in height:
+            left_largest.append(left_max)
+            left_max = max(left_max, h)
+        
         res = 0
-        for idx in range(len(height)):
-            if height[idx] == 0:
-                continue
-            
-            prev = 0
-            while my_stack and my_stack[-1][0] <= height[idx]:
-                res += (my_stack[-1][0]-prev)*(idx-my_stack[-1][1]-1)
-                prev = my_stack[-1][0]
-                my_stack.pop()
-            
-            if my_stack:
-                res += (height[idx]-prev)*(idx-my_stack[-1][1]-1)
-            
-            my_stack.append([height[idx], idx])
+        right_max = 0
+        for idx in range(len(height)-1, -1, -1):
+            res += max(min(left_largest[idx], right_max)-height[idx], 0)
+            right_max = max(right_max, height[idx])
+        
         return res
