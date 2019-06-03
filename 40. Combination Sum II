@@ -45,3 +45,39 @@ class Solution(object):
                 for prev in dp[idx-num]:
                     dp[idx].add(prev+(num,))
         return list(dp[target])
+
+
+O(???) time, O(???) space
+class Solution(object):
+    def combinationSum2(self, candidates, target):
+        """
+        :type candidates: List[int]
+        :type target: int
+        :rtype: List[List[int]]
+        """
+
+        candidates.sort()
+        dp = [[] for _ in range(target+1)]
+
+        for idx, num in enumerate(candidates):
+            if idx > 0 and candidates[idx] == candidates[idx-1]:
+                continue
+
+            if num <= target:
+                dp[num].append([idx+1, num])
+
+        for i in range(target):
+            if dp[i]:
+                for p in dp[i]:
+                    for j in range(p[0], len(candidates)):
+                        if j > p[0] and candidates[j] == candidates[j-1]:
+                            continue
+
+                        num = candidates[j]
+
+                        if i+num <= target:
+                            tmp = [elem for elem in p]
+                            tmp[0] = j+1
+                            dp[i+num].append(tmp+[num])
+
+        return [p[1:] for p in dp[target]]
