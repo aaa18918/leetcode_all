@@ -6,17 +6,15 @@ class Solution(object):
         :rtype: int
         """
         
-        left, right = 0, len(height)-1
-        res = 0
-        left_max, right_max = 0, 0
+        left_max, right_max, left, right, res = 0, 0, 0, len(height)-1, 0
         while left <= right:
             if left_max < right_max:
+                res += max(left_max-height[left], 0)
                 left_max = max(left_max, height[left])
-                res += left_max-height[left]
                 left += 1
             else:
+                res += max(right_max-height[right], 0)
                 right_max = max(right_max, height[right])
-                res += right_max-height[right]
                 right -= 1
         
         return res
