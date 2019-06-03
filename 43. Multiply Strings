@@ -1,3 +1,4 @@
+O(mn) time, O(mn) space
 class Solution(object):
     def multiply(self, num1, num2):
         """
@@ -6,61 +7,43 @@ class Solution(object):
         :rtype: str
         """
         
-        def addString(num1, num2):
-            res = ""
-            i, j, c = len(num1)-1, len(num2)-1, 0
-            while i >= 0 and j >= 0:
-                cur_sum = int(num1[i])+int(num2[j])+c
-                res = str(cur_sum%10)+res
-                c = cur_sum/10
-                i, j = i-1, j-1
-            
-            while i >= 0:
-                cur_sum = int(num1[i])+c
-                res = str(cur_sum%10)+res
-                c = cur_sum/10
-                i -= 1
-            
-            while j >= 0:
-                cur_sum = int(num2[j])+c
-                res = str(cur_sum%10)+res
-                c = cur_sum/10
-                j -= 1
-            
-            if c:
-                res = str(c)+res
-            
-            return res
+        cal = []
+        for idx in range(len(num2)-1, -1, -1):
+            cal_idx = len(num2)-1-idx
+            for j in range(len(num1)-1, -1, -1):
+                if cal_idx >= len(cal):
+                    cal.append(0)
+                
+                cur = int(num2[idx])*int(num1[j])
+                cal[cal_idx] += cur%10
+                
+                if cur >= 10:
+                    if cal_idx+1 >= len(cal):
+                        cal.append(0)
+                    
+                    cal[cal_idx+1] += cur/10
+                
+                cal_idx += 1
         
-        def stringMultiplySingleNumber(s, num):
-            num, c, res = int(num), 0, ""
+        idx = 0
+        while idx < len(cal):
+            if cal[idx] >= 10:
+                if idx == len(cal)-1:
+                    cal.append(0)
+                
+                cal[idx+1] += cal[idx]/10
             
-            for i in range(len(s)-1, -1, -1):
-                cur_cal = int(s[i])*num+c
-                res = str(cur_cal%10)+res
-                c = cur_cal/10
+            cal[idx] %= 10
             
-            if c:
-                res = str(c)+res
-            
-            return res
+            idx += 1
         
-        res = ""
-        if len(num1) < len(num2):
-            num1, num2 = num2, num1
+        while cal and cal[-1] == 0:
+            cal.pop()
         
-        for i in range(len(num2)-1, -1, -1):
-            if not res:
-                res = stringMultiplySingleNumber(num1, num2[i])
-            else:
-                res = addString(res, stringMultiplySingleNumber(num1, num2[i])+'0'*(len(num2)-1-i))
+        res = ''
+        for idx in range(len(cal)-1, -1, -1):
+            res += str(cal[idx])
         
-        i = 0
-        while i < len(res):
-            if res[i] != '0':
-                break
-            i += 1
-        res = res[i:]
         return res if res else '0'
 
 
