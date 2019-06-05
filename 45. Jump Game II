@@ -1,0 +1,21 @@
+O(n) time, O(1) space
+class Solution(object):
+    def jump(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        
+        count, farthest, idx = 0, 0, 0
+        while farthest < len(nums)-1:
+            tmp = 0
+            while idx <= farthest:
+                if idx+nums[idx] > farthest:
+                    tmp = max(tmp, idx+nums[idx])
+                
+                idx += 1
+            
+            farthest = max(farthest, tmp)
+            count += 1
+        
+        return count
