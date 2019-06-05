@@ -46,7 +46,7 @@ class Solution(object):
         
         return res if res else '0'
 
-karatsuba-algorithm
+karatsuba algorithm
 https://www.geeksforgeeks.org/karatsuba-algorithm-for-fast-multiplication-using-divide-and-conquer-algorithm/
 O(max(m, n)^log2(3)) time, O(???) space
 class Solution(object):
