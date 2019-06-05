@@ -1,4 +1,4 @@
-O(n!) time, O(n*n!) space
+O(n!) time, O(???) space
 class Solution(object):
     def permuteUnique(self, nums):
         """
@@ -8,4 +8,7 @@ class Solution(object):
         
         nums.sort()
         
-        return [[nums[idx]]+p for idx in range(len(nums)) for p in self.permuteUnique(nums[:idx]+nums[idx+1:]) if idx == 0 or nums[idx] != nums[idx-1]] if nums else [[]]
+        def myHelp(nums):
+            return [[nums[idx]]+p for idx in range(len(nums)) for p in myHelp(nums[:idx]+nums[idx+1:]) if idx == 0 or nums[idx] != nums[idx-1]] or [[]]
+        
+        return myHelp(nums) if nums else []
