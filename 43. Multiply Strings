@@ -46,5 +46,56 @@ class Solution(object):
         
         return res if res else '0'
 
-
-还有一个O(n^1.58)的解法。
+karatsuba-algorithm
+https://www.geeksforgeeks.org/karatsuba-algorithm-for-fast-multiplication-using-divide-and-conquer-algorithm/
+O(max(m, n)^log2(3)) time, O(???) space
+class Solution(object):
+    def multiply(self, num1, num2):
+        """
+        :type num1: str
+        :type num2: str
+        :rtype: str
+        """
+        
+        def addUp(num1, num2):
+            carry, res, idx1, idx2 = 0, '', len(num1)-1, len(num2)-1
+            while idx1 >= 0 or idx2 >= 0:
+                if idx1 >= 0 and idx2 >= 0:
+                    cur = int(num1[idx1])+int(num2[idx2])+carry
+                    idx1, idx2 = idx1-1, idx2-1
+                elif idx1 >= 0:
+                    cur = int(num1[idx1])+carry
+                    idx1 -= 1
+                elif idx2 >= 0:
+                    cur = int(num2[idx2])+carry
+                    idx2 -= 1
+                
+                res += str(cur%10)
+                carry = cur/10
+            
+            if carry != 0:
+                res += '1'
+            
+            return res[::-1]
+        
+        def multiplication(num1, num2):     
+            if len(num1) < len(num2):
+                num1 = '0'*(len(num2)-len(num1))+num1
+            else:
+                num2 = '0'*(len(num1)-len(num2))+num2
+            
+            size = len(num1)
+            
+            if size == 0:
+                return 0
+            elif size == 1:
+                return int(num1[0])*int(num2[0])
+            
+            mid = size/2
+            
+            num1_left, num1_right = num1[:size-mid], num1[size-mid:]
+            num2_left, num2_right = num2[:size-mid], num2[size-mid:]
+            
+            return (10**(2*mid)-10**mid)*multiplication(num1_left, num2_left)-(10**mid-1)*multiplication(num1_right, num2_right)+10**mid*multiplication(addUp(num1_left, num1_right), addUp(num2_left, num2_right))
+        
+        return str(multiplication(num1, num2))
