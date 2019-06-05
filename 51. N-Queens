@@ -15,7 +15,7 @@ class Solution(object):
             
             return res
         
-        def pickValidPositions(m, board):
+        def pickUpValidPositions(m, board):
             valid_positions = []
             for j in range(n):
                 conflict = False
@@ -30,7 +30,7 @@ class Solution(object):
             return valid_positions
         
         def myDFS(m, board):
-            valid_positions = pickValidPositions(m, board)
+            valid_positions = pickUpValidPositions(m, board)
             if not valid_positions:
                 return
             
