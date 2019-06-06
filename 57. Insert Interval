@@ -41,7 +41,7 @@ class Solution(object):
             return intervals[idx:]
 
 
-two binary search
+two binary searches
 O(n) time, O(n) space
 class Solution(object):
     def insert(self, intervals, newInterval):
