@@ -1,3 +1,48 @@
+O(???) time, O(???) space
+class Solution(object):
+    def totalNQueens(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        
+        self.res = 0
+        
+        def pickUpValidPositions(m, board):
+            valid_positions = []
+            
+            for j in range(n):
+                conflict = False
+                for i in range(m):
+                    if board[i][j] == 'Q' or j-(m-i) >= 0 and board[i][j-(m-i)] == 'Q' or j+(m-i) < n and board[i][j+(m-i)] == 'Q':
+                        conflict = True
+                        break
+                
+                if not conflict:
+                    valid_positions.append([m, j])
+            
+            return valid_positions
+        
+        def myDFS(m, board):
+            valid_positions = pickUpValidPositions(m, board)
+            
+            for x, y in valid_positions:
+                board[x][y] = 'Q'
+                
+                if m == n-1:
+                    self.res += 1
+                    return
+                
+                myDFS(m+1, board)
+                
+                board[x][y] = '.'
+        
+        myDFS(0, [['.']*n for _ in range(n)])
+        
+        return self.res
+
+
+O(???) time, O(???) space
 class Solution(object):
     def totalNQueens(self, n):
         """
@@ -28,4 +73,3 @@ class Solution(object):
             return count
         
         return myDFS(-1, n)
-        
