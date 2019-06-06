@@ -1,4 +1,4 @@
-average O(lgn) time, worst O(n) time, O(n) space
+O(n) time, O(n) space
 # Definition for an interval.
 # class Interval(object):
 #     def __init__(self, s=0, e=0):
@@ -39,3 +39,49 @@ class Solution(object):
                     intervals[idx] = intervals[i]
             
             return intervals[idx:]
+
+
+two binary search
+O(n) time, O(n) space
+class Solution(object):
+    def insert(self, intervals, newInterval):
+        """
+        :type intervals: List[List[int]]
+        :type newInterval: List[int]
+        :rtype: List[List[int]]
+        """
+        
+        if not intervals:
+            return [newInterval]
+        
+        def hasInterval(interval1, interval2):
+            return False if interval1[1] < interval2[0] or interval1[0] > interval2[1] else True
+        
+        left, right = 0, len(intervals)-1
+        while left <= right:
+            mid = (left+right)/2
+            
+            if hasInterval(intervals[mid], newInterval):
+                right = mid-1
+            elif intervals[mid][0] > newInterval[1]:
+                right = mid-1
+            else:
+                left = mid+1
+        
+        start = left
+        
+        right = len(intervals)-1
+        while left <= right:
+            mid = (left+right)/2
+            
+            if hasInterval(intervals[mid], newInterval):
+                left = mid+1
+            else:
+                right = mid-1
+
+        if left == len(intervals) and intervals[left-1][1] < newInterval[0]:
+            return intervals+[newInterval]
+        elif start == 0 and intervals[start][0] > newInterval[1]:
+            return [newInterval]+intervals
+        else:
+            return intervals[:start]+[[min(intervals[start][0], newInterval[0]), max(intervals[left-1][1], newInterval[1])]]+intervals[left:]
