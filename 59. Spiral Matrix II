@@ -1,0 +1,38 @@
+O(n^2) time, O(n^2) space
+class Solution(object):
+    def generateMatrix(self, n):
+        """
+        :type n: int
+        :rtype: List[List[int]]
+        """
+        
+        res = [[0]*n for _ in range(n)]
+        i, j, di, dj = 0, 0, 0, 1
+        for num in range(1, n**2+1):
+            res[i][j] = num
+            if res[(i+di)%n][(j+dj)%n] != 0:
+                di, dj = dj, -di
+            
+            i, j = i+di, j+dj
+        
+        return res
+
+
+O(???) time, O(n^2) space
+class Solution(object):
+    def generateMatrix(self, n):
+        """
+        :type n: int
+        :rtype: List[List[int]]
+        """
+        
+        res = [[n**2]]
+        num = n**2
+        while num > 1:
+            res = [range(num-len(res[0]), num)]+res
+            num -= len(res[0])
+            
+            if len(res[0]) < n:
+                res = zip(*res[::-1])
+        
+        return res
