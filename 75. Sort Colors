@@ -3,22 +3,21 @@ class Solution(object):
     def sortColors(self, nums):
         """
         :type nums: List[int]
-        :rtype: void Do not return anything, modify nums in-place instead.
+        :rtype: None Do not return anything, modify nums in-place instead.
         """
         
         left, idx, right = 0, 0, len(nums)-1
-        while left <= idx <= right:
+        while idx <= right:
             if nums[idx] == 0:
-                if idx > left:
+                if left != idx:
                     nums[left], nums[idx] = nums[idx], nums[left]
                 
                 left, idx = left+1, idx+1
             elif nums[idx] == 2:
-                while right >= idx and nums[right] == 2:
-                    right -= 1
-
-                if idx < right:
-                    nums[idx], nums[right] = nums[right], nums[idx]
+                if right != idx:
+                    nums[right], nums[idx] = nums[idx], nums[right]
+                
+                right = right-1
             else:
                 idx += 1
 
