@@ -6,14 +6,15 @@ class Solution(object):
         :rtype: str
         """
         
-        path = path.split('/')
         my_stack = []
-        for p in path:
-            if not p or p == '.':
-                pass
-            elif p == "..":
-                if my_stack:
-                    my_stack.pop()
-            else:
-                my_stack.append(p)
+        for string in path.split('/'):
+            if string:
+                string = string.strip('/')
+                
+                if string == '..':
+                    if my_stack:
+                        my_stack.pop()
+                elif string != '.':
+                    my_stack.append(string)
+        
         return '/'+'/'.join(my_stack)
