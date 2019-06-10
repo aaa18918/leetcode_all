@@ -27,5 +27,54 @@ class Solution(object):
         return res
 
 
+O(n) time, O(n) space
+class Solution(object):
+    def minWindow(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: str
+        """
+        
+        counter = collections.Counter(t)
+        count = len(t)
+        
+        res, left, start, end = sys.maxint, 0, -1, -1
+        for idx, char in enumerate(s):
+            if char in counter:
+                counter[char] -= 1
+                
+                if counter[char] >= 0:
+                    count -= 1
+                    
+                    if count == 0:
+                        while left < idx:
+                            if s[left] not in counter:
+                                left += 1
+                            elif counter[s[left]] < 0:
+                                counter[s[left]] += 1
+                                left += 1
+                            else:
+                                break
+                        
+                        if res > idx-left+1:
+                            start, end, res = left, idx, idx-left+1
+                else:
+                    while left < idx:
+                        if s[left] not in counter:
+                            left += 1
+                        elif counter[s[left]] < 0:
+                            counter[s[left]] += 1
+                            left += 1
+                        else:
+                            break
+                    
+                    if count == 0:
+                        if res > idx-left+1:
+                            start, end, res = left, idx, idx-left+1
+                        
+        
+        return s[start:end+1] if start >= 0 and end >= 0 else ''
+
 
 别的解法没看过。
