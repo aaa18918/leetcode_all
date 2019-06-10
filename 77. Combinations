@@ -1,0 +1,29 @@
+O(???) time, O(???) space
+class Solution(object):
+    def combine(self, n, k):
+        """
+        :type n: int
+        :type k: int
+        :rtype: List[List[int]]
+        """
+        
+        
+        if k <= 0:
+            return []
+        elif k > n:
+            return self.combine(n, n)
+        
+        nums = [i for i in range(1, n+1)]
+        
+        def myHelp(idx, k):
+            if k == 1:
+                return [[nums[i]] for i in range(idx, n)]
+            
+            res = []
+            for i in range(idx, n+1-k):
+                for p in myHelp(i+1, k-1):
+                    res.append([nums[i]]+p)
+            
+            return res
+        
+        return myHelp(0, k)
