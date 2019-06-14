@@ -6,13 +6,10 @@ class Solution(object):
         :rtype: int
         """
         
-        if len(nums) <= 2:
-            return len(nums)
-        
         left = 2
         for idx in range(2, len(nums)):
             if nums[idx] != nums[left-2]:
-                if idx > left:
-                    nums[left] = nums[idx]
+                nums[left] = nums[idx]
                 left += 1
-        return left
+         
+        return left if len(nums) >= 2 else len(nums)
