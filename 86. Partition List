@@ -1,0 +1,31 @@
+O(n) time, O(1) space
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def partition(self, head, x):
+        """
+        :type head: ListNode
+        :type x: int
+        :rtype: ListNode
+        """
+        
+        left, right = ListNode(0), ListNode(0)
+        l, r = left, right
+        p = head
+        while p:
+            if p.val < x:
+                l.next = p
+                l = l.next
+            else:
+                r.next = p
+                r = r.next
+            
+            p = p.next
+        
+        l.next = right.next
+        r.next = None
+        return left.next
