@@ -1,3 +1,4 @@
+O(n) time, O(1) space
 # Definition for singly-linked list.
 # class ListNode(object):
 #     def __init__(self, x):
@@ -11,18 +12,23 @@ class Solution(object):
         :rtype: ListNode
         """
         
-        fake_head = ListNode(0)
-        fake_head.next = head
-        p = fake_head
-        
-        while p.next and p.next.next:
-            if p.next.val != p.next.next.val:
-                p = p.next
-            else:
-                repeat_val = p.next.val
-                q = p.next
-                while q and q.val == repeat_val:
-                    p.next = q.next
+        prev, dummy_head = 0, ListNode(0)
+        p, q = head, dummy_head
+        while p:
+            if p is head:
+                if p.next and p.val == p.next.val:
+                    pass
+                else:
+                    q.next = p
                     q = q.next
+            else:
+                if p.next and p.val == p.next.val or p.val == prev:
+                    pass
+                else:
+                    q.next = p
+                    q = q.next
+                
+            prev, p = p.val, p.next
         
-        return fake_head.next
+        q.next = None
+        return dummy_head.next
