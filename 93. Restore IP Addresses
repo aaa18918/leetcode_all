@@ -1,0 +1,28 @@
+O(???) time, O(???) space
+class Solution(object):
+    def restoreIpAddresses(self, s):
+        """
+        :type s: str
+        :rtype: List[str]
+        """
+        
+        res, size = [], len(s)
+        
+        def myDFS(idx, cur):
+            for i in range(idx, min(idx+3, size)):
+                num = int(s[idx:i+1])
+                if 0 <= num <= 255:
+                    if i+1-idx > 1 and s[idx] == '0':
+                        return
+                        
+                    if len(cur) == 3:
+                        if i+1 != size:
+                            continue
+                        else:
+                            res.append('.'.join(cur+[s[idx:i+1]]))
+                    else:
+                        myDFS(i+1, cur+[s[idx:i+1]])
+        
+        myDFS(0, [])
+        
+        return res
