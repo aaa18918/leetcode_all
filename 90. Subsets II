@@ -1,3 +1,4 @@
+O(???) time, O(???) space
 class Solution(object):
     def subsetsWithDup(self, nums):
         """
@@ -5,34 +6,16 @@ class Solution(object):
         :rtype: List[List[int]]
         """
         
-        nums = sorted(nums)
-        res = [[]]
-        
+        nums.sort()
+        res, l = [[]], 0
         for idx in range(len(nums)):
             if idx == 0 or nums[idx] != nums[idx-1]:
                 l = len(res)
             
-            for i in range(len(res)-l, len(res)):
-                res.append(res[i]+[nums[idx]])
-        return res
-
-
-class Solution(object):
-    def subsetsWithDup(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: List[List[int]]
-        """
+            size = len(res)
+            for i in range(l):
+                res.append(res[size-1-i]+[nums[idx]])
         
-        nums = sorted(nums)
-        res = [[]]
-        
-        l = 0
-        for idx, num in enumerate(nums):
-            if idx == 0 or nums[idx] != nums[idx-1]:
-                l = len(res)
-            
-            res += [r+[num] for r in res[len(res)-l:]]
         return res
 
 
