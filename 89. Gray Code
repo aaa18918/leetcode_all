@@ -1,41 +1,4 @@
-class Solution(object):
-    def grayCode(self, n):
-        """
-        :type n: int
-        :rtype: List[int]
-        """
-        
-        record, visited = [['0']*n], set(["".join(['0']*n)])
-        
-        def myDFS(cur_num, record):
-            if len(record) == 2**n:
-                return [self.convertBinaryStringToInteger(binary_string_list) for binary_string_list in record]
-            
-            for index in range(n-1, -1, -1):
-                cur_num[index] = '1' if cur_num[index] == '0' else '0'
-                string_cur_num = "".join(cur_num)
-                if string_cur_num not in visited:
-                    visited.add(string_cur_num)
-                    result = myDFS(cur_num, record+[cur_num[:]])
-                    if result: return result
-                    visited.remove(string_cur_num)
-                cur_num[index] = '0' if cur_num[index] == '1' else '1'
-            
-            return []
-        
-        result = myDFS(['0']*n, record)
-        return result
-        
-    def convertBinaryStringToInteger(self, binary_string_list):
-        res, x = 0, 1
-        for char in binary_string_list[::-1]:
-            if char == '1':
-                res += x
-            x *= 2
-        
-        return res
-
-
+O(2^n) time, O(2^n) space
 class Solution(object):
     def grayCode(self, n):
         """
@@ -49,4 +12,3 @@ class Solution(object):
             res.append((i>>1)^i)
         
         return res
-                    
