@@ -1,0 +1,33 @@
+O(???) time, O(???) space
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def generateTrees(self, n):
+        """
+        :type n: int
+        :rtype: List[TreeNode]
+        """
+        
+        def myHelp(left, right):
+            if left > right:
+                return [None]
+            
+            res = []
+            for num in range(left, right+1):                
+                for l in myHelp(left, num-1):
+                    for r in myHelp(num+1, right):
+                        root = TreeNode(num)
+                        
+                        root.left = l
+                        root.right = r
+                        
+                        res.append(root)
+            
+            return res
+        
+        return myHelp(1, n) if n >= 1 else []
