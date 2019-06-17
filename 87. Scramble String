@@ -1,0 +1,23 @@
+O(???) time, O(???) space
+class Solution(object):
+    def isScramble(self, s1, s2):
+        """
+        :type s1: str
+        :type s2: str
+        :rtype: bool
+        """
+        
+        m, n = len(s1), len(s2)
+        if m != n or sorted(s1) != sorted(s2):
+            return False
+        elif m < 4 or s1 == s2:
+            return True
+        
+        for idx in range(1, m):
+            if self.isScramble(s1[:idx], s2[:idx]) and self.isScramble(s1[idx:], s2[idx:]) or self.isScramble(s1[:idx], s2[-idx:]) and self.isScramble(s1[idx:], s2[:-idx]):
+                return True
+        
+        return False
+
+
+iterative太烦了没看。
