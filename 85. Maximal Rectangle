@@ -1,4 +1,4 @@
-O(m*n^2) time, O(n) space
+O(m*n) time, O(n) space
 class Solution(object):
     def maximalRectangle(self, matrix):
         """
@@ -6,26 +6,21 @@ class Solution(object):
         :rtype: int
         """
         
-        if not matrix or not matrix[0]:
+        if not matrix:
             return 0
         
-        def largestRectangleArea(heights):
-            my_stack = [-1]
-            heights.append(0)
-            res = 0
+        def maximalRectangleOfEachRow(heights):
+            my_stack, res = [-1], 0
             for idx in range(len(heights)):
                 while heights[idx] < heights[my_stack[-1]]:
-                    cur_h = heights[my_stack.pop()]
-                    res = max(res, cur_h*(idx-my_stack[-1]-1))
+                    h = heights[my_stack.pop()]
+                    res = max(res, (idx-my_stack[-1]-1)*h)
                 
                 my_stack.append(idx)
             
-            heights.pop()
             return res
         
-        heights = [0 for _ in range(len(matrix[0]))]
-        
-        res = 0
+        heights, res = [0]*(len(matrix[0])+1), 0
         for i in range(len(matrix)):
             for j in range(len(matrix[0])):
                 if matrix[i][j] == '1':
@@ -33,7 +28,6 @@ class Solution(object):
                 else:
                     heights[j] = 0
             
-            res = max(res, largestRectangleArea(heights))
+            res = max(res, maximalRectangleOfEachRow(heights))
         
         return res
-            
