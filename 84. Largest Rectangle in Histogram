@@ -6,13 +6,12 @@ class Solution(object):
         :rtype: int
         """
         
-        my_stack = [-1]
+        my_stack, res = [-1], 0
         heights.append(0)
-        res = 0
         for idx in range(len(heights)):
             while heights[idx] < heights[my_stack[-1]]:
-                cur_h = heights[my_stack.pop()]
-                res = max(res, cur_h*(idx-my_stack[-1]-1))
+                h = heights[my_stack.pop()]
+                res = max(res, (idx-my_stack[-1]-1)*h)
             
             my_stack.append(idx)
         
