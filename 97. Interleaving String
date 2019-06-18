@@ -8,23 +8,26 @@ class Solution(object):
         :rtype: bool
         """
         
-        if not s3:
-            return not s1 and not s2
-        
-        if len(s1)+len(s2) != len(s3):
+        if len(s3) != len(s1)+len(s2):
             return False
         
         dp = [[False]*(len(s2)+1) for _ in range(len(s1)+1)]
         dp[0][0] = True
         
-        for i in range(len(s3)+1):
-            for j in range(min(i, len(s1))+1):
-                if i-j > len(s2):
-                    continue
+        for j in range(len(s2)):
+            if s2[j] == s3[j] and dp[0][j]:
+                dp[0][j+1] = True
+        
+        for k in range(len(s3)):
+            for i in range(max(0, k-len(s2)), min(k+1, len(s1))):
+                j = k-i-1
+                if j < 0:
+                    if s1[i] == s3[k] and dp[i][0]:
+                        dp[i+1][0] = True
                 
-                if j > 0 and s1[j-1] == s3[i-1] and dp[j-1][i-j] or i-j > 0 and s2[i-j-1] == s3[i-1] and dp[j][i-j-1]:
-                    dp[j][i-j] = True
-                
+                elif s1[i] == s3[k] and dp[i][j+1] or s2[j] == s3[k] and dp[i+1][j]:
+                    dp[i+1][j+1] = True
+        
         return dp[len(s1)][len(s2)]
 
 
