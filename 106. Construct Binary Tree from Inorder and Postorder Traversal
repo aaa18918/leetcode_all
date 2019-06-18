@@ -1,4 +1,4 @@
-O(n) time, O(n) space
+O(???) time, O(???) space
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -15,18 +15,20 @@ class Solution(object):
         """
         
         hash_table = {}
-        for idx, num in enumerate(inorder):
-            hash_table[num] = idx
+        for idx in range(len(inorder)):
+            hash_table[inorder[idx]] = idx
         
-        def myDFS(left, right):
+        def myHelp(left, right):
             if left > right:
                 return None
             
-            root = TreeNode(postorder.pop())
-            idx = hash_table[root.val]
-            root.right = myDFS(idx+1, right)
-            root.left = myDFS(left, idx-1)
+            root_val = postorder.pop()
+            idx = hash_table[root_val]
+            root = TreeNode(root_val)
             
+            root.right = myHelp(idx+1, right)
+            root.left = myHelp(left, idx-1)
+
             return root
         
-        return myDFS(0, len(inorder)-1)
+        return myHelp(0, len(inorder)-1)
