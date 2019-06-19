@@ -1,0 +1,31 @@
+O(n) time, O(n) space
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def sumNumbers(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        
+        if not root:
+            return 0
+        
+        my_stack, res = [(root, 0)], 0
+        while my_stack:
+            node, num = my_stack.pop()
+            if not node.left and not node.right:
+                res += num*10+node.val
+            
+            if node.left:
+                my_stack.append((node.left, num*10+node.val))
+            
+            if node.right:
+                my_stack.append((node.right, num*10+node.val))
+        
+        return res
