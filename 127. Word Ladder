@@ -34,4 +34,4 @@ class Solution(object):
         return 0
 
 
-不太清楚为什么，方法有点慢，下次需要再看下别的方法都是怎么做的啊。
+还有一个个two ends BFS。
