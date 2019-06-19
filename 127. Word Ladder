@@ -1,4 +1,4 @@
-O(26nk) time, O(26nk) space
+O(26kn) time, O(26kn) space
 class Solution(object):
     def ladderLength(self, beginWord, endWord, wordList):
         """
@@ -8,25 +8,28 @@ class Solution(object):
         :rtype: int
         """
         
-        wordSet = set(wordList)
+        if beginWord == endWord:
+            return 0
+        
+        myQueue, wordSet = collections.deque([(beginWord, 1)]), set(wordList)
         
         if endWord not in wordSet:
             return 0
         
-        lowercase = string.ascii_lowercase
-        myQueue = collections.deque([(beginWord, 1)])
+        if beginWord in wordSet:
+            wordSet.remove(beginWord)
         
         while myQueue:
-            word, dist = myQueue.popleft()
-            for idx in range(len(word)):
-                for char in lowercase:
+            word, count = myQueue.popleft()
+            for char in string.lowercase:
+                for idx in range(len(word)):
                     if char != word[idx]:
                         newWord = word[:idx]+char+word[idx+1:]
                         if newWord == endWord:
-                            return dist+1
+                            return count+1
                         elif newWord in wordSet:
-                            myQueue.append((newWord, dist+1))
                             wordSet.remove(newWord)
+                            myQueue.append((newWord, count+1))
         
         return 0
 
