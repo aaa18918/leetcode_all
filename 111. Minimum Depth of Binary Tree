@@ -1,29 +1,4 @@
-# Definition for a binary tree node.
-# class TreeNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution(object):
-    def minDepth(self, root):
-        """
-        :type root: TreeNode
-        :rtype: int
-        """
-        
-        if not root: return 0
-        
-        my_queue = [(root, 1)]
-        while my_queue:
-            node, cur_depth = my_queue.pop(0)
-            if not node.left and not node.right:
-                return cur_depth
-            
-            if node.left: my_queue.append((node.left, cur_depth+1))
-            if node.right: my_queue.append((node.right, cur_depth+1))
-
-
+O(n) time, O(n) space
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -49,3 +24,36 @@ class Solution(object):
             if node.left: my_queue.append((node.left, cur_depth+1))
             if node.right: my_queue.append((node.right, cur_depth+1))
         
+
+O(n) time, O(n) space
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def minDepth(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        
+        if not root:
+            return 0
+        
+        my_stack, res = [(root, 1)], sys.maxint
+        while my_stack:
+            node, depth = my_stack.pop()
+            
+            if not node.left and not node.right:
+                res = min(res, depth)
+            
+            if node.left:
+                my_stack.append((node.left, depth+1))
+                
+            if node.right:
+                my_stack.append((node.right, depth+1))
+        
+        return res
