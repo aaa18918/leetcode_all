@@ -1,3 +1,40 @@
+O(n) time, O(n) space
+"""
+# Definition for a Node.
+class Node(object):
+    def __init__(self, val, neighbors):
+        self.val = val
+        self.neighbors = neighbors
+"""
+class Solution(object):
+    def cloneGraph(self, node):
+        """
+        :type node: Node
+        :rtype: Node
+        """
+        
+        if not node:
+            return None
+        
+        new_node = Node(node.val, [])
+        created, my_stack = {node: new_node}, [node]
+        
+        while my_stack:
+            cur_node = my_stack.pop()
+            cur_new_node = created[cur_node]
+            
+            for neighbor in cur_node.neighbors:
+                if neighbor in created:
+                    cur_new_node.neighbors.append(created[neighbor])
+                else:
+                    new_neighbor = Node(neighbor.val, [])
+                    cur_new_node.neighbors.append(new_neighbor)
+                    created[neighbor] = new_neighbor
+                    my_stack.append(neighbor)
+        
+        return new_node
+
+
 O(n) time, O(???) space
 # class UndirectedGraphNode:
 #     def __init__(self, x):
