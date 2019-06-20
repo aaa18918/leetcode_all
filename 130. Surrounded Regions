@@ -39,3 +39,6 @@ class Solution(object):
                     board[x][y] = 'X'
                 elif board[x][y] == '1':
                     board[x][y] = 'O'
+
+
+Union-Find没看。
