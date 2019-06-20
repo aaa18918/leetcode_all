@@ -39,4 +39,4 @@ class Solution(object):
         return [[s[:index]]+rest for index in range(1, len(s)+1) if s[:index] == s[:index][::-1] for rest in self.partition(s[index:])] or [[]]
 
 
-There is a dp soliution which I cannot understand at this time.
+There is a dp soliution.
