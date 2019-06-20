@@ -1,3 +1,4 @@
+O(???) time, O(???) space
 class Solution(object):
     def partition(self, s):
         """
@@ -5,67 +6,29 @@ class Solution(object):
         :rtype: List[List[str]]
         """
         
-        if not s: return []
-        
-        res = []
-        
-        def isPalindrome(s):
-            left, right = 0, len(s)-1
-            while left < right:
-                if s[left] != s[right]:
-                    return False
-                
+        def isPalindrome(left, right):
+            while left < right and s[left] == s[right]:
                 left, right = left+1, right-1
             
-            return True
+            return left >= right
         
-        def dfs(s, palindromeList):
-            if len(s) == 0:
-                res.append(palindromeList)
-                return
-            if len(s) == 1:
-                res.append(palindromeList+[s])
-                return
+        def myHelp(left, right):
+            if left > right:
+                return [[]]
+            elif left == right:
+                return [[s[left]]]
             
-            for index in range(1, len(s)+1):
-                if isPalindrome(s[:index]):
-                    dfs(s[index:], palindromeList+[s[:index]])
+            res = []
+            for idx in range(left, right+1):
+                if idx == left or isPalindrome(left, idx):
+                    res += [[s[left:idx+1]]+p for p in myHelp(idx+1, right)]
+            
+            return res
         
-        dfs(s, [])
-        return res
+        return myHelp(0, len(s)-1) if s else []
 
-class Solution(object):
-    def partition(self, s):
-        """
-        :type s: str
-        :rtype: List[List[str]]
-        """
-        
-        if not s: return []
-        
-        res = []
-        
-        def isPalindrome(s):
-            left, right = 0, len(s)-1
-            while left < right:
-                if s[left] != s[right]:
-                    return False
-                
-                left, right = left+1, right-1
-            
-            return True
-        
-        def dfs(s, palindromeList):
-            if len(s) == 0:
-                res.append(palindromeList)
-            
-            for index in range(1, len(s)+1):
-                if isPalindrome(s[:index]):
-                    dfs(s[index:], palindromeList+[s[:index]])
-        
-        dfs(s, [])
-        return res
 
+O(???) time, O(???) space
 class Solution(object):
     def partition(self, s):
         """
@@ -74,5 +37,6 @@ class Solution(object):
         """
         
         return [[s[:index]]+rest for index in range(1, len(s)+1) if s[:index] == s[:index][::-1] for rest in self.partition(s[index:])] or [[]]
+
 
 There is a dp soliution which I cannot understand at this time.
