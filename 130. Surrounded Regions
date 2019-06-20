@@ -41,4 +41,4 @@ class Solution(object):
                     board[x][y] = 'O'
 
 
-Union-Find没看。
+Union-Find和别的解法都没看。
