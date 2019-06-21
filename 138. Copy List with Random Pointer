@@ -1,25 +1,26 @@
 O(3n) time, O(n) space 
-# Definition for singly-linked list with a random pointer.
-# class RandomListNode(object):
-#     def __init__(self, x):
-#         self.label = x
-#         self.next = None
-#         self.random = None
-
+"""
+# Definition for a Node.
+class Node(object):
+    def __init__(self, val, next, random):
+        self.val = val
+        self.next = next
+        self.random = random
+"""
 class Solution(object):
     def copyRandomList(self, head):
         """
-        :type head: RandomListNode
-        :rtype: RandomListNode
+        :type head: Node
+        :rtype: Node
         """
         
-        if not head: return head
+        if not head:
+            return None
         
         p = head
         while p:
-            q = RandomListNode(p.label)
-            q.next = p.next
-            p.next = q
+            new_p = Node(p.val, p.next, None)
+            p.next = new_p
             p = p.next.next
         
         p = head
@@ -29,14 +30,11 @@ class Solution(object):
             
             p = p.next.next
         
-        new_head = head.next
-        p, q = head, new_head
-        while q.next:
-            p.next = q.next
-            q.next = q.next.next
-            p = p.next
-            q = q.next
+        p, q, new_head = head, head.next, head.next
+        while p.next.next:
+            p.next, q.next = p.next.next, q.next.next
+            p, q = p.next, q.next
         
-        p.next = None
+        p.next, q.next = None, None
         
         return new_head
