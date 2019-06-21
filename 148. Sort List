@@ -1,3 +1,4 @@
+O(nlgn) time, O(1) space
 # Definition for singly-linked list.
 # class ListNode(object):
 #     def __init__(self, x):
@@ -22,8 +23,8 @@ class Solution(object):
         
         sorted_left, sorted_right = self.sortList(left), self.sortList(right)
         l, r = sorted_left, sorted_right
-        fake_head = ListNode(0)
-        p = fake_head
+        dummy_head = ListNode(0)
+        p = dummy_head
         while l and r:
             if l.val < r.val:
                 p.next = l
@@ -40,4 +41,4 @@ class Solution(object):
             p.next = r
             p, r = p.next, r.next
         
-        return fake_head.next
+        return dummy_head.next
