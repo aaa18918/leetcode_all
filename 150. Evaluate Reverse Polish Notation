@@ -7,22 +7,23 @@ class Solution(object):
         """
         
         my_stack = []
-        for t in tokens:
-            if t in '+-*/':
-                b = my_stack.pop()
+        for token in tokens:
+            if token == '+':
                 a = my_stack.pop()
-                if t == '+':
-                    my_stack.append(a+b)
-                elif t == '-':
-                    my_stack.append(a-b)
-                elif t == '*':
-                    my_stack.append(a*b)
-                elif t == '/':
-                    if a/b < 0:
-                        my_stack.append(-(abs(a)/abs(b)))
-                    else:
-                        my_stack.append(a/b)
+                my_stack[-1] += a
+            elif token == '-':
+                a = my_stack.pop()
+                my_stack[-1] -= a
+            elif token == '*':
+                a = my_stack.pop()
+                my_stack[-1] *= a
+            elif token == '/':
+                a = my_stack.pop()
+                if a < 0 < my_stack[-1] or my_stack[-1] < 0 < a:
+                    my_stack[-1] = -(abs(my_stack[-1])/abs(a))
+                else:
+                    my_stack[-1] = abs(my_stack[-1])/abs(a)
             else:
-                my_stack.append(int(t))
+                my_stack.append(int(token))
         
-        return my_stack[0] if my_stack else 0
+        return my_stack[-1] if tokens else 0
