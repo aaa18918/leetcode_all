@@ -12,12 +12,10 @@ class Solution(object):
         :rtype: bool
         """
         
-        if not head or not head.next:
-            return False
+        p, q = head, head
+        while q and q.next:
+            p, q = p.next, q.next.next
+            if p is q:
+                return True
         
-        slow, fast = head, head.next
-        while fast.next and fast.next.next and slow is not fast:
-            slow = slow.next
-            fast = fast.next.next
-        
-        return slow is fast
+        return False
