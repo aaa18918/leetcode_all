@@ -1,3 +1,4 @@
+O(n) time, O(1) space
 # Definition for singly-linked list.
 # class ListNode(object):
 #     def __init__(self, x):
@@ -11,19 +12,20 @@ class Solution(object):
         :rtype: ListNode
         """
         
-        if not head: return head
-        
-        slow, fast = head, head
-        while fast.next and fast.next.next:
-            slow, fast = slow.next, fast.next.next
-            if slow is fast:
+        p, q = head, head
+        while q and q.next:
+            p, q = p.next, q.next.next
+            if p is q:
+                p = head
                 break
         
-        if fast.next and fast.next.next:
-            slow = head
-            while slow is not fast:
-                slow, fast = slow.next, fast.next
+        if q and q.next:
+            while p is not q:
+                p, q = p.next, q.next
             
-            return slow
+            return p
         
         return None
+
+
+leetcode discussion的解释的证明有问题。不知道原理是什么。
