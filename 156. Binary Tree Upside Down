@@ -1,4 +1,4 @@
-amortize O(lgn) time, worst O(n) time, O(1) space
+O(n) time, O(1) space
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -16,18 +16,12 @@ class Solution(object):
         if not root:
             return None
         
-        res = root
-        cur = root
-        next_node = root.left
-        cur_right = root.right
+        p, left, right = root, root.left, root.right
         root.left, root.right = None, None
-        while next_node:
-            tmp = next_node.left
-            next_node.left = cur_right
-            cur_right = next_node.right
-            next_node.right = cur
-            
-            cur = next_node
-            next_node = tmp
+        while left:
+            tmp1, tmp2 = left.left, left.right
+            left.left, left.right = right, p
+            p = left
+            left, right = tmp1, tmp2
         
-        return cur
+        return p
