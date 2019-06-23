@@ -1,3 +1,4 @@
+O(nlgn) time, O(n) space
 class Solution:
     # @param {integer[]} nums
     # @return {string}
@@ -13,6 +14,8 @@ class Solution:
         res =  "".join(sorted([str(n) for n in nums], cmp = cmp, reverse = True)).lstrip('0')
         return '0' if not res else res
 
+
+O(nlgn) time, O(n) space
 class Solution:
     # @param {integer[]} nums
     # @return {string}
