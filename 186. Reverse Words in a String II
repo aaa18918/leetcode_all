@@ -1,23 +1,20 @@
 O(n) time, O(1) space
 class Solution(object):
-    def reverseWords(self, str):
+    def reverseWords(self, s):
         """
-        :type str: List[str]
-        :rtype: void Do not return anything, modify str in-place instead.
+        :type s: List[str]
+        :rtype: None Do not return anything, modify s in-place instead.
         """
         
-        if not str: return
-        
-        def reverseList(left, right):
+        def reverse(left, right):
             while left < right:
-                str[left], str[right] = str[right], str[left]
+                s[left], s[right] = s[right], s[left]
                 left, right = left+1, right-1
         
-        size = len(str)
-        reverseList(0, size-1)
+        reverse(0, len(s)-1)
         
         left = 0
-        for idx in range(size+1):
-            if idx == size or str[idx] == ' ':
-                reverseList(left, idx-1)
+        for idx in range(len(s)+1):
+            if idx == len(s) or s[idx] == ' ':
+                reverse(left, idx-1)
                 left = idx+1
