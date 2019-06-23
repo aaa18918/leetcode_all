@@ -1,3 +1,4 @@
+O(lgn) time, O(1) space
 class Solution(object):
     def trailingZeroes(self, n):
         """
@@ -5,10 +6,9 @@ class Solution(object):
         :rtype: int
         """
         
-        res = 0
-        
-        while n:
-            res += n/5
-            n /= 5
+        x, res = 5, 0
+        while x <= n:
+            res += n/x
+            x *= 5
         
         return res
