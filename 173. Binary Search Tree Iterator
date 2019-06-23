@@ -13,11 +13,12 @@ class BSTIterator(object):
         :type root: TreeNode
         """
         
-        self.node = root
-        self.my_stack = []
-        while self.node:
-            self.my_stack.append(self.node)
-            self.node = self.node.left
+        self.stack = []
+        
+        p = root
+        while p:
+            self.stack.append(p)
+            p = p.left
 
     def next(self):
         """
@@ -25,14 +26,13 @@ class BSTIterator(object):
         :rtype: int
         """
         
-        node = self.my_stack.pop()
-        res = node.val
-        node = node.right
-        while node:
-            self.my_stack.append(node)
-            node = node.left
+        p = self.stack.pop()
+        q = p.right
+        while q:
+            self.stack.append(q)
+            q = q.left
         
-        return res
+        return p.val
 
     def hasNext(self):
         """
@@ -40,7 +40,7 @@ class BSTIterator(object):
         :rtype: bool
         """
         
-        return True if self.my_stack else False
+        return self.stack != []
 
 # Your BSTIterator object will be instantiated and called as such:
 # obj = BSTIterator(root)
