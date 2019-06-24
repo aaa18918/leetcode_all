@@ -9,23 +9,20 @@ class Solution(object):
         if len(s) < 10:
             return []
         
-        c_to_int = {'A':0, 'C':1, 'G':2, 'T':3}
-        cur = 0
-        words = set()
-        added = set()
-        res = []
+        char_to_int = {'A':0, 'C':1, 'G':2, 'T':3}
+
+        cur =  0
         for idx in range(10):
-            cur = (cur<<2)+c_to_int[s[idx]]
+            cur = (cur<<2) + char_to_int[s[idx]]
         
-        words.add(cur)
-        
+        res, my_set = set(), set([cur])
         for idx in range(10, len(s)):
             cur &= 0b111111111111111111
-            cur = (cur<<2)+c_to_int[s[idx]]
-            if cur in words and cur not in added:
-                res.append(s[idx-9:idx+1])
-                added.add(cur)
+            cur = (cur<<2) + char_to_int[s[idx]]
             
-            words.add(cur)
+            if cur in my_set:
+                res.add(s[idx-9:idx+1])
+            
+            my_set.add(cur)
         
-        return res
+        return list(res)
