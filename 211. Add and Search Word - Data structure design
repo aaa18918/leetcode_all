@@ -1,9 +1,4 @@
-class WordTreeNode(object):
-    def __init__(self, char):
-        self.char = char
-        self.children = [None for _ in range(26)]
-        self.is_word = False
-
+O(n) time addWord, O(26^n) time search, O(26^n) space
 class WordDictionary(object):
 
     def __init__(self):
@@ -11,23 +6,23 @@ class WordDictionary(object):
         Initialize your data structure here.
         """
         
-        self.root = WordTreeNode('')
-        
+        self.trie = {}
+
     def addWord(self, word):
         """
         Adds a word into the data structure.
         :type word: str
-        :rtype: void
+        :rtype: None
         """
         
-        cur_node = self.root
-        
+        p = self.trie
         for char in word:
-            if cur_node.children[ord(char)-ord('a')] is None:
-                cur_node.children[ord(char)-ord('a')] = WordTreeNode(char)
-            cur_node = cur_node.children[ord(char)-ord('a')]
+            if char not in p:
+                p[char] = {}
+            
+            p = p[char]
         
-        cur_node.is_word = True
+        p['#'] = {}
 
     def search(self, word):
         """
@@ -36,294 +31,33 @@ class WordDictionary(object):
         :rtype: bool
         """
         
-        def helper(root, word):
-            for index, char in enumerate(word):
-                if char == '.':
-                    for node in root.children:
-                        if node and helper(node, word[index+1:]):
-                            return True
-                    return False
-                else:
-                    if root.children[ord(char)-ord('a')] is None:
+        def myHelp(root, idx):
+            p = root
+            
+            for i in range(idx, len(word)):
+                if word[i] == '.':
+                    if i+1 == len(word):
+                        for key, val in p.iteritems():
+                            if key != '#' and '#' in val:
+                                return True
+                        
                         return False
                     else:
-                        root = root.children[ord(char)-ord('a')]
-            
-            if root.is_word == True:
-                return True
-            else:
-                return False
-        
-        return helper(self.root, word)
-                            
-# Your WordDictionary object will be instantiated and called as such:
-# obj = WordDictionary()
-# obj.addWord(word)
-# param_2 = obj.search(word)
-
-
-class WordTreeNode(object):
-    def __init__(self, word):
-        self.word = word
-        self.children = [None for _ in range(26)]
-
-class WordDictionary(object):
-
-    def __init__(self):
-        """
-        Initialize your data structure here.
-        """
-        
-        self.root = WordTreeNode('')
-        
-    def addWord(self, word):
-        """
-        Adds a word into the data structure.
-        :type word: str
-        :rtype: void
-        """
-        
-        cur_node = self.root
-        
-        for char in word:
-            if cur_node.children[ord(char)-ord('a')] is None:
-                cur_node.children[ord(char)-ord('a')] = WordTreeNode('')
-            cur_node = cur_node.children[ord(char)-ord('a')]
-        
-        cur_node.word = word
-
-    def search(self, word):
-        """
-        Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter.
-        :type word: str
-        :rtype: bool
-        """
-        
-        def helper(root, word):
-            for index, char in enumerate(word):
-                if char == '.':
-                    for node in root.children:
-                        if node and helper(node, word[index+1:]):
-                            return True
-                    return False
-                else:
-                    if root.children[ord(char)-ord('a')] is None:
+                        for key, val in p.iteritems():
+                            if key != '#':
+                                if myHelp(p[key], i+1):
+                                    return True
+                        
                         return False
-                    else:
-                        root = root.children[ord(char)-ord('a')]
-            
-            if root.word:
-                return True
-            else:
-                return False
-        
-        return helper(self.root, word)
-                            
-# Your WordDictionary object will be instantiated and called as such:
-# obj = WordDictionary()
-# obj.addWord(word)
-# param_2 = obj.search(word)
-
-https://leetcode.com/problems/add-and-search-word-data-structure-design/
-
-class TreeTrie():
-    def __init__(self):
-        self.val = ""
-        self.next = {}
-
-class WordDictionary(object):
-    def __init__(self):
-        """
-        initialize your data structure here.
-        """
-        
-        self.root = TreeTrie()
-
-    def addWord(self, word):
-        """
-        Adds a word into the data structure.
-        :type word: str
-        :rtype: void
-        """
-        
-        p = self.root
-        
-        for index in range(0, len(word)):
-            if word[index] not in p.next:
-                p.next[word[index]] = TreeTrie()
-            
-            p = p.next[word[index]]
-        
-        p.val = word
-        
-
-    def search(self, word):
-        """
-        Returns if the word is in the data structure. A word could
-        contain the dot character '.' to represent any one letter.
-        :type word: str
-        :rtype: bool
-        """
-        
-        p = self.root
-        
-        for index in range(0, len(word)):
-            if word[index] != '.':
-                if word[index] not in p.next:
-                    return False
-                
-                p = p.next[word[index]]
-            else:
-                for key in p.next:
-                    if self.searchHelp(p.next[key], word, index):
-                        return True
-                
-                return False
-        
-        if p.val == "":
-            return False
-        else:
-            return True
-    
-    def searchHelp(self, p, word, index):
-        """
-        Return if the word is in the data structure
-        :rtype: bool
-        """
-        
-        for index_inner in range(index+1, len(word)):
-            if word[index_inner] != '.':
-                if word[index_inner] not in p.next:
-                    return False
-                
-                p = p.next[word[index_inner]]
-            else:
-                for key in p.next:
-                    if self.searchHelp(p.next[key], word, index_inner):
-                        return True
-                
-                return False
-        
-        if p.val == "":
-            return False
-        else:
-            return True
-        
-
-# Your WordDictionary object will be instantiated and called as such:
-# wordDictionary = WordDictionary()
-# wordDictionary.addWord("word")
-# wordDictionary.search("pattern")
-
-https://leetcode.com/problems/add-and-search-word-data-structure-design/
-
-class WordDictionary(object):
-    def __init__(self):
-        """
-        initialize your data structure here.
-        """
-        
-        self.hash_words = {}
-
-    def addWord(self, word):
-        """
-        Adds a word into the data structure.
-        :type word: str
-        :rtype: void
-        """
-        
-        if word:
-            if len(word) in self.hash_words:
-                if word not in self.hash_words[len(word)]:
-                    self.hash_words[len(word)].append(word)
-            else:
-                self.hash_words[len(word)] = [word]
-            
-
-    def search(self, word):
-        """
-        Returns if the word is in the data structure. A word could
-        contain the dot character '.' to represent any one letter.
-        :type word: str
-        :rtype: bool
-        """
-        
-        if len(word) not in self.hash_words:
-            return False
-        
-        for hash_word in self.hash_words[len(word)]:
-            is_break = False
-            for index, char in enumerate(hash_word):
-                if char != word[index] and word[index] != '.':
-                    is_break = True
-                    break
-            
-            if not is_break:
-                return True
-        
-        return False
-        
-
-# Your WordDictionary object will be instantiated and called as such:
-# wordDictionary = WordDictionary()
-# wordDictionary.addWord("word")
-# wordDictionary.search("pattern")
-
-
-class Trie(object):
-    def __init__(self):
-        self.is_word = False
-        self.children = [None for _ in range(26)]
-    
-class WordDictionary(object):
-
-    def __init__(self):
-        """
-        Initialize your data structure here.
-        """
-        
-        self.root = Trie()
-
-    def addWord(self, word):
-        """
-        Adds a word into the data structure.
-        :type word: str
-        :rtype: void
-        """
-        
-        p = self.root
-        for w in word:
-            idx = ord(w)-ord('a')
-            if p.children[idx] is None:
-                p.children[idx] = Trie()
-            p = p.children[idx]
-        p.is_word = True
-
-    def search(self, word):
-        """
-        Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter.
-        :type word: str
-        :rtype: bool
-        """
-        
-        def myDFS(node, word):
-            if not word: return node.is_word
-            
-            p = node
-            for idx, w in enumerate(word):
-                if w != '.':
-                    idx = ord(w)-ord('a')
-                    if p.children[idx] is None: return False
-                    p = p.children[idx]
                 else:
-                    for next_node in p.children:
-                        if next_node and myDFS(next_node, word[idx+1:]):
-                            return True
-                    return False
+                    if word[i] not in p:
+                        return False
+                    
+                    p = p[word[i]]
             
-            return p.is_word
+            return '#' in p
         
-        return myDFS(self.root, word)
+        return myHelp(self.trie, 0)
 
 # Your WordDictionary object will be instantiated and called as such:
 # obj = WordDictionary()
