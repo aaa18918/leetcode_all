@@ -6,27 +6,23 @@ class Solution(object):
         :rtype: bool
         """
         
-        def cur_sum(n):
-            cur_num = 0
+        def nextNum(n):
+            res = 0
             while n > 0:
-                cur_num += (n%10)**2
+                res += (n%10)**2
                 n /= 10
             
-            return cur_num
+            return res
         
-        slow, fast = n, cur_sum(n)
-        while slow != fast:
-            if fast == 1:
-                return True
-            slow = cur_sum(slow)
-            fast = cur_sum(fast)
+        slow, fast = n, n
+        while fast != 1:
+            slow = nextNum(slow)
+            fast = nextNum(nextNum(fast))
             
-            if fast == 1:
-                return True
-            
-            fast = cur_sum(fast)
+            if fast != 1 and slow == fast:
+                return False
         
-        return fast == 1
+        return True
 
 
 O(k) time, O(k) space
