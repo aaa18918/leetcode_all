@@ -13,16 +13,15 @@ class Solution(object):
         """
         
         if not head:
-            return head
+            return None
         
         p, q = head, head.next
-        
+        p.next = None
         while q:
             tmp = q.next
             q.next = p
             p, q = q, tmp
         
-        head.next = None
         return p
 
 
