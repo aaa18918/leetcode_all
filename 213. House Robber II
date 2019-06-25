@@ -6,24 +6,20 @@ class Solution(object):
         :rtype: int
         """
         
-        if not nums: return 0
-        if len(nums) == 1: return nums[0]
+        if not nums:
+            return 0
+        elif len(nums) == 1:
+            return nums[0]
         
-        left, right = 0, nums[1]
-        for idx in range(2, len(nums)):
-            if idx%2 == 0:
-                left = max(left+nums[idx], right)
-            else:
-                right = max(right+nums[idx], left)
-        
-        res = left if (len(nums)-1)%2 == 0 else right
-        
-        left, right = nums[0], nums[0]
+        a, b = nums[0], nums[0]
         for idx in range(2, len(nums)-1):
-            if idx%2 == 0:
-                left = max(left+nums[idx], right)
-            else:
-                right = max(right+nums[idx], left)
+            a, b = b, max(b, a+nums[idx])
         
-        res = max(res, left) if (len(nums)-2)%2 == 0 else max(res, right)
+        res = b
+        
+        a, b = 0, nums[1]
+        for idx in range(2, len(nums)):
+            a, b = b, max(b, a+nums[idx])
+        
+        res = max(res, b)
         return res
