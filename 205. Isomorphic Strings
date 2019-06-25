@@ -1,4 +1,4 @@
-O(n) time, O(n) space
+O(n) time, O(26) space
 class Solution(object):
     def isIsomorphic(self, s, t):
         """
@@ -10,12 +10,16 @@ class Solution(object):
         if len(s) != len(t):
             return False
         
-        s_to_t_map, t_to_s_map = collections.defaultdict(str), collections.defaultdict(str)
+        my_map, my_set = {}, set()
         for idx in range(len(s)):
-            if not s_to_t_map[s[idx]] and not t_to_s_map[t[idx]]:
-                s_to_t_map[s[idx]], t_to_s_map[t[idx]] = t[idx], s[idx]
-                
-            if s_to_t_map[s[idx]] != t[idx] or t_to_s_map[t[idx]] != s[idx]:
-                return False
+            if s[idx] in my_map:
+                if my_map[s[idx]] != t[idx]:
+                    return False
+            else:
+                if t[idx] in my_set:
+                    return False
+                else:
+                    my_map[s[idx]] = t[idx]
+                    my_set.add(t[idx])
         
         return True
