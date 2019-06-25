@@ -33,3 +33,42 @@ class Solution(object):
                 return []
         
         return res
+
+
+O(n) time, O(n) space
+class Solution(object):
+    def findOrder(self, numCourses, prerequisites):
+        """
+        :type numCourses: int
+        :type prerequisites: List[List[int]]
+        :rtype: List[int]
+        """
+        
+        adjacent_list = collections.defaultdict(set)
+        for prerequisite in prerequisites:
+            adjacent_list[prerequisite[0]].add(prerequisite[1])
+        
+        cur = []
+        for num in range(numCourses):
+            if num not in adjacent_list:
+                cur.append(num)
+        
+        res = []
+        while cur:
+            res += cur
+            
+            tmp = []
+            for key, val in adjacent_list.iteritems():
+                for c in cur:
+                    if c in val:
+                        val.remove(c)
+                        
+                        if not val:
+                            tmp.append(key)
+            
+            for key in tmp:
+                del adjacent_list[key]
+            
+            cur = tmp
+        
+        return res if not adjacent_list else []
