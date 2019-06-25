@@ -1,3 +1,4 @@
+O(n) time, O(1) space
 # Definition for singly-linked list.
 # class ListNode(object):
 #     def __init__(self, x):
@@ -12,40 +13,13 @@ class Solution(object):
         :rtype: ListNode
         """
         
-        fake_head = ListNode(0)
-        fake_head.next = head
-        
-        p = fake_head
-        while p:
-            if p.next and p.next.val == val:
-                p.next = p.next.next
-            
-            if not p.next or p.next.val != val: p = p.next
-        return fake_head.next
-
-
-# Definition for singly-linked list.
-# class ListNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution(object):
-    def removeElements(self, head, val):
-        """
-        :type head: ListNode
-        :type val: int
-        :rtype: ListNode
-        """
-        
-        fake_head = ListNode(0)
-        fake_head.next = head
-        
-        p = fake_head
-        while p.next:
+        dummy_head = ListNode(0)
+        dummy_head.next = head
+        p = dummy_head
+        while p and p.next:
             if p.next.val == val:
                 p.next = p.next.next
             else:
                 p = p.next
-
-        return fake_head.next
+        
+        return dummy_head.next
