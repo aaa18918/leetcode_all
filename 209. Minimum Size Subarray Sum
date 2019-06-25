@@ -19,4 +19,4 @@ class Solution(object):
         return res if res < sys.maxint else 0
 
 
-别的解法没看。
+别的解法没看。题目里说还有个O(nlgn)的解法。
