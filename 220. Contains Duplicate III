@@ -1,3 +1,4 @@
+O(n) time, O(n) space
 class Solution(object):
     def containsNearbyAlmostDuplicate(self, nums, k, t):
         """
@@ -6,24 +7,21 @@ class Solution(object):
         :type t: int
         :rtype: bool
         """
-        if t < 0: return False
         
-        w = t+1
+        if t < 0:
+            return False
+        
         hash_table = {}
         for idx in range(len(nums)):
-            bucket_num = nums[idx]/w
-            if bucket_num in hash_table: return True
+            key = nums[idx]/(t+1)
             
-            if bucket_num-1 in hash_table and abs(nums[idx]-hash_table[bucket_num-1]) <= t:
-                return True
+            for i in (key, key-1, key+1):
+                if i in hash_table:
+                    idx1 = hash_table[i]
+                    if idx-idx1 <= k and abs(nums[idx]-nums[idx1]) <= t:
+                        return True
             
-            if bucket_num+1 in hash_table and abs(nums[idx]-hash_table[bucket_num+1]) <= t:
-                return True
-            
-            hash_table[bucket_num] = nums[idx]
-            
-            if idx >= k and hash_table[nums[idx-k]/w] == nums[idx-k]:
-                del hash_table[nums[idx-k]/w]
+            hash_table[key] = idx
         
         return False
 
