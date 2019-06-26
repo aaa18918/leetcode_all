@@ -15,7 +15,7 @@ class Solution(object):
         return min_heap[0]
 
 
-Average O(n) time, Worst O(nlgn) time, O(n) space
+Average O(n) time, Worst O(nlgn) time, O(1) space
 class Solution(object):
     def findKthLargest(self, nums, k):
         """
@@ -24,22 +24,29 @@ class Solution(object):
         :rtype: int
         """
         
-        pivot = nums[0]
-        left, idx, right = 0, 0, len(nums)-1
-        while left <= idx <= right:
-            if nums[idx] == pivot:
-                idx += 1
-            elif nums[idx] > pivot:
-                nums[left], nums[idx] = nums[idx], nums[left]
-                left += 1
-                idx += 1
+        def myHelp(left, right, k):
+            idx, p, l, r = left, nums[right], left, right-1
+            while idx <= r:
+                if nums[idx] > p:
+                    if idx != l:
+                        nums[l], nums[idx] = nums[idx], nums[l]
+                        l += 1
+                    else:
+                        l += 1
+                        idx += 1
+                elif nums[idx] == p:
+                    idx += 1
+                else:
+                    if idx != r:
+                        nums[r], nums[idx] = nums[idx], nums[r]
+                    
+                    r -= 1
+            
+            if k <= l-left:
+                return myHelp(left, l-1, k)
+            elif k <= r+2-left:
+                return p
             else:
-                nums[right], nums[idx] = nums[idx], nums[right]
-                right -= 1
+                return myHelp(r+1, right-1, k-(r+2-left))
         
-        if k <= left:
-            return self.findKthLargest(nums[:left], k)
-        elif k <= idx:
-            return pivot
-        else:
-            return self.findKthLargest(nums[idx:], k-idx)
+        return myHelp(0, len(nums)-1, k)
