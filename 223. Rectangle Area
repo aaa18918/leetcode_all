@@ -1,8 +1,22 @@
 O(1) time, O(1) space
 class Solution(object):
     def computeArea(self, A, B, C, D, E, F, G, H):
-        total = (C-A)*(D-B)+(G-E)*(H-F)
-        if E >= C or H <= B or G <= A or F >= D:
-            return total
+        """
+        :type A: int
+        :type B: int
+        :type C: int
+        :type D: int
+        :type E: int
+        :type F: int
+        :type G: int
+        :type H: int
+        :rtype: int
+        """
         
-        return total-(min(C,G)-max(A,E))*(min(D,H)-max(B,F))
+        res = (G-E)*(H-F)+(C-A)*(D-B)
+        right, bottom, left, top = min(C, G), max(B, F), max(A, E), min(D, H)
+        
+        if right > left and top > bottom:
+            res -= (right-left)*(top-bottom)
+        
+        return res
