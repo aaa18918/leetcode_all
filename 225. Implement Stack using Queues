@@ -1,6 +1,4 @@
 O(1) time, O(1) space push; O(n) time pop, O(1) space pop; O(1) time, O(1) space top; O(1) time, O(1) space empty; Overall O(n) space.
-from collections import deque
-
 class MyStack(object):
 
     def __init__(self):
@@ -8,16 +6,16 @@ class MyStack(object):
         Initialize your data structure here.
         """
         
-        self.my_queue = deque()
+        self.queue = collections.deque([])
 
     def push(self, x):
         """
         Push element x onto stack.
         :type x: int
-        :rtype: void
+        :rtype: None
         """
         
-        self.my_queue.append(x)
+        self.queue.append(x)
 
     def pop(self):
         """
@@ -25,10 +23,11 @@ class MyStack(object):
         :rtype: int
         """
         
-        for i in range(len(self.my_queue)-1):
-            self.my_queue.append(self.my_queue.popleft())
+        size = len(self.queue)
+        for _ in range(size-1):
+            self.queue.append(self.queue.popleft())
         
-        return self.my_queue.popleft()
+        return self.queue.popleft()
 
     def top(self):
         """
@@ -36,7 +35,7 @@ class MyStack(object):
         :rtype: int
         """
         
-        return self.my_queue[-1]
+        return self.queue[-1]
 
     def empty(self):
         """
@@ -44,7 +43,7 @@ class MyStack(object):
         :rtype: bool
         """
         
-        return True if not self.my_queue else False
+        return not self.queue
 
 # Your MyStack object will be instantiated and called as such:
 # obj = MyStack()
