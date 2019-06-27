@@ -1,3 +1,4 @@
+O(n) time, O(n) space
 class Solution(object):
     def calculate(self, s):
         """
@@ -41,3 +42,63 @@ class Solution(object):
 
 注意连续两个乘号会导致直接left_num = sign*num出错，比如：2*3*4会等于6。虽然不知道为啥算出来一个6。
 
+
+O(n) time, O(n) space
+class Solution(object):
+    def calculate(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        
+        compacted_s = ''
+        for char in s:
+            if char != ' ':
+                compacted_s += char
+        
+        if not compacted_s:
+            return 0
+        
+        def getANum(idx): 
+            i = idx
+            while i+1 < len(compacted_s) and compacted_s[i+1] not in '+-*/':
+                i += 1
+            
+            return int(compacted_s[idx:i+1]), i+1
+        
+        my_stack, idx = [], 0
+        num, idx = getANum(0)
+        my_stack.append(num)
+        
+        while idx < len(compacted_s):
+            operator = compacted_s[idx]
+            idx += 1
+            
+            num, idx = getANum(idx)
+            
+            if operator == '+':
+                my_stack.append(num)
+            elif operator == '-':
+                my_stack.append('-')
+                my_stack.append(num)
+            elif operator == '*':
+                my_stack[-1] *= num
+            else:
+                a = my_stack.pop()
+                if a < 0 < num and num < 0 < a:
+                    my_stack.append(-(abs(a)/abs(num)))
+                else:
+                    my_stack.append((abs(a)/abs(num)))
+        
+        sign, res = 1, 0
+        for item in my_stack:
+            if item == '-':
+                sign = -1
+            else:
+                res += sign*item
+                sign = 1
+        
+        return res
+
+
+把'-'和int类型一起放在了list里，暂时不知道怎么改进。
