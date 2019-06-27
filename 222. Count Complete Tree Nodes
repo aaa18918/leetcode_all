@@ -1,0 +1,34 @@
+O((lgn)^2) time, O(???) space
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def countNodes(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        
+        if not root:
+            return 0
+        
+        res = 0
+        
+        p, left_depth = root.left, 0
+        while p:
+            p, left_depth = p.left, left_depth+1
+        
+        p, right_depth = root.right, 0
+        while p:
+            p, right_depth = p.left, right_depth+1
+        
+        if left_depth == right_depth:
+            res = 2**left_depth+self.countNodes(root.right)
+        else:
+            res = 2**right_depth+self.countNodes(root.left)
+        
+        return res
