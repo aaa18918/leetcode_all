@@ -1,49 +1,6 @@
 https://leetcode.com/problems/palindrome-linked-list/
 
-# Definition for singly-linked list.
-# class ListNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution(object):
-    def isPalindrome(self, head):
-        """
-        :type head: ListNode
-        :rtype: bool
-        """
-        
-        if head == None:
-            return True
-        
-        new_head = ListNode(0)
-        new_head.next, slow, fast = head, new_head, head
-        
-        while fast.next != None and fast.next.next != None:
-            slow = slow.next
-            fast = fast.next.next
-        
-        former, latter, new_latter_head = head, slow.next.next, ListNode(0)
-        new_latter_head.next, p, q = latter, new_latter_head, latter
-        
-        #reverse the latter linked list
-        while q != None:
-            temp = q.next
-            q.next, p, q = p, q, temp
-        
-        if latter != None:
-            latter.next = None
-            latter = p
-        
-        #compare two linked lists
-        p, q = former, latter
-        while p != None and q != None:
-            if p.val != q.val:
-                return False
-            p, q = p.next, q.next
-        
-        return True
-
+O(n) time, O(1) space
 # Definition for singly-linked list.
 # class ListNode(object):
 #     def __init__(self, x):
