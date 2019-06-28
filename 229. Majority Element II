@@ -6,7 +6,7 @@ class Solution(object):
         :rtype: List[int]
         """
         
-        num1, num2, count1, count2 = 0, 0, 0, 0
+        num1, num2, count1, count2 = 0, 1, 0, 0
         for num in nums:
             print num1, num2, count1, count2, num
             if num == num1:
