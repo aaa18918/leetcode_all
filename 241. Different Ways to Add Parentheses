@@ -1,0 +1,29 @@
+O(???) time, O(???) space
+class Solution(object):
+    def diffWaysToCompute(self, input):
+        """
+        :type input: str
+        :rtype: List[int]
+        """
+        
+        def myHelp(start, end):
+            res, has_operators = [], False
+            for idx in range(start, end+1):
+                if input[idx] in '+-*/':
+                    has_operators = True
+                    left, right = myHelp(start, idx-1), myHelp(idx+1, end)
+                    
+                    for l in left:
+                        for r in right:
+                            if input[idx] == '+':
+                                res.append(l+r)
+                            elif input[idx] == '-':
+                                res.append(l-r)
+                            elif input[idx] == '*':
+                                res.append(l*r)
+                            elif input[idx] == '/':
+                                res.append(l/r)
+            
+            return res if has_operators else [int(input[start:end+1])]
+        
+        return myHelp(0, len(input)-1)
