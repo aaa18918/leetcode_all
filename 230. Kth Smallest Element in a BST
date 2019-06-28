@@ -31,7 +31,7 @@ class Solution(object):
                 return val
 
 
-O(n) time, O(lgn) space
+O(n) time, O(n) space
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -48,18 +48,15 @@ class Solution(object):
         """
         
         p, my_stack = root, []
-        while p:
-            my_stack.append(p)
-            p = p.left
-        
-        while my_stack:
-            if not p:
-                p = my_stack.pop()
-                k -= 1
-                if k == 0:
-                    return p.val
-            
-            p = p.right
+        while p or my_stack:
             while p:
                 my_stack.append(p)
                 p = p.left
+            
+            p = my_stack.pop()
+            
+            if k == 1:
+                return p.val
+            else:
+                k -= 1
+                p = p.right
