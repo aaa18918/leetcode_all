@@ -6,22 +6,14 @@ class Solution(object):
         :rtype: List[str]
         """
         
-        res, nums = [], '01689'
-        mappings = {'1':'1', '6':'9', '9':'6', '8':'8', '0':'0'}
+        mapping = {'6':'9', '9':'6', '0':'0', '1':'1', '8':'8'}
         
-        def myDFS(cur):
-            if len(cur) == n:
-                if n == 1 or cur[0] != '0':
-                    res.append(cur)
-                return
-            
-            for num in nums:
-                myDFS(num+cur+mappings[num])
+        def myHelp(n):
+            if n == 0:
+                return ['']
+            elif n == 1:
+                return [char for char in '018']
+            else:
+                return [char+p+mapping[char] for char in '01689' for p in myHelp(n-2)]
         
-        if n%2 == 0:
-            myDFS('')
-        else:
-            for num in '018':
-                myDFS(num)
-        
-        return res
+        return [p for p in myHelp(n) if p[0] != '0'] if n > 1 else myHelp(n)
