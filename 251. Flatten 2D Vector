@@ -1,39 +1,38 @@
 O(n) time, O(1) space
 class Vector2D(object):
 
-    def __init__(self, vec2d):
+    def __init__(self, v):
         """
-        Initialize your data structure here.
-        :type vec2d: List[List[int]]
+        :type v: List[List[int]]
         """
         
-        self.vec2d = vec2d
-        self.i, self.j = 0, -1
+        self.v = v
+        self.i, self.j = 0, 0
 
     def next(self):
         """
         :rtype: int
         """
         
-        return self.vec2d[self.i][self.j]
+        val = self.v[self.i][self.j]
+        self.j += 1
+
+        while self.i < len(self.v) and self.j >= len(self.v[self.i]):
+            self.i, self.j = self.i+1, 0
+        
+        return val
 
     def hasNext(self):
         """
         :rtype: bool
         """
-        
-        if not self.vec2d: return False
-        
-        m = len(self.vec2d)
-        self.j += 1
-        while self.i < m and self.j == len(self.vec2d[self.i]):
+
+        while self.i < len(self.v) and self.j >= len(self.v[self.i]):
             self.i, self.j = self.i+1, 0
         
-        if self.i == m:
-            return False
-        
-        return True
+        return self.i < len(self.v)
 
 # Your Vector2D object will be instantiated and called as such:
-# i, v = Vector2D(vec2d), []
-# while i.hasNext(): v.append(i.next())
+# obj = Vector2D(v)
+# param_1 = obj.next()
+# param_2 = obj.hasNext()
