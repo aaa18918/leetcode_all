@@ -1,0 +1,44 @@
+O(n) time, O(???) space
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def countUnivalSubtrees(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        
+        def myHelp(root):
+            if not root:
+                return True, 0, 0
+            elif not root.left and not root.right:
+                return True, 1, root.val
+            else:
+                is_left_uni_value, left_count, left_val = myHelp(root.left)
+                is_right_uni_value, right_count, right_val = myHelp(root.right)
+                
+                if is_left_uni_value and is_right_uni_value:
+                    if left_count > 0 and right_count > 0:
+                        if left_val == right_val == root.val:
+                            return True, left_count+right_count+1, root.val
+                        else:
+                            return False, left_count+right_count, 0
+                    elif left_count > 0:
+                        if left_val == root.val:
+                            return True, left_count+1, root.val
+                        else:
+                            return False, left_count, 0
+                    elif right_count > 0:
+                        if right_val == root.val:
+                            return True, right_count+1, root.val
+                        else:
+                            return False, right_count, 0
+                else:
+                    return False, left_count+right_count, 0
+        
+        return myHelp(root)[1]
