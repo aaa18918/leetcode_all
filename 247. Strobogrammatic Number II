@@ -9,7 +9,7 @@ class Solution(object):
         mapping = {'6':'9', '9':'6', '0':'0', '1':'1', '8':'8'}
         
         def myHelp(n):
-            if n == 0:
+            if n <= 0:
                 return ['']
             elif n == 1:
                 return [char for char in '018']
