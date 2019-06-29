@@ -1,3 +1,4 @@
+O(n) time, O(1) space
 class Solution(object):
     def shortestWordDistance(self, words, word1, word2):
         """
@@ -20,3 +21,40 @@ class Solution(object):
                     prev, prev_index = word, i
         
         return res
+
+
+O(n) time, O(1) space
+class Solution(object):
+    def shortestWordDistance(self, words, word1, word2):
+        """
+        :type words: List[str]
+        :type word1: str
+        :type word2: str
+        :rtype: int
+        """
+        
+        res = sys.maxint
+        
+        if word1 == word2:
+            idx = -1
+            for i in range(len(words)):
+                if words[i] == word1:
+                    if idx >= 0:
+                        res = min(res, i-idx)
+                    
+                    idx = i
+        else:
+            idx1, idx2 = -1, -1
+            for i in range(len(words)):
+                if words[i] == word1:
+                    if idx2 >= 0:
+                        res = min(res, i-idx2)
+                    
+                    idx1 = i
+                elif words[i] == word2:
+                    if idx1 >= 0:
+                        res = min(res, i-idx1)
+                    
+                    idx2 = i
+            
+        return res if res != sys.maxint else 0
