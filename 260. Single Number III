@@ -1,3 +1,4 @@
+O(n) time, O(1) space
 class Solution(object):
     def singleNumber(self, nums):
         """
@@ -5,42 +6,15 @@ class Solution(object):
         :rtype: List[int]
         """
         
-        diff = 0
-        for num in nums:
-            diff ^= num
+        tmp = reduce(lambda x, y: x^y, nums)
         
-        mask = 1
-        while mask&diff == 0:
-            mask <<= 1
+        mask = tmp&(-tmp)
         
-        num1, num2 = 0, 0
+        a, b = 0, 0
         for num in nums:
             if num&mask:
-                num1 ^= num
+                a ^= num
             else:
-                num2 ^= num
+                b ^= num
         
-        return [num1, num2]
-
-
-class Solution(object):
-    def singleNumber(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: List[int]
-        """
-        
-        diff = 0
-        for num in nums:
-            diff ^= num
-        
-        mask = diff&(-diff)
-        
-        num1, num2 = 0, 0
-        for num in nums:
-            if num&mask:
-                num1 ^= num
-            else:
-                num2 ^= num
-        
-        return [num1, num2]
+        return [a, b]
