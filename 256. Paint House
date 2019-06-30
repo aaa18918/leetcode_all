@@ -14,3 +14,23 @@ class Solution(object):
             dp[idx+1][2] = min(dp[idx][0], dp[idx][1])+costs[idx][2]
         
         return min(dp[len(costs)])
+
+
+O(n) time, O(1) space
+class Solution(object):
+    def minCost(self, costs):
+        """
+        :type costs: List[List[int]]
+        :rtype: int
+        """
+        
+        dp = [[0]*3 for _ in range(2)]
+        
+        for cost in costs:
+            dp[0][0], dp[0][1], dp[0][2] = dp[1][0], dp[1][1], dp[1][2]
+            
+            dp[1][0] = min(dp[0][1], dp[0][2])+cost[0]
+            dp[1][1] = min(dp[0][0], dp[0][2])+cost[1]
+            dp[1][2] = min(dp[0][0], dp[0][1])+cost[2]
+        
+        return min(dp[1])
