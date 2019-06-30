@@ -1,0 +1,20 @@
+O(n) time, O(n) space
+class Solution(object):
+    def verifyPreorder(self, preorder):
+        """
+        :type preorder: List[int]
+        :rtype: bool
+        """
+        
+        my_stack, min_val = [], float('-inf')
+        for num in preorder:
+            if num < min_val:
+                return False
+            
+            while my_stack and num > my_stack[-1]:
+                min_val = max(min_val, my_stack.pop())
+            
+            my_stack.append(num)
+        
+        return True
+    
