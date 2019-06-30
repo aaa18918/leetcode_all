@@ -30,7 +30,7 @@ class Solution(object):
         return res
 
 
-O(n) time, O(???) space
+O(???) time, O(???) space
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
