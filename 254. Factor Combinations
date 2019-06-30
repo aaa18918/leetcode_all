@@ -51,3 +51,6 @@ class Solution(object):
 
 
 内存还是爆炸啦。
+
+
+需要看dis解法。
