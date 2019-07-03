@@ -1,4 +1,4 @@
-O(n) time, O(n) space
+O(n) time, O(???) space
 class Solution(object):
     def validTree(self, n, edges):
         """
