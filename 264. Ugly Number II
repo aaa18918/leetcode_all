@@ -1,0 +1,25 @@
+O(n) time, O(n) space
+class Solution(object):
+    def nthUglyNumber(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        
+        dp, m, i2, i3, i5 = [1 for _ in range(n)], 1, 0, 0, 0
+        while m < n:
+            u1, u2, u3 = dp[i2]*2, dp[i3]*3, dp[i5]*5
+            dp[m] = min(u1, u2, u3)
+            
+            if dp[m] == u1:
+                i2 += 1
+            
+            if dp[m] == u2:
+                i3 += 1
+            
+            if dp[m] == u3:
+                i5 += 1
+            
+            m += 1
+        
+        return dp[-1]
