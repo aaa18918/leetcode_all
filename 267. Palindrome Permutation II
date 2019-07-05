@@ -1,0 +1,50 @@
+O(???) time, O(???) space
+class Solution(object):
+    def generatePalindromes(self, s):
+        """
+        :type s: str
+        :rtype: List[str]
+        """
+        
+        counter = collections.Counter(s)
+        
+        def palindromicType():
+            count = 0
+            for val in counter.itervalues():
+                if val%2 != 0:
+                    count += 1
+                
+                    if count > 1:
+                        return 2
+            
+            return 0 if count == 0 else 1
+        
+        palindromic_type = palindromicType()
+        
+        res = []
+        
+        def myDFS(cur):
+            if len(cur) == len(s):
+                res.append(cur)
+                return
+            
+            for char in counter.iterkeys():
+                if counter[char] > 0:
+                    counter[char] -= 2
+                    
+                    myDFS(char+cur+char)
+                    
+                    counter[char] += 2
+        
+        if palindromic_type == 2:
+            return []
+        elif palindromic_type == 1:
+            for char, count in counter.iteritems():
+                if count%2 == 1:
+                    counter[char] -= 1
+                    
+                    myDFS(char)
+        else:
+            myDFS('')
+        
+        return res
