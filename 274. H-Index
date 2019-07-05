@@ -16,6 +16,7 @@ class Solution(object):
         return size
 
 
+O(len(citations)) time, O(len(citations)) space
 class Solution(object):
     def hIndex(self, citations):
         """
