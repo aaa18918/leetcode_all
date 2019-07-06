@@ -41,6 +41,3 @@ class ZigzagIterator(object):
 # Your ZigzagIterator object will be instantiated and called as such:
 # i, v = ZigzagIterator(v1, v2), []
 # while i.hasNext(): v.append(i.next())
-
-
-为什么O(1) Space，存储数据不占内存吗？？？
