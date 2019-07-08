@@ -9,17 +9,17 @@ class Solution(object):
         diff = [(-1, 0), (1, 0), (0, -1), (0, 1)]
         
         def myBFS(i, j):
-            my_queue = collections.deque([(i, j, 0)])
+            my_queue = collections.deque([(i, j)])
 
             while my_queue:
-                x, y, dis = my_queue.popleft()
-                rooms[x][y] = dis
+                x, y = my_queue.popleft()
                     
                 for d in diff:
                     new_x, new_y = x+d[0], y+d[1]
                         
-                    if 0 <= new_x < len(rooms) and 0 <= new_y < len(rooms[0]) and rooms[new_x][new_y] > dis+1:
-                        my_queue.append((new_x, new_y, dis+1))
+                    if 0 <= new_x < len(rooms) and 0 <= new_y < len(rooms[0]) and rooms[new_x][new_y] > rooms[x][y]+1:
+                        rooms[new_x][new_y] = rooms[x][y]+1
+                        my_queue.append((new_x, new_y))
         
         for i in range(len(rooms)):
             for j in range(len(rooms[0])):
