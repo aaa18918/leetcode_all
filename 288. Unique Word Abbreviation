@@ -1,46 +1,14 @@
+O(n) time, O(n) space initial; O(1) time, O(1) space isUnique; O(n) space overall
 class ValidWordAbbr(object):
-
-    def __init__(self, dictionary):
-        """
-        :type dictionary: List[str]
-        """
-        
-        self.hash_table = {}
-        for d in dictionary:
-            abbr = self.getAbbreviation(d)
-            if abbr not in self.hash_table:
-                self.hash_table[abbr] = set()
-            self.hash_table[abbr].add(d)
-
-    def isUnique(self, word):
-        """
-        :type word: str
-        :rtype: bool
-        """
-        
-        abbr = self.getAbbreviation(word)
-        return abbr not in self.hash_table or (word in self.hash_table[abbr] and len(self.hash_table[abbr]) == 1)
-
-    def getAbbreviation(self, word):
-        size = len(word)
-        return word if size <= 2 else word[0]+str(size-2)+word[-1]
-
-# Your ValidWordAbbr object will be instantiated and called as such:
-# obj = ValidWordAbbr(dictionary)
-# param_1 = obj.isUnique(word)
-
-
-class ValidWordAbbr(object):
-
     def __init__(self, dictionary):
         """
         :type dictionary: List[str]
         """
         
         self.hash_table = collections.defaultdict(set)
-        for d in dictionary:
-            abbr = self.getAbbreviation(d)
-            self.hash_table[abbr].add(d)
+        for word in dictionary:
+            abbr = word if len(word) <= 2 else word[0]+str(len(word)-2)+word[-1]
+            self.hash_table[abbr].add(word)
 
     def isUnique(self, word):
         """
@@ -48,12 +16,8 @@ class ValidWordAbbr(object):
         :rtype: bool
         """
         
-        abbr = self.getAbbreviation(word)
-        return abbr not in self.hash_table or (word in self.hash_table[abbr] and len(self.hash_table[abbr]) == 1)
-
-    def getAbbreviation(self, word):
-        size = len(word)
-        return word if size <= 2 else word[0]+str(size-2)+word[-1]
+        abbr = word if len(word) <= 2 else word[0]+str(len(word)-2)+word[-1]
+        return abbr not in self.hash_table or word in self.hash_table[abbr] and len(self.hash_table[abbr]) == 1
 
 # Your ValidWordAbbr object will be instantiated and called as such:
 # obj = ValidWordAbbr(dictionary)
