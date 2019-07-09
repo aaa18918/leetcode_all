@@ -1,0 +1,28 @@
+O(mn) time, O(1) space
+class Solution(object):
+    def gameOfLife(self, board):
+        """
+        :type board: List[List[int]]
+        :rtype: None Do not return anything, modify board in-place instead.
+        """
+        
+        diff = [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (-1, 1), (1, -1), (1, 1)]
+        
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                count = 0
+                for d in diff:
+                    new_i, new_j = i+d[0], j+d[1]
+                        
+                    if 0 <= new_i < len(board) and 0 <= new_j < len(board[0]) and board[new_i][new_j]%2 == 1:
+                        count += 1
+                    
+                if board[i][j] == 0 and count == 3:
+                    board[i][j] = 2
+                elif board[i][j] == 1 and (count < 2 or count > 3):
+                    board[i][j] = 3
+        
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if board[i][j] > 1:
+                    board[i][j] = 3-board[i][j]
