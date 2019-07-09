@@ -1,0 +1,26 @@
+O(???) time, O(???) space
+class Solution(object):
+    def canWin(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        
+        hash_table = {'': False, '+': False, '-': False}
+        
+        def myHelp(s):
+            if s in hash_table:
+                return hash_table[s]
+            
+            for idx in range(len(s)-1):
+                if s[idx] == '+' and s[idx+1] == '+':
+                    if not myHelp(s[:idx]+'-'+s[idx+2:]):
+                        hash_table[s] = True
+                        
+                        return True
+            
+            hash_table[s] = False
+            
+            return False
+        
+        return myHelp(s)
