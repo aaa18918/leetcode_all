@@ -6,12 +6,10 @@ class Solution(object):
         :rtype: int
         """
         
-        if not nums: return 0
-        
         length = 1
         for idx in range(1, len(nums)):
-            if nums[idx] > nums[length-1]:
-                nums[length], nums[idx] = nums[idx], nums[length]
+            if nums[length-1] < nums[idx]:
+                nums[length] = nums[idx]
                 length += 1
             else:
                 left, right = 0, length-1
@@ -21,5 +19,7 @@ class Solution(object):
                         left = mid+1
                     else:
                         right = mid
-                nums[left], nums[idx] = nums[idx], nums[left]
-        return length
+                
+                nums[left] = nums[idx]
+        
+        return length if nums else 0
