@@ -1,3 +1,4 @@
+O(n) time, O(1) space
 class Solution(object):
     def getHint(self, secret, guess):
         """
@@ -5,74 +6,19 @@ class Solution(object):
         :type guess: str
         :rtype: str
         """
+        
+        hash_table = {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5,
+                      '6': 6, '7': 7, '8': 8, '9': 9}
         
         a, b = 0, 0
-        secret_table, guess_table = [0 for _ in range(10)], [0 for _ in range(10)]
-        length = len(secret)
-        
-        for index in range(length):
-            if secret[index] == guess[index]:
+        for idx in range(len(secret)):
+            if secret[idx] == guess[idx]:
                 a += 1
-            else:
-                secret_table[int(secret[index])] += 1
-                guess_table[int(guess[index])] += 1
+            elif hash_table[secret[idx]] < 0:
+                b += 1
+                hash_table[secret[idx]] += 1
+            elif hash_table[guess[idx]] > 0:
+                b += 1
+                hash_table[guess[idx]] -= 1
         
-        for index in range(10):
-            if secret_table[index] and guess_table[index]:
-                b += min(secret_table[index], guess_table[index])
-        
-        return "{}A{}B".format(a,b)
-
-https://leetcode.com/problems/bulls-and-cows/
-class Solution(object):
-    def getHint(self, secret, guess):
-        """
-        :type secret: str
-        :type guess: str
-        :rtype: str
-        """
-        
-        hash_table, A, B = {}, 0, 0
-        
-        for index in range(0, len(secret)):
-            if secret[index] == guess[index]:
-                A += 1
-            else:
-                if secret[index] not in hash_table:
-                    hash_table[secret[index]] = 1
-                else:
-                    hash_table[secret[index]] += 1
-        
-        for index in range(0, len(guess)):
-            if secret[index] != guess[index] and guess[index] in hash_table:
-                B += 1
-                
-                hash_table[guess[index]] -= 1
-                if hash_table[guess[index]] == 0:
-                    del hash_table[guess[index]]
-                    
-        return str(A)+'A'+str(B)+'B'
-
-class Solution(object):
-    def getHint(self, secret, guess):
-        """
-        :type secret: str
-        :type guess: str
-        :rtype: str
-        """
-        
-        a, b = 0, 0
-        hash_table = [0 for _ in range(10)]
-        
-        for index in range(len(secret)):
-            if secret[index] == guess[index]:
-                a += 1
-            else:
-                if hash_table[int(secret[index])] < 0:
-                    b += 1
-                hash_table[int(secret[index])] += 1
-                if hash_table[int(guess[index])] > 0:
-                    b += 1
-                hash_table[int(guess[index])] -= 1
-        
-        return "{}A{}B".format(a, b)
+        return '{}A{}B'.format(a, b)
