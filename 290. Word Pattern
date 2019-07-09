@@ -1,3 +1,4 @@
+O(n) time, O(n) space
 class Solution(object):
     def wordPattern(self, pattern, str):
         s = pattern
@@ -5,6 +6,7 @@ class Solution(object):
         return len(set(zip(s, t))) == len(set(s)) == len(set(t)) and len(s) == len(t)
 
 
+O(n) time, O(n) space
 class Solution(object):
     def wordPattern(self, pattern, str):
         """
@@ -12,23 +14,23 @@ class Solution(object):
         :type str: str
         :rtype: bool
         """
-
-        if not pattern or not str: return True if not pattern and not str else False
-        hash_table = ["" for _ in range(26)]
-        str_list = str.split(' ')
-        if len(pattern) != len(str_list): return False
-
-        for i in range(len(pattern)):
-            index = ord(pattern[i])-ord('a')
-            if not hash_table[index]:
-                hash_table[index] = str_list[i]
-            elif hash_table[index] != str_list[i]:
-                return False
         
-        all_words_set = set()
-        for word in hash_table:
-            if not word: continue
-            if word in all_words_set: return False
-            else: all_words_set.add(word)
+        l = str.split(' ')
+        
+        if len(pattern) != len(l):
+            return False
+        
+        p2s, s2p = {}, {}
+        for idx in range(len(pattern)):
+            if pattern[idx] in p2s and l[idx] in s2p:
+                if p2s[pattern[idx]] != l[idx] or s2p[l[idx]] != pattern[idx]:
+                    return False
+            elif pattern[idx] not in p2s and l[idx] not in s2p:
+                pass
+            else:
+                return False
+
+            p2s[pattern[idx]] = l[idx]
+            s2p[l[idx]] = pattern[idx]
         
         return True
