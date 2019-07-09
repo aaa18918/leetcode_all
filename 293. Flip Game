@@ -1,3 +1,4 @@
+O(n^2) time, O(n^2) space
 class Solution(object):
     def generatePossibleNextMoves(self, s):
         """
@@ -5,10 +6,9 @@ class Solution(object):
         :rtype: List[str]
         """
         
-        if len(s) < 2: return []
-        
         res = []
-        for index, char in enumerate(s[:-1]):
-            if char == s[index+1] == '+':
-                res.append(s[:index]+'-'*2+s[index+2:])
+        for idx in range(len(s)-1):
+            if s[idx] == '+' and s[idx+1] == '+':
+                res.append(s[:idx]+'--'+s[idx+2:])
+        
         return res
