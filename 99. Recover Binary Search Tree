@@ -1,0 +1,39 @@
+O(n) time, O(1) space
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def recoverTree(self, root):
+        """
+        :type root: TreeNode
+        :rtype: None Do not return anything, modify root in-place instead.
+        """
+        
+        cur, a, b, prev = root, None, None, None
+        while cur:
+            while cur.left:
+                p = cur.left
+                while p.right and p.right is not cur:
+                    p = p.right
+                
+                if p.right is cur:
+                    p.right = None
+                    break
+                else:
+                    p.right = cur
+                    cur = cur.left
+            
+            if prev and prev.val > cur.val:
+                if not a:
+                    a, b = prev, cur
+                else:
+                    b = cur
+            
+            prev = cur
+            cur = cur.right
+        
+        a.val, b.val = b.val, a.val
