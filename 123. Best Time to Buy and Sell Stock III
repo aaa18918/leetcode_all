@@ -1,3 +1,5 @@
+基础题解： https://www.cnblogs.com/zuoyuan/p/3766168.html
+
 O(n) time, O(1) space
 class Solution(object):
     def maxProfit(self, prices):
