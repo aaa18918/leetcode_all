@@ -1,0 +1,16 @@
+O(n) time, O(1) space
+class Solution(object):
+    def maxProfit(self, prices):
+        """
+        :type prices: List[int]
+        :rtype: int
+        """
+        
+        one_buy, one_sell, two_buy, two_sell = sys.maxint, 0, sys.maxint, 0
+        for price in prices:
+            one_buy = min(one_buy, price)
+            one_sell = max(one_sell, price-one_buy)
+            two_buy = min(two_buy, price-one_sell)
+            two_sell = max(two_sell, price-two_buy)
+        
+        return two_sell
