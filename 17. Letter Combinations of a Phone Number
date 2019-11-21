@@ -1,4 +1,4 @@
-O(3^n) time, O(3^n) space
+O(3^n) time, O(???) space
 class Solution(object):
     def letterCombinations(self, digits):
         """
@@ -6,9 +6,11 @@ class Solution(object):
         :rtype: List[str]
         """
         
-        mapping = {'2':'abc', '3':'def', '4':'ghi', '5':'jkl', '6':'mno', '7':'pqrs', '8':'tuv', '9':'wxyz'}
+        maps = {'2':'abc', '3':'def', '4':'ghi', '5':'jkl',
+                '6':'mno', '7':'pqrs', '8':'tuv', '9':'wxyz',
+               }
         
-        def myHelp(digits):
-            return [char+r for char in mapping[digits[0]] for r in myHelp(digits[1:])] if digits else ['']
+        def myDFS(idx):
+            return [char+p for char in maps[digits[idx]] for p in myDFS(idx+1)] if idx < len(digits) else ['']
         
-        return myHelp(digits) if digits else []
+        return myDFS(0) if digits else []
