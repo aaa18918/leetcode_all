@@ -6,6 +6,43 @@ class Solution(object):
         :rtype: int
         """
         
+        a = 1 if s and s[0] > '0' else 0
+        b = 2 if s and 10 <= int(s[:2]) <= 26 else a
+        
+        if len(s) >= 2 and s[1] == '0':
+            if s[0] not in '12':
+                return 0
+            else:
+                b = 1
+        
+        for idx in range(2, len(s)):
+            if s[idx] == '0':
+                if s[idx-1] in '12':
+                    a, b = b, a
+                else:
+                    return 0
+            elif '1' <= s[idx] <= '6':
+                if s[idx-1] in '12':
+                    a, b = b, a+b
+                else:
+                    a, b = b, b
+            else:
+                if s[idx-1] == '1':
+                    a, b = b, a+b
+                else:
+                    a, b = b, b
+        
+        return b
+
+
+O(n) time, O(1) space
+class Solution(object):
+    def numDecodings(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        
         if not s or s[0] == '0':
             return 0
         
