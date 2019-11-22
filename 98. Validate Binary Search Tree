@@ -13,45 +13,6 @@ class Solution(object):
         :rtype: bool
         """
         
-        my_stack = []
-        p = root
-        while p:
-            my_stack.append(p)
-            p = p.left
-        
-        prev = -sys.maxint-1
-        while my_stack:
-            if not p:
-                p = my_stack.pop()
-            
-            if p.val <= prev:
-                return False
-            
-            prev = p.val
-            
-            p = p.right
-            while p:
-                my_stack.append(p)
-                p = p.left
-        
-        return True
-
-
-O(n) time, O(lgn) space
-# Definition for a binary tree node.
-# class TreeNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution(object):
-    def isValidBST(self, root):
-        """
-        :type root: TreeNode
-        :rtype: bool
-        """
-        
         node = root
         my_stack = []
         prev = -sys.maxint-1
