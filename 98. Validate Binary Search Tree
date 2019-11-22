@@ -13,20 +13,22 @@ class Solution(object):
         :rtype: bool
         """
         
-        node = root
-        my_stack = []
         prev = -sys.maxint-1
-        while my_stack or node:
-            while node:
-                my_stack.append(node)
-                node = node.left
+        p, my_stack = root, []
+        
+        while p or my_stack:
+            while p:
+                my_stack.append(p)
+                p = p.left
             
-            node = my_stack.pop()
-            if prev >= node.val:
+            p = my_stack.pop()
+            
+            if p.val <= prev:
                 return False
-                
-            prev = node.val
-            node = node.right
+            
+            prev = p.val
+            
+            p = p.right
         
         return True
 
