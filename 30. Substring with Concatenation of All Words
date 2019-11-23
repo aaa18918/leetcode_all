@@ -7,41 +7,43 @@ class Solution(object):
         :rtype: List[int]
         """
         
-        if not s or not words or len(s) < len(words[0]):
+        if not s or not words or len(s) < len(words)*len(words[0]):
             return []
         
-        k, m, n = len(words[0]), len(s), len(words)
-        
-        backup_counter = collections.Counter(words)
         res = []
-        for i in range(k):
-            j = i
-            count = n
-            left = i
+        backup_counter = collections.Counter(words)
+        
+        len_word = len(words[0])
+        for i in range(len_word):
+            left, idx = i, i
+
             counter = {}
-            for word, time in backup_counter.iteritems():
-                counter[word] = time
+            for word, count in backup_counter.iteritems():
+                counter[word] = count
             
-            while j+k <= m:
-                cur_word = s[j:j+k]
+            count = len(words)
+            while left+len(words)*len_word <= len(s):
+                cur_word = s[idx:idx+len_word]
+                
                 if cur_word in counter:
-                    if counter[cur_word] > 0:
+                    counter[cur_word] -= 1
+                    
+                    if counter[cur_word] >= 0:
                         count -= 1
+                    
                         if count == 0:
                             res.append(left)
-                    
-                    counter[cur_word] -= 1
+
+                idx += len_word
                 
-                if j-k*(n-1) >= i:
-                    first_word = s[left:left+k]
-                    if first_word in counter:
-                        counter[first_word] += 1
+                if idx-left == len(words)*len_word:
+                    prev_word = s[left:left+len_word]
+                    if prev_word in counter:
+                        counter[prev_word] += 1
                         
-                        if counter[first_word] > 0:
+                        if counter[prev_word] > 0:
                             count += 1
-                        
-                    left += k
-                
-                j += k
+                    
+                    left += len_word
         
         return res
