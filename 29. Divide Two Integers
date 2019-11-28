@@ -7,18 +7,20 @@ class Solution(object):
         :rtype: int
         """
         
-        sign = -1 if dividend < 0 < divisor or divisor < 0 < dividend else 1
         m, n = abs(dividend), abs(divisor)
         
         res = 0
         while m >= n:
             tmp = n
             cur = 1
-            while tmp <= m:
-                cur <<= 1
+            while m >= tmp:
                 tmp <<= 1
+                cur <<= 1
             
-            m -= tmp >> 1
-            res += cur >> 1
+            m -= tmp>>1
+            res += cur>>1
         
-        return min(2**31-1, max(-2**31, res*sign))
+        if dividend < 0 and divisor > 0 or dividend > 0 and divisor < 0:
+            res = -res
+        
+        return max(-2**31, min(2**31-1, res))
