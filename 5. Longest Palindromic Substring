@@ -6,21 +6,21 @@ class Solution(object):
         :rtype: str
         """
         
-        len_s = len(s)
-        
         def palindrome(left, right):
-            while left >= 0 and right < len_s and s[left] == s[right]:
+            while left >= 0 and right < len(s) and s[left] == s[right]:
                 left, right = left-1, right+1
+            
             return left+1, right-1
         
-        res = ""
-        for idx in range(len_s):
-            if idx != len_s-1:
-                left, right = palindrome(idx, idx+1)
-                if right-left+1 > len(res):
-                    res = s[left:right+1]
-            
+        res_left, res_right = 0, 0
+        for idx in range(len(s)):
             left, right = palindrome(idx, idx)
-            if right-left+1 > len(res):
-                res = s[left:right+1]
-        return res
+            if right-left > res_right-res_left:
+                res_left, res_right = left, right
+            
+            if idx < len(s)-1:
+                left, right = palindrome(idx, idx+1)
+                if right-left > res_right-res_left:
+                    res_left, res_right = left, right
+        
+        return s[res_left:res_right+1]
