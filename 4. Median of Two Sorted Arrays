@@ -35,7 +35,7 @@ class Solution(object):
         return res*0.5
 
 
-O(lgn) time, O(1) space
+O(lgn) time, O(???) space
 class Solution(object):
     def findMedianSortedArrays(self, nums1, nums2):
         """
@@ -44,24 +44,30 @@ class Solution(object):
         :rtype: float
         """
         
-        def findKthSmallest(k, nums1, nums2):
-            size1, size2 = len(nums1), len(nums2)
-            if size1 < size2:
-                nums1, nums2, size1, size2 = nums2, nums1, size2, size1
+        size1, size2 = len(nums1), len(nums2)
+        
+        def findKthSmallest(k, l1, l2):
+            if l1 == size1:
+                return nums2[k-1+l2]
             
-            if not nums2:
-                return nums1[k-1]
+            if l2 == size2:
+                return nums1[k-1+l1]
             
             if k == 1:
-                return min(nums1[0], nums2[0])
+                return min(nums1[l1], nums2[l2])
             
-            mid = k/2
-            right = mid if mid <= size2 else size2
-            left = k-right
-            if nums1[left-1] < nums2[right-1]:
-                return findKthSmallest(k-left, nums1[left:], nums2)
+            if size1-l1 < size2-l2:
+                left = k/2+l1 if k/2+l1 < size1 else size1
+                right = k-(left-l1)+l2
             else:
-                return findKthSmallest(k-right, nums1, nums2[right:])
+                right = k/2+l2 if k/2+l2 < size2 else size2
+                left = k-(right-l2)+l1
+            
+            if nums1[left-1] < nums2[right-1]:
+                return findKthSmallest(k-(left-l1), left, l2)
+            else:
+                return findKthSmallest(k-(right-l2), l1, right)
         
-        total = len(nums1)+len(nums2)
-        return findKthSmallest(total/2+1, nums1, nums2) if total%2 == 1 else (findKthSmallest(total/2, nums1, nums2)+findKthSmallest(total/2+1, nums1, nums2))/2.0
+        total = size1+size2
+        
+        return findKthSmallest(total/2+1, 0, 0) if total%2 == 1 else (findKthSmallest(total/2, 0, 0)+findKthSmallest(total/2+1, 0, 0))/2.0
