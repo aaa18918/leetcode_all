@@ -12,23 +12,18 @@ class Solution(object):
         :rtype: ListNode
         """
         
-        prev, dummy_head = 0, ListNode(0)
-        p, q = head, dummy_head
-        while p:
-            if p is head:
-                if p.next and p.val == p.next.val:
-                    pass
-                else:
-                    q.next = p
-                    q = q.next
-            else:
-                if p.next and p.val == p.next.val or p.val == prev:
-                    pass
-                else:
-                    q.next = p
+        dummy_head = ListNode(0)
+        dummy_head.next = head
+        p = dummy_head
+        
+        while p.next and p.next.next:
+            if p.next.val == p.next.next.val:
+                q = p.next.next.next
+                while q and q.val == p.next.val:
                     q = q.next
                 
-            prev, p = p.val, p.next
+                p.next = q
+            else:
+                p = p.next
         
-        q.next = None
         return dummy_head.next
