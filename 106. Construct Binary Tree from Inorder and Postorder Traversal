@@ -1,4 +1,4 @@
-O(???) time, O(???) space
+O(n) time, O(???) space
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
@@ -32,3 +32,40 @@ class Solution(object):
             return root
         
         return myHelp(0, len(inorder)-1)
+
+
+O(n) time, O(???) space
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def buildTree(self, inorder, postorder):
+        """
+        :type inorder: List[int]
+        :type postorder: List[int]
+        :rtype: TreeNode
+        """
+        
+        def myHelp(left, right):
+            if left > right:
+                return None
+            
+            val = postorder.pop()
+            node = TreeNode(val)
+            idx = left
+            while idx <= right:
+                if inorder[idx] == val:
+                    break
+
+                idx += 1
+            
+            node.right = myHelp(idx+1, right)
+            node.left = myHelp(left, idx-1)
+            
+            return node
+        
+        return myHelp(0, len(postorder)-1)
