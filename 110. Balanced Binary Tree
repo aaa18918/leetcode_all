@@ -18,6 +18,7 @@ class Solution(object):
                 return 0
             
             left, right = myHelp(node.left), myHelp(node.right)
+
             return max(left, right)+1 if left != -1 and right != -1 and abs(left-right) <= 1 else -1
  
         return True if myHelp(root) >= 0 else False
