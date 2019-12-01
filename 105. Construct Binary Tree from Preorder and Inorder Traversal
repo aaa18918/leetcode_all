@@ -1,3 +1,42 @@
+O(n) time, O(???) space
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def buildTree(self, preorder, inorder):
+        """
+        :type preorder: List[int]
+        :type inorder: List[int]
+        :rtype: TreeNode
+        """
+
+        hash_table = {}
+        for idx, val in enumerate(inorder):
+            hash_table[val] = idx
+        
+        self.pre_idx = 0
+
+        def myHelp(left, right):
+            if left > right:
+                return None
+
+            node = TreeNode(preorder[self.pre_idx])
+            self.pre_idx += 1
+
+            in_idx = hash_table[node.val]
+
+            node.left = myHelp(left, in_idx-1)
+            node.right = myHelp(in_idx+1, right)
+
+            return node
+
+        return myHelp(0, len(inorder)-1)
+
+
 O(nlgn) time, O(???) space
 # Definition for a binary tree node.
 # class TreeNode(object):
