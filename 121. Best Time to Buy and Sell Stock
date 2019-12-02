@@ -5,27 +5,13 @@ class Solution(object):
         :type prices: List[int]
         :rtype: int
         """
-
-        profit, res = 0, 0
-        for idx in range(1, len(prices)):
-            profit += prices[idx]-prices[idx-1]
-            profit = max(profit, 0)
-            res = max(res, profit)
         
-        return res
-
-
-O(n) time, O(1) space
-class Solution(object):
-    def maxProfit(self, prices):
-        """
-        :type prices: List[int]
-        :rtype: int
-        """
+        if not prices:
+            return 0
         
-        prev_min, res = sys.maxint, 0
-        for price in prices:
-            prev_min = min(prev_min, price)
-            res = max(res, price-prev_min)
+        left_min, res = prices[0], 0
+        for idx in range(len(prices)):
+            res = max(res, prices[idx]-left_min)
+            left_min = min(left_min, prices[idx])
         
         return res
