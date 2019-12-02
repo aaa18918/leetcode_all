@@ -32,3 +32,42 @@ class Solution(object):
                     stack.append((cur_path+[node.val], node.right, target-node.val))
         
         return res
+
+
+O(n) time, O(???) space
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def pathSum(self, root, sum):
+        """
+        :type root: TreeNode
+        :type sum: int
+        :rtype: List[List[int]]
+        """
+        
+        if not root:
+            return []
+        
+        self.res = []
+        
+        def myHelp(node, target, cur_path):
+            if not node.left and not node.right:
+                if target == node.val:
+                    self.res.append(cur_path+[node.val])
+                
+                return
+            
+            if node.left:
+                myHelp(node.left, target-node.val, cur_path+[node.val])
+            
+            if node.right:
+                myHelp(node.right, target-node.val, cur_path+[node.val])
+        
+        myHelp(root, sum, [])
+        
+        return self.res
