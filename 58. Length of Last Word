@@ -1,3 +1,25 @@
+O(n) time, O(1) space
+class Solution(object):
+    def lengthOfLastWord(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        
+        right = len(s)-1
+        while right >= 0 and s[right] == ' ':
+            right -= 1
+        
+        if right < 0:
+            return 0
+        
+        left = right-1
+        while left >= 0 and s[left] != ' ':
+            left -= 1
+        
+        return right-left
+
+
 O(n) time, O(n) space
 class Solution(object):
     def lengthOfLastWord(self, s):
