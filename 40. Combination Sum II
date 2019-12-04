@@ -7,23 +7,22 @@ class Solution(object):
         :rtype: List[List[int]]
         """
         
-        candidates.sort()
-        
         res = []
         
-        def myDFS(cur, idx, target):
-            if target == 0:
-                res.append(cur)
-                return
-            
-            for i in range(idx, len(candidates)):
-                if candidates[i] > target:
-                    break
-
-                if (i == idx or candidates[i] != candidates[i-1]) and candidates[i] <= target:
-                    myDFS(cur+[candidates[i]], i+1, target-candidates[i])
+        candidates.sort()
         
-        myDFS([], 0, target)
+        def myHelp(idx, target, cur):
+            for i in range(idx, len(candidates)):
+                if i == idx or candidates[i] != candidates[i-1]:
+                    if candidates[i] == target:
+                        res.append(cur+[candidates[i]])
+                    elif candidates[i] < target:
+                        myHelp(i+1, target-candidates[i], cur+[candidates[i]])
+                    else:
+                        return
+        
+        myHelp(0, target, [])
+        
         return res
 
 
