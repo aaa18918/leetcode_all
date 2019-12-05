@@ -6,6 +6,25 @@ class Solution(object):
         :rtype: List[int]
         """
         
+        res = [1]
+        for _ in range(rowIndex):
+            prev = res[0]
+            for idx in range(1, len(res)):
+                prev, res[idx] = res[idx], prev+res[idx]
+            
+            res.append(1)
+        
+        return res
+
+
+O(n) time, O(n) space
+class Solution(object):
+    def getRow(self, rowIndex):
+        """
+        :type rowIndex: int
+        :rtype: List[int]
+        """
+        
         divisor, dividend, res = rowIndex, 1, [1]
         for i in range(1, rowIndex+1):
             res.append(divisor/dividend)
