@@ -1,4 +1,19 @@
-O(???) time, O(???) space
+O(kC(n, k)) time, O(???) space
+class Solution(object):
+    def combine(self, n, k):
+        """
+        :type n: int
+        :type k: int
+        :rtype: List[List[int]]
+        """
+        
+        def myHelp(k, idx, n):
+            return [[i]+p for i in range(idx, n+2-k) for p in myHelp(k-1, i+1, n)] if idx+k <= n+1 and k > 0 else [[j for j in range(n+1-k, n+1)]]
+        
+        return myHelp(k, 1, n)
+
+
+O(kC(n, k)) time, O(???) space
 class Solution(object):
     def combine(self, n, k):
         """
