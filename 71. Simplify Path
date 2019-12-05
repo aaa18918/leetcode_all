@@ -7,14 +7,13 @@ class Solution(object):
         """
         
         my_stack = []
-        for string in path.split('/'):
-            if string:
-                string = string.strip('/')
-                
-                if string == '..':
-                    if my_stack:
-                        my_stack.pop()
-                elif string != '.':
-                    my_stack.append(string)
+        for p in path.split('/'):
+            if p == '..':
+                if my_stack:
+                    my_stack.pop()
+            elif p == '.' or not p:
+                pass
+            else:
+                my_stack.append(p)
         
         return '/'+'/'.join(my_stack)
