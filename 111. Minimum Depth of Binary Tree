@@ -13,17 +13,24 @@ class Solution(object):
         :rtype: int
         """
         
-        if not root: return 0
+        if not root:
+            return 0
         
         my_queue = collections.deque([(root, 1)])
         while my_queue:
-            node, cur_depth = my_queue.popleft()
-            if not node.left and not node.right:
-                return cur_depth
+            node, level = my_queue.popleft()
             
-            if node.left: my_queue.append((node.left, cur_depth+1))
-            if node.right: my_queue.append((node.right, cur_depth+1))
+            if not node.left and not node.right:
+                return level
+            
+            if node.left:
+                my_queue.append((node.left, level+1))
+            
+            if node.right:
+                my_queue.append((node.right, level+1))
         
+        return 0
+       
 
 O(n) time, O(n) space
 # Definition for a binary tree node.
