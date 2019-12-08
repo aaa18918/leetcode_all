@@ -1,0 +1,28 @@
+O(n^2) time, O(n^2) space
+class Solution(object):
+    def minCut(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        
+        dp = [[False]*(len(s)+1) for _ in range(len(s)+1)]
+        for i in range(len(s)+1):
+            dp[i][i] = True
+        
+        cut = [-1]
+        
+        for i in range(len(s)):
+            for j in range(i+1):
+                if s[i] == s[j] and (j >= i-1 or dp[i-1][j+1]):
+                    dp[i][j] = True
+                    
+                    if len(cut) == i+1:
+                        cut.append(cut[j]+1)
+                    else:
+                        cut[-1] = min(cut[-1], cut[j]+1)
+        
+        return cut[-1]
+
+
+还有一个O(n) space没看。
