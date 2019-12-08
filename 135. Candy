@@ -1,0 +1,22 @@
+O(n) time, O(n) space
+class Solution(object):
+    def candy(self, ratings):
+        """
+        :type ratings: List[int]
+        :rtype: int
+        """
+        
+        nums = [1]*len(ratings)
+        
+        for idx in range(1, len(ratings)):
+            if ratings[idx] > ratings[idx-1]:
+                nums[idx] = nums[idx-1]+1
+        
+        for idx in range(len(ratings)-1, 0, -1):
+            if ratings[idx-1] > ratings[idx]:
+                nums[idx-1] = max(nums[idx]+1, nums[idx-1])
+        
+        return sum(nums)
+
+
+O(1) space的算法太难理解了，懒得看。
