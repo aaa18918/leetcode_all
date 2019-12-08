@@ -8,8 +8,8 @@ class Solution(object):
         
         ones, twos = 0, 0
         
-        for number in nums:
-            ones = ones ^ number & ~twos
-            twos = twos ^ number & ~ones
+        for num in nums:
+            ones = ones ^ num & ~twos
+            twos = twos ^ num & ~ones
         
         return ones
