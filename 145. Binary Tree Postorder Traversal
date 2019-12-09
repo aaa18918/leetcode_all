@@ -1,0 +1,26 @@
+O(n) time, O(n) space
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def postorderTraversal(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[int]
+        """
+        
+        p, my_stack, res = root, [], []
+        
+        while p or my_stack:
+            while p:
+                res.append(p.val)
+                my_stack.append(p)
+                p = p.right
+            
+            p = my_stack.pop().left
+
+        return res[::-1]
