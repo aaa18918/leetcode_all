@@ -8,12 +8,11 @@ class Solution(object):
         """
         
         dp, wordSet = [False]*(len(s)+1), set(wordDict)
-        dp[0] = True
+        dp[-1] = True
         
         for i in range(len(s)):
             for j in range(i, -1, -1):
-                if dp[j] and s[j:i+1] in wordSet:
-                    dp[i+1] = True
-                    break
+                if dp[j-1] and s[j:i+1] in wordSet:
+                    dp[i] = True
         
-        return dp[len(s)]
+        return dp[len(s)-1]
