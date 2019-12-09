@@ -13,13 +13,18 @@ class Solution(object):
         :rtype: List[int]
         """
         
-        res, p, my_stack = [], root, []
-        while p or my_stack:
+        my_stack, p = [], root
+        res = []
+        
+        while my_stack or p:
             while p:
-                res.append(p.val)
                 my_stack.append(p)
+                
+                res.append(p.val)
                 p = p.left
             
-            p = my_stack.pop().right
+            p = my_stack.pop()
+            
+            p = p.right
         
         return res
