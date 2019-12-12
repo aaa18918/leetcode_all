@@ -1,10 +1,4 @@
 O(n^2) time, O(n) space
-# Definition for a point.
-# class Point(object):
-#     def __init__(self, a=0, b=0):
-#         self.x = a
-#         self.y = b
-
 class Solution(object):
     def maxPoints(self, points):
         """
@@ -23,7 +17,7 @@ class Solution(object):
             overlap = 0
             hash_table = collections.defaultdict(int)
             for j in range(i+1, len(points)):
-                x_diff, y_diff = points[i].x-points[j].x, points[i].y-points[j].y
+                x_diff, y_diff = points[i][0]-points[j][0], points[i][1]-points[j][1]
                 if x_diff == 0 and y_diff == 0:
                     overlap += 1
                 elif x_diff == 0:
