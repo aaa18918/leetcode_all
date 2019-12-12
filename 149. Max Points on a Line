@@ -36,3 +36,5 @@ class Solution(object):
                 res = max(res, count+overlap)
             
             res = max(res, overlap)
+        
+        return res+1 if points else 0
