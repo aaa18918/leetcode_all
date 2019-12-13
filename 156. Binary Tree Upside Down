@@ -25,3 +25,40 @@ class Solution(object):
             left, right = tmp1, tmp2
         
         return p
+
+
+O(n) time, O(n) space
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def upsideDownBinaryTree(self, root):
+        """
+        :type root: TreeNode
+        :rtype: TreeNode
+        """
+        
+        if not root:
+            return None
+        
+        my_stack, p = [], root
+        while p.left:
+            my_stack.append(p)
+            p = p.left
+        
+        new_root = p
+        
+        while my_stack:
+            prev = my_stack.pop()
+            
+            p.left, p.right = prev.right, prev
+            
+            p = prev
+        
+        p.left, p.right = None, None
+        
+        return new_root
