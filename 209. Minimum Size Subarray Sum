@@ -19,4 +19,42 @@ class Solution(object):
         return res if res < sys.maxint else 0
 
 
-别的解法没看。题目里说还有一个O(nlgn)的解法。
+O(nlgn) time, O(n) space
+class Solution(object):
+    def minSubArrayLen(self, s, nums):
+        """
+        :type s: int
+        :type nums: List[int]
+        :rtype: int
+        """
+        
+        if not nums:
+            return 0
+        
+        nums_sum = [0]
+        
+        for idx in range(len(nums)):
+            nums_sum.append(nums_sum[-1]+nums[idx])
+        
+        def binarySearch(idx):
+            target = s+nums_sum[idx]
+            
+            left, right = idx, len(nums_sum)-1
+            while left < right:
+                mid = (left+right)/2
+                if nums_sum[mid] == target:
+                    return mid
+                elif nums_sum[mid] > target:
+                    right = mid
+                else:
+                    left = mid+1
+            
+            return right if nums_sum[right] >= target else -1
+        
+        res = 0
+        for idx in range(len(nums_sum)):
+            right = binarySearch(idx)
+            if right != -1 and (not res or res > right-idx):
+                res = right-idx
+        
+        return res
