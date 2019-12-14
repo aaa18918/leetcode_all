@@ -1,3 +1,4 @@
+O(n) time, O(n) space
 class Solution(object):
     def maximumGap(self, nums):
         """
@@ -5,25 +6,25 @@ class Solution(object):
         :rtype: int
         """
         
-        len_nums = len(nums)
-        if len_nums < 2: return 0
+        if len(nums) < 2:
+            return 0
         
-        max_value, min_value = nums[0], nums[0]
-        for num in nums[1:]:
-            max_value, min_value = max(num, max_value), min(num, min_value)
+        min_val, max_val = min(nums), max(nums)
+        bucket_size = (max_val-min_val)/len(nums)+1
         
-        bucket_size = int(math.ceil((max_value-min_value)*1.0/(len_nums-1)))
-        if bucket_size == 0: return 0
-        bucket = [[] for _ in range(len_nums)]
+        buckets = [[] for _ in range(len(nums))]
         
         for num in nums:
-            bucket[(num-min_value)/bucket_size].append(num)
+            print num, min_val, max_val, len(buckets), (num-min_val)/bucket_size
+            buckets[(num-min_val)/bucket_size].append(num)
         
-        result, prev_max, index = 0, min_value, 0
-        while index < len_nums:
-            if bucket[index]:
-                result = max(result, min(bucket[index])-prev_max)
-                prev_max = max(bucket[index])
-            index += 1
+        res, prev_max = 0, None
+        for idx in range(len(buckets)):
+            if buckets[idx]:
+                min_val, max_val = min(buckets[idx]), max(buckets[idx])
+                if prev_max:
+                    res = max(res, min_val-prev_max)
+                    
+                prev_max = max_val
         
-        return result
+        return res
