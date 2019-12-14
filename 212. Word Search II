@@ -19,9 +19,9 @@ class Solution(object):
         res = set()
         diff = [(-1, 0), (1, 0), (0, -1), (0, 1)]
         
-        def myDFS(string, x, y, p):
+        def myDFS(cur_word, x, y, p):
             if '#' in p:
-                res.add(string)
+                res.add(cur_word)
             
             temp = board[x][y]
             board[x][y] = '@'
