@@ -1,3 +1,24 @@
+What if the BST is modified (insert/delete operations) often and you need to find the kth smallest frequently?
+How would you optimize the kthSmallest routine?
+
+Initialize a max-heap while searching the kthSmallest.
+If the max-heap's size is less than k, insert the tree node's value.
+If the tree node's value is smaller than the max value of the max-heap, replace them.
+
+Every time an insertion occurs, check whether the tree node's value is smaller than the max value of the max-heap.
+If yes, replace them.
+
+Evert time a deletion happens, check whether the tree node's value is smaller than the max value of the max-heap.
+If yes, reinitialize the max-heap.
+
+The time complexity of initializing the max-heap is O(k). 
+The time complexity of the insertion is O(lgk).
+The time complexity of deletion is O(k).
+The time complexity of looking up the kthSmallest is O(1).
+
+The space complexity is O(k).
+
+
 O(n) time, O(???) space
 # Definition for a binary tree node.
 # class TreeNode(object):
