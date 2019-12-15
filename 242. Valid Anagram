@@ -1,4 +1,4 @@
-O(nlgn) time, O(1) space
+O(nlgn) time, O(n) space
 class Solution(object):
     def isAnagram(self, s, t):
         """
