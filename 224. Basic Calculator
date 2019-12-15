@@ -6,6 +6,57 @@ class Solution(object):
         :rtype: int
         """
         
+        my_stack, cur_sum = [], 0
+        
+        for char in s:
+            if '0' <= char <= '9':
+                cur_sum = cur_sum*10+int(char)
+            elif char in '+-(':
+                if char in '+-':
+                    my_stack.append(cur_sum)
+                    
+                    cur_sum = 0
+                
+                if char in '-(':
+                    my_stack.append(char)
+            elif char == ')':
+                my_stack.append(cur_sum)
+                cur_sum  = 0
+                
+                cur = 0
+                while my_stack[-1] != '(':
+                    elem = my_stack.pop()
+                    if my_stack and my_stack[-1] == '-':
+                        cur -= elem
+                        my_stack.pop()
+                    else:
+                        cur += elem
+                
+                my_stack.pop()
+                my_stack.append(cur)
+        
+        my_stack.append(cur_sum)
+        
+        res = 0
+        while my_stack:
+            elem = my_stack.pop()
+            if my_stack and my_stack[-1] == '-':
+                res -= elem
+                my_stack.pop()
+            else:
+                res += elem
+        
+        return res
+
+
+O(n) time, O(n) space
+class Solution(object):
+    def calculate(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        
         sign, res, cur_num, my_stack = 1, 0, 0, []
         for c in s:
             if '0' <= c <= '9':
