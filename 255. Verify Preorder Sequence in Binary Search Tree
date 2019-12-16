@@ -6,15 +6,14 @@ class Solution(object):
         :rtype: bool
         """
         
-        my_stack, min_val = [], float('-inf')
+        my_stack, low_boundry = [], float('-inf')
         for num in preorder:
-            if num < min_val:
+            if num < low_boundry:
                 return False
             
             while my_stack and num > my_stack[-1]:
-                min_val = max(min_val, my_stack.pop())
+                low_boundry = max(low_boundry, my_stack.pop())
             
             my_stack.append(num)
         
         return True
-    
