@@ -6,13 +6,13 @@ class Solution(object):
         :rtype: bool
         """
         
-        my_stack, low_boundry = [], float('-inf')
+        my_stack, low_boundry = [], -sys.maxint-1
         for num in preorder:
             if num < low_boundry:
                 return False
             
             while my_stack and num > my_stack[-1]:
-                low_boundry = max(low_boundry, my_stack.pop())
+                low_boundry = my_stack.pop()
             
             my_stack.append(num)
         
