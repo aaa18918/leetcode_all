@@ -17,3 +17,7 @@ class Solution(object):
             my_stack.append(num)
         
         return True
+
+
+O(n) time, O(1) space
+Reuse the preorder list.
