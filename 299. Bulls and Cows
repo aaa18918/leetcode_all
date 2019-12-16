@@ -1,4 +1,4 @@
-O(n) time, O(1) space
+O(n) time, O(n) space
 class Solution(object):
     def getHint(self, secret, guess):
         """
@@ -6,19 +6,22 @@ class Solution(object):
         :type guess: str
         :rtype: str
         """
-        
-        hash_table = {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5,
-                      '6': 6, '7': 7, '8': 8, '9': 9}
-        
+
+        hash_table = collections.defaultdict(int)
+
         a, b = 0, 0
         for idx in range(len(secret)):
             if secret[idx] == guess[idx]:
                 a += 1
-            elif hash_table[secret[idx]] < 0:
+                continue
+
+            if hash_table[secret[idx]] < 0:
                 b += 1
-                hash_table[secret[idx]] += 1
-            elif hash_table[guess[idx]] > 0:
+
+            if hash_table[guess[idx]] > 0:
                 b += 1
-                hash_table[guess[idx]] -= 1
-        
+
+            hash_table[secret[idx]] += 1
+            hash_table[guess[idx]] -= 1
+
         return '{}A{}B'.format(a, b)
