@@ -1,0 +1,17 @@
+O(n^2) time, O(n) space
+class Solution(object):
+    def shortestPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        
+        r = s[::-1]
+        for idx in range(len(r)):
+            if s.startswith(r[idx:]):
+                return r[:idx]+s
+        
+        return r+s
+
+
+还有个KMP解法，mmp花了五分钟还没看懂。
