@@ -6,17 +6,20 @@ class Solution(object):
         :type k: int
         :rtype: List[int]
         """
+
+        my_deque = collections.deque([])
         
-        deque = collections.deque()
         res = []
         for idx in range(len(nums)):
-            if deque and deque[0] == idx-k:
-                deque.popleft()
+            if idx >= k and nums[idx-k] ==  my_deque[0]:
+                my_deque.popleft()
             
-            while deque and nums[deque[-1]] < nums[idx]:
-                deque.pop()
+            while my_deque and nums[idx] > my_deque[-1]:
+                my_deque.pop()
             
-            deque.append(idx)
+            my_deque.append(nums[idx])
+            
             if idx >= k-1:
-                res.append(nums[deque[0]])
+                res.append(my_deque[0])
+
         return res
