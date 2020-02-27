@@ -1,0 +1,21 @@
+O(lgn) time, O(1) space
+class Solution(object):
+    def countDigitOne(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        
+        count, res, d = 0, 0, 1
+        while d <= n:
+            left, right = n/d, n%d
+            if left%10 == 0:
+                count += left/10*d
+            elif (left-1)%10 == 0:
+                count += left/10*d+right+1
+            else:
+                count += (left/10+1)*d
+            
+            d *= 10
+        
+        return count
