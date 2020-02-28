@@ -9,24 +9,29 @@ class Solution(object):
         
         res = []
         
-        def myDFS(exp, num, last, cal):
-            if not num:
-                if cal == target:
+        def myHelp(exp, prev_sum, prev_val, start):
+            if start >= len(num):
+                if prev_sum == target:
                     res.append(exp)
                 
                 return
             
-            for i in range(len(num)):
-                if i == 0 or num[0] != '0':
-                    val = int(num[:i+1])
-                    myDFS(exp+'+'+num[:i+1], num[i+1:], val, cal+val)
-                    myDFS(exp+'-'+num[:i+1], num[i+1:], -val, cal-val)
-                    myDFS(exp+'*'+num[:i+1], num[i+1:], last*val, cal-last+last*val)
+            for idx in range(start, len(num)):
+                if num[start] == '0' and idx > start:
+                    return
+                
+                cur_val = int(num[start:idx+1])
+                myHelp('{}+{}'.format(exp, cur_val), prev_sum+cur_val, cur_val, idx+1)
+                myHelp('{}-{}'.format(exp, cur_val), prev_sum-cur_val, -cur_val, idx+1)
+                myHelp('{}*{}'.format(exp, cur_val), prev_sum-prev_val+prev_val*cur_val, prev_val*cur_val, idx+1)
         
-        for i in range(len(num)):
-            if i == 0 or num[0] != '0':
-                myDFS(num[:i+1], num[i+1:], int(num[:i+1]), int(num[:i+1]))
-
+        for idx in range(len(num)):
+            if num[0] == '0' and idx > 0:
+                break
+            
+            cur_val = int(num[:idx+1])
+            myHelp(num[:idx+1], cur_val, cur_val, idx+1)
+        
         return res
 
 
