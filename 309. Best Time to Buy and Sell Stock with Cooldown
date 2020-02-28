@@ -1,0 +1,17 @@
+O(n) time, O(1) space
+class Solution(object):
+    def maxProfit(self, prices):
+        """
+        :type prices: List[int]
+        :rtype: int
+        """
+        
+        if not prices:
+            return 0
+        
+        buy, sell, cooldown = -prices[0], 0, 0
+        for idx in range(1, len(prices)):
+            price = prices[idx]
+            buy, sell, cooldown = max(cooldown-price, buy), buy+price, max(sell, cooldown)
+        
+        return max(sell, cooldown)
