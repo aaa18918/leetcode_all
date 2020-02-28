@@ -33,4 +33,3 @@ class Solution(object):
             myHelp(num[:idx+1], cur_val, cur_val, idx+1)
         
         return res
-
