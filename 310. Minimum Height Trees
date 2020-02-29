@@ -1,3 +1,4 @@
+O(n) time, O(n) space
 class Solution(object):
     def findMinHeightTrees(self, n, edges):
         """
@@ -6,35 +7,34 @@ class Solution(object):
         :rtype: List[int]
         """
         
-        if n <= 2: return [_ for _ in range(n)]
+        adjacent = {}
+        for i in range(n):
+            adjacent[i] = set()
         
-        hash_table = {}
         for edge in edges:
-            if edge[0] not in hash_table:
-                hash_table[edge[0]] = set()
-            hash_table[edge[0]].add(edge[1])
-            
-            if edge[1] not in hash_table:
-                hash_table[edge[1]] = set()
-            hash_table[edge[1]].add(edge[0])
+            adjacent[edge[0]].add(edge[1])
+            adjacent[edge[1]].add(edge[0])
         
-        cur_leave = set()
-        for node, adjacent_nodes in hash_table.iteritems():
-            if len(adjacent_nodes) == 1:
-                cur_leave.add(node)
+        remove_next = []
+        for node in adjacent:
+            if len(adjacent[node]) <= 1:
+                remove_next.append(node)
         
-        while n > 2:
-            next_leave = set()
-            for node in cur_leave:
-                adjacent_node = hash_table[node].pop()
-                hash_table[adjacent_node].remove(node)
-                del hash_table[node]
-                n -= 1
+        while len(remove_next) < len(adjacent):
+            tmp = []
+            for node in remove_next:
+                connected_node = adjacent[node].pop()
+                adjacent[connected_node].remove(node)
+                del adjacent[node]
                 
-                if len(hash_table[adjacent_node]) <= 1:
-                    next_leave.add(adjacent_node)
-            cur_leave = next_leave
+                if len(adjacent[connected_node]) <= 1:
+                    tmp.append(connected_node)
+            
+            remove_next = tmp
         
-        return hash_table.keys()
+        return adjacent.keys()
 
-还有一个DP的解法。
+
+还有从随便一个点bfs找最远点，这个最远点是最长path一个端点，再从此端点bfs，找到最长path。
+
+还有tree dp，懒得看了。
