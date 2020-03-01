@@ -1,3 +1,4 @@
+O(???) time, O(???) space
 class Solution(object):
     def removeInvalidParentheses(self, s):
         """
@@ -23,6 +24,68 @@ class Solution(object):
                 return valid
             level = {s[:i]+s[i+1:] for s in level for i in range(len(s))}
         return []
+
+
+O(???) time, O(???) space
+class Solution(object):
+    def removeInvalidParentheses(self, s):
+        """
+        :type s: str
+        :rtype: List[str]
+        """
+        
+        r, r_cur = 0, 0
+        for char in s:
+            if char == '(':
+                r_cur -= 1
+            elif char == ')':
+                r_cur += 1
+            
+            r = max(r, r_cur)
+        
+        l, l_cur = 0, 0
+        for idx in range(len(s)-1, -1, -1):
+            if s[idx] == '(':
+                l_cur += 1
+            elif s[idx] == ')':
+                l_cur -= 1
+            
+            l = max(l, l_cur)
+        
+        def isValid(s):
+            count = 0
+            for char in s:
+                if char == '(':
+                    count += 1
+                elif char == ')':
+                    count -= 1
+                
+                if count < 0:
+                    return False
+            
+            return count == 0
+        
+        res = []
+        def myDFS(prefix, l, r, start, end, suffix):
+            if l == 0 and r == 0:
+                cur = prefix+s[start:end]+suffix
+                if isValid(cur):
+                    res.append(cur)
+                
+                return
+            
+            if r > 0:
+                for idx in range(start, end):
+                    if s[idx] == ')' and (idx == start or s[idx-1] != ')'):
+                        myDFS(prefix+s[start:idx], l, r-1, idx+1, end, suffix)
+            else:
+                for idx in range(end-1, start-1, -1):
+                    if s[idx] == '(' and (idx == end-1 or s[idx+1] != '('):
+                        myDFS(prefix, l-1, r, start, idx, s[idx+1:end]+suffix)
+        
+        myDFS('', l, r, 0, len(s), '')
+        
+        return res if res else ['']
 
 
 别的解法没看，剪枝的那些没看。
