@@ -88,4 +88,4 @@ class Solution(object):
         return res if res else ['']
 
 
-别的解法没看，（这次多看了一个DFS），剪枝的那些没看。
+别的解法没看，（这次看了一个DFS的解法），剪枝的那些没看。
