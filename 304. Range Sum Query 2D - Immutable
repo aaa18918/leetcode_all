@@ -1,5 +1,5 @@
+O(mn) time __init__, O(1) time sumRegion, O(n) space
 class NumMatrix(object):
-
     def __init__(self, matrix):
         """
         :type matrix: List[List[int]]
