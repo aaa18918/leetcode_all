@@ -1,0 +1,104 @@
+Segment Tree
+O(n) time initialization, O(lgn) time update, O(n) time sumRange, O(n) space
+class Node(object):
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+        self.sum = 0
+        self.left = None
+        self.right = None
+
+
+class NumArray(object):
+    def __init__(self, nums):
+        """
+        :type nums: List[int]
+        """
+        
+        def myHelp(left, right):
+            if left > right:
+                return None
+            elif left == right:
+                node = Node(left, right)
+                node.sum = nums[left]
+                return node
+            elif left == right-1:
+                node = Node(left, right)
+                node.sum = nums[left]+nums[right]
+                
+                node.left = Node(left, left)
+                node.left.sum = nums[left]
+                node.right = Node(right, right)
+                node.right.sum = nums[right]
+                
+                return node
+            
+            mid = (left+right)/2
+            node = Node(left, right)
+            
+            node.left = myHelp(left, mid)
+            node.right = myHelp(mid+1, right)
+            
+            left_sum = node.left.sum if node.left else 0
+            right_sum = node.right.sum if node.right else 0
+            
+            node.sum = left_sum+right_sum
+            
+            return node
+        
+        self.root = myHelp(0, len(nums)-1)
+
+    def update(self, i, val):
+        """
+        :type i: int
+        :type val: int
+        :rtype: None
+        """
+        
+        def myHelp(node):
+            if node.start == node.end == i:
+                diff = val-node.sum
+                node.sum = val
+                
+                return diff
+            
+            mid = (node.start+node.end)/2
+            if i <= mid:
+                diff = myHelp(node.left)
+            else:
+                diff = myHelp(node.right)
+            
+            node.sum += diff
+            
+            return diff
+        
+        myHelp(self.root)
+
+    def sumRange(self, i, j):
+        """
+        :type i: int
+        :type j: int
+        :rtype: int
+        """
+        
+        def myHelp(node, i, j):
+            if node.start == i and node.end == j:
+                return node.sum
+            
+            mid = (node.start+node.end)/2
+            if mid >= j:
+                return myHelp(node.left, i, j)
+            elif mid < i:
+                return myHelp(node.right, i, j)
+            else:
+                return myHelp(node.left, i, mid)+myHelp(node.right, mid+1, j)
+        
+        return myHelp(self.root, i, j)
+
+# Your NumArray object will be instantiated and called as such:
+# obj = NumArray(nums)
+# obj.update(i,val)
+# param_2 = obj.sumRange(i,j)
+
+
+还有一个Binary Indexed Tree/Fenwick Tree的解法。
