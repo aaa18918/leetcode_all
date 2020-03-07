@@ -101,4 +101,60 @@ class NumArray(object):
 # param_2 = obj.sumRange(i,j)
 
 
-还有一个Binary Indexed Tree/Fenwick Tree的解法。
+Binary Indexed Tree/Fenwick Tree
+O(nlgn) intialization, O(lgn) update, O(lgn) sumRange, O(n) space
+class NumArray(object):
+
+    def __init__(self, nums):
+        """
+        :type nums: List[int]
+        """
+        
+        self.nums = nums
+        self.bit = [0]*(len(nums)+1)
+        
+        for i in range(len(self.nums)):
+            idx = i+1
+            while idx < len(self.bit):
+                self.bit[idx] += self.nums[i]
+                idx += idx&(-idx)
+
+    def update(self, i, val):
+        """
+        :type i: int
+        :type val: int
+        :rtype: None
+        """
+        
+        idx, diff = i+1, val-self.nums[i]
+        while idx <= len(self.nums):
+            self.bit[idx] += diff
+            idx += idx&(-idx)
+        
+        self.nums[i] = val
+
+    def sumRange(self, i, j):
+        """
+        :type i: int
+        :type j: int
+        :rtype: int
+        """
+        
+        res = 0
+        
+        idx = j+1
+        while idx > 0:
+            res += self.bit[idx]
+            idx -= idx&(-idx)
+        
+        idx = i
+        while idx > 0:
+            res -= self.bit[idx]
+            idx -= idx&(-idx)
+        
+        return res
+
+# Your NumArray object will be instantiated and called as such:
+# obj = NumArray(nums)
+# obj.update(i,val)
+# param_2 = obj.sumRange(i,j)
