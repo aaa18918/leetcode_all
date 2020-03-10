@@ -1,0 +1,9 @@
+O(1) time, O(1) space
+class Solution(object):
+    def bulbSwitch(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        
+        return int(math.sqrt(n))
