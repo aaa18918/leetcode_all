@@ -17,3 +17,44 @@ Example 3:
 Input: s = "aaadbbcc", k = 2
 Output: "abacabcd"
 Explanation: The same letters are at least distance 2 from each other.
+
+
+O(nlgn) time, O(n) space
+class Solution(object):
+    def rearrangeString(self, s, k):
+        """
+        :type s: str
+        :type k: int
+        :rtype: str
+        """
+        
+        if k <= 1:
+            return s
+        
+        counter = collections.Counter(s)
+        
+        my_heap = []
+        for char, count in counter.iteritems():
+            my_heap.append((-count, char))
+        
+        heapq.heapify(my_heap)
+        
+        res = ''
+        while my_heap and (my_heap[0][0] == -1 or len(my_heap) >= k):
+            tmp, c = [], k
+            
+            while my_heap and c > 0:
+                count, char = heapq.heappop(my_heap)
+                res += char
+                count += 1
+                
+                c -= 1
+                
+                if count < 0:
+                    tmp.append((count, char))
+            
+            while tmp:
+                heapq.heappush(my_heap, tmp.pop())
+            
+        return res if not my_heap else ''
+
