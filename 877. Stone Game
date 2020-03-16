@@ -26,3 +26,16 @@ Note:
 piles.length is even.
 1 <= piles[i] <= 500
 sum(piles) is odd.
+
+
+O(1) time, O(1) space
+class Solution(object):
+    def stoneGame(self, piles):
+        """
+        :type piles: List[int]
+        :rtype: bool
+        """
+        
+        return True
+
+别的正规解法没看。
