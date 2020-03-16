@@ -38,4 +38,4 @@ class Solution(object):
         
         return True
 
-别的正规解法没看。
+别的正规的解法没看。
