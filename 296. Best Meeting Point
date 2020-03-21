@@ -17,6 +17,7 @@ Explanation: Given three people living at (0,0), (0,4), and (2,2):
              of 2+2+2=6 is minimal. So return 6.
 
 
+O(nm) time, O(n+m) space
 class Solution(object):
     def minTotalDistance(self, grid):
         """
@@ -43,6 +44,7 @@ class Solution(object):
         return minDistance(x_labels)+minDistance(y_labels)
 
 
+O(nm) time, O(n+m) space
 class Solution(object):
     def minTotalDistance(self, grid):
         """
@@ -69,6 +71,7 @@ class Solution(object):
         return getMinDistance(x_labels)+getMinDistance(y_labels)
 
 
+O(nm) time, O(n+m) space
 class Solution(object):
     def minTotalDistance(self, grid):
         """
@@ -97,6 +100,7 @@ class Solution(object):
         return getMinDistance(row_total)+getMinDistance(col_total)
 
 
+O(nm) time, O(n+m) space
 class Solution(object):
     def minTotalDistance(self, grid):
         """
