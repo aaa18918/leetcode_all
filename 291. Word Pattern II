@@ -16,3 +16,39 @@ Input: pattern = "aabb", str = "xyzabcxzyabc"
 Output: false
 Notes:
 You may assume both pattern and str contains only lowercase letters.
+
+
+O(???) time, O(???) space
+class Solution(object):
+    def wordPatternMatch(self, pattern, str):
+        """
+        :type pattern: str
+        :type str: str
+        :rtype: bool
+        """
+        
+        p2s = {}
+        s2p = {}
+        
+        def myHelp(idx_p, idx_s):
+            if idx_p == len(pattern) or idx_s == len(str):
+                return idx_p == len(pattern) and idx_s == len(str)
+            
+            for i in range(idx_s, len(str)):
+                cur = str[idx_s:i+1]
+                if pattern[idx_p] not in p2s:
+                    if cur not in s2p:
+                        p2s[pattern[idx_p]] = cur
+                        s2p[cur] = pattern[idx_p]
+                        if myHelp(idx_p+1, i+1):
+                            return True
+                    
+                        del p2s[pattern[idx_p]]
+                        del s2p[cur]
+                elif cur == p2s[pattern[idx_p]]:
+                    if s2p[cur] == pattern[idx_p] and myHelp(idx_p+1, i+1):
+                        return True
+            
+            return False
+        
+        return myHelp(0, 0)
