@@ -95,7 +95,53 @@ class Solution(object):
         
         return res
 
+
 内存还是爆炸啦。
+
+
+class Solution(object):
+    def getFactors(self, n):
+        """
+        :type n: int
+        :rtype: List[List[int]]
+        """
+        
+        if n <= 2:
+            return []
+        
+        self.n = n
+        
+        dp = [[[i]] for i in range(n/2+1)]
+        
+        self.visited = set()
+        
+        self.res = []
+        
+        def myHelp(n):
+            if n == 2:
+                return dp[2]
+            
+            if n in self.visited:
+                return dp[n]
+            
+            for i in range(n/2+1, 1, -1):
+                if n%i == 0:
+                    if n == self.n:
+                        self.res += [p+[i] for p in myHelp(n/i) if not p or i >= p[-1]]
+                    else:
+                        dp[n] += [p+[i] for p in myHelp(n/i) if not p or i >= p[-1]]
+            
+            if n < self.n/2+1:
+                self.visited.add(n)
+            
+            return dp[n] if n < self.n/2+1 else self.res
+        
+        myHelp(self.n)
+        
+        return self.res
+
+
+内存还是爆炸。
 
 
 需要看dis解法。
